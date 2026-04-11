@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pemberdayaan Usaha Mikro</title>
+<title>Pembinaan Usaha Perdagangan</title>
 
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
@@ -28,8 +28,7 @@
       <i class="fas fa-user-tie"></i> Bidang Sekretariat
     </a>
 
-    <!-- ✅ AKTIF DISINI -->
-    <a href="/mikro" class="active">
+    <a href="/mikro">
       <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
     </a>
 
@@ -41,7 +40,8 @@
       <i class="fas fa-building"></i> Bidang Koperasi
     </a>
 
-    <a href="/pembinaan">
+    <!-- ✅ AKTIF -->
+    <a href="/pembinaan" class="active">
       <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
     </a>
 
@@ -64,7 +64,7 @@
     <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
     <img src="{{ asset('images/logo.jpg') }}" class="logo">
     <div>
-      <b>Pemberdayaan Usaha Mikro</b><br>
+      <b>Pembinaan Usaha Perdagangan</b><br>
       <small>Dinkopumdag Surabaya</small>
     </div>
   </div>
@@ -72,23 +72,23 @@
   <!-- CONTENT -->
   <div class="container">
 
-    <h2>Detail : Pemberdayaan Usaha Mikro</h2>
+    <h2>Detail : Pembinaan Usaha Perdagangan</h2>
 
     <div class="cards">
 
-      <div class="card green">
-        <h4>Jumlah UMKM</h4>
-        <h2>850</h2>
+      <div class="card red">
+        <h4>Program Pembinaan</h4>
+        <h2>31</h2>
       </div>
 
       <div class="card blue">
-        <h4>UMKM Aktif</h4>
-        <h2>720</h2>
+        <h4>Peserta</h4>
+        <h2>540</h2>
       </div>
 
-      <div class="card orange">
-        <h4>UMKM Binaan</h4>
-        <h2>130</h2>
+      <div class="card green">
+        <h4>Pelatihan Selesai</h4>
+        <h2>27</h2>
       </div>
 
       <div class="card white" onclick="window.location.href='/dashboard'">

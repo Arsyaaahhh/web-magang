@@ -35,11 +35,11 @@ input:focus, select:focus {
   <div class="menu">
     <a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard Utama</a>
     <a href="/sekretariat" class="active"><i class="fas fa-user-tie"></i> Bidang Sekretariat</a>
-    <a onclick="cardClick('Pemberdayaan Usaha Mikro')"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
-    <a onclick="cardClick('Distribusi Perdagangan')"><i class="fas fa-truck"></i> Distribusi Perdagangan</a>
-    <a onclick="cardClick('Koperasi')"><i class="fas fa-building"></i> Bidang Koperasi</a>
-    <a onclick="cardClick('Pembinaan Usaha Perdagangan')"><i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan</a>
-    <a onclick="cardClick('UPTD Metrologi Legal')"><i class="fas fa-balance-scale"></i> UPTD Metrologi Legal</a>
+    <a href="/mikro"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
+    <a href="/perdagangan"><i class="fas fa-truck"></i> Distribusi Perdagangan</a>
+    <a href="/koperasi"><i class="fas fa-building"></i> Bidang Koperasi</a>
+    <a href="/pembinaan"><i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan</a>
+    <a href="/metrologi"><i class="fas fa-balance-scale"></i> UPTD Metrologi Legal</a>
   </div>
 
   <button onclick="logout()" class="logout-btn">

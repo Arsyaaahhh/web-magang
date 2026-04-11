@@ -17,3 +17,19 @@ Route::get('/sekretariat', function () {
 Route::get('/mikro', function () {
     return view('bidang.mikro');
 });
+
+Route::get('/perdagangan', function () {
+    return view('bidang.perdagangan');
+});
+
+Route::get('/koperasi', function () {
+    return view('bidang.koperasi');
+});
+
+Route::get('/pembinaan', function () {
+    return view('bidang.pembinaan');
+});
+
+Route::get('/metrologi', function () {
+    return view('bidang.metrologi');
+});

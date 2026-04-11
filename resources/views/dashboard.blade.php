@@ -21,34 +21,16 @@
 
   <div class="menu">
 
-    <a class="active" onclick="setActive(this); showDashboard();">
+    <a class="active">
       <i class="fas fa-chart-line"></i> Dashboard Utama
     </a>        
     
-    <!-- ✅ SEKRETARIAT SUDAH DIPINDAH -->
-    <a href="/sekretariat" onclick="setActive(this);">
-      <i class="fas fa-user-tie"></i> Bidang Sekretariat
-    </a>
-    
-    <a onclick="setActive(this); cardClick('Pemberdayaan Usaha Mikro');">
-      <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
-    </a>
-    
-    <a onclick="setActive(this); cardClick('Distribusi Perdagangan');">
-      <i class="fas fa-truck"></i> Distribusi Perdagangan
-    </a>
-    
-    <a onclick="setActive(this); cardClick('Koperasi');">
-      <i class="fas fa-building"></i> Bidang Koperasi
-    </a>
-    
-    <a onclick="setActive(this); cardClick('Pembinaan Usaha Perdagangan');">
-      <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
-    </a>
-    
-    <a onclick="setActive(this); cardClick('UPTD Metrologi Legal');">
-      <i class="fas fa-balance-scale"></i> UPTD Metrologi Legal
-    </a>
+    <a href="/sekretariat"><i class="fas fa-user-tie"></i> Bidang Sekretariat</a>
+    <a href="/mikro"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
+    <a href="/distribusi"><i class="fas fa-truck"></i> Distribusi Perdagangan</a>
+    <a href="/koperasi"><i class="fas fa-building"></i> Bidang Koperasi</a>
+    <a href="/pembinaan"><i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan</a>
+    <a href="/metrologi"><i class="fas fa-balance-scale"></i> UPTD Metrologi Legal</a>
 
   </div>
 
@@ -77,57 +59,46 @@
   <!-- CONTENT -->
   <div class="container">
 
-    <!-- CARD UTAMA -->
+    <!-- CARD -->
     <div class="cards">
 
-      <!-- ✅ SEKRETARIAT SUDAH DIPINDAH -->
       <a href="/sekretariat" class="card blue">
         <i class="fas fa-user-tie fa-2x"></i>
         <h4>Bidang Sekretariat</h4>
         <h2 class="counter" data-target="32">0</h2>
       </a>
 
-      <div class="card green" onclick="cardClick('Pemberdayaan Usaha Mikro')">
+      <a href="/mikro" class="card green">
         <i class="fas fa-store fa-2x"></i>
         <h4>Pemberdayaan Usaha Mikro</h4>
         <h2 class="counter" data-target="85">0</h2>
-      </div>
+      </a>
 
-      <div class="card orange" onclick="cardClick('Distribusi Perdagangan')">
+      <a href="/distribusi" class="card orange">
         <i class="fas fa-truck fa-2x"></i>
         <h4>Distribusi Perdagangan</h4>
         <h2 class="counter" data-target="42">0</h2>
-      </div>
+      </a>
 
-      <div class="card purple" onclick="cardClick('Koperasi')">
+      <a href="/koperasi" class="card purple">
         <i class="fas fa-building fa-2x"></i>
         <h4>Bidang Koperasi</h4>
         <h2 class="counter" data-target="23">0</h2>
-      </div>
+      </a>
 
-      <div class="card red" onclick="cardClick('Pembinaan Usaha Perdagangan')">
+      <a href="/pembinaan" class="card red">
         <i class="fas fa-briefcase fa-2x"></i>
         <h4>Pembinaan Usaha Perdagangan</h4>
         <h2 class="counter" data-target="31">0</h2>
-      </div>
+      </a>
 
-      <div class="card teal" onclick="cardClick('UPTD Metrologi Legal')">
+      <a href="/metrologi" class="card teal">
         <i class="fas fa-balance-scale fa-2x"></i>
         <h4>UPTD Metrologi Legal</h4>
         <h2 class="counter" data-target="68">0</h2>
-      </div>
+      </a>
 
     </div>
-
-    <!-- DETAIL (masih dipakai bidang lain) -->
-    <div id="detailArea" style="display:none;">
-      <div class="chart-box">
-        <h4 id="detailTitle"></h4> 
-        <div class="cards" id="detailCards"></div>
-      </div>
-    </div>
-
-    <div id="previewArea" style="margin-top:20px;"></div>
 
     <!-- CHART -->
     <div class="chart-grid">
@@ -143,6 +114,87 @@
 <script src="{{ asset('js/script.js') }}"></script>
 
 <script>
+
+// WARNA SESUAI CARD
+const colors = {
+  sekretariat: '#0d6efd',
+  umkm: '#20c997',
+  distribusi: '#fd7e14',
+  koperasi: '#6f42c1',
+  pembinaan: '#dc3545',
+  metrologi: '#17a2b8'
+};
+
+// ================= TREND =================
+new Chart(document.getElementById("trendChart"), {
+  type: 'line',
+  data: {
+    labels: ['2021','2022','2023','2024','2025'],
+    datasets: [{
+      label: 'Trend Kinerja',
+      data: [7000,7800,8200,9000,9800],
+      borderColor: colors.sekretariat,
+      backgroundColor: colors.sekretariat + '33',
+      borderWidth: 3,
+      fill: true,
+      tension: 0.4
+    }]
+  }
+});
+
+// ================= BAR =================
+new Chart(document.getElementById("kategoriChart"), {
+  type: 'bar',
+  data: {
+    labels: ['Sekretariat','UMKM','Distribusi','Koperasi','Pembinaan','Metrologi'],
+    datasets: [{
+      label: 'Jumlah Data',
+      data: [32,85,42,23,31,68],
+      backgroundColor: [
+        colors.sekretariat,
+        colors.umkm,
+        colors.distribusi,
+        colors.koperasi,
+        colors.pembinaan,
+        colors.metrologi
+      ]
+    }]
+  }
+});
+
+// ================= DONUT =================
+new Chart(document.getElementById("sertifikatChart"), {
+  type: 'doughnut',
+  data: {
+    labels: ['Sekretariat','UMKM','Distribusi','Koperasi','Pembinaan','Metrologi'],
+    datasets: [{
+      data: [32,85,42,23,31,68],
+      backgroundColor: [
+        colors.sekretariat,
+        colors.umkm,
+        colors.distribusi,
+        colors.koperasi,
+        colors.pembinaan,
+        colors.metrologi
+      ]
+    }]
+  }
+});
+
+// ================= PERBANDINGAN =================
+new Chart(document.getElementById("perbandinganChart"), {
+  type: 'bar',
+  data: {
+    labels: ['Sekretariat','UMKM','Distribusi','Koperasi','Pembinaan','Metrologi'],
+    datasets: [{
+      label: 'Perbandingan Bidang',
+      data: [32,85,42,23,31,68],
+      backgroundColor: colors.sekretariat
+    }]
+  }
+});
+
+// LOGIN CHECK
 if(localStorage.getItem("login") !== "true"){
   window.location.href = "/";
 }
@@ -151,6 +203,7 @@ function logout(){
   localStorage.removeItem("login");
   window.location.href = "/";
 }
+
 </script>
 
 </body>

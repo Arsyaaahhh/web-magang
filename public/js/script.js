@@ -87,54 +87,6 @@ function cardClick(nama) {
     title.innerText = "Detail : " + nama;
 
     let html = "";
-
-    // ❌ SEKRETARIAT DIHAPUS
-
-    if (nama === "Pemberdayaan Usaha Mikro") {
-        html = `
-        <div class="card green"><h4>Jumlah UMKM</h4><h3>850</h3></div>
-        <div class="card blue"><h4>UMKM Aktif</h4><h3>720</h3></div>
-        <div class="card orange"><h4>UMKM Binaan</h4><h3>130</h3></div>
-        <div class="card white" onclick="showDashboard()"><h4>← Kembali</h4></div>
-        `;
-    }
-
-    if (nama === "Distribusi Perdagangan") {
-        html = `
-        <div class="card orange"><h4>Jumlah Distribusi</h4><h3>42</h3></div>
-        <div class="card blue"><h4>Pasar Aktif</h4><h3>25</h3></div>
-        <div class="card green"><h4>Gudang Terdaftar</h4><h3>17</h3></div>
-        <div class="card white" onclick="showDashboard()"><h4>← Kembali</h4></div>
-        `;
-    }
-
-    if (nama === "Koperasi") {
-        html = `
-        <div class="card purple"><h4>Jumlah Koperasi</h4><h3>23</h3></div>
-        <div class="card green"><h4>Koperasi Aktif</h4><h3>18</h3></div>
-        <div class="card orange"><h4>Koperasi Nonaktif</h4><h3>5</h3></div>
-        <div class="card white" onclick="showDashboard()"><h4>← Kembali</h4></div>
-        `;
-    }
-
-    if (nama === "Pembinaan Usaha Perdagangan") {
-        html = `
-        <div class="card red"><h4>Program Pembinaan</h4><h3>31</h3></div>
-        <div class="card blue"><h4>Peserta</h4><h3>540</h3></div>
-        <div class="card green"><h4>Pelatihan Selesai</h4><h3>27</h3></div>
-        <div class="card white" onclick="showDashboard()"><h4>← Kembali</h4></div>
-        `;
-    }
-
-    if (nama === "UPTD Metrologi Legal") {
-        html = `
-        <div class="card teal"><h4>Jumlah Alat Ukur</h4><h3>68</h3></div>
-        <div class="card blue"><h4>Sudah Tera</h4><h3>50</h3></div>
-        <div class="card orange"><h4>Belum Tera</h4><h3>18</h3></div>
-        <div class="card white" onclick="showDashboard()"><h4>← Kembali</h4></div>
-        `;
-    }
-
     cards.innerHTML = html;
 }
 

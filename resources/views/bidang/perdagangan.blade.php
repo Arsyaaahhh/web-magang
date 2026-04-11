@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pemberdayaan Usaha Mikro</title>
+<title>Distribusi Perdagangan</title>
 
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
@@ -28,12 +28,12 @@
       <i class="fas fa-user-tie"></i> Bidang Sekretariat
     </a>
 
-    <!-- ✅ AKTIF DISINI -->
-    <a href="/mikro" class="active">
+    <a href="/mikro">
       <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
     </a>
 
-    <a href="/perdagangan">
+    <!-- ✅ AKTIF -->
+    <a href="/distribusi" class="active">
       <i class="fas fa-truck"></i> Distribusi Perdagangan
     </a>
 
@@ -64,7 +64,7 @@
     <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
     <img src="{{ asset('images/logo.jpg') }}" class="logo">
     <div>
-      <b>Pemberdayaan Usaha Mikro</b><br>
+      <b>Distribusi Perdagangan</b><br>
       <small>Dinkopumdag Surabaya</small>
     </div>
   </div>
@@ -72,23 +72,23 @@
   <!-- CONTENT -->
   <div class="container">
 
-    <h2>Detail : Pemberdayaan Usaha Mikro</h2>
+    <h2>Detail : Distribusi Perdagangan</h2>
 
     <div class="cards">
 
-      <div class="card green">
-        <h4>Jumlah UMKM</h4>
-        <h2>850</h2>
+      <div class="card orange">
+        <h4>Jumlah Distribusi</h4>
+        <h2>42</h2>
       </div>
 
       <div class="card blue">
-        <h4>UMKM Aktif</h4>
-        <h2>720</h2>
+        <h4>Pasar Aktif</h4>
+        <h2>25</h2>
       </div>
 
-      <div class="card orange">
-        <h4>UMKM Binaan</h4>
-        <h2>130</h2>
+      <div class="card green">
+        <h4>Gudang Terdaftar</h4>
+        <h2>17</h2>
       </div>
 
       <div class="card white" onclick="window.location.href='/dashboard'">
