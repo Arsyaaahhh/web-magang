@@ -48,26 +48,14 @@ body{
 .btn{
   padding:8px 14px;
   border-radius:8px;
-  text-decoration:none;
   font-size:14px;
   border:none;
   cursor:pointer;
 }
 
-.btn-add{
-  background:#20c997;
-  color:white;
-}
-
-.btn-edit{
-  background:#ffc107;
-  color:black;
-}
-
-.btn-delete{
-  background:#dc3545;
-  color:white;
-}
+.btn-add{ background:#20c997; color:white; }
+.btn-edit{ background:#ffc107; color:black; }
+.btn-delete{ background:#dc3545; color:white; }
 
 /* CARD */
 .card{
@@ -98,11 +86,8 @@ table{
 }
 
 th{
-  text-align:left;
   padding:12px;
   background:#eaf2ff;
-  color:#374151;
-  border-bottom:1px solid #d1d5db;
 }
 
 td{
@@ -118,6 +103,7 @@ tr:hover{
   background:#eef4ff;
 }
 
+/* BADGE */
 .badge{
   padding:5px 10px;
   border-radius:6px;
@@ -125,23 +111,86 @@ tr:hover{
   background:#e5e7eb;
 }
 
+/* ACTION */
 .action{
   display:flex;
   gap:6px;
 }
 
+/* ALERT */
 .alert{
   padding:10px;
   margin-bottom:10px;
   background:#d1e7dd;
   border-radius:6px;
 }
+
+/* ================= PAGINATION FIX FINAL ================= */
+
+/* WRAPPER */
+.pagination-wrapper{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:15px;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+/* PAGINATION CONTAINER */
+.pagination{
+  display:flex;
+  gap:6px;
+}
+
+/* ITEM */
+.pagination li{
+  list-style:none;
+}
+
+/* LINK STYLE */
+.pagination a,
+.pagination span{
+  display:inline-block;
+  padding:6px 12px;
+  border-radius:8px;
+  border:1px solid #d1d5db;
+  background:white;
+  color:#333;
+  text-decoration:none;
+  font-size:14px;
+  transition:0.2s;
+}
+
+/* HOVER */
+.pagination a:hover{
+  background:#0d6efd;
+  color:white;
+}
+
+/* ACTIVE */
+.pagination .active span{
+  background:#0d6efd;
+  color:white;
+  border-color:#0d6efd;
+}
+
+/* DISABLED */
+.pagination .disabled span{
+  color:#aaa;
+  background:#f3f4f6;
+}
+
+/* INFO TEXT */
+.pagination-info{
+  font-size:13px;
+  color:#666;
+}
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
   <h3>Admin Surat</h3>
 
@@ -178,12 +227,22 @@ value="{{ request('search') }}">
 
 <select name="jenis">
   <option value="">Semua Jenis</option>
-  <option value="sk">SK</option>
-  <option value="sp">SP</option>
-  <option value="sop">SOP</option>
+  <option value="sk" {{ request('jenis')=='sk'?'selected':'' }}>SK</option>
+  <option value="sp" {{ request('jenis')=='sp'?'selected':'' }}>SP</option>
+  <option value="sop" {{ request('jenis')=='sop'?'selected':'' }}>SOP</option>
 </select>
 
-<input type="number" name="tahun" placeholder="Tahun">
+<input type="number" name="tahun" placeholder="Tahun" value="{{ request('tahun') }}">
+
+<select name="bidang">
+  <option value="">Semua Bidang</option>
+  <option value="sekretariat" {{ request('bidang')=='sekretariat'?'selected':'' }}>Sekretariat</option>
+  <option value="perdagangan" {{ request('bidang')=='perdagangan'?'selected':'' }}>Perdagangan</option>
+  <option value="mikro" {{ request('bidang')=='mikro'?'selected':'' }}>Mikro</option>
+  <option value="koperasi" {{ request('bidang')=='koperasi'?'selected':'' }}>Koperasi</option>
+  <option value="pembinaan" {{ request('bidang')=='pembinaan'?'selected':'' }}>Pembinaan</option>
+  <option value="metrologi" {{ request('bidang')=='metrologi'?'selected':'' }}>Metrologi</option>
+</select>
 
 <button type="submit" class="btn">Filter</button>
 
@@ -206,7 +265,7 @@ value="{{ request('search') }}">
 <tbody>
 @forelse($data as $d)
 <tr>
-<td>{{ $loop->iteration }}</td>
+<td>{{ ($data->currentPage()-1)*$data->perPage() + $loop->iteration }}</td>
 <td>{{ $d->nomor }}</td>
 <td>{{ $d->judul }}</td>
 <td><span class="badge">{{ strtoupper($d->jenis) }}</span></td>
@@ -214,13 +273,10 @@ value="{{ request('search') }}">
 <td>{{ $d->bidang }}</td>
 <td>
 <div class="action">
-
 <a href="/admin/edit/{{ $d->id }}" class="btn btn-edit">Edit</a>
-
 <button onclick="confirmDelete('/admin/delete/{{ $d->id }}')" class="btn btn-delete">
   Hapus
 </button>
-
 </div>
 </td>
 </tr>
@@ -230,19 +286,27 @@ value="{{ request('search') }}">
 </tr>
 @endforelse
 </tbody>
-
 </table>
 
-</div>
+<!-- 🔥 PAGINATION WRAPPER -->
+<div class="pagination-wrapper">
+
+  <div class="pagination">
+    {{ $data->links('components.pagination') }}
+  </div>
+
+  <div class="pagination-info">
+    Showing {{ $data->firstItem() }} to {{ $data->lastItem() }} of {{ $data->total() }} results
+  </div>
 
 </div>
 
-<!-- SWEETALERT -->
+</div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-
-// DELETE
 function confirmDelete(url){
     Swal.fire({
         title: 'Yakin?',
@@ -258,7 +322,6 @@ function confirmDelete(url){
     });
 }
 
-// LOGOUT
 function logout(){
     Swal.fire({
         title: 'Logout?',
@@ -272,12 +335,12 @@ function logout(){
             localStorage.removeItem("login");
             window.location.href = "/logout";
         }
-    })};
-// LOGIN CHECK
+    });
+}
+
 if(localStorage.getItem("login") !== "true"){
   window.location.href = "/";
 }
-
 </script>
 
 </body>
