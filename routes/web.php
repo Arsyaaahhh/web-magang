@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,14 +25,7 @@ Route::get('/logout',[AuthController::class,'logout']);
 |--------------------------------------------------------------------------
 */
 
-Route::get('/dashboard', function () {
-
-    if(!session('login')){
-        return redirect('/');
-    }
-
-    return view('dashboard');
-});
+Route::get('/dashboard', [DashboardController::class, 'index']);
 
 /*
 |--------------------------------------------------------------------------

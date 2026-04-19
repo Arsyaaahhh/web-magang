@@ -8,22 +8,52 @@ use App\Models\Surat;
 class SuratController extends Controller
 {
     // ================= ADMIN =================
-    public function index(){
-
+    public function index(Request $request)
+    {
+        // 🔐 CEK ROLE
         if(session('role') != 'admin'){
             return redirect('/');
         }
 
-        $data = Surat::latest()->get();
+        $query = Surat::query();
+
+        // 🔍 SEARCH
+        if($request->search){
+            $query->where(function($q) use ($request){
+                $q->where('nomor','like','%'.$request->search.'%')
+                  ->orWhere('judul','like','%'.$request->search.'%');
+            });
+        }
+
+        // 🔍 JENIS (dibuat lowercase biar konsisten)
+        if($request->jenis){
+            $query->where('jenis', strtolower($request->jenis));
+        }
+
+        // 🔍 TAHUN
+        if($request->tahun){
+            $query->where('tahun', $request->tahun);
+        }
+
+        // 🔍 BIDANG
+        if($request->bidang){
+            $query->where('bidang', strtolower($request->bidang));
+        }
+
+        // 🔥 PAGINATION + BAWA QUERY
+        $data = $query->latest()->paginate(10)->withQueryString();
+
         return view('admin.index', compact('data'));
     }
+
 
     public function create(){
         return view('admin.create');
     }
 
-    public function store(Request $request){
 
+    public function store(Request $request)
+    {
         $request->validate([
             'nomor'  => 'required',
             'judul'  => 'required',
@@ -33,8 +63,9 @@ class SuratController extends Controller
             'bidang' => 'required'
         ]);
 
-        $fileName = time().'.'.$request->file->extension();
-        $request->file->move(public_path('pdf'), $fileName);
+        // 🔥 UPLOAD FILE
+        $fileName = time().'.'.$request->file('file')->extension();
+        $request->file('file')->move(public_path('pdf'), $fileName);
 
         Surat::create([
             'nomor'  => $request->nomor,
@@ -48,18 +79,21 @@ class SuratController extends Controller
         return redirect('/admin')->with('success','Upload berhasil');
     }
 
+
     public function edit($id){
         $data = Surat::findOrFail($id);
         return view('admin.edit', compact('data'));
     }
 
-    public function update(Request $request, $id){
 
+    public function update(Request $request, $id)
+    {
         $data = Surat::findOrFail($id);
 
+        // 🔥 UPDATE FILE (optional)
         if($request->file){
-            $fileName = time().'.'.$request->file->extension();
-            $request->file->move(public_path('pdf'), $fileName);
+            $fileName = time().'.'.$request->file('file')->extension();
+            $request->file('file')->move(public_path('pdf'), $fileName);
             $data->file = $fileName;
         }
 
@@ -74,10 +108,13 @@ class SuratController extends Controller
         return redirect('/admin')->with('success','Update berhasil');
     }
 
-    public function destroy($id){
+
+    public function destroy($id)
+    {
         Surat::findOrFail($id)->delete();
         return back()->with('success','Data dihapus');
     }
+
 
 
     // ================= FRONTEND =================
@@ -85,12 +122,12 @@ class SuratController extends Controller
     {
         $query = Surat::where('bidang','sekretariat');
 
-        // FILTER JENIS
+        // 🔍 FILTER JENIS
         if ($request->jenis) {
             $query->where('jenis', strtolower($request->jenis));
         }
 
-        // SEARCH
+        // 🔍 SEARCH
         if ($request->search) {
             $query->where(function($q) use ($request) {
                 $q->where('nomor','like','%'.$request->search.'%')
@@ -98,12 +135,15 @@ class SuratController extends Controller
             });
         }
 
-        // FILTER TAHUN
+        // 🔍 FILTER TAHUN
         if ($request->tahun && $request->tahun != 'all') {
             $query->where('tahun', $request->tahun);
         }
 
-        $data = $query->latest()->get();
+        // 🔥 SELECT (biar ringan)
+        $data = $query->select('id','nomor','judul','tahun','file')
+                      ->latest()
+                      ->get();
 
         // ================= TAHUN =================
         $tahunQuery = Surat::where('bidang','sekretariat');
@@ -118,23 +158,13 @@ class SuratController extends Controller
             ->orderBy('tahun','desc')
             ->pluck('tahun');
 
-
-        // ================= 🔥 COUNT =================
-        $jumlahSK = Surat::where('bidang','sekretariat')
-            ->where('jenis','sk')
-            ->count();
-
-        $jumlahSP = Surat::where('bidang','sekretariat')
-            ->where('jenis','sp')
-            ->count();
-
-        $jumlahSOP = Surat::where('bidang','sekretariat')
-            ->where('jenis','sop')
-            ->count();
-
+        // ================= COUNT =================
+        $jumlahSK = Surat::where('bidang','sekretariat')->where('jenis','sk')->count();
+        $jumlahSP = Surat::where('bidang','sekretariat')->where('jenis','sp')->count();
+        $jumlahSOP = Surat::where('bidang','sekretariat')->where('jenis','sop')->count();
 
         // ================= AJAX =================
-        if ($request->header('X-Requested-With') === 'XMLHttpRequest') {
+        if ($request->ajax()) {
             return response()->json([
                 'data' => $data,
                 'tahunList' => $tahunList,
@@ -146,7 +176,6 @@ class SuratController extends Controller
             ]);
         }
 
-        // ================= VIEW =================
         return view('bidang.sekretariat', compact(
             'data',
             'tahunList',
