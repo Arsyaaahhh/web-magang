@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Surat extends Model
+{
+    protected $fillable = [
+        'nomor',
+        'judul',
+        'jenis',
+        'tahun',
+        'file',
+        'bidang'
+    ];
+}

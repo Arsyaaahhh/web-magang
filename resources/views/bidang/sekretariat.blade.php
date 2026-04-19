@@ -17,20 +17,26 @@ input, select {
   border: 1px solid #ddd;
   outline: none;
 }
-
 input:focus, select:focus {
   border-color: #0d6efd;
 }
-</style>
 
+/* 🔥 TAMBAHAN (TIDAK MERUSAK UI) */
+.card h2{
+  margin-top:8px;
+  font-size:24px;
+  font-weight:600;
+}
+</style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
+<!-- SIDEBAR (TIDAK DIUBAH) -->
 <div class="sidebar">
   <h2>DINKOPUMDAG</h2>
-  <div class="sidebar-date" id="tanggalSidebar"></div>
+
+  <div id="tanggalSidebar" style="margin:10px 0; font-size:14px; color:#fff;"></div>
 
   <div class="menu">
     <a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard Utama</a>
@@ -50,155 +56,294 @@ input:focus, select:focus {
 <!-- MAIN -->
 <div class="main">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
-    <img src="{{ asset('images/logo.jpg') }}" class="logo">
-    <div>
-      <b>Bidang Sekretariat</b><br>
-      <small>Dinkopumdag Surabaya</small>
-    </div>
-  </div>
-
-  <!-- CONTENT -->
-  <div class="container">
-
-    <h2>Bidang Sekretariat</h2>
-
-    <!-- MENU -->
-    <div class="cards" id="menuUtama">
-
-      <div class="card blue" onclick="showSK()">
-        <h4>SK Kepala Dinas</h4>
-        <p>Arsip keputusan kepala dinas</p>
-      </div>
-
-      <div class="card green" onclick="showSP()">
-        <h4>Standar Pelayanan</h4>
-        <p>Dokumen standar pelayanan</p>
-      </div>
-
-      <div class="card orange" onclick="showSOP()">
-        <h4>SOP</h4>
-        <p>Prosedur operasional</p>
-      </div>
-
-    </div>
-
-    <!-- ================= SK ================= -->
-    <div id="skArea" style="display:none; margin-top:20px;">
-      <h3>Detail : Sekretariat</h3>
-
-      <div style="display:flex; gap:10px; margin-bottom:20px;">
-        <input id="searchSK" onkeyup="filterSK()" placeholder="🔎 Cari Nomor SK..." style="padding:10px; width:300px;">
-        <select id="filterTahun" onchange="filterSK()" style="padding:10px;">
-          <option value="all">Semua Tahun</option>
-          <option value="2022">2022</option>
-          <option value="2023">2023</option>
-          <option value="2024">2024</option>
-          <option value="2025">2025</option>
-          <option value="2026">2026</option>
-        </select>
-      </div>
-
-      <div class="cards" id="skCards">
-        <div class="card blue" data-year="2022" onclick="openPDF('sk-gratifikasi.pdf')"><h4>188.45/12/2022</h4><p>SK Tim Pengendali Gratifikasi</p></div>
-        <div class="card green" data-year="2023"><h4>188.45/45/2023</h4><p>SK Reformasi Birokrasi</p></div>
-        <div class="card orange" data-year="2024"><h4>188.45/70/2024</h4><p>SK Pengelola Data</p></div>
-        <div class="card teal" data-year="2025"><h4>188.45/05/2025</h4><p>SK Pengelolaan UMKM</p></div>
-        <div class="card purple" data-year="2026"><h4>188.45/08/2026</h4><p>SK Reformasi Data</p></div>
-        <div class="card white" onclick="hideAll()"><h4>← Kembali</h4></div>
-      </div>
-    </div>
-
-    <!-- ================= SP ================= -->
-    <div id="spArea" style="display:none; margin-top:20px;">
-      <h3>Detail : Sekretariat</h3>
-
-      <div style="display:flex; gap:10px; margin-bottom:20px;">
-        <input id="searchSP" onkeyup="filterSP()" placeholder="🔎 Cari SP..." style="padding:10px; width:300px;">
-        <select id="filterSPKategori" onchange="filterSP()" style="padding:10px;">
-          <option value="all">Semua</option>
-          <option value="umkm">UMKM</option>
-          <option value="koperasi">Koperasi</option>
-          <option value="distribusi">Distribusi</option>
-        </select>
-      </div>
-
-      <div class="cards" id="spCards">
-        <div class="card blue" data-type="umkm"><h4>SP-01</h4><p>Pelayanan UMKM</p></div>
-        <div class="card green" data-type="koperasi"><h4>SP-02</h4><p>Pelayanan Koperasi</p></div>
-        <div class="card orange" data-type="distribusi"><h4>SP-03</h4><p>Pelayanan Distribusi</p></div>
-        <div class="card white" onclick="hideAll()"><h4>← Kembali</h4></div>
-      </div>
-    </div>
-
-    <!-- ================= SOP ================= -->
-    <div id="sopArea" style="display:none; margin-top:20px;">
-      <h3>Detail : Sekretariat</h3>
-
-      <div style="display:flex; gap:10px; margin-bottom:20px;">
-        <input id="searchSOP" onkeyup="filterSOP()" placeholder="🔎 Cari SOP..." style="padding:10px; width:300px;">
-        
-        <!-- ✅ FIX DISINI -->
-        <select id="filterSOPKategori" onchange="filterSOP()" style="padding:10px;">
-          <option value="all">Semua</option>
-          <option value="pelayanan">Pelayanan</option>
-          <option value="dokumen">Dokumen</option>
-          <option value="arsip">Arsip</option>
-        </select>
-      </div>
-
-      <div class="cards" id="sopCards">
-        <div class="card blue" data-type="pelayanan"><h4>SOP-01</h4><p>Prosedur Pelayanan</p></div>
-        <div class="card green" data-type="dokumen"><h4>SOP-02</h4><p>Pengelolaan Dokumen</p></div>
-        <div class="card orange" data-type="arsip"><h4>SOP-03</h4><p>Pengarsipan Data</p></div>
-        <div class="card white" onclick="hideAll()"><h4>← Kembali</h4></div>
-      </div>
-    </div>
-
+<div class="header">
+  <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+  <img src="{{ asset('images/logo.jpg') }}" class="logo">
+  <div>
+    <b>Bidang Sekretariat</b><br>
+    <small>Dinkopumdag Surabaya</small>
   </div>
 </div>
 
-<script src="{{ asset('js/script.js') }}"></script>
+<div class="container">
+
+<h2>Bidang Sekretariat</h2>
+
+<!-- MENU -->
+<div class="cards" id="menuUtama">
+
+  <div class="card blue" onclick="showSK()">
+    <h4>SK Kepala Dinas</h4>
+    <p>Arsip keputusan kepala dinas</p>
+    <h2 id="countSK">0</h2> <!-- 🔥 TAMBAHAN -->
+  </div>
+
+  <div class="card green" onclick="showSP()">
+    <h4>Standar Pelayanan</h4>
+    <h2 id="countSP">0</h2> <!-- 🔥 TAMBAHAN -->
+  </div>
+
+  <div class="card orange" onclick="showSOP()">
+    <h4>SOP</h4>
+    <h2 id="countSOP">0</h2> <!-- 🔥 TAMBAHAN -->
+  </div>
+
+</div>
+
+<!-- ================= SK ================= -->
+<div id="skArea" style="display:none; margin-top:20px;">
+  <h3>Detail : Sekretariat (SK)</h3>
+
+  <div style="display:flex; gap:10px; margin-bottom:20px;">
+    <input id="search" placeholder="🔎 Cari..." onkeyup="delayFilter()">
+    <select id="tahun" onchange="filterData()">
+      <option value="all">Semua Tahun</option>
+    </select>
+  </div>
+
+  <div class="cards" id="cardContainer"></div>
+</div>
+
+<!-- ================= SP ================= -->
+<div id="spArea" style="display:none; margin-top:20px;">
+  <h3>Detail : Standar Pelayanan</h3>
+
+  <div style="display:flex; gap:10px; margin-bottom:20px;">
+    <input id="searchSP" placeholder="🔎 Cari..." onkeyup="delayFilterSP()">
+    <select id="tahunSP" onchange="filterSP()">
+      <option value="all">Semua Tahun</option>
+    </select>
+  </div>
+
+  <div class="cards" id="cardContainerSP"></div>
+</div>
+
+<!-- ================= SOP ================= -->
+<div id="sopArea" style="display:none; margin-top:20px;">
+  <h3>Detail : SOP</h3>
+
+  <div style="display:flex; gap:10px; margin-bottom:20px;">
+    <input id="searchSOP" placeholder="🔎 Cari..." onkeyup="delayFilterSOP()">
+    <select id="tahunSOP" onchange="filterSOP()">
+      <option value="all">Semua Tahun</option>
+    </select>
+  </div>
+
+  <div class="cards" id="cardContainerSOP"></div>
+</div>
+
+</div>
+</div>
 
 <script>
-function showSK(){ menuUtama.style.display="none"; skArea.style.display="block"; spArea.style.display="none"; sopArea.style.display="none";}
-function showSP(){ menuUtama.style.display="none"; skArea.style.display="none"; spArea.style.display="block"; sopArea.style.display="none";}
-function showSOP(){ menuUtama.style.display="none"; skArea.style.display="none"; spArea.style.display="none"; sopArea.style.display="block";}
-function hideAll(){ menuUtama.style.display="grid"; skArea.style.display="none"; spArea.style.display="none"; sopArea.style.display="none";}
 
-function filterSK(){
-  const k=searchSK.value.toUpperCase(), y=filterTahun.value;
-  document.querySelectorAll("#skCards .card").forEach(c=>{
-    c.style.display=(c.innerText.toUpperCase().includes(k)&&(y=="all"||y==c.dataset.year))?"block":"none";
+// ================= COUNT =================
+function loadCount(){
+  fetch(`/sekretariat?jenis=sk`, {
+    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+  })
+  .then(res => res.json())
+  .then(res => {
+    document.getElementById("countSK").innerText = res.jumlah.sk;
+    document.getElementById("countSP").innerText = res.jumlah.sp;
+    document.getElementById("countSOP").innerText = res.jumlah.sop;
   });
 }
 
-function filterSP(){
-  const k=searchSP.value.toUpperCase(), t=document.getElementById("filterSPKategori").value;
-  document.querySelectorAll("#spCards .card").forEach(c=>{
-    c.style.display=(c.innerText.toUpperCase().includes(k)&&(t=="all"||t==c.dataset.type))?"block":"none";
-  });
+// ================= NAV =================
+function showSK(){
+  menuUtama.style.display="none";
+  spArea.style.display="none";
+  sopArea.style.display="none";
+  skArea.style.display="block";
+  filterData();
 }
 
-/* ✅ FIX SOP */
-function filterSOP(){
-  const k=document.getElementById("searchSOP").value.toUpperCase();
-  const t=document.getElementById("filterSOPKategori").value;
-
-  document.querySelectorAll("#sopCards .card").forEach(c=>{
-    const matchSearch=c.innerText.toUpperCase().includes(k);
-    const matchFilter=(t=="all"||t==c.dataset.type);
-    c.style.display=(matchSearch&&matchFilter)?"block":"none";
-  });
+function showSP(){
+  menuUtama.style.display="none";
+  skArea.style.display="none";
+  sopArea.style.display="none";
+  spArea.style.display="block";
+  filterSP();
 }
 
-function logout(){ localStorage.removeItem("login"); location.href="/"; }
+function showSOP(){
+  menuUtama.style.display="none";
+  skArea.style.display="none";
+  spArea.style.display="none";
+  sopArea.style.display="block";
+  filterSOP();
+}
 
+function hideAll(){
+  menuUtama.style.display="grid";
+  skArea.style.display="none";
+  spArea.style.display="none";
+  sopArea.style.display="none";
+}
+
+// ================= UTIL =================
 function openPDF(file){
   window.open('/pdf/' + file, '_blank');
 }
+
+function logout(){
+  location.href="/logout";
+}
+
+// ================= COLOR =================
+function getColor(id){
+  const colors = ['blue','green','orange','teal','purple'];
+  return colors[id % colors.length];
+}
+
+// ================= FILTER SK =================
+function filterData(){
+  let search = document.getElementById("search").value;
+  let tahun  = document.getElementById("tahun").value;
+  let container = document.getElementById("cardContainer");
+  let select = document.getElementById("tahun");
+
+  container.innerHTML = "Loading...";
+
+  fetch(`/sekretariat?jenis=sk&search=${search}&tahun=${tahun}`, {
+    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+  })
+  .then(res => res.json())
+  .then(res => {
+
+    // 🔥 SIMPAN PILIHAN USER
+    let selected = tahun;
+
+    // 🔥 REBUILD DROPDOWN
+    select.innerHTML = `<option value="all">Semua Tahun</option>`;
+    res.tahunList.forEach(t=>{
+      select.innerHTML += `<option value="${t}">${t}</option>`;
+    });
+
+    // 🔥 BALIKIN PILIHAN
+    select.value = selected;
+
+    container.innerHTML = "";
+
+    if(res.data.length === 0){
+      container.innerHTML = "Tidak ada data";
+      return;
+    }
+
+    res.data.forEach(item=>{
+      let color = getColor(item.id);
+      container.innerHTML += `
+      <div class="card ${color}" onclick="openPDF('${item.file}')">
+        <h4>${item.nomor}</h4>
+        <p>${item.judul}</p>
+        <small>Tahun: ${item.tahun}</small>
+      </div>`;
+    });
+
+    container.innerHTML += `<div class="card white" onclick="hideAll()">← Kembali</div>`;
+  });
+}
+// ================= FILTER SP =================
+function filterSP(){
+  let search = document.getElementById("searchSP").value;
+  let tahun  = document.getElementById("tahunSP").value;
+  let container = document.getElementById("cardContainerSP");
+  let select = document.getElementById("tahunSP");
+
+  container.innerHTML = "Loading...";
+
+  fetch(`/sekretariat?jenis=sp&search=${search}&tahun=${tahun}`, {
+    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+  })
+  .then(res => res.json())
+  .then(res => {
+
+    let selected = tahun;
+
+    select.innerHTML = `<option value="all">Semua Tahun</option>`;
+    res.tahunList.forEach(t=>{
+      select.innerHTML += `<option value="${t}">${t}</option>`;
+    });
+
+    select.value = selected;
+
+    container.innerHTML = "";
+
+    if(res.data.length === 0){
+      container.innerHTML = "Tidak ada data";
+      return;
+    }
+
+    res.data.forEach(item=>{
+      let color = getColor(item.id);
+      container.innerHTML += `
+      <div class="card ${color}" onclick="openPDF('${item.file}')">
+        <h4>${item.nomor}</h4>
+        <p>${item.judul}</p>
+        <small>Tahun: ${item.tahun}</small>
+      </div>`;
+    });
+
+    container.innerHTML += `<div class="card white" onclick="hideAll()">← Kembali</div>`;
+  });
+}
+
+function filterSOP(){
+  let search = document.getElementById("searchSOP").value;
+  let tahun  = document.getElementById("tahunSOP").value;
+  let container = document.getElementById("cardContainerSOP");
+  let select = document.getElementById("tahunSOP");
+
+  container.innerHTML = "Loading...";
+
+  fetch(`/sekretariat?jenis=sop&search=${search}&tahun=${tahun}`, {
+    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+  })
+  .then(res => res.json())
+  .then(res => {
+
+    let selected = tahun;
+
+    select.innerHTML = `<option value="all">Semua Tahun</option>`;
+    res.tahunList.forEach(t=>{
+      select.innerHTML += `<option value="${t}">${t}</option>`;
+    });
+
+    select.value = selected;
+
+    container.innerHTML = "";
+
+    if(res.data.length === 0){
+      container.innerHTML = "Tidak ada data";
+      return;
+    }
+
+    res.data.forEach(item=>{
+      let color = getColor(item.id);
+      container.innerHTML += `
+      <div class="card ${color}" onclick="openPDF('${item.file}')">
+        <h4>${item.nomor}</h4>
+        <p>${item.judul}</p>
+        <small>Tahun: ${item.tahun}</small>
+      </div>`;
+    });
+
+    container.innerHTML += `<div class="card white" onclick="hideAll()">← Kembali</div>`;
+  });
+}
+
+// ================= DELAY =================
+let t1,t2,t3;
+function delayFilter(){ clearTimeout(t1); t1=setTimeout(filterData,400); }
+function delayFilterSP(){ clearTimeout(t2); t2=setTimeout(filterSP,400); }
+function delayFilterSOP(){ clearTimeout(t3); t3=setTimeout(filterSOP,400); }
+
+// ================= INIT =================
+window.onload = function(){
+  loadCount();
+};
+
 </script>
 
 </body>

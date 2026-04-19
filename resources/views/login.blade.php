@@ -6,6 +6,9 @@
 
 <title>Login Admin</title>
 
+<!-- 🔥 CSRF TOKEN WAJIB -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <style>
 *{
   margin:0;
@@ -145,42 +148,59 @@ button:hover{
 </div>
 
 <script>
+
 // toggle password
 function togglePassword(){
   const pass = document.getElementById("password");
   pass.type = pass.type === "password" ? "text" : "password";
 }
 
-// login
+// login function (FIX FINAL)
 function login(){
-  const user = document.getElementById("username").value.trim();
-  const pass = document.getElementById("password").value.trim();
+
+  const user = document.getElementById("username").value;
+  const pass = document.getElementById("password").value;
   const message = document.getElementById("message");
 
-  message.innerHTML = "";
+  const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-  if(!user || !pass){
-    message.innerHTML = "<span class='error'>Semua field wajib diisi!</span>";
-    return;
-  }
+  fetch('/login-process', {
+    method:'POST',
+    credentials: 'include', // 🔥 WAJIB BANGET
+    headers:{
+      'Content-Type':'application/json',
+      'X-CSRF-TOKEN': token
+    },
+    body:JSON.stringify({
+      username:user,
+      password:pass
+    })
+  })
+  .then(res=>res.json())
+  .then(res=>{
+    if(res.status === 'success'){
+      message.innerHTML = "<span class='success'>Login berhasil...</span>";
 
-  if(pass.length < 4){
-    message.innerHTML = "<span class='error'>Password minimal 4 karakter!</span>";
-    return;
-  }
+      // Set localStorage for client-side check
+      localStorage.setItem("login", "true");
 
-  if(user === "admin" && pass === "1234"){
-    message.innerHTML = "<span class='success'>Login berhasil...</span>";
-    localStorage.setItem("login","true");
+      setTimeout(()=>{
+        if(res.role === 'admin'){
+          window.location.href="/admin";
+        }else{
+          window.location.href="/dashboard";
+        }
+      },500);
 
-    setTimeout(()=>{
-      window.location.href = "/dashboard";
-    },1000);
-
-  }else{
-    message.innerHTML = "<span class='error'>Username atau password salah!</span>";
-  }
+    }else{
+      message.innerHTML = "<span class='error'>Login gagal</span>";
+    }
+  })
+  .catch(()=>{
+    message.innerHTML = "<span class='error'>Terjadi error</span>";
+  });
 }
+
 </script>
 
 </body>
