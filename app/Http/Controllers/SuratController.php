@@ -4,20 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Surat;
+use App\Models\Magang;
+use App\Models\Pegawai;
 
 class SuratController extends Controller
 {
     // ================= ADMIN =================
     public function index(Request $request)
     {
-        // 🔐 CEK ROLE
         if(session('role') != 'admin'){
             return redirect('/');
         }
 
-        $query = Surat::query();
+        $query = Surat::where('bidang','sekretariat');
 
-        // 🔍 SEARCH
         if($request->search){
             $query->where(function($q) use ($request){
                 $q->where('nomor','like','%'.$request->search.'%')
@@ -25,30 +25,75 @@ class SuratController extends Controller
             });
         }
 
-        // 🔍 JENIS (dibuat lowercase biar konsisten)
         if($request->jenis){
-            $query->where('jenis', strtolower($request->jenis));
+            $query->where('jenis', strtoupper($request->jenis));
         }
 
-        // 🔍 TAHUN
         if($request->tahun){
             $query->where('tahun', $request->tahun);
         }
 
-        // 🔍 BIDANG
-        if($request->bidang){
-            $query->where('bidang', strtolower($request->bidang));
-        }
-
-        // 🔥 PAGINATION + BAWA QUERY
         $data = $query->latest()->paginate(10)->withQueryString();
 
-        return view('admin.index', compact('data'));
+        return view('admin.admin_sekre.index', compact('data'));
+    }
+
+    public function indexPup(Request $request)
+    {
+        if(session('role') != 'admin'){
+            return redirect('/');
+        }
+
+        $query = Surat::where('bidang','sekretariat');
+
+        if($request->search){
+            $query->where(function($q) use ($request){
+                $q->where('nomor','like','%'.$request->search.'%')
+                  ->orWhere('judul','like','%'.$request->search.'%');
+            });
+        }
+
+        if($request->jenis){
+            $query->where('jenis', strtoupper($request->jenis));
+        }
+
+        if($request->tahun){
+            $query->where('tahun', $request->tahun);
+        }
+
+        $data = $query->latest()->paginate(10)->withQueryString();
+
+        return view('admin.admin_pup.admin_sekre.index', compact('data'));
+    }
+
+
+    public function list(Request $request)
+    {
+        $query = Surat::where('bidang','sekretariat');
+
+        if($request->search){
+            $query->where(function($q) use ($request){
+                $q->where('nomor','like','%'.$request->search.'%')
+                  ->orWhere('judul','like','%'.$request->search.'%');
+            });
+        }
+
+        if($request->jenis){
+            $query->where('jenis', strtoupper($request->jenis));
+        }
+
+        if($request->tahun){
+            $query->where('tahun', $request->tahun);
+        }
+
+        $data = $query->latest()->paginate(10)->withQueryString();
+
+        return view('admin.admin_sekre.surat.index', compact('data'));
     }
 
 
     public function create(){
-        return view('admin.create');
+        return view('admin.admin_sekre.surat.create');
     }
 
 
@@ -60,29 +105,27 @@ class SuratController extends Controller
             'jenis'  => 'required',
             'tahun'  => 'required',
             'file'   => 'required|mimes:pdf',
-            'bidang' => 'required'
         ]);
 
-        // 🔥 UPLOAD FILE
         $fileName = time().'.'.$request->file('file')->extension();
         $request->file('file')->move(public_path('pdf'), $fileName);
 
         Surat::create([
             'nomor'  => $request->nomor,
             'judul'  => $request->judul,
-            'jenis'  => strtolower($request->jenis),
+            'jenis'  => strtoupper($request->jenis),
             'tahun'  => $request->tahun,
             'file'   => $fileName,
-            'bidang' => strtolower($request->bidang)
+            'bidang' => 'sekretariat'
         ]);
 
-        return redirect('/admin')->with('success','Upload berhasil');
+        return redirect()->route('surat.index')->with('success','Upload berhasil');
     }
 
 
     public function edit($id){
         $data = Surat::findOrFail($id);
-        return view('admin.edit', compact('data'));
+        return view('admin.admin_sekre.surat.edit', compact('data'));
     }
 
 
@@ -90,7 +133,6 @@ class SuratController extends Controller
     {
         $data = Surat::findOrFail($id);
 
-        // 🔥 UPDATE FILE (optional)
         if($request->file){
             $fileName = time().'.'.$request->file('file')->extension();
             $request->file('file')->move(public_path('pdf'), $fileName);
@@ -100,12 +142,11 @@ class SuratController extends Controller
         $data->update([
             'nomor'  => $request->nomor,
             'judul'  => $request->judul,
-            'jenis'  => strtolower($request->jenis),
+            'jenis'  => strtoupper($request->jenis),
             'tahun'  => $request->tahun,
-            'bidang' => strtolower($request->bidang)
         ]);
 
-        return redirect('/admin')->with('success','Update berhasil');
+        return redirect()->route('surat.index')->with('success','Update berhasil');
     }
 
 
@@ -116,18 +157,16 @@ class SuratController extends Controller
     }
 
 
-
     // ================= FRONTEND =================
     public function sekretariat(Request $request)
     {
+        // ===== SURAT =====
         $query = Surat::where('bidang','sekretariat');
 
-        // 🔍 FILTER JENIS
         if ($request->jenis) {
-            $query->where('jenis', strtolower($request->jenis));
+            $query->where('jenis', strtoupper($request->jenis));
         }
 
-        // 🔍 SEARCH
         if ($request->search) {
             $query->where(function($q) use ($request) {
                 $q->where('nomor','like','%'.$request->search.'%')
@@ -135,35 +174,33 @@ class SuratController extends Controller
             });
         }
 
-        // 🔍 FILTER TAHUN
         if ($request->tahun && $request->tahun != 'all') {
             $query->where('tahun', $request->tahun);
         }
 
-        // 🔥 SELECT (biar ringan)
         $data = $query->select('id','nomor','judul','tahun','file')
                       ->latest()
                       ->get();
 
-        // ================= TAHUN =================
-        $tahunQuery = Surat::where('bidang','sekretariat');
+        // ===== MAGANG =====
+        $magang = Magang::latest()->get();
 
-        if ($request->jenis) {
-            $tahunQuery->where('jenis', strtolower($request->jenis));
-        }
+        // ===== PEGAWAI =====
+        $pegawai = Pegawai::latest()->get();
 
-        $tahunList = $tahunQuery
+        // ===== TAHUN =====
+        $tahunList = Surat::where('bidang','sekretariat')
             ->select('tahun')
             ->distinct()
             ->orderBy('tahun','desc')
             ->pluck('tahun');
 
-        // ================= COUNT =================
-        $jumlahSK = Surat::where('bidang','sekretariat')->where('jenis','sk')->count();
-        $jumlahSP = Surat::where('bidang','sekretariat')->where('jenis','sp')->count();
-        $jumlahSOP = Surat::where('bidang','sekretariat')->where('jenis','sop')->count();
+        // ===== COUNT =====
+        $jumlahSK = Surat::where('bidang','sekretariat')->where('jenis','SK')->count();
+        $jumlahSP = Surat::where('bidang','sekretariat')->where('jenis','SP')->count();
+        $jumlahSOP = Surat::where('bidang','sekretariat')->where('jenis','SOP')->count();
 
-        // ================= AJAX =================
+        // ===== AJAX (HANYA UNTUK JS) =====
         if ($request->ajax()) {
             return response()->json([
                 'data' => $data,
@@ -176,12 +213,15 @@ class SuratController extends Controller
             ]);
         }
 
-        return view('bidang.sekretariat', compact(
-            'data',
-            'tahunList',
-            'jumlahSK',
-            'jumlahSP',
-            'jumlahSOP'
-        ));
+        // ===== VIEW =====
+        return view('bidang.sekretariat', [
+            'data' => $data,
+            'tahunList' => $tahunList,
+            'jumlahSK' => $jumlahSK,
+            'jumlahSP' => $jumlahSP,
+            'jumlahSOP' => $jumlahSOP,
+            'magang' => $magang,
+            'pegawai' => $pegawai
+        ]);
     }
 }

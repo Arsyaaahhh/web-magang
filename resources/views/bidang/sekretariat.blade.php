@@ -27,6 +27,12 @@ input:focus, select:focus {
   font-size:24px;
   font-weight:600;
 }
+
+#magangArea table,
+#magangArea th,
+#magangArea td {
+  color: #000 !important;
+}
 </style>
 </head>
 
@@ -70,24 +76,141 @@ input:focus, select:focus {
 <h2>Bidang Sekretariat</h2>
 
 <!-- MENU -->
-<div class="cards" id="menuUtama">
+<div class="cards" id="mainMenu">
 
+  <div class="card blue" onclick="showSurat()">
+    <h4>Surat</h4>
+    <p>SK, SP, dan SOP</p>
+  </div>
+
+  <div class="card green" onclick="showPegawai()">
+    <h4>Data Pegawai</h4>
+    <p>Informasi pegawai sekretariat</p>
+  </div>
+
+  <div class="card orange" onclick="showMagang()">
+    <h4>Data Magang</h4>
+    <p>Rekap peserta magang</p>
+  </div>
+
+</div>
+
+<div class="cards" id="suratMenu" style="display:none; margin-top:20px;">
   <div class="card blue" onclick="showSK()">
     <h4>SK Kepala Dinas</h4>
     <p>Arsip keputusan kepala dinas</p>
-    <h2 id="countSK">0</h2> <!-- 🔥 TAMBAHAN -->
+    <h2 id="countSK">0</h2>
   </div>
 
   <div class="card green" onclick="showSP()">
     <h4>Standar Pelayanan</h4>
-    <h2 id="countSP">0</h2> <!-- 🔥 TAMBAHAN -->
+    <h2 id="countSP">0</h2>
   </div>
 
   <div class="card orange" onclick="showSOP()">
     <h4>SOP</h4>
-    <h2 id="countSOP">0</h2> <!-- 🔥 TAMBAHAN -->
+    <h2 id="countSOP">0</h2>
   </div>
 
+  <div class="card white" onclick="hideAll()" style="width:100%; text-align:center;">
+    ← Kembali
+  </div>
+</div>
+
+<div id="pegawaiArea" style="display:none; margin-top:20px;">
+  <h3>Data Pegawai</h3>
+  
+  <div style="margin-bottom:10px;">
+    <button onclick="hideAll()" style="background:#0d6efd;color:white;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:500;">
+      ← Kembali
+    </button>
+  </div>
+
+  <div class="card" style="overflow-x:auto;">
+    <table style="width:100%; border-collapse:collapse; font-size:13px;">
+      <thead>
+        <tr style="background:#0d6efd; color:white;">
+          <th style="padding:10px; border:1px solid #000000; text-align:left;">No</th>
+          <th style="padding:10px; border:1px solid #d1d5db; text-align:left;">Nama</th>
+          <th style="padding:10px; border:1px solid #d1d5db; text-align:left;">NIP</th>
+          <th style="padding:10px; border:1px solid #d1d5db; text-align:left;">Bidang</th>
+          <th style="padding:10px; border:1px solid #d1d5db; text-align:left;">Posisi</th>
+          <th style="padding:10px; border:1px solid #d1d5db; text-align:left;">Alamat</th>
+        </tr>
+      </thead>
+      <tbody>
+        @forelse($pegawai as $p)
+        <tr style="border:1px solid #d1d5db;">
+          <td style="padding:10px; border:1px solid #000000;">{{ $loop->iteration }}</td>
+          <td style="padding:10px; border:1px solid #08090a;">{{ $p->nama }}</td>
+          <td style="padding:10px; border:1px solid #000000;">{{ $p->nip }}</td>
+          <td style="padding:10px; border:1px solid #000000;">{{ $p->bidang }}</td>
+          <td style="padding:10px; border:1px solid #000000;">{{ $p->posisi }}</td>
+          <td style="padding:10px; border:1px solid #000000;">{{ $p->alamat }}</td>
+        </tr>
+        @empty
+        <tr>
+          <td colspan="6" style="padding:10px; border:1px solid #d1d5db; text-align:center; color:#999;">
+            Tidak ada data pegawai
+          </td>
+        </tr>
+        @endforelse
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div id="magangArea" style="display:none; margin-top:20px;">
+  <h3>Data Magang</h3>
+  
+  <div style="margin-bottom:10px;">
+    <button onclick="hideAll()" style="background:#0d6efd;color:white;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:500;">
+      ← Kembali
+    </button>
+  </div>
+
+  <div class="card" style="overflow-x:auto;">
+    <table style="width:100%; border-collapse:collapse; font-size:13px;">
+      <thead>
+        <tr style="background:#0d6efd; color:white;">
+          <th style="padding:10px; border:1px solid #000000; text-align:left;">No</th>
+          <th style="padding:10px; border:1px solid #d1d5db; text-align:left;">Email</th>
+          <th style="padding:10px; border:1px solid #d1d5db; text-align:left;">Nama</th>
+          <th style="padding:10px; border:1px solid #d1d5db; text-align:left;">NIM</th>
+          <th style="padding:10px; border:1px solid #d1d5db; text-align:left;">Asal Univ</th>
+          <th style="padding:10px; border:1px solid #d1d5db; text-align:left;">Awal</th>
+          <th style="padding:10px; border:1px solid #d1d5db; text-align:left;">Akhir</th>
+          <th style="padding:10px; border:1px solid #d1d5db; text-align:left;">Durasi</th>
+          <th style="padding:10px; border:1px solid #d1d5db; text-align:left;">No HP</th>
+          <th style="padding:10px; border:1px solid #d1d5db; text-align:left;">Bidang</th>
+          <th style="padding:10px; border:1px solid #d1d5db; text-align:left;">Posisi</th>
+        </tr>
+      </thead>
+      <tbody>
+        @forelse($magang as $m)
+        <tr style="border:1px solid #d1d5db;">
+          <td style="padding:10px; border:1px solid #000000;">{{ $loop->iteration }}</td>
+          <td style="padding:10px; border:1px solid #08090a;">{{ $m->email }}</td>
+          <td style="padding:10px; border:1px solid #000000;">{{ $m->nama }}</td>
+          <td style="padding:10px; border:1px solid #000000;">{{ $m->nim }}</td>
+          <td style="padding:10px; border:1px solid #000000;">{{ $m->asal_univ }}</td>
+          <td style="padding:10px; border:1px solid #000000;">{{ $m->awal_pelaksanaan }}</td>
+          <td style="padding:10px; border:1px solid #010202;">{{ $m->akhir_pelaksanaan }}</td>
+          <td style="padding:10px; border:1px solid #000000;">{{ $m->durasi }}</td>
+          <td style="padding:10px; border:1px solid #000000;">{{ $m->no_hp }}</td>
+          <td style="padding:10px; border:1px solid #010202;">{{ $m->bidang }}</td>
+          <td style="padding:10px; border:1px solid #000000;">{{ $m->posisi }}</td>
+        </tr>
+        @empty
+        <tr>
+          <td colspan="11" style="padding:10px; border:1px solid #d1d5db; text-align:center; color:#999;">
+            Tidak ada data magang
+          </td>
+        </tr>
+        @endforelse
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <!-- ================= SK ================= -->
@@ -151,35 +274,68 @@ function loadCount(){
 }
 
 // ================= NAV =================
+function showSurat(){
+  mainMenu.style.display="none";
+  suratMenu.style.display="grid";
+  pegawaiArea.style.display="none";
+  magangArea.style.display="none";
+}
+
+function showPegawai(){
+  mainMenu.style.display="none";
+  suratMenu.style.display="none";
+  pegawaiArea.style.display="block";
+  magangArea.style.display="none";
+}
+
+function showMagang(){
+  mainMenu.style.display="none";
+  suratMenu.style.display="none";
+  pegawaiArea.style.display="none";
+  magangArea.style.display="block";
+}
+
 function showSK(){
-  menuUtama.style.display="none";
+  mainMenu.style.display="none";
+  suratMenu.style.display="none";
   spArea.style.display="none";
   sopArea.style.display="none";
   skArea.style.display="block";
+  pegawaiArea.style.display="none";
+  magangArea.style.display="none";
   filterData();
 }
 
 function showSP(){
-  menuUtama.style.display="none";
+  mainMenu.style.display="none";
+  suratMenu.style.display="none";
   skArea.style.display="none";
   sopArea.style.display="none";
   spArea.style.display="block";
+  pegawaiArea.style.display="none";
+  magangArea.style.display="none";
   filterSP();
 }
 
 function showSOP(){
-  menuUtama.style.display="none";
+  mainMenu.style.display="none";
+  suratMenu.style.display="none";
   skArea.style.display="none";
   spArea.style.display="none";
   sopArea.style.display="block";
+  pegawaiArea.style.display="none";
+  magangArea.style.display="none";
   filterSOP();
 }
 
 function hideAll(){
-  menuUtama.style.display="grid";
+  mainMenu.style.display="grid";
+  suratMenu.style.display="none";
   skArea.style.display="none";
   spArea.style.display="none";
   sopArea.style.display="none";
+  pegawaiArea.style.display="none";
+  magangArea.style.display="none";
 }
 
 // ================= UTIL =================

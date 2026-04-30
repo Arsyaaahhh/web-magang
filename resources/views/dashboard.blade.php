@@ -18,7 +18,7 @@
       <a class="active"><i class="fas fa-chart-line"></i> Dashboard Utama</a>
       <a href="/sekretariat"><i class="fas fa-user-tie"></i> Bidang Sekretariat</a>
       <a href="/mikro"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
-      <a href="/distribusi"><i class="fas fa-truck"></i> Distribusi Perdagangan</a>
+      <a href="/perdagangan"><i class="fas fa-truck"></i> Distribusi Perdagangan</a>
       <a href="/koperasi"><i class="fas fa-building"></i> Bidang Koperasi</a>
       <a href="/pembinaan"><i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan</a>
       <a href="/metrologi"><i class="fas fa-balance-scale"></i> UPTD Metrologi Legal</a>

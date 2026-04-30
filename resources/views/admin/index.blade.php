@@ -2,344 +2,129 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Admin Surat</title>
+<title>Admin Sekretariat</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins', sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{display:flex;background:#f8fafc;}
 
-body{
-  background:#f8fafc;
+/* SIDEBAR */
+.sidebar{
+  width:240px;height:100vh;background:#0d6efd;color:white;padding:20px;position:fixed;
 }
-
-/* NAVBAR */
-.navbar{
-  background:white;
-  padding:15px 30px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 2px 10px rgba(0,0,0,0.04);
+.sidebar h2{margin-bottom:20px;}
+.sidebar a{
+  display:block;color:white;padding:10px;border-radius:8px;margin-bottom:8px;text-decoration:none;
 }
-
-.navbar h3{
-  color:#0d6efd;
-}
-
-/* CONTAINER */
-.container{
-  padding:30px;
-}
-
-/* HEADER */
-.top{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:20px;
-}
-
-/* BUTTON */
-.btn{
-  padding:8px 14px;
-  border-radius:8px;
-  font-size:14px;
-  border:none;
+.sidebar a:hover,.sidebar .active{background:rgba(255,255,255,0.2);}
+.logout-btn{
+  margin-top:20px;width:100%;padding:10px;border:none;border-radius:8px;background:#dc3545;color:white;
   cursor:pointer;
 }
 
-.btn-add{ background:#20c997; color:white; }
-.btn-edit{ background:#ffc107; color:black; }
-.btn-delete{ background:#dc3545; color:white; }
+/* MAIN */
+.main{margin-left:240px;width:100%;}
 
-/* CARD */
+/* NAVBAR */
+.navbar{
+  background:white;padding:15px 30px;display:flex;justify-content:space-between;
+  box-shadow:0 2px 10px rgba(0,0,0,0.04);
+}
+
+/* CONTENT */
+.container{padding:30px;}
+
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+
 .card{
   background:white;
   padding:20px;
   border-radius:12px;
   border:1px solid #e5e7eb;
+  cursor:pointer;
+  transition:.2s;
 }
 
-/* FILTER */
-.filter{
-  display:flex;
-  gap:10px;
-  margin-bottom:15px;
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 30px rgba(13,110,253,0.12);
 }
 
-.filter input, .filter select{
-  padding:8px;
-  border-radius:6px;
-  border:1px solid #d1d5db;
-}
-
-/* TABLE */
-table{
-  width:100%;
-  border-collapse:collapse;
-  border:1px solid #e5e7eb;
-}
-
-th{
-  padding:12px;
-  background:#eaf2ff;
-}
-
-td{
-  padding:12px;
-  border-bottom:1px solid #e5e7eb;
-}
-
-tbody tr:nth-child(even){
-  background:#f9fafb;
-}
-
-tr:hover{
-  background:#eef4ff;
-}
-
-/* BADGE */
-.badge{
-  padding:5px 10px;
-  border-radius:6px;
-  font-size:12px;
-  background:#e5e7eb;
-}
-
-/* ACTION */
-.action{
-  display:flex;
-  gap:6px;
-}
-
-/* ALERT */
 .alert{
-  padding:10px;
-  margin-bottom:10px;
-  background:#d1e7dd;
-  border-radius:6px;
-}
-
-/* ================= PAGINATION FIX FINAL ================= */
-
-/* WRAPPER */
-.pagination-wrapper{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-top:15px;
-  flex-wrap:wrap;
-  gap:10px;
-}
-
-/* PAGINATION CONTAINER */
-.pagination{
-  display:flex;
-  gap:6px;
-}
-
-/* ITEM */
-.pagination li{
-  list-style:none;
-}
-
-/* LINK STYLE */
-.pagination a,
-.pagination span{
-  display:inline-block;
-  padding:6px 12px;
-  border-radius:8px;
-  border:1px solid #d1d5db;
-  background:white;
-  color:#333;
-  text-decoration:none;
-  font-size:14px;
-  transition:0.2s;
-}
-
-/* HOVER */
-.pagination a:hover{
-  background:#0d6efd;
-  color:white;
-}
-
-/* ACTIVE */
-.pagination .active span{
-  background:#0d6efd;
-  color:white;
-  border-color:#0d6efd;
-}
-
-/* DISABLED */
-.pagination .disabled span{
-  color:#aaa;
-  background:#f3f4f6;
-}
-
-/* INFO TEXT */
-.pagination-info{
-  font-size:13px;
-  color:#666;
+  padding:10px;margin-bottom:10px;background:#d1e7dd;border-radius:6px;
 }
 </style>
 </head>
 
 <body>
 
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <h2>ADMIN</h2>
+
+  <a href="/admin/admin_sekre" class="active"><i class="fas fa-user-tie"></i> Sekretariat</a>
+  <a href="/admin/pembinaan"><i class="fas fa-briefcase"></i> Pembinaan</a>
+  <a href="/admin/perdagangan"><i class="fas fa-truck"></i> Perdagangan</a>
+
+  <button onclick="logout()" class="logout-btn">Logout</button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
 <div class="navbar">
-  <h3>Admin Surat</h3>
-
-  <div style="display:flex; gap:10px; align-items:center;">
-    <span>Halo {{ session('username') ?? 'Admin' }} 👋</span>
-
-    <button onclick="logout()" class="btn btn-delete">
-      Logout
-    </button>
-  </div>
+  <h3>Admin Sekretariat</h3>
+  <span>Halo {{ session('username') ?? 'Admin' }} 👋</span>
 </div>
 
 <div class="container">
 
-<div class="top">
-<h2>Data Surat</h2>
-<a href="/admin/create" class="btn btn-add">+ Tambah</a>
-</div>
+<h2 style="margin-bottom:20px;">Admin Sekretariat</h2>
 
 @if(session('success'))
-<div class="alert">
-  {{ session('success') }}
-</div>
+<div class="alert">{{ session('success') }}</div>
 @endif
 
-<div class="card">
+<!-- MENU -->
+<div class="cards-grid">
 
-<!-- FILTER -->
-<form method="GET">
-<div class="filter">
-
-<input type="text" name="search" placeholder="Cari judul / nomor..."
-value="{{ request('search') }}">
-
-<select name="jenis">
-  <option value="">Semua Jenis</option>
-  <option value="sk" {{ request('jenis')=='sk'?'selected':'' }}>SK</option>
-  <option value="sp" {{ request('jenis')=='sp'?'selected':'' }}>SP</option>
-  <option value="sop" {{ request('jenis')=='sop'?'selected':'' }}>SOP</option>
-</select>
-
-<input type="number" name="tahun" placeholder="Tahun" value="{{ request('tahun') }}">
-
-<select name="bidang">
-  <option value="">Semua Bidang</option>
-  <option value="sekretariat" {{ request('bidang')=='sekretariat'?'selected':'' }}>Sekretariat</option>
-  <option value="perdagangan" {{ request('bidang')=='perdagangan'?'selected':'' }}>Perdagangan</option>
-  <option value="mikro" {{ request('bidang')=='mikro'?'selected':'' }}>Mikro</option>
-  <option value="koperasi" {{ request('bidang')=='koperasi'?'selected':'' }}>Koperasi</option>
-  <option value="pembinaan" {{ request('bidang')=='pembinaan'?'selected':'' }}>Pembinaan</option>
-  <option value="metrologi" {{ request('bidang')=='metrologi'?'selected':'' }}>Metrologi</option>
-</select>
-
-<button type="submit" class="btn">Filter</button>
-
-</div>
-</form>
-
-<table>
-<thead>
-<tr>
-<th>No</th>
-<th>Nomor</th>
-<th>Judul</th>
-<th>Jenis</th>
-<th>Tahun</th>
-<th>Bidang</th>
-<th>Aksi</th>
-</tr>
-</thead>
-
-<tbody>
-@forelse($data as $d)
-<tr>
-<td>{{ ($data->currentPage()-1)*$data->perPage() + $loop->iteration }}</td>
-<td>{{ $d->nomor }}</td>
-<td>{{ $d->judul }}</td>
-<td><span class="badge">{{ strtoupper($d->jenis) }}</span></td>
-<td>{{ $d->tahun }}</td>
-<td>{{ $d->bidang }}</td>
-<td>
-<div class="action">
-<a href="/admin/edit/{{ $d->id }}" class="btn btn-edit">Edit</a>
-<button onclick="confirmDelete('/admin/delete/{{ $d->id }}')" class="btn btn-delete">
-  Hapus
-</button>
-</div>
-</td>
-</tr>
-@empty
-<tr>
-<td colspan="7" style="text-align:center;">Tidak ada data</td>
-</tr>
-@endforelse
-</tbody>
-</table>
-
-<!-- 🔥 PAGINATION WRAPPER -->
-<div class="pagination-wrapper">
-
-  <div class="pagination">
-    {{ $data->links('components.pagination') }}
+  <!-- SURAT -->
+  <div class="card" onclick="go('/admin/admin_sekre/surat')">
+    <h4>Surat</h4>
+    <p>SK, SP, dan SOP</p>
   </div>
 
-  <div class="pagination-info">
-    Showing {{ $data->firstItem() }} to {{ $data->lastItem() }} of {{ $data->total() }} results
+  <!-- PEGAWAI -->
+  <div class="card" onclick="go('{{ route('pegawai.index') }}')">
+    <h4>Data Pegawai</h4>
+    <p>Informasi pegawai sekretariat</p>
+  </div>
+
+  <!-- MAGANG -->
+  <div class="card" onclick="go('{{ route('magang.index') }}')">
+    <h4>Data Magang</h4>
+    <p>Daftar peserta magang</p>
   </div>
 
 </div>
 
 </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-function confirmDelete(url){
-    Swal.fire({
-        title: 'Yakin?',
-        text: "Data akan dihapus!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#dc3545',
-        confirmButtonText: 'Ya, hapus!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.href = url;
-        }
-    });
+function go(url){
+  window.location.href = url;
 }
 
 function logout(){
-    Swal.fire({
-        title: 'Logout?',
-        text: "Kamu akan keluar",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#0d6efd',
-        confirmButtonText: 'Ya, logout'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            localStorage.removeItem("login");
-            window.location.href = "/logout";
-        }
-    });
-}
-
-if(localStorage.getItem("login") !== "true"){
-  window.location.href = "/";
+  window.location.href="/logout";
 }
 </script>
 
