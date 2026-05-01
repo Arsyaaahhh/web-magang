@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Surat;
 use App\Models\Magang;
-use App\Models\Pegawai;
+use App\Models\PegawaiRekap; // 🔥 pakai ini (bukan Pegawai)
 
 class SuratController extends Controller
 {
@@ -36,34 +36,6 @@ class SuratController extends Controller
         $data = $query->latest()->paginate(10)->withQueryString();
 
         return view('admin.admin_sekre.index', compact('data'));
-    }
-
-    public function indexPup(Request $request)
-    {
-        if(session('role') != 'admin'){
-            return redirect('/');
-        }
-
-        $query = Surat::where('bidang','sekretariat');
-
-        if($request->search){
-            $query->where(function($q) use ($request){
-                $q->where('nomor','like','%'.$request->search.'%')
-                  ->orWhere('judul','like','%'.$request->search.'%');
-            });
-        }
-
-        if($request->jenis){
-            $query->where('jenis', strtoupper($request->jenis));
-        }
-
-        if($request->tahun){
-            $query->where('tahun', $request->tahun);
-        }
-
-        $data = $query->latest()->paginate(10)->withQueryString();
-
-        return view('admin.admin_pup.admin_sekre.index', compact('data'));
     }
 
 
@@ -160,68 +132,48 @@ class SuratController extends Controller
     // ================= FRONTEND =================
     public function sekretariat(Request $request)
     {
-        // ===== SURAT =====
-        $query = Surat::where('bidang','sekretariat');
-
-        if ($request->jenis) {
-            $query->where('jenis', strtoupper($request->jenis));
-        }
-
-        if ($request->search) {
-            $query->where(function($q) use ($request) {
-                $q->where('nomor','like','%'.$request->search.'%')
-                  ->orWhere('judul','like','%'.$request->search.'%');
-            });
-        }
-
-        if ($request->tahun && $request->tahun != 'all') {
-            $query->where('tahun', $request->tahun);
-        }
-
-        $data = $query->select('id','nomor','judul','tahun','file')
-                      ->latest()
-                      ->get();
-
-        // ===== MAGANG =====
-        $magang = Magang::latest()->get();
-
-        // ===== PEGAWAI =====
-        $pegawai = Pegawai::latest()->get();
-
-        // ===== TAHUN =====
-        $tahunList = Surat::where('bidang','sekretariat')
-            ->select('tahun')
-            ->distinct()
-            ->orderBy('tahun','desc')
-            ->pluck('tahun');
-
-        // ===== COUNT =====
-        $jumlahSK = Surat::where('bidang','sekretariat')->where('jenis','SK')->count();
-        $jumlahSP = Surat::where('bidang','sekretariat')->where('jenis','SP')->count();
-        $jumlahSOP = Surat::where('bidang','sekretariat')->where('jenis','SOP')->count();
-
-        // ===== AJAX (HANYA UNTUK JS) =====
+        // ===== AJAX (SURAT SAJA) =====
         if ($request->ajax()) {
+
+            $query = Surat::where('bidang','sekretariat');
+
+            if ($request->jenis) {
+                $query->where('jenis', strtoupper($request->jenis));
+            }
+
+            if ($request->search) {
+                $query->where(function($q) use ($request) {
+                    $q->where('nomor','like','%'.$request->search.'%')
+                      ->orWhere('judul','like','%'.$request->search.'%');
+                });
+            }
+
+            if ($request->tahun && $request->tahun != 'all') {
+                $query->where('tahun', $request->tahun);
+            }
+
+            $data = $query->select('id','nomor','judul','tahun','file')
+                          ->latest()
+                          ->get();
+
             return response()->json([
                 'data' => $data,
-                'tahunList' => $tahunList,
+                'tahunList' => Surat::where('bidang','sekretariat')
+                                    ->select('tahun')
+                                    ->distinct()
+                                    ->pluck('tahun'),
                 'jumlah' => [
-                    'sk' => $jumlahSK,
-                    'sp' => $jumlahSP,
-                    'sop' => $jumlahSOP
+                    'sk' => Surat::where('bidang','sekretariat')->where('jenis','SK')->count(),
+                    'sp' => Surat::where('bidang','sekretariat')->where('jenis','SP')->count(),
+                    'sop' => Surat::where('bidang','sekretariat')->where('jenis','SOP')->count(),
                 ]
             ]);
         }
 
-        // ===== VIEW =====
+        // ===== VIEW (🔥 FIX: pakai REKAP) =====
         return view('bidang.sekretariat', [
-            'data' => $data,
-            'tahunList' => $tahunList,
-            'jumlahSK' => $jumlahSK,
-            'jumlahSP' => $jumlahSP,
-            'jumlahSOP' => $jumlahSOP,
-            'magang' => $magang,
-            'pegawai' => $pegawai
+            'pegawai' => PegawaiRekap::latest()->get(),
+            'magang'  => Magang::latest()->get()
         ]);
     }
 }

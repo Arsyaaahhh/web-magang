@@ -21,17 +21,11 @@ Route::get('/logout',[AuthController::class,'logout']);
 
 /*
 |--------------------------------------------------------------------------
-| DASHBOARD USER
+| DASHBOARD
 |--------------------------------------------------------------------------
 */
 Route::get('/dashboard', [DashboardController::class, 'index']);
 
-
-/*
-|--------------------------------------------------------------------------
-| DASHBOARD ADMIN
-|--------------------------------------------------------------------------
-*/
 Route::get('/admin', function () {
     if(!session('login') || session('role') !== 'admin'){
         return redirect('/');
@@ -50,13 +44,14 @@ Route::get('/perdagangan', fn()=>view('bidang.perdagangan'));
 Route::get('/koperasi', fn()=>view('bidang.koperasi'));
 Route::get('/metrologi', fn()=>view('bidang.metrologi'));
 
+
 /*
 |--------------------------------------------------------------------------
-| PEMBINAAN (🔥 FIX UTAMA)
+| PEMBINAAN (USER)
 |--------------------------------------------------------------------------
 */
-Route::get('/pembinaan', [PembinaanController::class,'view']); // halaman HTML
-Route::get('/pembinaan-data', [PembinaanController::class,'index']); // data JSON
+Route::get('/pembinaan', [PembinaanController::class,'view']);
+Route::get('/pembinaan-data', [PembinaanController::class,'index']);
 
 
 /*
@@ -74,13 +69,13 @@ Route::get('/sekretariat', [SuratController::class,'sekretariat']);
 */
 Route::get('/admin/admin_sekre', [SuratController::class,'index'])->name('surat.index');
 
+Route::get('/admin/admin_sekre/surat', [SuratController::class,'list'])->name('surat.list');
+
 Route::get('/admin/admin_sekre/create', [SuratController::class,'create'])->name('surat.create');
 Route::post('/admin/admin_sekre/store', [SuratController::class,'store'])->name('surat.store');
 
 Route::get('/admin/admin_sekre/edit/{id}', [SuratController::class,'edit'])->name('surat.edit');
 Route::post('/admin/admin_sekre/update/{id}', [SuratController::class,'update'])->name('surat.update');
-
-Route::get('/admin/admin_sekre/surat', [SuratController::class,'list'])->name('surat.list');
 
 Route::get('/admin/admin_sekre/delete/{id}', [SuratController::class,'destroy'])->name('surat.destroy');
 
@@ -103,19 +98,34 @@ Route::get('/admin/magang/delete/{id}', [MagangController::class,'destroy'])->na
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN PEGAWAI
+| ADMIN PEGAWAI (DATA INDIVIDU)
 |--------------------------------------------------------------------------
 */
 Route::get('/admin/pegawai', [PegawaiController::class,'index'])->name('pegawai.index');
 
-Route::get('/admin/pegawai/create', [PegawaiController::class,'create'])->name('pegawai.create');
-Route::post('/admin/pegawai/store', [PegawaiController::class,'store'])->name('pegawai.store');
+// Route::get('/admin/pegawai/create', [PegawaiController::class,'create'])->name('pegawai.create');
+// Route::post('/admin/pegawai/store', [PegawaiController::class,'store'])->name('pegawai.store');
 
-Route::get('/admin/pegawai/edit/{id}', [PegawaiController::class,'edit'])->name('pegawai.edit');
-Route::post('/admin/pegawai/update/{id}', [PegawaiController::class,'update'])->name('pegawai.update');
+// Route::get('/admin/pegawai/edit/{id}', [PegawaiController::class,'edit'])->name('pegawai.edit');
+// Route::post('/admin/pegawai/update/{id}', [PegawaiController::class,'update'])->name('pegawai.update');
 
-Route::get('/admin/pegawai/delete/{id}', [PegawaiController::class,'destroy'])->name('pegawai.delete');
+// Route::get('/admin/pegawai/delete/{id}', [PegawaiController::class,'destroy'])->name('pegawai.delete');
 
+
+/*
+|--------------------------------------------------------------------------
+| REKAP PEGAWAI (BARU)
+|--------------------------------------------------------------------------
+*/
+Route::get('/admin/pegawai', [PegawaiController::class,'rekap'])->name('pegawai.rekap');
+
+Route::get('/admin/pegawai/create', [PegawaiController::class,'createRekap'])->name('pegawai.rekap.create');
+Route::post('/admin/pegawai/store', [PegawaiController::class,'storeRekap'])->name('pegawai.rekap.store');
+
+Route::get('/admin/pegawai/edit/{id}', [PegawaiController::class,'editRekap'])->name('pegawai.rekap.edit');
+Route::post('/admin/pegawai/update/{id}', [PegawaiController::class,'updateRekap'])->name('pegawai.rekap.update');
+
+Route::get('/admin/pegawai/delete/{id}', [PegawaiController::class,'deleteRekap'])->name('pegawai.rekap.delete');
 
 /*
 |--------------------------------------------------------------------------

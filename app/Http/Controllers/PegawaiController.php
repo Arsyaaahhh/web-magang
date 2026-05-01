@@ -3,67 +3,66 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Pegawai;
+use App\Models\PegawaiRekap;
 
 class PegawaiController extends Controller
 {
-    public function index()
+    // ================= LIST =================
+    public function rekap()
     {
-        $data = Pegawai::latest()->paginate(10);
-        return view('admin.admin_sekre.pegawai.index', compact('data'));
+        $data = PegawaiRekap::latest()->get();
+        return view('admin.admin_sekre.pegawai.rekap', compact('data'));
     }
 
-    public function indexPup()
+    // ================= CREATE =================
+    public function createRekap()
     {
-        $data = Pegawai::latest()->paginate(10);
-        return view('admin.admin_pup.pegawai.index', compact('data'));
+        return view('admin.admin_sekre.pegawai.create'); // ✅ FIX
     }
 
-    public function create()
-    {
-        return view('admin.admin_sekre.pegawai.create');
-    }
-
-    public function store(Request $request)
+    // ================= STORE =================
+    public function storeRekap(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
-            'nip' => 'required',
-            'bidang' => 'required',
-            'posisi' => 'required',
-            'alamat' => 'required',
+            'status' => 'required',
+            'pendidikan' => 'required',
+            'jumlah' => 'required|numeric'
         ]);
 
-        Pegawai::create($request->all());
+        PegawaiRekap::create($request->all());
 
-        return redirect()->route('pegawai.index')->with('success','Data berhasil ditambah');
+        return redirect()->route('pegawai.rekap')
+            ->with('success','Data berhasil ditambahkan');
     }
 
-    public function edit($id)
+    // ================= EDIT =================
+    public function editRekap($id)
     {
-        $data = Pegawai::findOrFail($id);
-        return view('admin.admin_sekre.pegawai.edit', compact('data'));
+        $data = PegawaiRekap::findOrFail($id);
+        return view('admin.admin_sekre.pegawai.edit', compact('data')); // ✅ FIX
     }
 
-    public function update(Request $request, $id)
+    // ================= UPDATE =================
+    public function updateRekap(Request $request, $id)
     {
         $request->validate([
-            'nama' => 'required',
-            'nip' => 'required',
-            'bidang' => 'required',
-            'posisi' => 'required',
-            'alamat' => 'required',
+            'status' => 'required',
+            'pendidikan' => 'required',
+            'jumlah' => 'required|numeric'
         ]);
 
-        $data = Pegawai::findOrFail($id);
+        $data = PegawaiRekap::findOrFail($id);
         $data->update($request->all());
 
-        return redirect()->route('pegawai.index')->with('success','Data berhasil diupdate');
+        return redirect()->route('pegawai.rekap')
+            ->with('success','Data berhasil diupdate');
     }
 
-    public function destroy($id)
+    // ================= DELETE =================
+    public function deleteRekap($id)
     {
-        Pegawai::findOrFail($id)->delete();
-        return back()->with('success','Data dihapus');
+        PegawaiRekap::findOrFail($id)->delete();
+
+        return back()->with('success','Data berhasil dihapus');
     }
 }

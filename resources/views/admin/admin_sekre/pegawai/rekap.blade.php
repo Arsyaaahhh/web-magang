@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Admin Sekretariat</title>
+<title>Rekap Pegawai</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
@@ -37,28 +37,72 @@ body{display:flex;background:#f8fafc;}
 /* CONTENT */
 .container{padding:30px;}
 
-.cards-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:16px;
+.top{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:20px;
 }
 
+/* BUTTON */
+.btn-add{
+  padding:8px 14px;
+  background:#20c997;
+  color:white;
+  border-radius:8px;
+  text-decoration:none;
+}
+
+.btn-edit{
+  padding:6px 10px;
+  background:#ffc107;
+  border-radius:6px;
+  text-decoration:none;
+  color:black;
+}
+
+.btn-delete{
+  padding:6px 10px;
+  background:#dc3545;
+  border-radius:6px;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+
+/* CARD */
 .card{
   background:white;
   padding:20px;
   border-radius:12px;
   border:1px solid #e5e7eb;
-  cursor:pointer;
-  transition:.2s;
 }
 
-.card:hover{
-  transform:translateY(-3px);
-  box-shadow:0 10px 30px rgba(13,110,253,0.12);
+/* TABLE */
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th{
+  background:#eaf2ff;
+  padding:12px;
+}
+
+td{
+  padding:12px;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.action{
+  display:flex;
+  gap:6px;
 }
 
 .alert{
-  padding:10px;margin-bottom:10px;background:#d1e7dd;border-radius:6px;
+  padding:10px;
+  background:#d1e7dd;
+  margin-bottom:10px;
+  border-radius:6px;
 }
 </style>
 </head>
@@ -69,6 +113,7 @@ body{display:flex;background:#f8fafc;}
 <div class="sidebar">
   <h2>ADMIN</h2>
 
+  <a href="/admin"><i class="fas fa-chart-line"></i> Dashboard</a>
   <a href="/admin/admin_sekre" class="active"><i class="fas fa-user-tie"></i> Sekretariat</a>
   <a href="/admin/pembinaan"><i class="fas fa-briefcase"></i> Pembinaan</a>
   <a href="/admin/perdagangan"><i class="fas fa-truck"></i> Perdagangan</a>
@@ -80,49 +125,69 @@ body{display:flex;background:#f8fafc;}
 <div class="main">
 
 <div class="navbar">
-  <h3>Admin Sekretariat</h3>
-  <span>Halo {{ session('username') ?? 'Admin' }} 👋</span>
+  <h3>Rekap Pegawai</h3>
+  <span>Halo {{ session('username') ?? 'Admin' }}</span>
 </div>
 
 <div class="container">
 
-<h2 style="margin-bottom:20px;">Admin Sekretariat</h2>
+<div class="top">
+  <h2>Data Rekap Pegawai</h2>
+
+  <!-- 🔥 KE CREATE -->
+  <a href="{{ route('pegawai.rekap.create') }}" class="btn-add">
+    + Tambah
+  </a>
+</div>
 
 @if(session('success'))
-<div class="alert">{{ session('success') }}</div>
+<div class="alert">
+  {{ session('success') }}
+</div>
 @endif
 
-<!-- MENU -->
-<div class="cards-grid">
+<div class="card">
+<table>
 
-  <!-- SURAT -->
-  <div class="card" onclick="go('/admin/admin_sekre/surat')">
-    <h4>Surat</h4>
-    <p>SK, SP, dan SOP</p>
+<tr>
+<th>No</th>
+<th>Status</th>
+<th>Pendidikan</th>
+<th>Jumlah</th>
+<th>Aksi</th>
+</tr>
+
+@forelse($data as $d)
+<tr>
+<td>{{ $loop->iteration }}</td>
+<td>{{ $d->status }}</td>
+<td>{{ $d->pendidikan }}</td>
+<td>{{ $d->jumlah }}</td>
+
+<td>
+  <div class="action">
+    <a href="{{ route('pegawai.rekap.edit',$d->id) }}" class="btn-edit">Edit</a>
+
+    <form action="{{ route('pegawai.rekap.delete',$d->id) }}" method="GET">
+      <button class="btn-delete">Hapus</button>
+    </form>
   </div>
+</td>
 
-  <!-- PEGAWAI -->
-  <div class="card" onclick="go('{{ route('pegawai.rekap') }}')">
-    <h4>Data Pegawai</h4>
-    <p>Informasi pegawai sekretariat</p>
-  </div>
+</tr>
+@empty
+<tr>
+<td colspan="5" align="center">Tidak ada data</td>
+</tr>
+@endforelse
 
-  <!-- MAGANG -->
-  <div class="card" onclick="go('{{ route('magang.index') }}')">
-    <h4>Data Magang</h4>
-    <p>Daftar peserta magang</p>
-  </div>
-
+</table>
 </div>
 
 </div>
 </div>
 
 <script>
-function go(url){
-  window.location.href = url;
-}
-
 function logout(){
   window.location.href="/logout";
 }

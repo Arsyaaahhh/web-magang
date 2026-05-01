@@ -102,7 +102,7 @@ body{display:flex;background:#f8fafc;}
     <p>SK, SP, dan SOP</p>
     </div>
   <!-- PEGAWAI -->
-  <div class="card" onclick="go('{{ route('pegawai.index') }}')">
+  <div class="card" onclick="go('{{ route('pegawai.rekap') }}')">
     <h4>Data Pegawai</h4>
     <p>Informasi pegawai sekretariat</p>
   </div>
