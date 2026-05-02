@@ -2,6 +2,8 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<!-- 🔥 Tag wajib untuk responsive -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tambah Rekap Pegawai</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -11,6 +13,7 @@
 
 body{
   background:linear-gradient(135deg,#eef4ff,#f8fafc);
+  min-height: 100vh;
 }
 
 /* NAVBAR */
@@ -21,14 +24,14 @@ body{
   justify-content:space-between;
   box-shadow:0 2px 10px rgba(0,0,0,0.04);
 }
-.navbar h3{color:#0d6efd;}
+.navbar h3{color:#0d6efd; font-size: 18px;}
 
 /* CONTAINER */
 .container{
   display:flex;
   justify-content:center;
   align-items:center;
-  min-height:90vh;
+  min-height:calc(100vh - 60px);
   padding:20px;
 }
 
@@ -66,13 +69,13 @@ body{
 .form-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:12px;
+  gap:15px;
 }
 
 label{
   font-size:12px;
   color:#6b7280;
-  margin-bottom:3px;
+  margin-bottom:5px;
   display:block;
 }
 
@@ -94,12 +97,13 @@ input:focus, select:focus{
 .error{
   font-size:11px;
   color:#dc3545;
-  margin-top:2px;
+  margin-top:4px;
 }
 
 /* BUTTON */
 .btn{
-  margin-top:12px;
+  margin-top:15px;
+  width: 100%;
   padding:12px;
   border:none;
   border-radius:8px;
@@ -115,6 +119,14 @@ input:focus, select:focus{
   transform:translateY(-1px);
   box-shadow:0 4px 10px rgba(13,110,253,0.2);
 }
+
+/* 🔥 MEDIA QUERY RESPONSIVE (SMARTPHONE) */
+@media screen and (max-width: 600px) {
+  .form-grid { grid-template-columns: 1fr; } /* Form berubah ke 1 kolom menyusun kebawah */
+  .navbar { padding: 15px 20px; }
+  .card { padding: 20px; }
+  .header h2 { font-size: 16px; }
+}
 </style>
 </head>
 
@@ -122,7 +134,7 @@ input:focus, select:focus{
 
 <div class="navbar">
   <h3>Admin Pegawai</h3>
-  <div>Tambah Rekap Pegawai</div>
+  <div style="font-size: 14px; color:#666;">Tambah Rekap</div>
 </div>
 
 <div class="container">

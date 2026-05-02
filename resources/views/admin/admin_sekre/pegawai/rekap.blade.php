@@ -2,6 +2,8 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<!-- 🔥 Tag wajib untuk responsive -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rekap Pegawai</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -9,11 +11,12 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{display:flex;background:#f8fafc;}
+body{display:flex;background:#f8fafc; overflow-x: hidden;}
 
 /* SIDEBAR */
 .sidebar{
   width:240px;height:100vh;background:#0d6efd;color:white;padding:20px;position:fixed;
+  z-index: 1000; transition: left 0.3s ease;
 }
 .sidebar h2{margin-bottom:20px;}
 .sidebar a{
@@ -26,12 +29,29 @@ body{display:flex;background:#f8fafc;}
 }
 
 /* MAIN */
-.main{margin-left:240px;width:100%;}
+.main{
+  margin-left:240px;
+  width:calc(100% - 240px);
+  transition: margin-left 0.3s ease, width 0.3s ease;
+}
 
 /* NAVBAR */
 .navbar{
-  background:white;padding:15px 30px;display:flex;justify-content:space-between;
+  background:white;padding:15px 30px;display:flex;justify-content:space-between;align-items: center;
   box-shadow:0 2px 10px rgba(0,0,0,0.04);
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
 }
 
 /* CONTENT */
@@ -40,7 +60,10 @@ body{display:flex;background:#f8fafc;}
 .top{
   display:flex;
   justify-content:space-between;
+  align-items: center;
   margin-bottom:20px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 /* BUTTON */
@@ -50,6 +73,7 @@ body{display:flex;background:#f8fafc;}
   color:white;
   border-radius:8px;
   text-decoration:none;
+  display: inline-block;
 }
 
 .btn-edit{
@@ -78,16 +102,21 @@ body{display:flex;background:#f8fafc;}
 }
 
 /* TABLE */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
 table{
   width:100%;
   border-collapse:collapse;
+  min-width: 500px;
 }
-
 th{
   background:#eaf2ff;
   padding:12px;
+  text-align: left;
+  white-space: nowrap;
 }
-
 td{
   padding:12px;
   border-bottom:1px solid #e5e7eb;
@@ -104,16 +133,37 @@ td{
   margin-bottom:10px;
   border-radius:6px;
 }
+
+/* OVERLAY UNTUK MOBILE */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+}
+
+/* 🔥 MEDIA QUERY RESPONSIVE (SMARTPHONE) */
+@media screen and (max-width: 768px) {
+  .sidebar { left: -240px; }
+  .sidebar.active { left: 0; }
+  .main { margin-left: 0; width: 100%; }
+  .menu-toggle { display: block; }
+  .overlay.active { display: block; }
+  .navbar { padding: 15px 20px; }
+  .navbar h3 { font-size: 16px; }
+  .container { padding: 15px; }
+}
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-  <h2>ADMIN</h2>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-  <a href="/admin"><i class="fas fa-chart-line"></i> Dashboard</a>
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebarMenu">
+  <h2>ADMIN</h2>
   <a href="/admin/admin_sekre" class="active"><i class="fas fa-user-tie"></i> Sekretariat</a>
   <a href="/admin/pembinaan"><i class="fas fa-briefcase"></i> Pembinaan</a>
   <a href="/admin/perdagangan"><i class="fas fa-truck"></i> Perdagangan</a>
@@ -125,7 +175,10 @@ td{
 <div class="main">
 
 <div class="navbar">
-  <h3>Rekap Pegawai</h3>
+  <div class="nav-left">
+    <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <h3>Rekap Pegawai</h3>
+  </div>
   <span>Halo {{ session('username') ?? 'Admin' }}</span>
 </div>
 
@@ -134,7 +187,6 @@ td{
 <div class="top">
   <h2>Data Rekap Pegawai</h2>
 
-  <!-- 🔥 KE CREATE -->
   <a href="{{ route('pegawai.rekap.create') }}" class="btn-add">
     + Tambah
   </a>
@@ -147,47 +199,53 @@ td{
 @endif
 
 <div class="card">
-<table>
+  <div class="table-responsive">
+    <table>
+    <tr>
+    <th>No</th>
+    <th>Status</th>
+    <th>Pendidikan</th>
+    <th>Jumlah</th>
+    <th>Aksi</th>
+    </tr>
 
-<tr>
-<th>No</th>
-<th>Status</th>
-<th>Pendidikan</th>
-<th>Jumlah</th>
-<th>Aksi</th>
-</tr>
+    @forelse($data as $d)
+    <tr>
+    <td>{{ $loop->iteration }}</td>
+    <td>{{ $d->status }}</td>
+    <td>{{ $d->pendidikan }}</td>
+    <td>{{ $d->jumlah }}</td>
 
-@forelse($data as $d)
-<tr>
-<td>{{ $loop->iteration }}</td>
-<td>{{ $d->status }}</td>
-<td>{{ $d->pendidikan }}</td>
-<td>{{ $d->jumlah }}</td>
+    <td>
+      <div class="action">
+        <a href="{{ route('pegawai.rekap.edit',$d->id) }}" class="btn-edit">Edit</a>
 
-<td>
-  <div class="action">
-    <a href="{{ route('pegawai.rekap.edit',$d->id) }}" class="btn-edit">Edit</a>
+        <form action="{{ route('pegawai.rekap.delete',$d->id) }}" method="GET" style="margin:0;">
+          <button type="submit" class="btn-delete">Hapus</button>
+        </form>
+      </div>
+    </td>
 
-    <form action="{{ route('pegawai.rekap.delete',$d->id) }}" method="GET">
-      <button class="btn-delete">Hapus</button>
-    </form>
+    </tr>
+    @empty
+    <tr>
+    <td colspan="5" align="center">Tidak ada data</td>
+    </tr>
+    @endforelse
+
+    </table>
   </div>
-</td>
-
-</tr>
-@empty
-<tr>
-<td colspan="5" align="center">Tidak ada data</td>
-</tr>
-@endforelse
-
-</table>
 </div>
 
 </div>
 </div>
 
 <script>
+function toggleSidebar() {
+  document.getElementById('sidebarMenu').classList.toggle('active');
+  document.getElementById('overlay').classList.toggle('active');
+}
+
 function logout(){
   window.location.href="/logout";
 }

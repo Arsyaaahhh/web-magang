@@ -7,10 +7,76 @@
   <link rel="stylesheet" href="{{ asset('css/style.css') }}">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    /* 🔥 TAMBAHAN KHUSUS RESPONSIVE (TIDAK MERUBAH DESAIN ASLI) */
+    body {
+      overflow-x: hidden; /* Mencegah layar HP tergeser ke kanan karena chart */
+    }
+
+    .toggle-btn {
+      display: none; /* Sembunyikan tombol burger di laptop */
+    }
+    
+    .chart-grid {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .chart-box {
+      position: relative;
+      height: 300px; /* Batasi tinggi grafik agar proporsional */
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Pastikan canvas tunduk pada ukuran box */
+    .chart-box canvas {
+      max-width: 100% !important;
+    }
+
+    /* Mode Mobile / Smartphone */
+    @media screen and (max-width: 768px) {
+      .toggle-btn {
+        display: block;
+        font-size: 24px;
+        cursor: pointer;
+        margin-right: 15px;
+      }
+      .sidebar {
+        position: fixed;
+        left: -250px;
+        top: 0;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s ease;
+      }
+      .sidebar.active {
+        left: 0;
+      }
+      .main {
+        margin-left: 0 !important;
+        width: 100%;
+      }
+      .cards {
+        display: grid !important;
+        grid-template-columns: 1fr !important; /* Paksa card berbaris 1 ke bawah */
+        gap: 15px;
+      }
+      .chart-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important; /* Paksa chart berbaris 1 ke bawah */
+        gap: 20px;
+      }
+      .chart-box {
+        height: 250px; /* Kurangi sedikit tingginya di HP agar pas di layar */
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- SIDEBAR -->
-  <div class="sidebar">
+  <div class="sidebar" id="sidebarMenu">
     <h2>DINKOPUMDAG</h2>
     <div class="sidebar-date" id="tanggalSidebar"></div>
 
@@ -109,6 +175,23 @@
   </div>
 
   <script>
+    // 🔥 TAMBAHAN FUNGSI RESPONSIVE SIDEBAR
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebarMenu');
+      sidebar.classList.toggle('active');
+    }
+
+    // Auto tutup sidebar di HP kalau ngeklik di luar area
+    document.addEventListener('click', function(event) {
+      const sidebar = document.getElementById('sidebarMenu');
+      const toggleBtn = document.querySelector('.toggle-btn');
+      if (window.innerWidth <= 768) {
+        if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
+          sidebar.classList.remove('active');
+        }
+      }
+    });
+
     // 🔥 HANYA INI DARI DB
     const chartDataJson = '{{ json_encode($chartData) }}';
     const chartData = JSON.parse(chartDataJson);
@@ -121,6 +204,23 @@
       koperasi: '#6f42c1',
       pembinaan: '#dc3545',
       metrologi: '#17a2b8'
+    };
+
+    // 🔥 PENGATURAN CHART AGAR RAPI DI HP
+    const chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false, // Wajib agar tidak gepeng
+      plugins: {
+        legend: {
+          position: 'bottom', // Pindahkan legend ke bawah agar grafik tidak tertindih
+          labels: {
+            boxWidth: 12,
+            font: {
+              size: 11 // Kecilkan ukuran teks keterangan sedikit
+            }
+          }
+        }
+      }
     };
 
     /// ================= TREND (DUMMY) =================
@@ -136,7 +236,8 @@
           fill: true,
           tension: 0.4
         }]
-      }
+      },
+      options: chartOptions
     });
 
     /// ================= BAR (REAL DB) =================
@@ -156,7 +257,8 @@
             colors.metrologi
           ]
         }]
-      }
+      },
+      options: chartOptions
     });
 
     /// ================= DONUT (DUMMY) =================
@@ -175,7 +277,8 @@
             colors.metrologi
           ]
         }]
-      }
+      },
+      options: chartOptions
     });
 
     /// ================= PERBANDINGAN (DUMMY) =================
@@ -188,7 +291,8 @@
           data: [32, 85, 42, 23, 31, 68],
           backgroundColor: colors.sekretariat
         }]
-      }
+      },
+      options: chartOptions
     });
 
     // TANGGAL SAAT INI

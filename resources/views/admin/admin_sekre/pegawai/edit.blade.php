@@ -2,13 +2,15 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<!-- 🔥 Tag wajib untuk responsive -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Edit Rekap Pegawai</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:linear-gradient(135deg,#eef4ff,#f8fafc);}
+body{background:linear-gradient(135deg,#eef4ff,#f8fafc); min-height: 100vh;}
 
 /* NAVBAR */
 .navbar{
@@ -18,14 +20,14 @@ body{background:linear-gradient(135deg,#eef4ff,#f8fafc);}
   justify-content:space-between;
   box-shadow:0 2px 10px rgba(0,0,0,0.04);
 }
-.navbar h3{color:#0d6efd;}
+.navbar h3{color:#0d6efd; font-size: 18px;}
 
 /* CONTAINER */
 .container{
   display:flex;
   justify-content:center;
   align-items:center;
-  min-height:90vh;
+  min-height:calc(100vh - 60px);
   padding:20px;
 }
 
@@ -62,7 +64,7 @@ body{background:linear-gradient(135deg,#eef4ff,#f8fafc);}
 label{
   font-size:12px;
   color:#6b7280;
-  margin-bottom:3px;
+  margin-bottom:5px;
   display:block;
 }
 
@@ -72,7 +74,7 @@ input, select{
   border-radius:7px;
   border:1px solid #d1d5db;
   font-size:13px;
-  margin-bottom:12px;
+  margin-bottom:15px;
 }
 
 input:focus, select:focus{
@@ -85,13 +87,14 @@ input:focus, select:focus{
 .error{
   font-size:11px;
   color:#dc3545;
-  margin-top:-8px;
-  margin-bottom:8px;
+  margin-top:-10px;
+  margin-bottom:10px;
 }
 
 /* BUTTON */
 .btn{
   margin-top:10px;
+  width: 100%;
   padding:12px;
   border:none;
   border-radius:8px;
@@ -107,6 +110,13 @@ input:focus, select:focus{
   transform:translateY(-1px);
   box-shadow:0 4px 10px rgba(13,110,253,0.2);
 }
+
+/* 🔥 MEDIA QUERY RESPONSIVE (SMARTPHONE) */
+@media screen and (max-width: 600px) {
+  .navbar { padding: 15px 20px; }
+  .card { padding: 20px; }
+  .header h2 { font-size: 16px; }
+}
 </style>
 </head>
 
@@ -114,7 +124,7 @@ input:focus, select:focus{
 
 <div class="navbar">
   <h3>Admin Pegawai</h3>
-  <div>Edit Rekap Pegawai</div>
+  <div style="font-size: 14px; color:#666;">Edit Rekap</div>
 </div>
 
 <div class="container">
