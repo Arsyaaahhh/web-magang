@@ -32,7 +32,7 @@
     }
     
     table { width: 100%; border-collapse: collapse; border: 1px solid #e5e7eb; color: #333; white-space: nowrap; }
-    th { padding: 12px; background: #eaf2ff; font-size: 13px; text-align: left; border-bottom: 2px solid #c7d2fe; }
+    th { padding: 12px; background: #0d6efd; color: white; font-size: 13px; text-align: left; border-bottom: 2px solid #0b5ed7; }
     td { padding: 12px; font-size: 14px; border-bottom: 1px solid #e5e7eb; }
     tbody tr:nth-child(even) { background: #f9fafb; }
     tr:hover { background: #eef4ff; }
