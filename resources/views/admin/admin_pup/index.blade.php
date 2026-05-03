@@ -81,10 +81,11 @@ body{display:flex;background:#f8fafc;}
 <div class="sidebar">
   <h2>ADMIN</h2>
 
-  <a href="/admin"><i class="fas fa-chart-line"></i> Dashboard</a>
-  <a href="/admin/admin_sekre"><i class="fas fa-user-tie"></i> Sekretariat</a>
+  <a href="/admin/admin_sekre"><i class="fas fa-user-tie"></i> Sekretariat</a>\
+  <a href="/admin/admin_pum"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
   <a href="/admin/pembinaan" class="active"><i class="fas fa-briefcase"></i> Pembinaan</a>
   <a href="/admin/perdagangan"><i class="fas fa-truck"></i> Perdagangan</a>
+  
 
   <button onclick="logout()" class="logout-btn">
     <i class="fas fa-sign-out-alt"></i> Logout
@@ -111,22 +112,22 @@ body{display:flex;background:#f8fafc;}
 <div class="cards-grid">
 
   <!-- TDG -->
-  <div class="card menu-card" onclick="go('/tdg')">
+  <div class="card menu-card" onclick="go('{{ route('tdg.index') }}')">
     <h4><i class="fas fa-warehouse"></i> TDG</h4>
     <p>Tanda Daftar Gudang</p>
   </div>
 
   <!-- PERIZINAN -->
-  <div class="card menu-card" onclick="go('/pengawasan')">
+   <div class="card menu-card" onclick="go('{{ route('pengawasan.index') }}')">
     <h4><i class="fas fa-file-signature"></i> Data Pengawasan</h4>
     <p>Data Pengawasan (Toko Swalayan, Gudang Minuman Beralkohol)</p>
-  </div>
+</div>
 
   <!-- ALKOHOL -->
-  <div class="card menu-card" onclick="go('/alkohol')">
+<div class="card menu-card" onclick="go('{{ route('alkohol.index') }}')">
     <h4><i class="fas fa-wine-bottle"></i> Data Penjual Alkohol</h4>
     <p>Rincian Data Penjual Langsung Minuman Beralkohol Golongan B dan C</p>
-  </div>
+</div>
 
 </div>
 

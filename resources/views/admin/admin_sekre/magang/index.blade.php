@@ -238,6 +238,10 @@ tr:hover{
       <i class="fas fa-user-tie"></i> Sekretariat
     </a>
 
+    <a href="/admin/admin_pum">
+      <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
+    </a>
+
     <a href="/admin/pembinaan">
       <i class="fas fa-briefcase"></i> Pembinaan
     </a>

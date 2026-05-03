@@ -82,6 +82,9 @@ tr:hover{background:#eef4ff;}
   <h2>ADMIN</h2>
   <!-- Link Dashboard dihapus -->
   <a href="/admin/admin_sekre" class="active"><i class="fas fa-user-tie"></i> Sekretariat</a>
+      <a href="/admin/admin_pum">
+      <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
+    </a>
   <a href="/admin/pembinaan"><i class="fas fa-briefcase"></i> Pembinaan</a>
   <a href="/admin/perdagangan"><i class="fas fa-truck"></i> Perdagangan</a>
   <button onclick="logout()" class="logout-btn">Logout</button>

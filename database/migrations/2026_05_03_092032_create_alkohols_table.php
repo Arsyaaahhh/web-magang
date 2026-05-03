@@ -10,21 +10,21 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::table('pegawais', function (Blueprint $table) {
-            if (Schema::hasColumn('pegawais', 'alamat')) {
-                $table->dropColumn('alamat');
-            }
-        });
-    }
+{
+    Schema::create('alkohols', function (Blueprint $table) {
+        $table->id();
+        $table->string('golongan'); // Untuk Dropdown Golongan B / C
+        $table->integer('tahun');
+        $table->integer('jumlah');
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::table('pegawais', function (Blueprint $table) {
-            $table->text('alamat')->nullable();
-        });
+        Schema::dropIfExists('alkohols');
     }
 };

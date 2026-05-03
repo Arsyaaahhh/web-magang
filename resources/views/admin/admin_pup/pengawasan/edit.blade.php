@@ -3,11 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tambah Data Alkohol</title>
+<title>Edit Pengawasan</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
 <style>
-/* STYLE SAMA */
+/* CSS Sama persis dengan create */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{background:#f4f7fb; min-height: 100vh;}
 .navbar{background:white; padding:15px 30px; display:flex; justify-content:space-between; align-items: center; box-shadow:0 2px 10px rgba(0,0,0,0.05);}
@@ -29,45 +31,57 @@ body{background:#f4f7fb; min-height: 100vh;}
 <body>
 
 <div class="navbar">
-    <h3>Admin Alkohol</h3>
+    <h3>Admin Pengawasan</h3>
     <span style="font-size: 14px; color: #64748b;">Sistem Informasi Magang</span>
 </div>
 
 <div class="wrapper">
     <div class="card">
-        <h2>Tambah Data Penjual Alkohol</h2>
+        <h2>Edit Data Pengawasan</h2>
         
         @if ($errors->any())
         <div class="alert">
-            <ul style="margin-left:15px;">@foreach ($errors->all() as $error) <li>{{ $error }}</li> @endforeach</ul>
+            <strong>Ada kesalahan:</strong>
+            <ul style="margin-top:5px; margin-left:15px;">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
         @endif
 
-        <form action="{{ route('alkohol.store') }}" method="POST">
+        <form action="{{ route('pengawasan.update', $data->id) }}" method="POST">
             @csrf
             
             <div class="form-group">
-                <label>Golongan Minuman Beralkohol</label>
-                <select name="golongan" required>
-                    <option value="" disabled selected>Pilih Golongan...</option>
-                    <option value="Golongan B" {{ old('golongan') == 'Golongan B' ? 'selected' : '' }}>Golongan B</option>
-                    <option value="Golongan C" {{ old('golongan') == 'Golongan C' ? 'selected' : '' }}>Golongan C</option>
+                <label>Jenis Pengawasan</label>
+                <select name="jenis_pengawasan" required>
+                    <option value="Toko Swalayan" {{ old('jenis_pengawasan', $data->jenis_pengawasan) == 'Toko Swalayan' ? 'selected' : '' }}>
+                        Pengawasan Toko Swalayan
+                    </option>
+                    <option value="Gudang Minuman Beralkohol" {{ old('jenis_pengawasan', $data->jenis_pengawasan) == 'Gudang Minuman Beralkohol' ? 'selected' : '' }}>
+                        Pengawasan Gudang Minuman Beralkohol
+                    </option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Tahun Pendataan</label>
-                <input type="number" name="tahun" value="{{ old('tahun') }}" placeholder="Contoh: 2026" required>
+                <input type="number" name="tahun" value="{{ old('tahun', $data->tahun) }}" required>
             </div>
 
             <div class="form-group">
-                <label>Jumlah Penjual</label>
-                <input type="number" name="jumlah" value="{{ old('jumlah') }}" placeholder="Masukkan total penjual" required>
+                <label>Jumlah Titik/Lokasi yang Diawasi</label>
+                <input type="number" name="jumlah" value="{{ old('jumlah', $data->jumlah) }}" required>
             </div>
 
             <div class="btn-group">
-                <a href="{{ route('alkohol.index') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Kembali</a>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>
+                <a href="{{ route('pengawasan.index') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Update
+                </button>
             </div>
         </form>
     </div>

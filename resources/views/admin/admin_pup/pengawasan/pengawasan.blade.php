@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Data TDG - Responsive</title>
+<title>Data Pengawasan</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
@@ -45,10 +45,11 @@ body{display:flex;background:#f4f7fb; min-height: 100vh;}
 /* TABLE & CARD */
 .card{background:white; padding:20px; border-radius:12px; border:1px solid #e5e7eb;}
 .table-responsive{overflow-x:auto; -webkit-overflow-scrolling: touch;}
-table{width:100%; border-collapse:collapse; min-width: 500px;} /* Supaya tabel tidak terlalu ciut di HP */
+table{width:100%; border-collapse:collapse; min-width: 600px;} /* Sedikit dilebarkan untuk kolom jenis */
 th{padding:12px; background:#eaf2ff; text-align:left;}
 td{padding:12px; border-bottom:1px solid #e5e7eb;}
 .btn{padding:10px 16px; border-radius:8px; border:none; cursor:pointer; background:#22c55e; color:white; text-decoration:none; white-space: nowrap;}
+.alert{padding:10px; margin-bottom:10px; background:#d1e7dd; border-radius:6px; color:#0f5132;}
 
 /* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
@@ -79,40 +80,46 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
 <div class="main">
     <div class="navbar">
         <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
-        <h3>Data TDG</h3>
+        <h3>Data Pengawasan</h3>
         <span style="font-size: 14px;">Halo {{ session('username') ?? 'Admin' }}</span>
     </div>
 
     <div class="container">
         <div class="top">
-            <h2>Rekap Data TDG</h2>
-            <a href="{{ route('tdg.create') }}" class="btn"><i class="fas fa-plus"></i> Tambah</a>
+            <h2>Rekap Data Pengawasan</h2>
+            <a href="{{ route('pengawasan.create') }}" class="btn"><i class="fas fa-plus"></i> Tambah Data</a>
         </div>
+
+        @if(session('success'))
+        <div class="alert">{{ session('success') }}</div>
+        @endif
 
         <div class="card">
             <div class="table-responsive">
                 <table>
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th width="5%">No</th>
+                            <th>Jenis Pengawasan</th>
                             <th>Tahun</th>
-                            <th>Jumlah TDG</th>
-                            <th>Aksi</th>
+                            <th>Jumlah</th>
+                            <th width="15%">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($data as $item)
                         <tr>
                             <td>{{ ($data->currentPage()-1)*$data->perPage()+$loop->iteration }}</td>
+                            <td><strong>{{ $item->jenis_pengawasan }}</strong></td>
                             <td>{{ $item->tahun }}</td>
-                            <td>{{ $item->jumlah }} Dokumen</td>
+                            <td>{{ $item->jumlah }} </td>
                             <td>
-                                <a href="{{ route('tdg.edit',$item->id) }}" style="color:#2563eb; margin-right: 10px;"><i class="fas fa-pen"></i></a>
-                                <a href="{{ route('tdg.delete',$item->id) }}" style="color:#ef4444;" onclick="return confirm('Hapus?')"><i class="fas fa-trash"></i></a>
+                                <a href="{{ route('pengawasan.edit',$item->id) }}" style="color:#2563eb; margin-right: 10px;"><i class="fas fa-pen"></i></a>
+                                <a href="{{ route('pengawasan.delete',$item->id) }}" style="color:#ef4444;" onclick="return confirm('Hapus data pengawasan ini?')"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                         @empty
-                        <tr><td colspan="4" align="center">Data Kosong</td></tr>
+                        <tr><td colspan="5" align="center">Belum ada data Pengawasan</td></tr>
                         @endforelse
                     </tbody>
                 </table>

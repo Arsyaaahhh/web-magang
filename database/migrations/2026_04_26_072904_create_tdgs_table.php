@@ -11,21 +11,9 @@ return new class extends Migration
         Schema::create('tdgs', function (Blueprint $table) {
             $table->id();
 
-            // ================= DATA USAHA =================
-            $table->string('nama_usaha');
-            $table->string('pemilik');
-            $table->text('alamat');
-
-            // ================= DATA GUDANG =================
-            $table->string('nama_gudang')->nullable();
-            $table->text('lokasi_gudang')->nullable();
-
-            // ================= DATA TDG =================
-            $table->string('nomor_tdg')->unique();
-            $table->date('tanggal_terbit');
-
-            // ================= STATUS =================
-            $table->enum('status', ['aktif','nonaktif'])->default('aktif');
+            // ================= REKAP DATA =================
+            $table->integer('tahun')->unique(); // Mencegah input tahun yang sama dua kali
+            $table->integer('jumlah');          // Jumlah total TDG di tahun tersebut
 
             $table->timestamps();
         });

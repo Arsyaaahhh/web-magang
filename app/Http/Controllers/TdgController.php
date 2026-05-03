@@ -10,7 +10,8 @@ class TdgController extends Controller
     // ================= INDEX =================
     public function index()
     {
-        $data = Tdg::latest()->paginate(10);
+        // Mengurutkan dari tahun terbaru
+        $data = Tdg::orderBy('tahun', 'desc')->paginate(10);
         return view('admin.admin_pup.tdg.index', compact('data'));
     }
 
@@ -24,28 +25,18 @@ class TdgController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_usaha'      => 'required',
-            'pemilik'         => 'required',
-            'alamat'          => 'required',
-            'nama_gudang'     => 'nullable',
-            'lokasi_gudang'   => 'nullable',
-            'nomor_tdg'       => 'required|unique:tdgs',
-            'tanggal_terbit'  => 'required|date',
-            'status'          => 'nullable'
+            'tahun'  => 'required|integer|unique:tdgs,tahun',
+            'jumlah' => 'required|integer|min:0'
+        ], [
+            'tahun.unique' => 'Data untuk tahun ini sudah ada! Silakan edit data yang sudah ada.'
         ]);
 
         Tdg::create([
-            'nama_usaha'     => $request->nama_usaha,
-            'pemilik'        => $request->pemilik,
-            'alamat'         => $request->alamat,
-            'nama_gudang'    => $request->nama_gudang,
-            'lokasi_gudang'  => $request->lokasi_gudang,
-            'nomor_tdg'      => $request->nomor_tdg,
-            'tanggal_terbit' => $request->tanggal_terbit,
-            'status'         => $request->status ?? 'Aktif'
+            'tahun'  => $request->tahun,
+            'jumlah' => $request->jumlah
         ]);
 
-        return redirect()->route('tdg.index')->with('success','Data berhasil ditambahkan');
+        return redirect()->route('tdg.index')->with('success','Data TDG berhasil ditambahkan');
     }
 
     // ================= EDIT =================
@@ -61,34 +52,25 @@ class TdgController extends Controller
         $data = Tdg::findOrFail($id);
 
         $request->validate([
-            'nama_usaha'      => 'required',
-            'pemilik'         => 'required',
-            'alamat'          => 'required',
-            'nama_gudang'     => 'nullable',
-            'lokasi_gudang'   => 'nullable',
-            'nomor_tdg'       => 'required|unique:tdgs,nomor_tdg,' . $id,
-            'tanggal_terbit'  => 'required|date',
-            'status'          => 'nullable'
+            // Validasi unique mengabaikan ID yang sedang diedit
+            'tahun'  => 'required|integer|unique:tdgs,tahun,' . $id,
+            'jumlah' => 'required|integer|min:0'
+        ], [
+            'tahun.unique' => 'Data untuk tahun ini sudah ada!'
         ]);
 
         $data->update([
-            'nama_usaha'     => $request->nama_usaha,
-            'pemilik'        => $request->pemilik,
-            'alamat'         => $request->alamat,
-            'nama_gudang'    => $request->nama_gudang,
-            'lokasi_gudang'  => $request->lokasi_gudang,
-            'nomor_tdg'      => $request->nomor_tdg,
-            'tanggal_terbit' => $request->tanggal_terbit,
-            'status'         => $request->status ?? 'Aktif'
+            'tahun'  => $request->tahun,
+            'jumlah' => $request->jumlah
         ]);
 
-        return redirect()->route('tdg.index')->with('success','Data berhasil diupdate');
+        return redirect()->route('tdg.index')->with('success','Data TDG berhasil diupdate');
     }
 
     // ================= DELETE =================
     public function destroy($id)
     {
         Tdg::findOrFail($id)->delete();
-        return back()->with('success','Data berhasil dihapus');
+        return back()->with('success','Data TDG berhasil dihapus');
     }
 }

@@ -6,14 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tdg extends Model
 {
+    // Hanya mengizinkan mass-assignment untuk tahun dan jumlah
     protected $fillable = [
-    'nama_usaha',
-    'pemilik',
-    'alamat',
-    'nama_gudang',
-    'lokasi_gudang',
-    'nomor_tdg',
-    'tanggal_terbit',
-    'status'
-];
+        'tahun',
+        'jumlah'
+    ];
 }
