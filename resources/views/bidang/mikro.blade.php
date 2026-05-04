@@ -124,14 +124,14 @@
     <div id="menuSelection" class="cards">
         <!-- Card Pilihan UMKM -->
         <div class="card blue" onclick="showData('umkm')" style="cursor: pointer;">
-            <h4>Data Rincian</h4>
-            <h2>UMKM</h2>
+            <h4>UMKM</h4>
+            <p>Informasi Umkm</p>
         </div>
 
         <!-- Card Pilihan SWK -->
         <div class="card orange" onclick="showData('swk')" style="cursor: pointer;">
-            <h4>Data Rincian</h4>
-            <h2>SWK</h2>
+            <h4>Sentra Wista Kuliner</h4>
+            <p>Informasi Sentra Wista Kuliner</p>
         </div>
     </div>
 
