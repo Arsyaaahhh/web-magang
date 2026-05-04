@@ -38,7 +38,7 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
     <h2>ADMIN</h2>
     <div class="menu">
         <a href="{{ route('surat.index') }}"><i class="fas fa-user-tie"></i> Sekretariat</a>
-        <a href="{{ route('admin_pum.index') }}"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
+        <a href="{{ route('admin_pum.adminpum') }}"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
         <a href="{{ route('admin_pup.index') }}" class="active"><i class="fas fa-briefcase"></i> Pembinaan</a>
         <a href="#"><i class="fas fa-truck"></i> Perdagangan</a>
     </div>

@@ -237,7 +237,7 @@
       <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
     </a>
 
-    <a href="#">
+    <a href="/admin/admin_pup">
       <i class="fas fa-briefcase"></i> Pembinaan
     </a>
 

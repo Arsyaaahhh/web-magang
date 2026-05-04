@@ -139,7 +139,7 @@ Route::get('/admin/admin_pup/alkohol/delete/{id}', [AlkoholController::class,'de
 |--------------------------------------------------------------------------
 */
 // Menu Utama PUM
-Route::get('/admin/admin_pum/', fn()=>view('admin.admin_pum.adminpum'));
+Route::get('/admin/admin_pum/', fn()=>view('admin.admin_pum.adminpum'))->name('admin_pum.adminpum');
 
 // ================= ADMIN UMKM =================
 Route::get('/admin/admin_pum/adminumkm', [UmkmController::class, 'index'])->name('adminumkm');
