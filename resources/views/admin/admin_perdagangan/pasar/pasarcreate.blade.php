@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Tambah SWK</title>
+  <title>Tambah Pasar</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -141,23 +141,23 @@
     <div class="card">
 
       <div class="header">
-        <h2>Tambah Data SWK</h2>
-        <a href="/admin/admin_pum/adminswk" class="back">← Kembali</a>
+        <h2>Tambah Pasar</h2>
+        <a href="/admin/admin_perdagangan/pasar/adminpasar" class="back">← Kembali</a>
       </div>
 
-      <form action="/admin/admin_pum/swkstore" method="POST" enctype="multipart/form-data">
+      <form action="/admin/admin_perdagangan/pasar/pasarstore" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="form-grid">
 
           <div>
-            <label>Nama SWK</label>
-            <input type="text" name="nama_swk" placeholder="Masukkan Nama SWK" required>
+            <label>Nama Pasar</label>
+            <input type="text" name="nama_pasar" placeholder="Masukkan Nama Pasar" required>
           </div>
 
           <div>
             <label>Alamat</label>
-            <input type="text" name="alamat" placeholder="Masukkan Alamat SWK" required>
+            <input type="text" name="alamat" placeholder="Masukkan Alamat Pasar" required>
           </div>
 
           <div>

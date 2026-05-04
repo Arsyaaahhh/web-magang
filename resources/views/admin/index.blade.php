@@ -131,12 +131,20 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
 <div class="sidebar" id="sidebarMenu">
   <h2>ADMIN</h2>
 
-  <a href="/admin/admin_sekre" class="active"><i class="fas fa-user-tie"></i> Sekretariat</a>
+    <a href="/admin/admin_sekre" class="active"><i class="fas fa-user-tie"></i> Sekretariat</a>
       <a href="/admin/admin_pum">
       <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
     </a>
-  <a href="/admin/admin_pup"><i class="fas fa-briefcase"></i> Pembinaan</a>
-  <a href="/admin/perdagangan"><i class="fas fa-truck"></i> Perdagangan</a>
+
+    <a href="/admin/admin_pup"><i class="fas fa-briefcase"></i> Pembinaan</a>
+
+    <a href="/admin/admin_pum">
+      <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
+    </a>
+
+    <a href="/admin/admin_perdagangan">
+      <i class="fas fa-truck"></i> Perdagangan
+    </a>
 
   <!-- Tombol Logout -->
   <button onclick="window.location.href='/logout'" class="logout-btn">Logout</button>

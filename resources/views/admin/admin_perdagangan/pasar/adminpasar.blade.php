@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Admin SWK</title>
+  <title>Admin Pasar</title>
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -322,15 +322,15 @@
       <i class="fas fa-user-tie"></i> Sekretariat
     </a>
 
-    <a class="active" href="/admin/admin_pum">
+    <a href="/admin/admin_pum">
       <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
     </a>
 
-    <a href="/admin/admin_pup">
-      <i class="fas fa-briefcase"></i> Pembinaan
+    <a href="#">
+      <i class="fas fa-truck"></i> Pembinaan
     </a>
 
-    <a href="/admin/admin_perdagangan">
+    <a class="active" href="/admin/admin_perdagangan/">
       <i class="fas fa-building"></i> Perdagangan
     </a>
 
@@ -344,7 +344,7 @@
 
     <!-- NAVBAR -->
     <div class="navbar">
-      <h3>Admin Pemberdayaan Usaha Mikro</h3>
+      <h3>Admin Perdagangan</h3>
 
       <div style="display:flex; gap:10px; align-items:center;">
         <span>Halo {{ session('username') ?? 'Admin' }} 👋</span>
@@ -356,8 +356,8 @@
     <div class="container">
 
       <div class="top">
-        <h2>Data Sentra Wisata Kuliner</h2>
-        <a href="/admin/admin_pum/swkcreate" class="btn btn-add">+ Tambah</a>
+        <h2>Data Pasar Binaan</h2>
+        <a href="/admin/admin_perdagangan/pasar/pasarcreate" class="btn btn-add">+ Tambah</a>
       </div>
 
       @if(session('success'))
@@ -375,7 +375,7 @@
             <input
               type="text"
               name="search"
-              placeholder="Cari SWK"
+              placeholder="Cari Pasar"
               value="{{ request('search') }}"
             >
 
@@ -406,7 +406,7 @@
           <thead>
             <tr>
               <th>No</th>
-              <th>Nama SWK</th>
+              <th>Nama Pasar</th>
               <th>Alamat</th>
               <th>Kecamatan</th>
               <th>Kelurahan</th>
@@ -421,7 +421,7 @@
             @forelse($data as $d)
               <tr>
                 <td>{{ ($data->currentPage()-1)*$data->perPage() + $loop->iteration }}</td>
-                <td>{{ $d->nama_swk }}</td>
+                <td>{{ $d->nama_pasar }}</td>
                 <td>{{ $d->alamat }}</td>
                 <td>{{ $d->kelurahan->kecamatan->NM_KECAMATAN ?? '-' }}</td>    
                 <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
@@ -430,8 +430,8 @@
                 <td>{{ $d->stan_belum_terisi }}</td>
                 <td>
                   <div class="action">
-                    <a href="/admin/admin_pum/swkedit/{{ $d->id }}" class="btn btn-edit">Edit</a>
-                    <form id="deleteForm{{ $d->id }}" action="/admin/admin_pum/swkdelete/{{ $d->id }}" method="POST">
+                    <a href="/admin/admin_perdagangan/pasar/pasaredit/{{ $d->id }}" class="btn btn-edit">Edit</a>
+                    <form id="deleteForm{{ $d->id }}" action="/admin/admin_perdagangan/pasar/pasardelete/{{ $d->id }}" method="POST">
                       @csrf
                       @method('DELETE')
 
