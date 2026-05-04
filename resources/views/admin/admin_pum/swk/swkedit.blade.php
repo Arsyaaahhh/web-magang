@@ -2,8 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edit SWK</title>
+  <title>Edit UMKM</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -39,8 +38,6 @@
       align-items: center;
       min-height: 90vh;
       margin-top: 20px;
-      padding: 20px;
-      margin-bottom: 30px;
     }
 
     /* CARD (GLASS EFFECT) */
@@ -118,9 +115,8 @@
 
     /* BUTTON */
     .btn {
-      margin-top: 15px;
+      margin-top: 10px;
       padding: 10px;
-      width: 100%;
       border: none;
       border-radius: 8px;
       background: #0d6efd;
@@ -153,18 +149,6 @@
       border: 1px solid #d1d5db;
       padding: 5px;
       font-size: 13px;
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-        .form-grid {
-            grid-template-columns: 1fr;
-        }
-        .container {
-            align-items: flex-start;
-            margin-top: 0;
-            padding-top: 30px;
-        }
     }
   </style>
 </head>

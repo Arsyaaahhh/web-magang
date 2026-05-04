@@ -2,7 +2,6 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin UMKM</title>
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
@@ -20,8 +19,6 @@
       background: #f8fafc;
       font-weight: 400;
       color: #333;
-      display: flex;
-      overflow-x: hidden;
     }
 
     main {
@@ -29,8 +26,6 @@
       display: flex;
       flex-direction: column;
       margin-left: 240px;
-      transition: margin-left 0.3s ease;
-      width: 100%;
     }
 
     /* NAVBAR */
@@ -41,24 +36,6 @@
       justify-content: space-between;
       align-items: center;
       box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .navbar-left {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .hamburger {
-      display: none;
-      font-size: 1.5rem;
-      color: #0d6efd;
-      background: transparent;
-      border: none;
-      cursor: pointer;
     }
 
     .navbar h3 {
@@ -134,17 +111,11 @@
     }
 
     /* TABLE */
-    .table-wrapper {
-      width: 100%;
-      overflow-x: auto;
-    }
-
     table {
       width: 100%;
       border-collapse: collapse;
       border: 1px solid #e5e7eb;
       color: #333;
-      white-space: nowrap;
     }
 
     th {
@@ -243,10 +214,10 @@
       color: white;
       padding: 20px;
       position: fixed;
-      top: 0; left: 0;
-      z-index: 1000;
-      transition: transform 0.3s ease;
-      overflow-y: auto;
+    }
+
+    .sidebar.hide{
+    transform:translateX(-100%);
     }
 
     .sidebar h2 {
@@ -273,12 +244,15 @@
       background: rgba(255, 255, 255, 0.2);
     }
 
-    .overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 999;
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+        .sidebar {
+            position: absolute;
+        }
+
+        main {
+            margin-left: 0;
+        }
     }
 
     .card h4 {
@@ -295,17 +269,20 @@
         opacity: 0.85;
     }
 
+    /* ================= ICON LEBIH PAS ================= */
     .card i {
         font-size: 20px;
         margin-bottom: 8px;
         opacity: 0.85;
     }
 
+    /* ================= HOVER LEBIH HALUS ================= */
     .card:hover {
         transform: translateY(-4px);
         box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
     }
 
+    /* TOMBOL KELUAR */
     .logout-btn {
         margin-top: 20px;
         width: 100%;
@@ -324,43 +301,22 @@
         margin-right: 6px;
     }
 
+    /* HOVER BIAR BAGUS */
     .logout-btn:hover {
         background: #dc2626;
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-        .sidebar {
-            transform: translateX(-100%);
-        }
-        .sidebar.open {
-            transform: translateX(0);
-        }
-        main {
-            margin-left: 0;
-        }
-        .hamburger {
-            display: block;
-        }
-        .filter {
-            flex-direction: column;
-        }
-        .top {
-            flex-direction: column;
-            gap: 15px;
-            align-items: flex-start;
-        }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
-
   <!-- SIDEBAR -->
-  <div class="sidebar" id="sidebar">
+  <div class="sidebar">
     <h2>ADMIN</h2>
+
+    <a href="/admin">
+      <i class="fas fa-chart-line"></i> Dashboard
+    </a>
 
     <a href="/admin/admin_sekre">
       <i class="fas fa-user-tie"></i> Sekretariat
@@ -374,12 +330,12 @@
       <i class="fas fa-briefcase"></i> Pembinaan
     </a>
 
-    <a href="#">
-      <i class="fas fa-truck"></i> Perdagangan
+    <a href="/admin/admin_perdagangan">
+      <i class="fas fa-building"></i> Perdagangan
     </a>
 
     <button onclick="logout()" class="logout-btn">
-      <i ></i> logout
+      <i class="fas fa-sign-out-alt"></i> Keluar
     </button>
   </div>
 
@@ -388,14 +344,12 @@
 
     <!-- NAVBAR -->
     <div class="navbar">
-      <div class="navbar-left">
-        <button class="hamburger" onclick="toggleSidebar()">
-          <i class="fas fa-bars"></i>
-        </button>
-        <h3>Admin Pemberdayaan Usaha Mikro</h3>
+      <h3>Admin Pemberdayaan Usaha Mikro</h3>
+
+      <div style="display:flex; gap:10px; align-items:center;">
+        <span>Halo {{ session('username') ?? 'Admin' }} 👋</span>
+        <button onclick="logout()" class="btn btn-delete">Logout</button>
       </div>
-
-
     </div>
 
     <!-- CONTENT -->
@@ -435,70 +389,68 @@
               <option value="">Semua Kelurahan</option>
             </select>
 
-            <button type="submit" class="btn btn-edit">Filter</button>
+            <button type="submit" class="btn">Filter</button>
 
           </div>
         </form>
 
         <!-- TABLE -->
-        <div class="table-wrapper">
-          <table>
-            <thead>
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Kecamatan</th>
+              <th>Kelurahan</th>
+              <th>Total UMKM</th>
+              <th>UMKM Binaan</th>
+              <th>Sertifikasi Halal</th>
+              <th>Sertifikasi Merek</th>
+              <th>NIB</th>
+              <th>Peken</th>
+              <th>Padat Karya</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @forelse($data as $d)
               <tr>
-                <th>No</th>
-                <th>Kecamatan</th>
-                <th>Kelurahan</th>
-                <th>Total UMKM</th>
-                <th>UMKM Binaan</th>
-                <th>Sertifikasi Halal</th>
-                <th>Sertifikasi Merek</th>
-                <th>NIB</th>
-                <th>Peken</th>
-                <th>Padat Karya</th>
-                <th>Aksi</th>
+                <td>{{ ($data->currentPage()-1)*$data->perPage() + $loop->iteration }}</td>
+                <td>{{ $d->kelurahan->kecamatan->NM_KECAMATAN ?? '-' }}</td>
+                <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
+                <td>{{ $d->total_umkm }}</td>
+                <td>{{ $d->umkm_binaan }}</td>
+                <td>{{ $d->sertifikasi_halal }}</td>
+                <td>{{ $d->sertifikasi_merek }}</td>
+                <td>{{ $d->nib }}</td>
+                <td>{{ $d->peken }}</td>
+                <td>{{ $d->padat_karya }}</td>
+                <td>
+                  <div class="action">
+                    <a href="/admin/admin_pum/umkmedit/{{ $d->id }}" class="btn btn-edit">Edit</a>
+                    <form id="deleteForm{{ $d->id }}" action="/admin/admin_pum/umkmdelete/{{ $d->id }}" method="POST">
+                      @csrf
+                      @method('DELETE')
+
+                      <button
+                        type="button"
+                        class="btn btn-delete"
+                        onclick="confirmDelete('deleteForm{{ $d->id }}')"
+                      >
+                        Hapus
+                      </button>
+
+                    </form>
+                  </div>
+                </td>
               </tr>
-            </thead>
-
-            <tbody>
-              @forelse($data as $d)
-                <tr>
-                  <td>{{ ($data->currentPage()-1)*$data->perPage() + $loop->iteration }}</td>
-                  <td>{{ $d->kelurahan->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-                  <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
-                  <td>{{ $d->total_umkm }}</td>
-                  <td>{{ $d->umkm_binaan }}</td>
-                  <td>{{ $d->sertifikasi_halal }}</td>
-                  <td>{{ $d->sertifikasi_merek }}</td>
-                  <td>{{ $d->nib }}</td>
-                  <td>{{ $d->peken }}</td>
-                  <td>{{ $d->padat_karya }}</td>
-                  <td>
-                    <div class="action">
-                      <a href="/admin/admin_pum/umkmedit/{{ $d->id }}" class="btn btn-edit">Edit</a>
-                      <form id="deleteForm{{ $d->id }}" action="/admin/admin_pum/umkmdelete/{{ $d->id }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-
-                        <button
-                          type="button"
-                          class="btn btn-delete"
-                          onclick="confirmDelete('deleteForm{{ $d->id }}')"
-                        >
-                          Hapus
-                        </button>
-
-                      </form>
-                    </div>
-                  </td>
-                </tr>
-              @empty
-                <tr>
-                  <td colspan="11" style="text-align:center;">Tidak ada data</td>
-                </tr>
-              @endforelse
-            </tbody>
-          </table>
-        </div>
+            @empty
+              <tr>
+                <td colspan="11" style="text-align:center;">Tidak ada data</td>
+              </tr>
+            @endforelse
+          </tbody>
+        </table>
 
         <!-- PAGINATION -->
         <div class="pagination-wrapper">
@@ -520,19 +472,6 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('overlay');
-      
-      sidebar.classList.toggle('open');
-      
-      if(sidebar.classList.contains('open')){
-        overlay.style.display = 'block';
-      } else {
-        overlay.style.display = 'none';
-      }
-    }
-
     document.addEventListener('DOMContentLoaded', function () {
 
         let kecamatan = document.getElementById('kecamatan');

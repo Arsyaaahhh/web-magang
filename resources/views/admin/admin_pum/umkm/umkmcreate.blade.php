@@ -2,7 +2,6 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tambah Umkm</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -37,8 +36,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 90vh;
-      padding: 20px;
+      height: 90vh;
     }
 
     /* CARD */
@@ -113,9 +111,8 @@
 
     /* BUTTON */
     .btn {
-      margin-top: 15px;
+      margin-top: 10px;
       padding: 10px;
-      width: 100%;
       border: none;
       border-radius: 8px;
       background: #0d6efd;
@@ -129,17 +126,6 @@
       background: #0b5ed7;
       transform: translateY(-1px);
       box-shadow: 0 4px 10px rgba(13, 110, 253, 0.2);
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-        .form-grid {
-            grid-template-columns: 1fr;
-        }
-        .container {
-            align-items: flex-start;
-            padding-top: 30px;
-        }
     }
   </style>
 </head>
@@ -183,37 +169,37 @@
 
           <div>
             <label>Total UMKM</label>
-            <input type="number" name="total_umkm" placeholder="Masukkan Jumlah UMKM" required min="0">
+            <input type="number" name="total_umkm" placeholder="Masukkan Jumlah UMKM" required>
           </div>
 
           <div>
             <label>UMKM Binaan</label>
-            <input type="number" name="umkm_binaan" placeholder="Masukkan Jumlah UMKM Binaan" required min="0">
+            <input type="number" name="umkm_binaan" placeholder="Masukkan Jumlah UMKM Binaan" required>
           </div>
 
           <div>
             <label>Sertifikasi Halal</label>
-            <input type="number" name="sertifikasi_halal" placeholder="Masukkan Jumlah Sertifikasi Halal" required min="0">
+            <input type="number" name="sertifikasi_halal" placeholder="Masukkan Jumlah Sertifikasi Halal" required>
           </div>
 
           <div>
             <label>Sertifikasi Merek</label>
-            <input type="number" name="sertifikasi_merek" placeholder="Masukkan Jumlah Sertifikasi Merek" required min="0">
+            <input type="number" name="sertifikasi_merek" placeholder="Masukkan Jumlah Sertifikasi Merek" required>
           </div>
 
           <div>
             <label>NIB</label>
-            <input type="number" name="nib" placeholder="Masukkan Jumlah Umkm Ber-NIB" required min="0">
+            <input type="number" name="nib" placeholder="Masukkan Jumlah Umkm Ber-NIB" required>
           </div>
 
           <div>
             <label>Peken</label>
-            <input type="number" name="peken" placeholder="Masukkan Jumlah Umkm Terdaftar Peken" required min="0">
+            <input type="number" name="peken" placeholder="Masukkan Jumlah Umkm Terdaftar Peken" required>
           </div>
 
           <div>
             <label>Padat Karya </label>
-            <input type="number" name="padat_karya" placeholder="Masukkan Jumlah Umkm Terdaftar Padat Karya" required min="0">
+            <input type="number" name="padat_karya" placeholder="Masukkan Jumlah Umkm Terdaftar Padat Karya" required>
           </div>
 
         </div>

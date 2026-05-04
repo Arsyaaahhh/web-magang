@@ -2,7 +2,6 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Edit UMKM</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -39,8 +38,6 @@
       align-items: center;
       min-height: 90vh;
       margin-top: 20px;
-      padding: 20px;
-      margin-bottom: 30px;
     }
 
     /* CARD (GLASS EFFECT) */
@@ -109,11 +106,17 @@
       box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.1);
     }
 
+    /* FILE TEXT */
+    .file-note {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
     /* BUTTON */
     .btn {
-      margin-top: 15px;
+      margin-top: 10px;
       padding: 10px;
-      width: 100%;
       border: none;
       border-radius: 8px;
       background: #0d6efd;
@@ -128,17 +131,24 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 10px rgba(13, 110, 253, 0.2);
     }
+  
+    .section {
+      margin-top: 18px;
+    }
 
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-        .form-grid {
-            grid-template-columns: 1fr;
-        }
-        .container {
-            align-items: flex-start;
-            margin-top: 0;
-            padding-top: 30px;
-        }
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+
+    .kategori-box {
+      height: 120px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      padding: 5px;
+      font-size: 13px;
     }
   </style>
 </head>
@@ -252,12 +262,12 @@
                 });
         }
 
-        // AUTO LOAD saat edit dibuka
+        // 🔥 AUTO LOAD saat edit dibuka
         if(kecamatan.value){
             loadKelurahan(kecamatan.value, selectedKelurahan);
         }
 
-        // GANTI kecamatan → reload kelurahan
+        // 🔥 GANTI kecamatan → reload kelurahan
         kecamatan.addEventListener('change', function(){
             loadKelurahan(this.value);
         });

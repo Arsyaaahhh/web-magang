@@ -12,7 +12,8 @@ use App\Http\Controllers\PengawasanController;
 use App\Http\Controllers\AlkoholController;
 use App\Http\Controllers\UmkmController;
 use App\Http\Controllers\SwkController;
-use App\Http\Controllers\PumController; // TAMBAHAN BARU
+use App\Http\Controllers\PumController;
+use App\Http\Controllers\PasarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -159,3 +160,21 @@ Route::delete('/admin/admin_pum/swkdelete/{id}', [SwkController::class,'destroy'
 
 // ================= AJAX DROPDOWN (KECAMATAN -> KELURAHAN) =================
 Route::get('/get-kelurahan/{id}', [UmkmController::class, 'getKelurahan']);
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN PERDAGANGAN
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/admin/admin_perdagangan/', fn()=>view('admin.admin_perdagangan.adminperdagangan'));
+
+// pasar
+Route::get('/admin/admin_perdagangan/pasar/adminpasar', [PasarController::class, 'index'])->name('adminpasar');
+Route::delete('/admin/admin_perdagangan/pasar/pasardelete/{id}', [PasarController::class,'destroy']);
+Route::get('/admin/admin_perdagangan/pasar/pasarcreate', [PasarController::class,'create']);
+Route::get('/admin/admin_perdagangan/pasar/pasaredit/{id}', [PasarController::class,'edit']);
+Route::post('/admin/admin_perdagangan/pasar/pasarstore', [PasarController::class,'store']);
+Route::post('/admin/admin_perdagangan/pasar/pasarupdate/{id}', [PasarController::class,'update']);
+
+Route::get('/get-kelurahan/{id}', [PasarController::class, 'getKelurahan']);

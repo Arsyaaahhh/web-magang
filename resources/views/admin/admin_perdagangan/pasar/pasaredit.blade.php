@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Tambah SWK</title>
+  <title>Edit Pasar</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -36,15 +36,19 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 90vh;
+      min-height: 90vh;
+      margin-top: 20px;
     }
 
-    /* CARD */
+    /* CARD (GLASS EFFECT) */
     .card {
       background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(10px);
       padding: 25px;
       width: 100%;
+      height: auto;
+      display: flex;
+      flex-direction: column;
       max-width: 800px;
       border-radius: 14px;
       border: 1px solid rgba(255, 255, 255, 0.4);
@@ -73,8 +77,8 @@
     /* GRID */
     .form-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
     }
 
     /* LABEL */
@@ -102,7 +106,7 @@
       box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.1);
     }
 
-    /* FILE NOTE */
+    /* FILE TEXT */
     .file-note {
       font-size: 11px;
       color: #9ca3af;
@@ -127,74 +131,96 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 10px rgba(13, 110, 253, 0.2);
     }
+  
+    .section {
+      margin-top: 18px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+
+    .kategori-box {
+      height: 120px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      padding: 5px;
+      font-size: 13px;
+    }
   </style>
 </head>
 
 <body>
 
   <div class="navbar">
-    <h3>Admin SWK</h3>
-    <div>Tambah Data</div>
+    <h3>Admin Perdagangan</h3>
+    <div>Edit Data</div>
   </div>
 
   <div class="container">
     <div class="card">
 
       <div class="header">
-        <h2>Tambah Data SWK</h2>
-        <a href="/admin/admin_pum/adminswk" class="back">← Kembali</a>
+        <h2>Edit Pasar</h2>
+        <a href="/admin/admin_perdagangan/adminpasar" class="back">← Kembali</a>
       </div>
 
-      <form action="/admin/admin_pum/swkstore" method="POST" enctype="multipart/form-data">
+      <form action="/admin/admin_perdagangan/pasar/pasarupdate/{{ $data->id }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="form-grid">
 
           <div>
-            <label>Nama SWK</label>
-            <input type="text" name="nama_swk" placeholder="Masukkan Nama SWK" required>
+            <label>Nama Pasar</label>
+            <input name="nama_pasar" type="text" value="{{ $data->nama_pasar }}" required>
           </div>
 
           <div>
             <label>Alamat</label>
-            <input type="text" name="alamat" placeholder="Masukkan Alamat SWK" required>
+            <input name="alamat" type="text" value="{{ $data->alamat }}" required>
           </div>
 
-          <div>
+            <div>
             <label>Kecamatan</label>
-            <select id="kecamatan" name="kecamatan_id" required>
+            <select id="kecamatan">
                 <option value="">Pilih Kecamatan</option>
                 @foreach($kecamatan as $k)
-                <option value="{{ $k->ID_KECAMATAN }}">{{ $k->NM_KECAMATAN }}</option>
+                <option value="{{ $k->ID_KECAMATAN }}"
+                    {{ $data->kelurahan->kecamatan->ID_KECAMATAN == $k->ID_KECAMATAN ? 'selected' : '' }}>
+                    {{ $k->NM_KECAMATAN }}
+                </option>
                 @endforeach
             </select>
-          </div>
+            </div>
 
-          <div>
+            <div>
             <label>Kelurahan</label>
-            <select id="kelurahan" name="kelurahan_id" required>
-                <option value="">Pilih Kelurahan</option>
+            <select id="kelurahan" name="kelurahan_id">
+                <option value="">Loading...</option>
             </select>
-          </div>
+            </div>
 
           <div>
             <label>Jumlah Pedagang</label>
-            <input type="number" name="jumlah_pedagang" placeholder="Masukkan Jumlah Pedagang" required>
+            <input name="jumlah_pedagang" type="number" value="{{ $data->jumlah_pedagang }}" min="0">
           </div>
 
           <div>
             <label>Jumlah Stan</label>
-            <input type="number" name="jumlah_stan" placeholder="Masukkan Jumlah Stan" required>
+            <input name="jumlah_stan" type="number" value="{{ $data->jumlah_stan }}" min="0">
           </div>
 
           <div>
             <label>Stan Belum Terisi</label>
-            <input type="number" name="stan_belum_terisi" placeholder="Masukkan Jumlah Stan Belum Terisi" required>
+            <input name="stan_belum_terisi" type="number" value="{{ $data->stan_belum_terisi }}" min="0">
           </div>
 
         </div>
 
-        <button class="btn">Simpan Data</button>
+        <button class="btn">Update Data</button>
 
       </form>
 
@@ -202,21 +228,42 @@
   </div>
 
   <script>
-    document.getElementById('kecamatan').addEventListener('change', function() {
-        let kecamatan_id = this.value;
+    document.addEventListener('DOMContentLoaded', function() {
 
-        fetch('/get-kelurahan/' + kecamatan_id)
-            .then(response => response.json())
-            .then(data => {
-                let kelurahan = document.getElementById('kelurahan');
-                kelurahan.innerHTML = '<option value="">Pilih Kelurahan</option>';
+        let kecamatan = document.getElementById('kecamatan');
+        let kelurahan = document.getElementById('kelurahan');
 
-                data.forEach(item => {
-                    kelurahan.innerHTML += 
-                        `<option value="${item.ID_KELURAHAN}">${item.NM_KELURAHAN}</option>`;
+        let selectedKelurahan = "{{ $data->kelurahan_id }}";
+
+        function loadKelurahan(kecamatan_id, selected = null){
+            fetch('/get-kelurahan/' + kecamatan_id)
+                .then(res => res.json())
+                .then(data => {
+                    kelurahan.innerHTML = '<option value="">Pilih Kelurahan</option>';
+
+                    data.forEach(item => {
+                        let isSelected = item.ID_KELURAHAN == selected ? 'selected' : '';
+                        kelurahan.innerHTML += `
+                            <option value="${item.ID_KELURAHAN}" ${isSelected}>
+                                ${item.NM_KELURAHAN}
+                            </option>
+                        `;
+                    });
                 });
-            });
+        }
+
+        // 🔥 AUTO LOAD saat edit dibuka
+        if(kecamatan.value){
+            loadKelurahan(kecamatan.value, selectedKelurahan);
+        }
+
+        // 🔥 GANTI kecamatan → reload kelurahan
+        kecamatan.addEventListener('change', function(){
+            loadKelurahan(this.value);
+        });
+
     });
   </script>
+
 </body>
 </html>
