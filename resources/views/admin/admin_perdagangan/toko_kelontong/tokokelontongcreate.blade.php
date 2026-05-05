@@ -133,7 +133,7 @@
 <body>
 
   <div class="navbar">
-    <h3>Admin Pasar</h3>
+    <h3>Admin Toko Kelontong</h3>
     <div>Tambah Data</div>
   </div>
 
@@ -141,24 +141,14 @@
     <div class="card">
 
       <div class="header">
-        <h2>Tambah Pasar</h2>
-        <a href="/admin/admin_perdagangan/pasar/adminpasar" class="back">← Kembali</a>
+        <h2>Tambah Toko Kelontong</h2>
+        <a href="/admin/admin_perdagangan/tokokelontong/admintokokelontong" class="back">← Kembali</a>
       </div>
 
-      <form action="/admin/admin_perdagangan/pasar/pasarstore" method="POST" enctype="multipart/form-data">
+      <form action="/admin/admin_perdagangan/tokokelontong/tokokelontongstore" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="form-grid">
-
-          <div>
-            <label>Nama Pasar</label>
-            <input type="text" name="nama_pasar" placeholder="Masukkan Nama Pasar" required>
-          </div>
-
-          <div>
-            <label>Alamat</label>
-            <input type="text" name="alamat" placeholder="Masukkan Alamat Pasar" required>
-          </div>
 
           <div>
             <label>Kecamatan</label>
@@ -178,18 +168,13 @@
           </div>
 
           <div>
-            <label>Jumlah Pedagang</label>
-            <input type="number" name="jumlah_pedagang" placeholder="Masukkan Jumlah Pedagang" required>
+            <label>Total Toko</label>
+            <input type="number" name="total_toko" placeholder="Masukkan Total Toko" required>
           </div>
 
           <div>
-            <label>Jumlah Stan</label>
-            <input type="number" name="jumlah_stan" placeholder="Masukkan Jumlah Stan" required>
-          </div>
-
-          <div>
-            <label>Stan Belum Terisi</label>
-            <input type="number" name="stan_belum_terisi" placeholder="Masukkan Jumlah Stan Belum Terisi" required>
+            <label>Peken</label>
+            <input type="number" name="peken" placeholder="Masukkan Jumlah Peken" required>
           </div>
 
         </div>

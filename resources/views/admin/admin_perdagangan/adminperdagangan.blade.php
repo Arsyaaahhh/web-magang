@@ -216,7 +216,7 @@
           <p>Informasi Pasar Binaan</p>
         </a>
 
-        <a class="card menu-card" href="#">
+        <a class="card menu-card" href="/admin/admin_perdagangan/tokokelontong/admintokokelontong">
           <h4>Toko Kelontong</h4>
           <p>Informasi Toko Kelontong</p>
         </a>
