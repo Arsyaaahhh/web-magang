@@ -14,6 +14,7 @@ use App\Http\Controllers\UmkmController;
 use App\Http\Controllers\SwkController;
 use App\Http\Controllers\PumController;
 use App\Http\Controllers\PasarController;
+use App\Http\Controllers\TokokelontongController;
 
 /*
 |--------------------------------------------------------------------------
@@ -178,3 +179,13 @@ Route::post('/admin/admin_perdagangan/pasar/pasarstore', [PasarController::class
 Route::post('/admin/admin_perdagangan/pasar/pasarupdate/{id}', [PasarController::class,'update']);
 
 Route::get('/get-kelurahan/{id}', [PasarController::class, 'getKelurahan']);
+
+// toko kelontong
+Route::get('/admin/admin_perdagangan/tokokelontong/admintokokelontong', [TokokelontongController::class, 'index'])->name('admintokokelontong');
+Route::delete('/admin/admin_perdagangan/tokokelontong/tokokelontongdelete/{id}', [TokokelontongController::class,'destroy']);
+Route::get('/admin/admin_perdagangan/tokokelontong/tokokelontongcreate', [TokokelontongController::class,'create']);
+Route::get('/admin/admin_perdagangan/tokokelontong/tokokelontongedit/{id}', [TokokelontongController::class,'edit']);
+Route::post('/admin/admin_perdagangan/tokokelontong/tokokelontongstore', [TokokelontongController::class,'store']);
+Route::post('/admin/admin_perdagangan/tokokelontong/tokokelontongupdate/{id}', [TokokelontongController::class,'update']);
+
+Route::get('/get-kelurahan/{id}', [TokokelontongController::class, 'getKelurahan']);
