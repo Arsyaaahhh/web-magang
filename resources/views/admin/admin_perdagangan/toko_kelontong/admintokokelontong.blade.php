@@ -322,12 +322,12 @@
       <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
     </a>
 
-    <a href="#">
-      <i class="fas fa-truck"></i> Pembinaan
+    <a href="/admin/admin_pup">
+      <i class="fas fa-briefcase"></i> Pembinaan
     </a>
 
     <a class="active" href="/admin/admin_perdagangan/">
-      <i class="fas fa-building"></i> Perdagangan
+      <i class="fas fa-truck"></i> Perdagangan
     </a>
 
     <button onclick="logout()" class="logout-btn">

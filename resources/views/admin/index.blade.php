@@ -137,11 +137,7 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
     </a>
 
     <a href="/admin/admin_pup"><i class="fas fa-briefcase"></i> Pembinaan</a>
-
-    <a href="/admin/admin_pum">
-      <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
-    </a>
-
+    
     <a href="/admin/admin_perdagangan">
       <i class="fas fa-truck"></i> Perdagangan
     </a>
