@@ -205,6 +205,7 @@ td{
     <th>No</th>
     <th>Status</th>
     <th>Pendidikan</th>
+    <th>Bidang</th> <!-- TAMBAHAN BIDANG -->
     <th>Jumlah</th>
     <th>Aksi</th>
     </tr>
@@ -214,6 +215,7 @@ td{
     <td>{{ $loop->iteration }}</td>
     <td>{{ $d->status }}</td>
     <td>{{ $d->pendidikan }}</td>
+    <td>{{ $d->bidang }}</td> <!-- TAMBAHAN BIDANG -->
     <td>{{ $d->jumlah }}</td>
 
     <td>
@@ -229,7 +231,7 @@ td{
     </tr>
     @empty
     <tr>
-    <td colspan="5" align="center">Tidak ada data</td>
+    <td colspan="6" align="center">Tidak ada data</td> <!-- UBAH COLSPAN JADI 6 -->
     </tr>
     @endforelse
 

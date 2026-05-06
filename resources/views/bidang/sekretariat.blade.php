@@ -325,6 +325,7 @@ input:focus, select:focus {
             <th style="padding:10px; color:#ffffff;">No</th>
             <th style="padding:10px; color:#ffffff;">Status</th>
             <th style="padding:10px; color:#ffffff;">Pendidikan</th>
+            <th style="padding:10px; color:#ffffff;">Bidang</th>
             <th style="padding:10px; color:#ffffff;">Jumlah</th>
           </tr>
         </thead>
@@ -337,15 +338,16 @@ input:focus, select:focus {
               <td style="padding:10px; color:#212529;">{{ $noPns++ }}</td>
               <td style="padding:10px; color:#212529;">{{ $p->status }}</td>
               <td style="padding:10px; color:#212529;">{{ $p->pendidikan }}</td>
+              <td style="padding:10px; color:#212529;">{{ $p->bidang }}</td>
               <td style="padding:10px; color:#212529;">{{ $p->jumlah }}</td>
             </tr>
             @endif
           @endforeach
           @if($noPns == 1)
-          <tr><td colspan="4" style="text-align:center; padding:10px; color:#999;">Tidak ada data pegawai PNS</td></tr>
+          <tr><td colspan="5" style="text-align:center; padding:10px; color:#999;">Tidak ada data pegawai PNS</td></tr>
           @endif
         @else
-          <tr><td colspan="4" style="text-align:center; padding:10px; color:#999;">Tidak ada data pegawai</td></tr>
+          <tr><td colspan="5" style="text-align:center; padding:10px; color:#999;">Tidak ada data pegawai</td></tr>
         @endif
         </tbody>
       </table>
@@ -369,6 +371,7 @@ input:focus, select:focus {
             <th style="padding:10px; color:#ffffff;">No</th>
             <th style="padding:10px; color:#ffffff;">Status</th>
             <th style="padding:10px; color:#ffffff;">Pendidikan</th>
+            <th style="padding:10px; color:#ffffff;">Bidang</th>      
             <th style="padding:10px; color:#ffffff;">Jumlah</th>
           </tr>
         </thead>
@@ -381,15 +384,16 @@ input:focus, select:focus {
               <td style="padding:10px; color:#212529;">{{ $noNonPns++ }}</td>
               <td style="padding:10px; color:#212529;">{{ $p->status }}</td>
               <td style="padding:10px; color:#212529;">{{ $p->pendidikan }}</td>
+              <td style="padding:10px; color:#212529;">{{ $p->bidang }}</td>
               <td style="padding:10px; color:#212529;">{{ $p->jumlah }}</td>
             </tr>
             @endif
           @endforeach
           @if($noNonPns == 1)
-          <tr><td colspan="4" style="text-align:center; padding:10px; color:#999;">Tidak ada data pegawai Non PNS</td></tr>
+          <tr><td colspan="5" style="text-align:center; padding:10px; color:#999;">Tidak ada data pegawai Non PNS</td></tr>
           @endif
         @else
-          <tr><td colspan="4" style="text-align:center; padding:10px; color:#999;">Tidak ada data pegawai</td></tr>
+          <tr><td colspan="5" style="text-align:center; padding:10px; color:#999;">Tidak ada data pegawai</td></tr>
         @endif
         </tbody>
       </table>

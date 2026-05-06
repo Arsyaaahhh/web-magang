@@ -26,6 +26,7 @@ class PegawaiController extends Controller
         $request->validate([
             'status' => 'required',
             'pendidikan' => 'required',
+            'bidang' => 'required', // <--- TAMBAHAN VALIDASI BIDANG
             'jumlah' => 'required|numeric'
         ]);
 
@@ -48,6 +49,7 @@ class PegawaiController extends Controller
         $request->validate([
             'status' => 'required',
             'pendidikan' => 'required',
+            'bidang' => 'required', // <--- TAMBAHAN VALIDASI BIDANG
             'jumlah' => 'required|numeric'
         ]);
 

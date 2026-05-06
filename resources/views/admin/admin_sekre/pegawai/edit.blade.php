@@ -158,6 +158,18 @@ input:focus, select:focus{
 </select>
 @error('pendidikan') <div class="error">{{ $message }}</div> @enderror
 
+<!-- BIDANG -->
+<label>Bidang</label>
+<select name="bidang">
+  <option value="Sekretariat" {{ old('bidang', $data->bidang)=='Sekretariat'?'selected':'' }}>Sekretariat</option>
+  <option value="Pemberdayaan Usaha Mikro" {{ old('bidang', $data->bidang)=='Pemberdayaan Usaha Mikro'?'selected':'' }}>Pemberdayaan Usaha Mikro</option>
+  <option value="Pembinaan Usaha Perdagangan" {{ old('bidang', $data->bidang)=='Pembinaan Usaha Perdagangan'?'selected':'' }}>Pembinaan Usaha Perdagangan</option>
+  <option value="Distribusi Perdagangan" {{ old('bidang', $data->bidang)=='Distribusi Perdagangan'?'selected':'' }}>Distribusi Perdagangan</option>
+  <option value="Bidang Koperasi" {{ old('bidang', $data->bidang)=='Bidang Koperasi'?'selected':'' }}>Bidang Koperasi</option>
+  <option value="UPTD Metrologi Legal" {{ old('bidang', $data->bidang)=='UPTD Metrologi Legal'?'selected':'' }}>UPTD Metrologi Legal</option>
+</select>
+@error('bidang') <div class="error">{{ $message }}</div> @enderror
+
 <!-- JUMLAH -->
 <label>Jumlah</label>
 <input type="number" name="jumlah" value="{{ old('jumlah',$data->jumlah) }}">
