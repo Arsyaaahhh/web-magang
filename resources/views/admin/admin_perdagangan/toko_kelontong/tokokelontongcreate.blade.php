@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Tambah Pasar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -16,6 +17,7 @@
 
     body {
       background: linear-gradient(135deg, #eef4ff, #f8fafc);
+      min-height: 100vh;
     }
 
     /* NAVBAR */
@@ -36,7 +38,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 90vh;
+      min-height: calc(100vh - 60px);
+      padding: 20px;
     }
 
     /* CARD */
@@ -111,7 +114,8 @@
 
     /* BUTTON */
     .btn {
-      margin-top: 10px;
+      margin-top: 15px;
+      width: 100%;
       padding: 10px;
       border: none;
       border-radius: 8px;
@@ -127,6 +131,24 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 10px rgba(13, 110, 253, 0.2);
     }
+
+    /* ======================================================= */
+    /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 600px)         */
+    /* ======================================================= */
+    @media (max-width: 600px) {
+        .form-grid {
+            grid-template-columns: 1fr; /* Jadi 1 kolom bersusun ke bawah */
+        }
+        .navbar {
+            padding: 15px 20px;
+        }
+        .card {
+            padding: 20px;
+        }
+        .header h2 {
+            font-size: 16px;
+        }
+    }
   </style>
 </head>
 
@@ -134,7 +156,7 @@
 
   <div class="navbar">
     <h3>Admin Toko Kelontong</h3>
-    <div>Tambah Data</div>
+    <div style="font-size: 14px; color:#666;">Tambah Data</div>
   </div>
 
   <div class="container">
