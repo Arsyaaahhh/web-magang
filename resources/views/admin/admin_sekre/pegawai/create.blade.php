@@ -176,8 +176,23 @@ input:focus, select:focus{
 @error('pendidikan')<div class="error">{{ $message }}</div>@enderror
 </div>
 
+<!-- BIDANG -->
+<div>
+<label>Bidang</label>
+<select name="bidang" required>
+  <option value="">-- Pilih Bidang --</option>
+  <option value="Sekretariat" {{ old('bidang')=='Sekretariat'?'selected':'' }}>Sekretariat</option>
+  <option value="Pemberdayaan Usaha Mikro" {{ old('bidang')=='Pemberdayaan Usaha Mikro'?'selected':'' }}>Pemberdayaan Usaha Mikro</option>
+  <option value="Pembinaan Usaha Perdagangan" {{ old('bidang')=='Pembinaan Usaha Perdagangan'?'selected':'' }}>Pembinaan Usaha Perdagangan</option>
+  <option value="Distribusi Perdagangan" {{ old('bidang')=='Distribusi Perdagangan'?'selected':'' }}>Distribusi Perdagangan</option>
+  <option value="Bidang Koperasi" {{ old('bidang')=='Bidang Koperasi'?'selected':'' }}>Bidang Koperasi</option>
+  <option value="UPTD Metrologi Legal" {{ old('bidang')=='UPTD Metrologi Legal'?'selected':'' }}>UPTD Metrologi Legal</option>
+</select>
+@error('bidang')<div class="error">{{ $message }}</div>@enderror
+</div>
+
 <!-- JUMLAH -->
-<div style="grid-column:1 / -1;">
+<div>
 <label>Jumlah Pegawai</label>
 <input type="number" name="jumlah" value="{{ old('jumlah') }}" required>
 @error('jumlah')<div class="error">{{ $message }}</div>@enderror

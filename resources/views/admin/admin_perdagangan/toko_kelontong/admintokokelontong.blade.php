@@ -313,11 +313,7 @@
   <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>ADMIN</h2>
-
-    <a href="/admin">
-      <i class="fas fa-chart-line"></i> Dashboard
-    </a>
-
+    
     <a href="/admin/admin_sekre">
       <i class="fas fa-user-tie"></i> Sekretariat
     </a>

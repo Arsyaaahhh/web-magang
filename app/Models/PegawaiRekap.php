@@ -11,6 +11,7 @@ class PegawaiRekap extends Model
     protected $fillable = [
         'status',
         'pendidikan',
+        'bidang', // <--- TAMBAHKAN INI
         'jumlah'
     ];
 }
