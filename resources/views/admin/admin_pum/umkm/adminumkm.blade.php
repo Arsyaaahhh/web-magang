@@ -314,10 +314,6 @@
   <div class="sidebar">
     <h2>ADMIN</h2>
 
-    <a href="/admin">
-      <i class="fas fa-chart-line"></i> Dashboard
-    </a>
-
     <a href="/admin/admin_sekre">
       <i class="fas fa-user-tie"></i> Sekretariat
     </a>
@@ -331,7 +327,7 @@
     </a>
 
     <a href="/admin/admin_perdagangan">
-      <i class="fas fa-building"></i> Perdagangan
+      <i class="fas fa-truck"></i> Perdagangan
     </a>
 
     <button onclick="logout()" class="logout-btn">
@@ -348,7 +344,6 @@
 
       <div style="display:flex; gap:10px; align-items:center;">
         <span>Halo {{ session('username') ?? 'Admin' }} 👋</span>
-        <button onclick="logout()" class="btn btn-delete">Logout</button>
       </div>
     </div>
 

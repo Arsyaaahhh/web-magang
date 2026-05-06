@@ -165,10 +165,6 @@
 
     <!-- <div class="sidebar-date" id="tanggalSidebar"></div> -->
 
-    <a href="/admin">
-      <i class="fas fa-chart-line"></i> Dashboard
-    </a>
-
     <a href="/admin/admin_sekre">
       <i class="fas fa-user-tie"></i> Sekretariat
     </a>
@@ -177,12 +173,10 @@
       <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
     </a>
 
-    <a href="#">
-      <i class="fas fa-truck"></i> Pembinaan
-    </a>
+    <a href="/admin/admin_pup"><i class="fas fa-briefcase"></i> Pembinaan</a>
 
     <a class="active" href="#">
-      <i class="fas fa-building"></i> Perdagangan
+      <i class="fas fa-truck"></i> Perdagangan
     </a>
 
     <button onclick="logout()" class="logout-btn">
