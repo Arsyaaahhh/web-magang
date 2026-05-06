@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tambah Pasar</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -16,6 +17,7 @@
 
     body {
       background: linear-gradient(135deg, #eef4ff, #f8fafc);
+      min-height: 100vh;
     }
 
     /* NAVBAR */
@@ -36,7 +38,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 90vh;
+      min-height: calc(100vh - 60px);
+      padding: 20px;
     }
 
     /* CARD */
@@ -102,17 +105,11 @@
       box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.1);
     }
 
-    /* FILE NOTE */
-    .file-note {
-      font-size: 11px;
-      color: #9ca3af;
-      margin-top: 2px;
-    }
-
     /* BUTTON */
     .btn {
-      margin-top: 10px;
+      margin-top: 15px;
       padding: 10px;
+      width: 100%;
       border: none;
       border-radius: 8px;
       background: #0d6efd;
@@ -127,6 +124,24 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 10px rgba(13, 110, 253, 0.2);
     }
+
+    /* ======================================================= */
+    /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 600px)         */
+    /* ======================================================= */
+    @media (max-width: 600px) {
+        .form-grid {
+            grid-template-columns: 1fr; /* Jadi 1 kolom bersusun ke bawah */
+        }
+        .navbar {
+            padding: 15px 20px;
+        }
+        .card {
+            padding: 20px;
+        }
+        .header h2 {
+            font-size: 16px;
+        }
+    }
   </style>
 </head>
 
@@ -134,7 +149,7 @@
 
   <div class="navbar">
     <h3>Admin Pasar</h3>
-    <div>Tambah Data</div>
+    <div style="font-size: 14px; color: #666;">Tambah Data</div>
   </div>
 
   <div class="container">
@@ -187,7 +202,7 @@
             <input type="number" name="jumlah_stan" placeholder="Masukkan Jumlah Stan" required>
           </div>
 
-          <div>
+          <div style="grid-column: 1 / -1;">
             <label>Stan Belum Terisi</label>
             <input type="number" name="stan_belum_terisi" placeholder="Masukkan Jumlah Stan Belum Terisi" required>
           </div>

@@ -3,10 +3,13 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Perdagangan</title>
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Memanggil library SweetAlert2 untuk fungsi logout -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
     * {
@@ -19,6 +22,16 @@
     body {
       display: flex;
       background: #f8fafc;
+      overflow-x: hidden; /* Mencegah geser horizontal di HP */
+    }
+
+    /* OVERLAY (Background gelap saat sidebar terbuka di HP) */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
     }
 
     /* SIDEBAR */
@@ -29,6 +42,9 @@
       color: white;
       padding: 20px;
       position: fixed;
+      left: 0;
+      z-index: 1000;
+      transition: left 0.3s ease; /* Efek animasi saat dibuka dari HP */
     }
 
     .sidebar h2 {
@@ -64,6 +80,7 @@
     .main {
       margin-left: 240px;
       width: 100%;
+      transition: margin-left 0.3s ease; /* Efek animasi menyesuaikan sidebar */
     }
 
     /* NAVBAR */
@@ -72,7 +89,21 @@
       padding: 15px 30px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    }
+
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .toggle-btn {
+      display: none; /* Disembunyikan di tampilan komputer */
+      font-size: 1.5rem;
+      color: #0d6efd;
+      cursor: pointer;
     }
 
     .navbar h3 {
@@ -128,7 +159,7 @@
       text-decoration: none;
     }
 
-    /* CARD */
+    /* CARD GRID (Sudah otomatis responsive dari kode Anda) */
     .cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -154,16 +185,33 @@
       transform: translateY(-3px);
       box-shadow: 0 10px 30px rgba(13, 110, 253, 0.12);
     }
+
+    /* ======================================================= */
+    /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
+    /* ======================================================= */
+    @media (max-width: 768px) {
+      .sidebar { left: -240px; } /* Geser sidebar ke luar layar kiri */
+      .sidebar.active { left: 0; } /* Munculkan sidebar jika ada class active */
+      
+      .main { margin-left: 0; width: 100%; } /* Konten utama jadi full width */
+      
+      .toggle-btn { display: block; } /* Munculkan tombol garis 3 */
+      .overlay.active { display: block; } /* Munculkan layar gelap pembatas */
+      
+      .navbar { padding: 15px 20px; }
+      .container { padding: 20px; }
+    }
   </style>
 </head>
 
 <body>
 
+  <!-- OVERLAY (Muncul di HP saat sidebar terbuka) -->
+  <div class="overlay" onclick="toggleSidebar()"></div>
+
   <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>ADMIN</h2>
-
-    <!-- <div class="sidebar-date" id="tanggalSidebar"></div> -->
 
     <a href="/admin/admin_sekre">
       <i class="fas fa-user-tie"></i> Sekretariat
@@ -189,7 +237,11 @@
 
     <!-- NAVBAR -->
     <div class="navbar">
-      <h3>Admin Perdagangan</h3>
+      <div class="navbar-left">
+        <!-- Tombol menu hamburger untuk HP -->
+        <i class="fas fa-bars toggle-btn" onclick="toggleSidebar()"></i>
+        <h3>Admin Perdagangan</h3>
+      </div>
 
       <div style="display:flex; gap:10px; align-items:center;">
         <span>Halo {{ session('username') ?? 'Admin' }} 👋</span>
@@ -203,7 +255,7 @@
         <h2>Data Perdagangan</h2>
       </div>
 
-      <div iv id="mainMenu" class="cards-grid">
+      <div id="mainMenu" class="cards-grid">
 
         <a class="card menu-card" href="/admin/admin_perdagangan/pasar/adminpasar">
           <h4>Pasar</h4>
@@ -224,6 +276,12 @@
   <script src="{{ asset('js/script.js') }}"></script>
 
   <script>
+    // FUNGSI TOGGLE SIDEBAR UNTUK HP
+    function toggleSidebar() {
+      document.querySelector('.sidebar').classList.toggle('active');
+      document.querySelector('.overlay').classList.toggle('active');
+    }
+
     // LOGOUT
     function logout() {
       Swal.fire({

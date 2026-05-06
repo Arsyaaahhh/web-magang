@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Edit Pasar</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -16,6 +17,7 @@
 
     body {
       background: linear-gradient(135deg, #eef4ff, #f8fafc);
+      min-height: 100vh;
     }
 
     /* NAVBAR */
@@ -36,8 +38,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 90vh;
-      margin-top: 20px;
+      min-height: calc(100vh - 60px);
+      padding: 20px;
     }
 
     /* CARD (GLASS EFFECT) */
@@ -106,17 +108,11 @@
       box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.1);
     }
 
-    /* FILE TEXT */
-    .file-note {
-      font-size: 11px;
-      color: #9ca3af;
-      margin-top: 2px;
-    }
-
     /* BUTTON */
     .btn {
-      margin-top: 10px;
+      margin-top: 15px;
       padding: 10px;
+      width: 100%;
       border: none;
       border-radius: 8px;
       background: #0d6efd;
@@ -131,24 +127,23 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 10px rgba(13, 110, 253, 0.2);
     }
-  
-    .section {
-      margin-top: 18px;
-    }
 
-    .section-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #374151;
-      margin-bottom: 8px;
-    }
-
-    .kategori-box {
-      height: 120px;
-      border-radius: 8px;
-      border: 1px solid #d1d5db;
-      padding: 5px;
-      font-size: 13px;
+    /* ======================================================= */
+    /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 600px)         */
+    /* ======================================================= */
+    @media (max-width: 600px) {
+        .form-grid {
+            grid-template-columns: 1fr; /* Jadi 1 kolom bersusun ke bawah */
+        }
+        .navbar {
+            padding: 15px 20px;
+        }
+        .card {
+            padding: 20px;
+        }
+        .header h2 {
+            font-size: 16px;
+        }
     }
   </style>
 </head>
@@ -157,7 +152,7 @@
 
   <div class="navbar">
     <h3>Admin Perdagangan</h3>
-    <div>Edit Data</div>
+    <div style="font-size: 14px; color: #666;">Edit Data</div>
   </div>
 
   <div class="container">
@@ -165,7 +160,7 @@
 
       <div class="header">
         <h2>Edit Pasar</h2>
-        <a href="/admin/admin_perdagangan/adminpasar" class="back">← Kembali</a>
+        <a href="/admin/admin_perdagangan/pasar/adminpasar" class="back">← Kembali</a>
       </div>
 
       <form action="/admin/admin_perdagangan/pasar/pasarupdate/{{ $data->id }}" method="POST" enctype="multipart/form-data">
@@ -213,7 +208,7 @@
             <input name="jumlah_stan" type="number" value="{{ $data->jumlah_stan }}" min="0">
           </div>
 
-          <div>
+          <div style="grid-column: 1 / -1;">
             <label>Stan Belum Terisi</label>
             <input name="stan_belum_terisi" type="number" value="{{ $data->stan_belum_terisi }}" min="0">
           </div>
