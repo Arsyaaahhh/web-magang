@@ -2,6 +2,9 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <!-- 🔥 INI WAJIB UNTUK RESPONSIVE HP 🔥 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <title>Tambah Umkm</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -16,6 +19,7 @@
 
     body {
       background: linear-gradient(135deg, #eef4ff, #f8fafc);
+      min-height: 100vh;
     }
 
     /* NAVBAR */
@@ -36,7 +40,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 90vh;
+      min-height: calc(100vh - 60px);
+      padding: 20px;
     }
 
     /* CARD */
@@ -111,7 +116,8 @@
 
     /* BUTTON */
     .btn {
-      margin-top: 10px;
+      margin-top: 15px;
+      width: 100%;
       padding: 10px;
       border: none;
       border-radius: 8px;
@@ -127,6 +133,24 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 10px rgba(13, 110, 253, 0.2);
     }
+
+    /* ======================================================= */
+    /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 600px)         */
+    /* ======================================================= */
+    @media (max-width: 600px) {
+        .form-grid {
+            grid-template-columns: 1fr; /* Form menjadi satu kolom memanjang ke bawah */
+        }
+        .navbar {
+            padding: 15px 20px;
+        }
+        .card {
+            padding: 20px;
+        }
+        .header h2 {
+            font-size: 16px;
+        }
+    }
   </style>
 </head>
 
@@ -134,7 +158,7 @@
 
   <div class="navbar">
     <h3>Admin Umkm</h3>
-    <div>Tambah Data</div>
+    <div style="font-size: 14px; color:#666;">Tambah Data</div>
   </div>
 
   <div class="container">
@@ -197,7 +221,7 @@
             <input type="number" name="peken" placeholder="Masukkan Jumlah Umkm Terdaftar Peken" required>
           </div>
 
-          <div>
+          <div style="grid-column: 1 / -1;">
             <label>Padat Karya </label>
             <input type="number" name="padat_karya" placeholder="Masukkan Jumlah Umkm Terdaftar Padat Karya" required>
           </div>
