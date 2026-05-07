@@ -87,6 +87,7 @@
     <a href="/admin/admin_sekre"><i class="fas fa-user-tie"></i> Sekretariat</a>
     <a class="active" href="/admin/admin_pum"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
     <a href="/admin/admin_pup"><i class="fas fa-briefcase"></i> Pembinaan</a>
+    <a href="/admin/koperasi"><i class="fas fa-building"></i> Koperasi</a>
     <a href="/admin/admin_perdagangan"><i class="fas fa-truck"></i> Perdagangan</a>
     <button onclick="logout()" class="logout-btn">Logout</button>
   </div>

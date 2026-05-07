@@ -2,7 +2,6 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<!-- 🔥 Tag wajib untuk responsive -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rekap Pegawai</title>
 
@@ -74,6 +73,26 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
   border-radius:8px;
   text-decoration:none;
   display: inline-block;
+}
+
+.btn-add:hover {
+  background: #1aa179;
+  transition: 0.2s ease;
+}
+
+/* Tambahan CSS untuk tombol kembali */
+.btn-back {
+  padding: 8px 14px;
+  background: #6c757d; 
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-back:hover {
+  background: #5a6268; 
+  transition: 0.2s ease;
 }
 
 .btn-edit{
@@ -161,17 +180,16 @@ td{
 
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-<!-- SIDEBAR -->
 <div class="sidebar" id="sidebarMenu">
   <h2>ADMIN</h2>
   <a href="/admin/admin_sekre" class="active"><i class="fas fa-user-tie"></i> Sekretariat</a>
   <a href="/admin/admin_pum"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
   <a href="/admin/pembinaan"><i class="fas fa-briefcase"></i> Pembinaan</a>
+  <a href="/admin/koperasi"><i class="fas fa-building"></i> Koperasi</a>
   <a href="/admin/perdagangan"><i class="fas fa-truck"></i> Perdagangan</a>
   <button onclick="logout()" class="logout-btn">Logout</button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
 <div class="navbar">
@@ -187,9 +205,10 @@ td{
 <div class="top">
   <h2>Data Rekap Pegawai</h2>
 
-  <a href="{{ route('pegawai.rekap.create') }}" class="btn-add">
-    + Tambah
-  </a>
+  <div style="display: flex; gap: 10px;">
+    <a href="/admin/admin_sekre" class="btn-back">← Kembali</a>
+    <a href="{{ route('pegawai.rekap.create') }}" class="btn-add">+ Tambah</a>
+  </div>
 </div>
 
 @if(session('success'))
@@ -205,8 +224,7 @@ td{
     <th>No</th>
     <th>Status</th>
     <th>Pendidikan</th>
-    <th>Bidang</th> <!-- TAMBAHAN BIDANG -->
-    <th>Jumlah</th>
+    <th>Bidang</th> <th>Jumlah</th>
     <th>Aksi</th>
     </tr>
 
@@ -215,8 +233,7 @@ td{
     <td>{{ $loop->iteration }}</td>
     <td>{{ $d->status }}</td>
     <td>{{ $d->pendidikan }}</td>
-    <td>{{ $d->bidang }}</td> <!-- TAMBAHAN BIDANG -->
-    <td>{{ $d->jumlah }}</td>
+    <td>{{ $d->bidang }}</td> <td>{{ $d->jumlah }}</td>
 
     <td>
       <div class="action">
@@ -231,8 +248,7 @@ td{
     </tr>
     @empty
     <tr>
-    <td colspan="6" align="center">Tidak ada data</td> <!-- UBAH COLSPAN JADI 6 -->
-    </tr>
+    <td colspan="6" align="center">Tidak ada data</td> </tr>
     @endforelse
 
     </table>

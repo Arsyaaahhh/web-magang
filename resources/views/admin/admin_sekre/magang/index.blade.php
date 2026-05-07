@@ -2,7 +2,6 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<!-- 🔥 Tag wajib agar website responsif di HP -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Data Magang</title>
 
@@ -135,6 +134,16 @@ body{
 .btn-edit{background:#facc15;color:black;}
 .btn-delete{background:#ef4444;color:white;}
 
+/* Tambahan class untuk tombol kembali */
+.btn-back{
+  background:#6c757d;
+  color:white;
+  transition: 0.2s ease;
+}
+.btn-back:hover{
+  background:#5a6268;
+}
+
 /* CARD */
 .card{
   background:white;
@@ -226,10 +235,8 @@ tr:hover{
 
 <body>
 
-<!-- OVERLAY (Hanya Muncul di Mobile saat Sidebar Terbuka) -->
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-<!-- SIDEBAR -->
 <div class="sidebar" id="sidebarMenu">
   <h2>ADMIN</h2>
 
@@ -246,6 +253,11 @@ tr:hover{
       <i class="fas fa-briefcase"></i> Pembinaan
     </a>
 
+    <a href="/admin/koperasi">
+      <i class="fas fa-building"></i> Koperasi
+    </a>
+
+
     <a href="/admin/perdagangan">
       <i class="fas fa-truck"></i> Perdagangan
     </a>
@@ -256,7 +268,6 @@ tr:hover{
   </button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
 <div class="navbar">
@@ -271,7 +282,10 @@ tr:hover{
 
 <div class="top">
   <h2>Data Magang</h2>
-  <a href="/admin/magang/create" class="btn btn-add">+ Tambah</a>
+  <div style="display: flex; gap: 10px;">
+    <a href="/admin/admin_sekre" class="btn btn-back">← Kembali</a>
+    <a href="/admin/magang/create" class="btn btn-add">+ Tambah</a>
+  </div>
 </div>
 
 <div class="card">

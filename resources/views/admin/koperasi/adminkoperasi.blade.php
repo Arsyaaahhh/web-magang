@@ -2,678 +2,603 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Koperasi & Pegawai</title>
 
-  <link rel="stylesheet" href="{{ asset('css/index.css') }}">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins',sans-serif;
     }
 
-    body {
-      background: #f8fafc;
-      display: flex;
-      overflow-x: hidden;
+    body{
+      background:#f8fafc;
+      display:flex;
+      min-height:100vh;
+      overflow-x:hidden;
     }
 
-    body > * {
-      flex-grow: 1;
-    }
-
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      margin-left: 240px;
-      overflow-x: hidden;
-    }
-    .sidebar {
-      width: 240px;
-      height: 100vh;
-      background: #0d6efd;
-      color: white;
-      padding: 20px;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      overflow-y: auto;
-    }
-    .sidebar h2 {
-      color: white;
-      margin-bottom: 20px;
-      font-size: 18px;
-    }
-    .sidebar-date {
-      margin-bottom: 20px;
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.8);
-    }
-    .sidebar a {
-      display: block;
-      color: white;
-      padding: 12px 10px;
-      border-radius: 8px;
-      margin-bottom: 8px;
-      text-decoration: none;
-      transition: 0.2s ease;
-    }
-    .sidebar a:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-    .sidebar a.active {
-      background: rgba(255, 255, 255, 0.3);
-      border-left: 3px solid white;
-      padding-left: 7px;
-    }
-    .logout-btn {
-      margin-top: 20px;
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      background: #dc3545;
-      color: white;
-      cursor: pointer;
-      font-size: 14px;
-      transition: 0.2s ease;
-    }
-    .logout-btn:hover {
-      background: #c82333;
-      transition: 0.2s ease;
-    }
-    .menu {
-      margin-top: 20px;
-    }
-    .menu a {
-      display: block;
-      color: white;
-      padding: 12px 10px;
-      border-radius: 8px;
-      margin-bottom: 8px;
-      text-decoration: none;
-      transition: 0.2s ease;
-    }
-    .menu a:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-    .menu a i {
-      margin-right: 8px;
-      width: 18px;
-    }
-    .menu a.active {
-      background: rgba(255, 255, 255, 0.3);
-      border-left: 3px solid white;
-      padding-left: 7px;
-    }
-    .menu a span {
-      color: white;
-    }
-    .menu a:hover span {
-      color: white;
-    }
-
-    /* NAVBAR */
-    .navbar {
-      background: white;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    .navbar h3 {
-      color: #0d6efd;
-      font-size: 20px;
-      font-weight: 600;
-      margin: 0;
-    }
-
-    .navbar > div {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      font-size: 14px;
-      color: #666;
-    }
-    
-    /* CONTAINER */
-    .container {
-      padding: 30px;
-    }
-
-    /* TABS */
-    .tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      border-bottom: 2px solid #e5e7eb;
-    }
-
-    .tab-btn {
-      padding: 12px 24px;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 600;
-      color: #6b7280;
-      border-bottom: 3px solid transparent;
-      transition: 0.3s ease;
-      margin-bottom: -2px;
-    }
-
-    .tab-btn.active {
-      color: #0d6efd;
-      border-bottom-color: #0d6efd;
-    }
-
-    .tab-btn:hover {
-      color: #0d6efd;
-    }
-
-    .tab-content {
+    /* OVERLAY UNTUK MOBILE */
+    .overlay {
       display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
     }
 
-    .tab-content.active {
-      display: block;
+    /* SIDEBAR */
+    .sidebar{
+      width:240px;
+      height:100vh;
+      background:#0d6efd;
+      color:white;
+      padding:20px;
+      position:fixed;
+      top:0;
+      left:0;
+      overflow-y:auto;
+      z-index:1000;
+      transition: left 0.3s ease;
     }
 
-    /* HEADER */
-    .top {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
+    .sidebar h2{
+      margin-bottom:30px;
+      font-size:20px;
+      font-weight:600;
     }
 
-    /* BUTTON */
-    .btn {
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-size: 14px;
-      border: none;
-      cursor: pointer;
+    .sidebar a{
+      display:block;
+      color:white;
       text-decoration:none;
+      padding:12px 14px;
+      border-radius:10px;
+      margin-bottom:10px;
+      transition:0.2s ease;
+      font-size:15px;
     }
 
-    .btn-add {
-      background: #20c997;
-      color: white;
-      font-size:18px !important;
+    .sidebar a i{
+      margin-right:10px;
+      width:18px;
     }
 
-    .btn-add:hover{
-      background:#1aa179;
+    .sidebar a:hover,
+    .sidebar a.active{
+      background:rgba(255,255,255,0.2);
+    }
+
+    .logout-btn{
+      width:100%;
+      margin-top:25px;
+      padding:12px;
+      border:none;
+      border-radius:10px;
+      background:#dc3545;
+      color:white;
+      cursor:pointer;
+      font-size:15px;
       transition:0.2s ease;
     }
 
-    .btn-edit {
-      background: #ffc107;
-      color: black;
+    .logout-btn:hover{
+      background:#bb2d3b;
     }
 
-    .btn-delete {
-      background: #dc3545;
-      color: white;
+    /* MAIN */
+    main{
+      margin-left:240px;
+      width:calc(100% - 240px);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      transition: margin-left 0.3s ease, width 0.3s ease;
     }
 
-    /* CARD */
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      border: 1px solid #e5e7eb;
+    /* NAVBAR */
+    .navbar{
+      background:white;
+      padding:18px 30px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid #e5e7eb;
+      box-shadow:0 2px 10px rgba(0,0,0,0.04);
     }
 
-    /* FILTER */
-    .filter {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .filter input,
-    .filter select {
-      padding: 8px;
-      border-radius: 6px;
-      border: 1px solid #d1d5db;
-    }
-
-    .filter button {
-      grid-column: 1 / -1;
-    }
-
-    .filter button:hover {
-      background: #0d6efd;
-      color: white;
-    }
-
-    /* TABLE */
-    .table-wrapper {
-      width: 100%;
-      overflow-x: auto;
-      overflow-y: hidden;
-    }
-
-    table {
-      border-collapse: collapse;
-      border: 1px solid #e5e7eb;
-      color: #333;
-      width: max-content;
-      min-width: 100%;
-  
-    }
-
-    th,
-    td {
-      padding: 10px 12px;
-      text-align: center;
-      vertical-align: middle;
-      white-space: nowrap;
-    }
-
-    /* KOPERASI TABLE */
-    .table-koperasi th:nth-child(1),
-    .table-koperasi td:nth-child(1) {
-      width: 40px;
-    }
-
-    .table-koperasi th:nth-child(2),
-    .table-koperasi td:nth-child(2) {
-      width: 100px;
-    }
-
-    .table-koperasi th:nth-child(3),
-    .table-koperasi td:nth-child(3) {
-      width: 80px;
-    }
-
-    .table-koperasi th:nth-child(4),
-    .table-koperasi td:nth-child(4),
-    .table-koperasi th:nth-child(5),
-    .table-koperasi td:nth-child(5),
-    .table-koperasi th:nth-child(6),
-    .table-koperasi td:nth-child(6) {
-      width: 110px;
-    }
-
-    .table-koperasi th:nth-child(7),
-    .table-koperasi td:nth-child(7),
-    .table-koperasi th:nth-child(8),
-    .table-koperasi td:nth-child(8) {
-      width: 120px;
-    }
-
-    .table-koperasi th:nth-child(9),
-    .table-koperasi td:nth-child(9) {
-      width: 140px;
-    }
-
-    .table-koperasi th:nth-child(10),
-    .table-koperasi td:nth-child(10) {
-      width: 140px;
-    }
-
-    .table-koperasi th:nth-child(11),
-    .table-koperasi td:nth-child(11) {
-      width: 150px;
-    }
-
-    .table-koperasi th:nth-child(12),
-    .table-koperasi td:nth-child(12) {
-      width: 130px;
-    }
-
-    /* PEGAWAI TABLE */
-    .table-pegawai th:nth-child(1),
-    .table-pegawai td:nth-child(1) {
-      width: 40px;
-    }
-
-    .table-pegawai th:nth-child(2),
-    .table-pegawai td:nth-child(2) {
-      width: 120px;
-    }
-
-    .table-pegawai th:nth-child(3),
-    .table-pegawai td:nth-child(3),
-    .table-pegawai th:nth-child(4),
-    .table-pegawai td:nth-child(4) {
-      width: 130px;
-    }
-
-    .table-pegawai th:nth-child(5),
-    .table-pegawai td:nth-child(5) {
-      width: 140px;
-    }
-
-    th {
-      background: #eaf2ff;
-    }
-
-    td {
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    tbody tr:nth-child(even) {
-      background: #f9fafb;
-    }
-
-    tr:hover {
-      background: #eef4ff;
-    }
-
-    /* BADGE */
-    .badge {
-      padding: 5px 10px;
-      border-radius: 6px;
-      font-size: 12px;
-      background: #e5e7eb;
-      white-space: nowrap;
-      display: inline-flex;
-      align-items: center;
-    }
-
-    /* ACTION */
-    .action {
+    .navbar-left {
       display: flex;
-      gap: 6px;
+      align-items: center;
+      gap: 15px;
     }
 
-    .action .btn {
-      padding: 8px 8px;
-      font-size: 13px;
-      white-space: nowrap;
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #0d6efd;
+    }
+
+    .navbar h3{
+      color:#0d6efd;
+      font-size:22px;
+      font-weight:600;
+    }
+
+    .navbar-right{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-size:14px;
+      color:#555;
+    }
+
+    /* CONTAINER */
+    .container{
+      padding:30px;
     }
 
     /* ALERT */
-    .alert {
-      padding: 10px;
-      margin-bottom: 10px;
-      background: #d1e7dd;
-      border-radius: 6px;
+    .alert{
+      padding:12px;
+      border-radius:8px;
+      background:#d1e7dd;
+      margin-bottom:20px;
+      color:#0f5132;
     }
 
-    /* PAGINATION */
-    .pagination-wrapper {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 15px;
+    /* TABS */
+    .tabs{
+      display:flex;
+      gap:10px;
+      margin-bottom:25px;
+      border-bottom:2px solid #e5e7eb;
+    }
+
+    .tab-btn{
+      padding:12px 20px;
+      border:none;
+      background:none;
+      cursor:pointer;
+      font-size:15px;
+      font-weight:600;
+      color:#6b7280;
+      border-bottom:3px solid transparent;
+      transition:0.2s ease;
+    }
+
+    .tab-btn.active{
+      color:#0d6efd;
+      border-bottom-color:#0d6efd;
+    }
+
+    .tab-content{
+      display:none;
+    }
+
+    .tab-content.active{
+      display:block;
+    }
+
+    /* TOP */
+    .top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:20px;
       flex-wrap: wrap;
       gap: 10px;
     }
 
-    .pagination {
-      display: flex;
-      gap: 6px;
-    }
-
-    .pagination li {
-      list-style: none;
-    }
-
-    .pagination a,
-    .pagination span {
+    /* BUTTON */
+    .btn{
+      padding:8px 14px;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      text-decoration:none;
+      font-size:14px;
+      transition:0.2s ease;
       display: inline-block;
-      padding: 6px 12px;
-      border-radius: 8px;
-      border: 1px solid #d1d5db;
-      background: white;
-      color: #333;
-      text-decoration: none;
-      font-size: 14px;
-      transition: 0.2s;
     }
 
-    .pagination a:hover {
-      background: #0d6efd;
+    .btn-add{
+      background:#20c997;
+      color:white;
+    }
+    .btn-add:hover{
+      background:#1aa179;
+    }
+
+    /* TAMBAHAN UNTUK TOMBOL KEMBALI */
+    .btn-back {
+      background: #6c757d;
       color: white;
     }
-
-    .pagination .active span {
-      background: #0d6efd;
-      color: white;
-      border-color: #0d6efd;
+    .btn-back:hover {
+      background: #5a6268;
     }
 
-    .pagination .disabled span {
-      color: #aaa;
-      background: #f3f4f6;
+    .btn-edit{
+      background:#ffc107;
+      color:black;
     }
 
-    .pagination-info {
-      font-size: 13px;
-      color: #666;
+    .btn-delete{
+      background:#dc3545;
+      color:white;
     }
 
+    /* CARD */
+    .card{
+      background:white;
+      border-radius:14px;
+      padding:20px;
+      border:1px solid #e5e7eb;
+    }
+
+    /* FILTER */
+    .filter{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:10px;
+      margin-bottom:20px;
+    }
+
+    .filter input,
+    .filter select{
+      padding:10px;
+      border:1px solid #d1d5db;
+      border-radius:8px;
+      outline:none;
+    }
+
+    .filter button{
+      background:#0d6efd;
+      color:white;
+    }
+
+    /* TABLE */
+    .table-wrapper{
+      width:100%;
+      overflow-x:auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:900px;
+    }
+
+    th{
+      background:#eaf2ff;
+      color:#333;
+      font-weight:600;
+    }
+
+    th,
+    td{
+      padding:12px;
+      text-align:center;
+      border-bottom:1px solid #e5e7eb;
+      white-space:nowrap;
+    }
+
+    tbody tr:nth-child(even){
+      background:#f9fafb;
+    }
+
+    tbody tr:hover{
+      background:#eef4ff;
+    }
+
+    /* BADGE */
+    .badge{
+      display:inline-block;
+      padding:5px 10px;
+      border-radius:6px;
+      font-size:12px;
+      background:#e5e7eb;
+    }
+
+    /* ACTION */
+    .action{
+      display:flex;
+      justify-content:center;
+      gap:6px;
+    }
+
+    /* PAGINATION */
+    .pagination-wrapper{
+      margin-top:20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .pagination-info{
+      font-size:13px;
+      color:#666;
+    }
+
+    /* 🔥 MEDIA QUERY RESPONSIVE (SMARTPHONE) */
+    @media(max-width:768px){
+      .sidebar { left: -240px; }
+      .sidebar.active { left: 0; }
+      main { margin-left: 0; width: 100%; }
+      .menu-toggle { display: block; }
+      .overlay.active { display: block; }
+      .navbar { padding: 15px 20px; }
+      .navbar h3 { font-size: 18px; }
+      .container { padding: 15px; }
+      .top { flex-direction: column; align-items: flex-start; }
+      .filter { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <h2>DINKOPUMDAG</h2>
-    <div class="sidebar-date" id="tanggalSidebar"></div>
+  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-    <div class="menu">
-      <a href="/admin/index"><i class="fas fa-user-tie"></i> Bidang Sekretariat</a>
-      <a href="/admin/adminpum"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
-      <a href="/admin/distribusi"><i class="fas fa-truck"></i> Distribusi Perdagangan</a>
-      <a href="/admin/koperasi" class="active"><i class="fas fa-building"></i> Bidang Koperasi</a>
-      <a href="/admin/pembinaan"><i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan</a>
-      <a href="/admin/metrologi"><i class="fas fa-balance-scale"></i> UPTD Metrologi Legal</a>
-    </div>
+  <div class="sidebar" id="sidebarMenu">
+
+    <h2>ADMIN</h2>
+
+    <a href="/admin/admin_sekre">
+      <i class="fas fa-user-tie"></i>
+      Sekretariat
+    </a>
+
+    <a href="/admin/admin_pum">
+      <i class="fas fa-store"></i>
+      Pemberdayaan Usaha Mikro
+    </a>
+
+    <a href="/admin/admin_pup/adminpup">
+      <i class="fas fa-briefcase"></i>
+      Pembinaan
+    </a>
+
+    <a class="active" href="/admin/koperasi">
+      <i class="fas fa-building"></i>
+      Koperasi
+    </a>
+
+    <a href="/admin/admin_perdagangan">
+      <i class="fas fa-truck"></i>
+      Perdagangan
+    </a>
 
     <button onclick="logout()" class="logout-btn">
-      <i class="fas fa-sign-out-alt"></i> Keluar
+      <i class="fas fa-sign-out-alt"></i>
+      Logout
     </button>
+
   </div>
 
-  <!-- MAIN -->
   <main>
 
-    <!-- NAVBAR -->
     <div class="navbar">
-      <h3>Bidang Koperasi</h3>
 
-      <div style="display:flex; gap:10px; align-items:center;">
-        <span>Halo {{ session('username') ?? 'Admin' }} 👋</span>
-        <button onclick="logout()" class="btn btn-delete">Logout</button>
+      <div class="navbar-left">
+        <button class="menu-toggle" onclick="toggleSidebar()">
+          <i class="fas fa-bars"></i>
+        </button>
+        <h3>Bidang Koperasi</h3>
       </div>
+
+      <div class="navbar-right">
+        <span>Halo {{ session('username') ?? 'Admin' }} 👋</span>
+      </div>
+
     </div>
 
-    <!-- CONTENT -->
     <div class="container">
 
       @if(session('success'))
-        <div class="alert">
-          {{ session('success') }}
-        </div>
+      <div class="alert">
+        {{ session('success') }}
+      </div>
       @endif
 
-      <!-- TABS -->
       <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('koperasi')">
-          <i class="fas fa-building"></i> Data Koperasi
+
+        <button class="tab-btn active" onclick="switchTab(event, 'koperasi')">
+          <i class="fas fa-building"></i>
+          Data Koperasi
         </button>
-        <button class="tab-btn" onclick="switchTab('pegawai')">
-          <i class="fas fa-users"></i> Data Pegawai
+
+        <button class="tab-btn" onclick="switchTab(event, 'pegawai')">
+          <i class="fas fa-users"></i>
+          Data Pegawai
         </button>
+
       </div>
 
-      <!-- TAB KOPERASI -->
       <div id="koperasi" class="tab-content active">
+
         <div class="top">
           <h2>Data Koperasi</h2>
-          <a href="/admin/koperasi/create" class="btn btn-add">+ Tambah</a>
+
+          <div style="display: flex; gap: 10px;">
+            <a href="#" onclick="history.back()" class="btn btn-back">
+              ← Kembali
+            </a>
+            <a href="/admin/koperasi/create" class="btn btn-add">
+              + Tambah
+            </a>
+          </div>
         </div>
 
         <div class="card">
 
-          <!-- FILTER KOPERASI -->
           <form method="GET">
+
             <div class="filter">
 
               <input
                 type="text"
                 name="search"
-                placeholder="Cari jumlah, status, mitra, jenis, kelurahan, kecamatan, rat, lpj, pengawasan..."
+                placeholder="Cari data..."
                 value="{{ request('search') }}"
               >
 
               <select name="status">
                 <option value="">Semua Status</option>
-                <option value="aktif" {{ request('status')=='aktif'?'selected':'' }}>Aktif</option>
-                <option value="tidak aktif" {{ request('status')=='tidak aktif'?'selected':'' }}>Tidak Aktif</option>
+                <option value="aktif">Aktif</option>
+                <option value="tidak aktif">Tidak Aktif</option>
               </select>
 
               <select name="status_mitra">
                 <option value="">Semua Mitra</option>
-                <option value="bermitra" {{ request('status_mitra')=='bermitra'?'selected':'' }}>Bermitra</option>
-                <option value="belum" {{ request('status_mitra')=='belum'?'selected':'' }}>Belum</option>
+                <option value="bermitra">Bermitra</option>
+                <option value="belum">Belum</option>
               </select>
 
-              <select name="jenis_mitra">
-                <option value="">Semua Jenis Mitra</option>
-                <option value="perbankan" {{ request('jenis_mitra')=='perbankan'?'selected':'' }}>Perbankan</option>
-                <option value="non" {{ request('jenis_mitra')=='non'?'selected':'' }}>Non Perbankan</option>          
-              </select>
-
-              <select name="status_rat">
-                <option value="">Semua Status RAT</option>
-                <option value="YA" {{ request('status_rat')=='YA'?'selected':'' }}>YA</option>
-                <option value="TIDAK" {{ request('status_rat')=='TIDAK'?'selected':'' }}>TIDAK</option>
-              </select>
-
-              <select name="status_lpj">
-                <option value="">Semua Status LPJ</option>
-                <option value="LENGKAP" {{ request('status_lpj')=='LENGKAP'?'selected':'' }}>LENGKAP</option>
-                <option value="TIDAK LENGKAP" {{ request('status_lpj')=='TIDAK LENGKAP'?'selected':'' }}>TIDAK LENGKAP</option>
-              </select>
-
-              <button type="submit" class="btn">Filter</button>
+              <button type="submit" class="btn">
+                Filter
+              </button>
 
             </div>
+
           </form>
 
-          <!-- TABLE KOPERASI -->
           <div class="table-wrapper">
-            <table class="table-koperasi">
+
+            <table>
+
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Jumlah Koperasi</th>
+                  <th>Jumlah</th>
                   <th>Tahun</th>
                   <th>Status</th>
                   <th>Status Mitra</th>
                   <th>Jenis Mitra</th>
                   <th>Kelurahan</th>
                   <th>Kecamatan</th>
-                  <th>Status RAT</th>
-                  <th>Status LPJ</th>
-                  <th>Total Pengawasan</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
 
               <tbody>
+
                 @forelse($dataKoperasi as $d)
-                  <tr>
-                    <td>{{ ($dataKoperasi->currentPage()-1)*$dataKoperasi->perPage() + $loop->iteration }}</td>
-                    <td>{{ $d->jumlah }}</td>
-                    <td>{{ $d->tahun }}</td>
-                    <td><span class="badge" style="background: {{ $d->status == 'aktif' ? '#d1e7dd' : '#f8d7da' }}">{{ ucfirst($d->status) }}</span></td>
-                    <td>{{ ucfirst($d->status_mitra) }}</td>
-                    <td>{{ ucfirst($d->jenis_mitra) }}</td>
-                    <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
-                    <td>{{ $d->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-                    <td><span class="badge" style="background: {{ $d->status_rat == 'YA' ? '#d1e7dd' : '#f8d7da' }}">{{ $d->status_rat }}</span></td>
-                    <td><span class="badge" style="background: {{ $d->status_lpj == 'LENGKAP' ? '#d1e7dd' : '#f8d7da' }}">{{ $d->status_lpj }}</span></td>
-                    <td>{{ $d->total_pengawasan }}</td>
-                    <td>
-                      <div class="action">
-                        <a href="/admin/koperasi/edit/{{ $d->id }}" class="btn btn-edit">Edit</a>
-                        <button onclick="confirmDelete('/admin/koperasi/delete/{{ $d->id }}')" class="btn btn-delete">
-                          Hapus
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+
+                <tr>
+
+                  <td>
+                    {{ ($dataKoperasi->currentPage()-1)*$dataKoperasi->perPage() + $loop->iteration }}
+                  </td>
+
+                  <td>{{ $d->jumlah }}</td>
+
+                  <td>{{ $d->tahun }}</td>
+
+                  <td>
+                    <span class="badge">
+                      {{ ucfirst($d->status) }}
+                    </span>
+                  </td>
+
+                  <td>{{ ucfirst($d->status_mitra) }}</td>
+
+                  <td>{{ ucfirst($d->jenis_mitra) }}</td>
+
+                  <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
+
+                  <td>{{ $d->kecamatan->NM_KECAMATAN ?? '-' }}</td>
+
+                  <td>
+                    <div class="action">
+
+                      <a href="/admin/koperasi/edit/{{ $d->id }}" class="btn btn-edit">
+                        Edit
+                      </a>
+
+                      <button
+                        onclick="confirmDelete('/admin/koperasi/delete/{{ $d->id }}')"
+                        class="btn btn-delete"
+                      >
+                        Hapus
+                      </button>
+
+                    </div>
+                  </td>
+
+                </tr>
+
                 @empty
-                  <tr>
-                    <td colspan="12" style="text-align:center;">Tidak ada data</td>
-                  </tr>
+
+                <tr>
+                  <td colspan="9">Tidak ada data</td>
+                </tr>
+
                 @endforelse
+
               </tbody>
+
             </table>
+
           </div>
 
-          <!-- PAGINATION KOPERASI -->
           <div class="pagination-wrapper">
-            <div class="pagination">
-              {{ $dataKoperasi->links('components.pagination', ['paginator' => $dataKoperasi]) }}
+
+            <div>
+              {{ $dataKoperasi->links() }}
             </div>
 
             <div class="pagination-info">
-              Menampilkan {{ $dataKoperasi->firstItem() ?? 0 }} hingga {{ $dataKoperasi->lastItem() ?? 0 }} dari {{ $dataKoperasi->total() }} data
+              Menampilkan
+              {{ $dataKoperasi->firstItem() ?? 0 }}
+              -
+              {{ $dataKoperasi->lastItem() ?? 0 }}
+              dari
+              {{ $dataKoperasi->total() }}
+              data
             </div>
+
           </div>
 
         </div>
+
       </div>
 
-      <!-- TAB PEGAWAI -->
       <div id="pegawai" class="tab-content">
+
         <div class="top">
+
           <h2>Data Pegawai</h2>
-          <a href="/admin/pegawai/create" class="btn btn-add">+ Tambah</a>
+
+          <div style="display: flex; gap: 10px;">
+            <a href="#" onclick="history.back()" class="btn btn-back">
+              ← Kembali
+            </a>
+            <a href="/admin/pegawai/create" class="btn btn-add">
+              + Tambah
+            </a>
+          </div>
+
         </div>
 
         <div class="card">
 
-          <!-- FILTER PEGAWAI -->
-          <form method="GET">
-            <div class="filter">
-
-              <input
-                type="text"
-                name="search_pegawai"
-                placeholder="Cari jumlah, status, program..."
-                value="{{ request('search_pegawai') }}"
-              >
-
-              <select name="status_pegawai">
-                <option value="">Semua Status</option>
-                <option value="pns" {{ request('status_pegawai')=='pns'?'selected':'' }}>PNS</option>
-                <option value="non_pns" {{ request('status_pegawai')=='non_pns'?'selected':'' }}>Non PNS</option>
-              </select>
-
-              <select name="program_pegawai">
-                <option value="">Semua Program</option>
-                <option value="diklat" {{ request('program_pegawai')=='diklat'?'selected':'' }}>Diklat</option>
-                <option value="bimtek" {{ request('program_pegawai')=='bimtek'?'selected':'' }}>Bimtek</option>
-                <option value="tidak ada" {{ request('program_pegawai')=='tidak ada'?'selected':'' }}>Tidak Ada</option>
-              </select>
-
-              <button type="submit" class="btn">Filter</button>
-
-            </div>
-          </form>
-
-          <!-- TABLE PEGAWAI -->
           <div class="table-wrapper">
-            <table class="table-pegawai">
+
+            <table>
+
               <thead>
                 <tr>
                   <th>No</th>
@@ -685,125 +610,140 @@
               </thead>
 
               <tbody>
+
                 @forelse($dataPegawai as $p)
-                  <tr>
-                    <td>{{ ($dataPegawai->currentPage()-1)*$dataPegawai->perPage() + $loop->iteration }}</td>
-                    <td>{{ $p->jumlah_pegawai }}</td>
-                    <td><span class="badge">{{ ucfirst(str_replace('_', ' ', $p->status)) }}</span></td>
-                    <td>{{ ucfirst($p->program) }}</td>
-                    <td>
-                      <div class="action">
-                        <a href="/admin/pegawai/edit/{{ $p->id }}" class="btn btn-edit">Edit</a>
-                        <button onclick="confirmDelete('/admin/pegawai/delete/{{ $p->id }}')" class="btn btn-delete">
-                          Hapus
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+
+                <tr>
+
+                  <td>
+                    {{ ($dataPegawai->currentPage()-1)*$dataPegawai->perPage() + $loop->iteration }}
+                  </td>
+
+                  <td>{{ $p->jumlah_pegawai }}</td>
+
+                  <td>
+                    <span class="badge">
+                      {{ ucfirst(str_replace('_', ' ', $p->status)) }}
+                    </span>
+                  </td>
+
+                  <td>{{ ucfirst($p->program) }}</td>
+
+                  <td>
+
+                    <div class="action">
+
+                      <a href="/admin/pegawai/edit/{{ $p->id }}" class="btn btn-edit">
+                        Edit
+                      </a>
+
+                      <button
+                        onclick="confirmDelete('/admin/pegawai/delete/{{ $p->id }}')"
+                        class="btn btn-delete"
+                      >
+                        Hapus
+                      </button>
+
+                    </div>
+
+                  </td>
+
+                </tr>
+
                 @empty
-                  <tr>
-                    <td colspan="5" style="text-align:center;">Tidak ada data</td>
-                  </tr>
+
+                <tr>
+                  <td colspan="5">Tidak ada data</td>
+                </tr>
+
                 @endforelse
+
               </tbody>
+
             </table>
-          </div>
 
-          <!-- PAGINATION PEGAWAI -->
-          <div class="pagination-wrapper">
-            <div class="pagination">
-              {{ $dataPegawai->links('components.pagination', ['paginator' => $dataPegawai]) }}
-            </div>
-
-            <div class="pagination-info">
-              Menampilkan {{ $dataPegawai->firstItem() ?? 0 }} hingga {{ $dataPegawai->lastItem() ?? 0 }} dari {{ $dataPegawai->total() }} data
-            </div>
           </div>
 
         </div>
+
       </div>
 
     </div>
 
   </main>
 
-  <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
-    // TANGGAL SIDEBAR
-    const tanggalSidebar = document.getElementById('tanggalSidebar');
 
-    if (tanggalSidebar) {
-      const hariNama = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-      const bulanNama = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-
-      const sekarang = new Date();
-
-      const hari = hariNama[sekarang.getDay()];
-      const tanggal = sekarang.getDate();
-      const bulan = bulanNama[sekarang.getMonth()];
-      const tahun = sekarang.getFullYear();
-
-      tanggalSidebar.textContent = `${hari}, ${tanggal} ${bulan} ${tahun}`;
+    // TOGGLE SIDEBAR MOBILE
+    function toggleSidebar() {
+      document.getElementById('sidebarMenu').classList.toggle('active');
+      document.getElementById('overlay').classList.toggle('active');
     }
 
-    // SWITCH TABS
-    function switchTab(tab) {
-      // Hide all tabs
-      document.querySelectorAll('.tab-content').forEach(el => {
-        el.classList.remove('active');
+    // TAB
+    function switchTab(event, tabId){
+
+      document.querySelectorAll('.tab-content').forEach(tab=>{
+        tab.classList.remove('active');
       });
 
-      // Remove active class from all buttons
-      document.querySelectorAll('.tab-btn').forEach(btn => {
+      document.querySelectorAll('.tab-btn').forEach(btn=>{
         btn.classList.remove('active');
       });
 
-      // Show selected tab
-      document.getElementById(tab).classList.add('active');
+      document.getElementById(tabId).classList.add('active');
 
-      // Add active class to clicked button
-      event.target.classList.add('active');
+      event.currentTarget.classList.add('active');
     }
 
     // DELETE
-    function confirmDelete(url) {
+    function confirmDelete(url){
+
       Swal.fire({
-        title: 'Yakin?',
-        text: "Data akan dihapus!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#dc3545',
-        confirmButtonText: 'Ya, hapus!'
-      }).then((result) => {
-        if (result.isConfirmed) {
+        title:'Yakin?',
+        text:'Data akan dihapus',
+        icon:'warning',
+        showCancelButton:true,
+        confirmButtonColor:'#dc3545',
+        confirmButtonText:'Ya, hapus'
+      }).then((result)=>{
+
+        if(result.isConfirmed){
           window.location.href = url;
         }
+
       });
     }
 
     // LOGOUT
-    function logout() {
+    function logout(){
+
       Swal.fire({
-        title: 'Logout?',
-        text: "Kamu akan keluar",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#0d6efd',
-        confirmButtonText: 'Ya, logout'
-      }).then((result) => {
-        if (result.isConfirmed) {
+        title:'Logout?',
+        text:'Kamu akan keluar',
+        icon:'warning',
+        showCancelButton:true,
+        confirmButtonColor:'#0d6efd',
+        confirmButtonText:'Ya, logout'
+      }).then((result)=>{
+
+        if(result.isConfirmed){
+
           localStorage.removeItem("login");
+
           window.location.href = "/logout";
         }
+
       });
     }
 
     // LOGIN CHECK
-    if (localStorage.getItem("login") !== "true") {
+    if(localStorage.getItem("login") !== "true"){
       window.location.href = "/";
     }
+
   </script>
 
 </body>

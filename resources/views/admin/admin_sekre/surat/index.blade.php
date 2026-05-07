@@ -29,8 +29,12 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
 .top{display:flex;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px; align-items: center;}
 .btn{padding:8px 14px;border-radius:8px;border:none;cursor:pointer; text-decoration: none; display: inline-block; font-size: 14px;}
 .btn-add{background:#20c997;color:white;}
+.btn-add:hover{background:#1aa179; transition:0.2s ease;}
 .btn-edit{background:#ffc107;color:black;}
 .btn-delete{background:#dc3545;color:white;}
+/* Tambahan CSS untuk tombol kembali */
+.btn-back {background: #6c757d; color: white;}
+.btn-back:hover {background: #5a6268; transition: 0.2s ease;}
 
 .card{background:white;padding:20px;border-radius:12px;border:1px solid #e5e7eb;}
 .filter{display:flex;gap:10px;margin-bottom:15px;flex-wrap:wrap;}
@@ -80,12 +84,12 @@ tr:hover{background:#eef4ff;}
 
 <div class="sidebar" id="sidebarMenu">
   <h2>ADMIN</h2>
-  <!-- Link Dashboard dihapus -->
   <a href="/admin/admin_sekre" class="active"><i class="fas fa-user-tie"></i> Sekretariat</a>
       <a href="/admin/admin_pum">
       <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
     </a>
   <a href="/admin/pembinaan"><i class="fas fa-briefcase"></i> Pembinaan</a>
+  <a href="/admin/koperasi"><i class="fas fa-building"></i> Koperasi</a>
   <a href="/admin/perdagangan"><i class="fas fa-truck"></i> Perdagangan</a>
   <button onclick="logout()" class="logout-btn">Logout</button>
 </div>
@@ -104,7 +108,10 @@ tr:hover{background:#eef4ff;}
 
 <div class="top">
   <h2>Data Surat</h2>
-  <a href="{{ route('surat.create') }}" class="btn btn-add">+ Tambah Data</a>
+  <div style="display: flex; gap: 10px;">
+    <a href="/admin/admin_sekre" class="btn btn-back">← Kembali</a>
+    <a href="{{ route('surat.create') }}" class="btn btn-add">+ Tambah Data</a>
+  </div>
 </div>
 
 @if(session('success'))
