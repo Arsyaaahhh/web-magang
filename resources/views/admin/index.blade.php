@@ -142,6 +142,10 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
       <i class="fas fa-truck"></i> Perdagangan
     </a>
 
+    <a href="/admin/koperasi">
+      <i class="fas fa-building"></i> Bidang Koperasi
+    </a>
+
   <!-- Tombol Logout -->
   <button onclick="window.location.href='/logout'" class="logout-btn">Logout</button>
 </div>
@@ -176,7 +180,7 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
   </a>
 
   <!-- 🔥 PEGAWAI (Diubah menjadi tag a href) -->
-  <a href="{{ route('pegawai.rekap') }}" class="card">
+  <a href="{{ route('pegawai.index') }}" class="card">
     <h4>Data Pegawai</h4>
     <p>Informasi pegawai sekretariat</p>
   </a>
