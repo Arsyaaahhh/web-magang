@@ -237,8 +237,12 @@
       <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
     </a>
 
-    <a href="/admin/admin_pup">
+    <a href="/admin/admin_pup/adminpup">
       <i class="fas fa-briefcase"></i> Pembinaan
+    </a>
+
+    <a href="/admin/koperasi">
+      <i class="fas fa-building"></i> Koperasi
     </a>
 
     <a href="/admin/admin_perdagangan">
@@ -277,13 +281,13 @@
       <div id="mainMenu" class="cards-grid">
 
         <!-- Tombol untuk menuju halaman UMKM -->
-        <a class="card menu-card" href="{{ route('adminumkm') }}">
+        <a class="card menu-card" href="/admin/admin_pum/adminumkm">
           <h4>UMKM</h4>
           <p>Informasi UMKM</p>
         </a>
 
         <!-- Tombol untuk menuju halaman SWK -->
-        <a class="card menu-card" href="{{ route('adminswk') }}">
+        <a class="card menu-card" href="/admin/admin_pum/adminswk">
           <h4>SWK</h4>
           <p>Informasi SWK</p>
         </a>

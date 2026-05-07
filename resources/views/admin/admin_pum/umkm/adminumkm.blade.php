@@ -379,6 +379,10 @@
       <i class="fas fa-briefcase"></i> Pembinaan
     </a>
 
+    <a href="/admin/koperasi">
+      <i class="fas fa-building"></i> Koperasi
+    </a>
+
     <a href="/admin/admin_perdagangan">
       <i class="fas fa-truck"></i> Perdagangan
     </a>

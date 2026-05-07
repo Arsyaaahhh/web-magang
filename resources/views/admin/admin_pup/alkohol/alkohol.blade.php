@@ -40,6 +40,7 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
         <a href="{{ route('surat.index') }}"><i class="fas fa-user-tie"></i> Sekretariat</a>
         <a href="{{ route('admin_pum.adminpum') }}"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
         <a href="{{ route('admin_pup.index') }}" class="active"><i class="fas fa-briefcase"></i> Pembinaan</a>
+        <a href="/admin/koperasi"><i class="fas fa-building"></i> Koperasi</a>
         <a href="#"><i class="fas fa-truck"></i> Perdagangan</a>
     </div>
     <button onclick="logout()" class="logout-btn">Logout</button>

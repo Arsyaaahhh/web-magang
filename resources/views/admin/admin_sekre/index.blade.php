@@ -142,6 +142,7 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
       <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
     </a>
   <a href="/admin/admin_pup"><i class="fas fa-briefcase"></i> Pembinaan</a>
+  <a href="/admin/koperasi"><i class="fas fa-building"></i> Koperasi</a>
   <a href="/admin/perdagangan"><i class="fas fa-truck"></i> Perdagangan</a>
 
   <button onclick="logout()" class="logout-btn">Logout</button>

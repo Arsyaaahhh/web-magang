@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tambah Koperasi</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -16,6 +17,7 @@
 
     body {
       background: linear-gradient(135deg, #eef4ff, #f8fafc);
+      min-height: 100vh;
     }
 
     .navbar {
@@ -34,7 +36,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 90vh;
+      min-height: calc(100vh - 60px);
+      padding: 20px;
     }
 
     .card {
@@ -49,7 +52,22 @@
     .header {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       margin-bottom: 15px;
+    }
+
+    .header h2 {
+      font-size: 18px;
+    }
+
+    /* Tampilan tombol kembali dirapikan */
+    .back {
+      font-size: 13px;
+      text-decoration: none;
+      color: #6b7280;
+    }
+    .back:hover {
+      color: #374151;
     }
 
     .form-grid {
@@ -61,6 +79,8 @@
     label {
       font-size: 12px;
       color: #6b7280;
+      margin-bottom: 3px;
+      display: block;
     }
 
     input, select {
@@ -68,6 +88,12 @@
       padding: 8px;
       border-radius: 7px;
       border: 1px solid #d1d5db;
+      font-size: 13px;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #0d6efd;
     }
 
     .btn {
@@ -78,6 +104,22 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      width: 100%;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: #0b5ed7;
+    }
+
+    /* 🔥 MEDIA QUERY RESPONSIVE (SMARTPHONE) */
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr; /* Form menjadi 1 baris ke bawah di HP */
+      }
+      .navbar {
+        padding: 15px 20px;
+      }
     }
   </style>
 </head>
@@ -86,7 +128,7 @@
 
 <div class="navbar">
   <h3>Admin Koperasi</h3>
-  <div>Tambah Data</div>
+  <div style="font-size: 14px; color: #666;">Tambah Data</div>
 </div>
 
 <div class="container">
@@ -94,7 +136,7 @@
 
     <div class="header">
       <h2>Tambah Data Koperasi</h2>
-      <a href="/admin/koperasi">← Kembali</a>
+      <a href="/admin/koperasi" class="back">← Kembali</a>
     </div>
 
 <form action="/admin/koperasi/store" method="POST">
@@ -102,7 +144,6 @@
 
 <div class="form-grid">
 
-  <!-- Kecamatan -->
   <div>
     <label>Kecamatan</label>
     <select name="ID_KECAMATAN" id="kecamatan" required>
@@ -115,7 +156,6 @@
     </select>
   </div>
 
-  <!-- Kelurahan -->
   <div>
     <label>Kelurahan</label>
     <select name="ID_KELURAHAN" id="kelurahan" required>
@@ -123,19 +163,16 @@
     </select>
   </div>
 
-  <!-- Jumlah Koperasi -->
   <div>
     <label>Jumlah Koperasi</label>
     <input type="number" name="jumlah" required min="0">
   </div>
 
-  <!-- Tahun -->
   <div>
     <label>Tahun</label>
     <input type="year" name="tahun" required min="1900">
   </div>
 
-  <!-- Status -->
   <div>
     <label>Status</label>
     <select name="status">
@@ -144,7 +181,6 @@
     </select>
   </div>
 
-  <!-- Mitra -->
   <div>
     <label>Status Mitra</label>
     <select name="status_mitra">
@@ -153,7 +189,6 @@
     </select>
   </div>
 
-  <!-- Jenis Mitra -->
   <div>
     <label>Jenis Mitra</label>
     <select name="jenis_mitra">
@@ -162,7 +197,6 @@
     </select>
   </div>
 
-  <!-- Status RAT -->
   <div>
     <label>Status RAT</label>
     <select name="status_rat">
@@ -171,7 +205,6 @@
     </select>
   </div>
 
-  <!-- Status LPJ -->
   <div>
     <label>Status LPJ</label>
     <select name="status_lpj">
@@ -180,7 +213,6 @@
     </select>
   </div>
 
-  <!-- Total Pengawasan -->
   <div>
     <label>Total Pengawasan</label>
     <input type="number" name="total_pengawasan" required min="0" value="0">
