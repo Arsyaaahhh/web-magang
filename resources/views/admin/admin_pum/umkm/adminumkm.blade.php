@@ -2,6 +2,9 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <!-- 🔥 INI WAJIB UNTUK RESPONSIVE HP 🔥 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <title>Admin UMKM</title>
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
@@ -19,6 +22,16 @@
       background: #f8fafc;
       font-weight: 400;
       color: #333;
+      overflow-x: hidden;
+    }
+
+    /* OVERLAY (Background gelap saat sidebar terbuka di HP) */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
     }
 
     main {
@@ -26,6 +39,7 @@
       display: flex;
       flex-direction: column;
       margin-left: 240px;
+      transition: margin-left 0.3s ease;
     }
 
     /* NAVBAR */
@@ -36,6 +50,22 @@
       justify-content: space-between;
       align-items: center;
       box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .toggle-btn {
+      display: none;
+      font-size: 1.5rem;
+      color: #0d6efd;
+      cursor: pointer;
     }
 
     .navbar h3 {
@@ -55,6 +85,7 @@
       display: flex;
       justify-content: space-between;
       margin-bottom: 20px;
+      align-items: center;
     }
 
     /* BUTTON */
@@ -111,11 +142,18 @@
     }
 
     /* TABLE */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
       border: 1px solid #e5e7eb;
       color: #333;
+      min-width: 1000px; /* Biar tabel gak hancur di HP */
     }
 
     th {
@@ -166,6 +204,7 @@
     .pagination {
       display: flex;
       gap: 6px;
+      flex-wrap: wrap;
     }
 
     .pagination li {
@@ -214,10 +253,10 @@
       color: white;
       padding: 20px;
       position: fixed;
-    }
-
-    .sidebar.hide{
-    transform:translateX(-100%);
+      left: 0;
+      top: 0;
+      z-index: 1000;
+      transition: left 0.3s ease;
     }
 
     .sidebar h2 {
@@ -244,43 +283,11 @@
       background: rgba(255, 255, 255, 0.2);
     }
 
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-        .sidebar {
-            position: absolute;
-        }
-
-        main {
-            margin-left: 0;
-        }
-    }
-
-    .card h4 {
-        font-weight: 500;
-        letter-spacing: 0.3px;
-    }
-
-    .card h2 {
-        font-weight: 600;
-    }
-
-    .card p {
-        font-weight: 400;
-        opacity: 0.85;
-    }
-
-    /* ================= ICON LEBIH PAS ================= */
-    .card i {
-        font-size: 20px;
-        margin-bottom: 8px;
-        opacity: 0.85;
-    }
-
-    /* ================= HOVER LEBIH HALUS ================= */
-    .card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
-    }
+    .card h4 { font-weight: 500; letter-spacing: 0.3px; }
+    .card h2 { font-weight: 600; }
+    .card p { font-weight: 400; opacity: 0.85; }
+    .card i { font-size: 20px; margin-bottom: 8px; opacity: 0.85; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12); }
 
     /* TOMBOL KELUAR */
     .logout-btn {
@@ -301,14 +308,60 @@
         margin-right: 6px;
     }
 
-    /* HOVER BIAR BAGUS */
     .logout-btn:hover {
         background: #dc2626;
+    }
+
+    /* ======================================================= */
+    /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
+    /* ======================================================= */
+    @media (max-width: 768px) {
+        .sidebar {
+            left: -240px;
+        }
+        .sidebar.active {
+            left: 0;
+        }
+
+        main {
+            margin-left: 0;
+        }
+
+        .toggle-btn {
+            display: block;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .top {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .filter {
+            flex-direction: column;
+        }
+
+        .filter input,
+        .filter select,
+        .filter button {
+            width: 100%;
+        }
+
+        .navbar {
+            padding: 15px 20px;
+        }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- OVERLAY (Muncul di HP saat sidebar terbuka) -->
+  <div class="overlay" onclick="toggleSidebar()"></div>
 
   <!-- SIDEBAR -->
   <div class="sidebar">
@@ -340,10 +393,13 @@
 
     <!-- NAVBAR -->
     <div class="navbar">
-      <h3>Admin Pemberdayaan Usaha Mikro</h3>
+      <div class="navbar-left">
+        <i class="fas fa-bars toggle-btn" onclick="toggleSidebar()"></i>
+        <h3>Admin Pemberdayaan Usaha Mikro</h3>
+      </div>
 
       <div style="display:flex; gap:10px; align-items:center;">
-        <span>Halo {{ session('username') ?? 'Admin' }} 👋</span>
+        <span style="font-size: 14px;">Halo {{ session('username') ?? 'Admin' }} 👋</span>
       </div>
     </div>
 
@@ -384,68 +440,70 @@
               <option value="">Semua Kelurahan</option>
             </select>
 
-            <button type="submit" class="btn">Filter</button>
+            <button type="submit" class="btn" style="background:#0d6efd; color:white;">Filter</button>
 
           </div>
         </form>
 
         <!-- TABLE -->
-        <table>
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>Kecamatan</th>
-              <th>Kelurahan</th>
-              <th>Total UMKM</th>
-              <th>UMKM Binaan</th>
-              <th>Sertifikasi Halal</th>
-              <th>Sertifikasi Merek</th>
-              <th>NIB</th>
-              <th>Peken</th>
-              <th>Padat Karya</th>
-              <th>Aksi</th>
-            </tr>
-          </thead>
+        <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Kecamatan</th>
+                  <th>Kelurahan</th>
+                  <th>Total UMKM</th>
+                  <th>UMKM Binaan</th>
+                  <th>Sertifikasi Halal</th>
+                  <th>Sertifikasi Merek</th>
+                  <th>NIB</th>
+                  <th>Peken</th>
+                  <th>Padat Karya</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
 
-          <tbody>
-            @forelse($data as $d)
-              <tr>
-                <td>{{ ($data->currentPage()-1)*$data->perPage() + $loop->iteration }}</td>
-                <td>{{ $d->kelurahan->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-                <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
-                <td>{{ $d->total_umkm }}</td>
-                <td>{{ $d->umkm_binaan }}</td>
-                <td>{{ $d->sertifikasi_halal }}</td>
-                <td>{{ $d->sertifikasi_merek }}</td>
-                <td>{{ $d->nib }}</td>
-                <td>{{ $d->peken }}</td>
-                <td>{{ $d->padat_karya }}</td>
-                <td>
-                  <div class="action">
-                    <a href="/admin/admin_pum/umkmedit/{{ $d->id }}" class="btn btn-edit">Edit</a>
-                    <form id="deleteForm{{ $d->id }}" action="/admin/admin_pum/umkmdelete/{{ $d->id }}" method="POST">
-                      @csrf
-                      @method('DELETE')
+              <tbody>
+                @forelse($data as $d)
+                  <tr>
+                    <td>{{ ($data->currentPage()-1)*$data->perPage() + $loop->iteration }}</td>
+                    <td>{{ $d->kelurahan->kecamatan->NM_KECAMATAN ?? '-' }}</td>
+                    <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
+                    <td>{{ $d->total_umkm }}</td>
+                    <td>{{ $d->umkm_binaan }}</td>
+                    <td>{{ $d->sertifikasi_halal }}</td>
+                    <td>{{ $d->sertifikasi_merek }}</td>
+                    <td>{{ $d->nib }}</td>
+                    <td>{{ $d->peken }}</td>
+                    <td>{{ $d->padat_karya }}</td>
+                    <td>
+                      <div class="action">
+                        <a href="/admin/admin_pum/umkmedit/{{ $d->id }}" class="btn btn-edit">Edit</a>
+                        <form id="deleteForm{{ $d->id }}" action="/admin/admin_pum/umkmdelete/{{ $d->id }}" method="POST">
+                          @csrf
+                          @method('DELETE')
 
-                      <button
-                        type="button"
-                        class="btn btn-delete"
-                        onclick="confirmDelete('deleteForm{{ $d->id }}')"
-                      >
-                        Hapus
-                      </button>
+                          <button
+                            type="button"
+                            class="btn btn-delete"
+                            onclick="confirmDelete('deleteForm{{ $d->id }}')"
+                          >
+                            Hapus
+                          </button>
 
-                    </form>
-                  </div>
-                </td>
-              </tr>
-            @empty
-              <tr>
-                <td colspan="11" style="text-align:center;">Tidak ada data</td>
-              </tr>
-            @endforelse
-          </tbody>
-        </table>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                @empty
+                  <tr>
+                    <td colspan="11" style="text-align:center;">Tidak ada data</td>
+                  </tr>
+                @endforelse
+              </tbody>
+            </table>
+        </div>
 
         <!-- PAGINATION -->
         <div class="pagination-wrapper">
@@ -467,6 +525,12 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
+    // TOGGLE SIDEBAR UNTUK HP
+    function toggleSidebar() {
+        document.querySelector('.sidebar').classList.toggle('active');
+        document.querySelector('.overlay').classList.toggle('active');
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
 
         let kecamatan = document.getElementById('kecamatan');

@@ -23,19 +23,17 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
 
 /* SIDEBAR */
 .sidebar{
-  width:240px;height:100vh;background:#0d6efd;color:white;padding:20px;
-  position:fixed; top:0; left:0; z-index: 1000;
-  transition: transform 0.3s ease;
+  width:240px;height:100vh;background:#0d6efd;color:white;padding:20px;position:fixed;
+  z-index: 1000; transition: left 0.3s ease;
 }
 .sidebar h2{margin-bottom:20px;}
 .sidebar a{
   display:block;color:white;padding:10px;border-radius:8px;margin-bottom:8px;text-decoration:none;
 }
 .sidebar a:hover,.sidebar .active{background:rgba(255,255,255,0.2);}
-.sidebar a i {margin-right: 8px;}
 .logout-btn{
   margin-top:20px;width:100%;padding:10px;border:none;border-radius:8px;background:#dc3545;color:white;
-  cursor:pointer; font-weight: 500;
+  cursor:pointer;
 }
 
 /* MAIN */

@@ -2,6 +2,9 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <!-- 🔥 INI WAJIB UNTUK RESPONSIVE HP 🔥 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <title>Edit UMKM</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -16,6 +19,7 @@
 
     body {
       background: linear-gradient(135deg, #eef4ff, #f8fafc);
+      min-height: 100vh;
     }
 
     /* NAVBAR */
@@ -36,8 +40,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 90vh;
-      margin-top: 20px;
+      min-height: calc(100vh - 60px);
+      padding: 20px;
     }
 
     /* CARD (GLASS EFFECT) */
@@ -115,7 +119,8 @@
 
     /* BUTTON */
     .btn {
-      margin-top: 10px;
+      margin-top: 15px;
+      width: 100%;
       padding: 10px;
       border: none;
       border-radius: 8px;
@@ -150,6 +155,24 @@
       padding: 5px;
       font-size: 13px;
     }
+
+    /* ======================================================= */
+    /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 600px)         */
+    /* ======================================================= */
+    @media (max-width: 600px) {
+        .form-grid {
+            grid-template-columns: 1fr; /* Form menjadi satu kolom memanjang ke bawah */
+        }
+        .navbar {
+            padding: 15px 20px;
+        }
+        .card {
+            padding: 20px;
+        }
+        .header h2 {
+            font-size: 16px;
+        }
+    }
   </style>
 </head>
 
@@ -157,7 +180,7 @@
 
   <div class="navbar">
     <h3>Admin Pemberdayaan Usaha Mikro</h3>
-    <div>Edit Data</div>
+    <div style="font-size: 14px; color: #666;">Edit Data</div>
   </div>
 
   <div class="container">
@@ -223,7 +246,7 @@
             <input name="peken" type="number" value="{{ $data->peken }}" min="0">
           </div>
 
-          <div>
+          <div style="grid-column: 1 / -1;">
             <label>Padat Karya</label>
             <input name="padat_karya" type="number" value="{{ $data->padat_karya }}" min="0">
           </div>
