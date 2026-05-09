@@ -219,13 +219,13 @@
     }
 
     /* TAMBAHAN UNTUK TOMBOL KEMBALI */
-    .btn-back {
+    /* .btn-back {
       background: #6c757d;
       color: white;
     }
     .btn-back:hover {
       background: #5a6268;
-    }
+    } */
 
     .btn-edit{
       background:#ffc107;
@@ -427,153 +427,125 @@
 
       </div>
 
+      <!-- TAB KOPERASI -->
       <div id="koperasi" class="tab-content active">
-
         <div class="top">
           <h2>Data Koperasi</h2>
-
-          <div style="display: flex; gap: 10px;">
-            <a href="#" onclick="history.back()" class="btn btn-back">
-              ← Kembali
-            </a>
-            <a href="/admin/koperasi/create" class="btn btn-add">
-              + Tambah
-            </a>
-          </div>
+          <a href="/admin/koperasi/create" class="btn btn-add">+ Tambah</a>
         </div>
 
         <div class="card">
 
+          <!-- FILTER KOPERASI -->
           <form method="GET">
-
             <div class="filter">
 
               <input
                 type="text"
                 name="search"
-                placeholder="Cari data..."
+                placeholder="Cari jumlah, status, mitra, jenis, kelurahan, kecamatan, rat, lpj, pengawasan..."
                 value="{{ request('search') }}"
               >
 
               <select name="status">
                 <option value="">Semua Status</option>
-                <option value="aktif">Aktif</option>
-                <option value="tidak aktif">Tidak Aktif</option>
+                <option value="aktif" {{ request('status')=='aktif'?'selected':'' }}>Aktif</option>
+                <option value="tidak aktif" {{ request('status')=='tidak aktif'?'selected':'' }}>Tidak Aktif</option>
               </select>
 
               <select name="status_mitra">
                 <option value="">Semua Mitra</option>
-                <option value="bermitra">Bermitra</option>
-                <option value="belum">Belum</option>
+                <option value="bermitra" {{ request('status_mitra')=='bermitra'?'selected':'' }}>Bermitra</option>
+                <option value="belum" {{ request('status_mitra')=='belum'?'selected':'' }}>Belum</option>
               </select>
 
-              <button type="submit" class="btn">
-                Filter
-              </button>
+              <select name="jenis_mitra">
+                <option value="">Semua Jenis Mitra</option>
+                <option value="perbankan" {{ request('jenis_mitra')=='perbankan'?'selected':'' }}>Perbankan</option>
+                <option value="non" {{ request('jenis_mitra')=='non'?'selected':'' }}>Non Perbankan</option>          
+              </select>
+
+              <select name="status_rat">
+                <option value="">Semua Status RAT</option>
+                <option value="YA" {{ request('status_rat')=='YA'?'selected':'' }}>YA</option>
+                <option value="TIDAK" {{ request('status_rat')=='TIDAK'?'selected':'' }}>TIDAK</option>
+              </select>
+
+              <select name="status_lpj">
+                <option value="">Semua Status LPJ</option>
+                <option value="LENGKAP" {{ request('status_lpj')=='LENGKAP'?'selected':'' }}>LENGKAP</option>
+                <option value="TIDAK LENGKAP" {{ request('status_lpj')=='TIDAK LENGKAP'?'selected':'' }}>TIDAK LENGKAP</option>
+              </select>
+
+              <button type="submit" class="btn">Filter</button>
 
             </div>
-
           </form>
 
+          <!-- TABLE KOPERASI -->
           <div class="table-wrapper">
-
-            <table>
-
+            <table class="table-koperasi">
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Jumlah</th>
+                  <th>Jumlah Koperasi</th>
                   <th>Tahun</th>
                   <th>Status</th>
                   <th>Status Mitra</th>
                   <th>Jenis Mitra</th>
                   <th>Kelurahan</th>
                   <th>Kecamatan</th>
+                  <th>Status RAT</th>
+                  <th>Status LPJ</th>
+                  <th>Total Pengawasan</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
 
               <tbody>
-
                 @forelse($dataKoperasi as $d)
-
-                <tr>
-
-                  <td>
-                    {{ ($dataKoperasi->currentPage()-1)*$dataKoperasi->perPage() + $loop->iteration }}
-                  </td>
-
-                  <td>{{ $d->jumlah }}</td>
-
-                  <td>{{ $d->tahun }}</td>
-
-                  <td>
-                    <span class="badge">
-                      {{ ucfirst($d->status) }}
-                    </span>
-                  </td>
-
-                  <td>{{ ucfirst($d->status_mitra) }}</td>
-
-                  <td>{{ ucfirst($d->jenis_mitra) }}</td>
-
-                  <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
-
-                  <td>{{ $d->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-
-                  <td>
-                    <div class="action">
-
-                      <a href="/admin/koperasi/edit/{{ $d->id }}" class="btn btn-edit">
-                        Edit
-                      </a>
-
-                      <button
-                        onclick="confirmDelete('/admin/koperasi/delete/{{ $d->id }}')"
-                        class="btn btn-delete"
-                      >
-                        Hapus
-                      </button>
-
-                    </div>
-                  </td>
-
-                </tr>
-
+                  <tr>
+                    <td>{{ ($dataKoperasi->currentPage()-1)*$dataKoperasi->perPage() + $loop->iteration }}</td>
+                    <td>{{ $d->jumlah }}</td>
+                    <td>{{ $d->tahun }}</td>
+                    <td><span class="badge" style="background: {{ $d->status == 'aktif' ? '#d1e7dd' : '#f8d7da' }}">{{ ucfirst($d->status) }}</span></td>
+                    <td>{{ ucfirst($d->status_mitra) }}</td>
+                    <td>{{ ucfirst($d->jenis_mitra) }}</td>
+                    <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
+                    <td>{{ $d->kecamatan->NM_KECAMATAN ?? '-' }}</td>
+                    <td><span class="badge" style="background: {{ $d->status_rat == 'YA' ? '#d1e7dd' : '#f8d7da' }}">{{ $d->status_rat }}</span></td>
+                    <td><span class="badge" style="background: {{ $d->status_lpj == 'LENGKAP' ? '#d1e7dd' : '#f8d7da' }}">{{ $d->status_lpj }}</span></td>
+                    <td>{{ $d->total_pengawasan }}</td>
+                    <td>
+                      <div class="action">
+                        <a href="/admin/koperasi/edit/{{ $d->id }}" class="btn btn-edit">Edit</a>
+                        <button onclick="confirmDelete('/admin/koperasi/delete/{{ $d->id }}')" class="btn btn-delete">
+                          Hapus
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
                 @empty
-
-                <tr>
-                  <td colspan="9">Tidak ada data</td>
-                </tr>
-
+                  <tr>
+                    <td colspan="12" style="text-align:center;">Tidak ada data</td>
+                  </tr>
                 @endforelse
-
               </tbody>
-
             </table>
-
           </div>
 
+          <!-- PAGINATION KOPERASI -->
           <div class="pagination-wrapper">
-
-            <div>
-              {{ $dataKoperasi->links() }}
+            <div class="pagination">
+              {{ $dataKoperasi->links('components.pagination', ['paginator' => $dataKoperasi]) }}
             </div>
 
             <div class="pagination-info">
-              Menampilkan
-              {{ $dataKoperasi->firstItem() ?? 0 }}
-              -
-              {{ $dataKoperasi->lastItem() ?? 0 }}
-              dari
-              {{ $dataKoperasi->total() }}
-              data
+              Menampilkan {{ $dataKoperasi->firstItem() ?? 0 }} hingga {{ $dataKoperasi->lastItem() ?? 0 }} dari {{ $dataKoperasi->total() }} data
             </div>
-
           </div>
 
         </div>
-
       </div>
 
       <div id="pegawai" class="tab-content">
@@ -583,9 +555,9 @@
           <h2>Data Pegawai</h2>
 
           <div style="display: flex; gap: 10px;">
-            <a href="#" onclick="history.back()" class="btn btn-back">
+            <!-- <a href="#" onclick="history.back()" class="btn btn-back">
               ← Kembali
-            </a>
+            </a> -->
             <a href="/admin/pegawai/create" class="btn btn-add">
               + Tambah
             </a>
