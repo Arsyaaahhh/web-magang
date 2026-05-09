@@ -197,12 +197,11 @@ Route::get('/get-kelurahan/{id}', [TokokelontongController::class, 'getKelurahan
 | ADMIN KOPERASI
 |--------------------------------------------------------------------------
 */
-Route::prefix('admin/koperasi')->group(function () {
-    Route::get('/', [KoperasiController::class, 'index'])->name('koperasi.index');
-    Route::get('/create', [KoperasiController::class, 'create'])->name('koperasi.create');
-    Route::post('/store', [KoperasiController::class, 'store'])->name('koperasi.store');
-    Route::get('/get-kelurahan/{id}', [KoperasiController::class, 'getKelurahan'])->name('koperasi.getKelurahan');
-    Route::get('/edit/{id}', [KoperasiController::class, 'edit'])->name('koperasi.edit');
-    Route::post('/update/{id}', [KoperasiController::class, 'update'])->name('koperasi.update');
-    Route::get('/delete/{id}', [KoperasiController::class, 'destroy'])->name('koperasi.delete');
-});
+Route::get('/admin/koperasi/adminkoperasi', [KoperasiController::class, 'index']);
+Route::get('/admin/koperasi/create', [KoperasiController::class, 'create']);
+Route::post('/admin/koperasi/store', [KoperasiController::class, 'store']);
+Route::get('/admin/koperasi/edit/{id}', [KoperasiController::class, 'edit']);
+Route::post('/admin/koperasi/update/{id}', [KoperasiController::class, 'update']);
+Route::get('/admin/koperasi/delete/{id}', [KoperasiController::class, 'destroy']);
+Route::get('/admin/koperasi/get-kelurahan/{id}', [KoperasiController::class, 'getKelurahan']);
+Route::get('/koperasi', [KoperasiController::class, 'userPage']);

@@ -180,7 +180,7 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
   </a>
 
   <!-- 🔥 PEGAWAI (Diubah menjadi tag a href) -->
-  <a href="{{ route('pegawai.index') }}" class="card">
+  <a href="{{ route('pegawai.rekap') }}" class="card">
     <h4>Data Pegawai</h4>
     <p>Informasi pegawai sekretariat</p>
   </a>

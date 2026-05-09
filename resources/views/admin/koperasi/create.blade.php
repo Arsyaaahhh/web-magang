@@ -136,7 +136,7 @@
 
     <div class="header">
       <h2>Tambah Data Koperasi</h2>
-      <a href="/admin/koperasi" class="back">← Kembali</a>
+      <a href="/admin/koperasi/adminkoperasi" class="back">← Kembali</a>
     </div>
 
 <form action="/admin/koperasi/store" method="POST">

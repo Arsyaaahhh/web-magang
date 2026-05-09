@@ -121,7 +121,7 @@ class KoperasiController extends Controller
             'total_pengawasan'
         ]));
 
-        return redirect('/admin/koperasi')->with('success', 'Data berhasil ditambahkan');
+        return redirect('/admin/koperasi/adminkoperasi')->with('success', 'Data berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -162,7 +162,7 @@ class KoperasiController extends Controller
             'total_pengawasan'
         ]));
 
-        return redirect('/admin/koperasi')->with('success', 'Data berhasil diupdate');
+        return redirect('/admin/koperasi/adminkoperasi')->with('success', 'Data berhasil diupdate');
     }
 
     public function destroy($id)

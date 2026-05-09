@@ -371,7 +371,7 @@
       Pembinaan
     </a>
 
-    <a class="active" href="/admin/koperasi">
+    <a class="active" href="/admin/koperasi/adminkoperasi">
       <i class="fas fa-building"></i>
       Koperasi
     </a>
@@ -433,7 +433,7 @@
           <h2>Data Koperasi</h2>
 
           <div style="display: flex; gap: 10px;">
-            <a href="#" onclick="history.back()" class="btn btn-back">
+            <a href="/admin/koperasi/adminkoperasi" onclick="history.back()" class="btn btn-back">
               ← Kembali
             </a>
             <a href="/admin/koperasi/create" class="btn btn-add">
@@ -489,6 +489,9 @@
                   <th>Jenis Mitra</th>
                   <th>Kelurahan</th>
                   <th>Kecamatan</th>
+                  <th>status RAT</th>
+                  <th>status LPJ</th>
+                  <th>Total Pengawasan</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -520,7 +523,9 @@
                   <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
 
                   <td>{{ $d->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-
+                  <td>{{ ucfirst($d->status_rat) }}</td>
+                  <td>{{ ucfirst($d->status_lpj) }}</td>
+                  <td>{{ $d->total_pengawasan }}</td>
                   <td>
                     <div class="action">
 
@@ -583,7 +588,7 @@
           <h2>Data Pegawai</h2>
 
           <div style="display: flex; gap: 10px;">
-            <a href="#" onclick="history.back()" class="btn btn-back">
+            <a href="/admin/koperasi/adminkoperasi" onclick="history.back()" class="btn btn-back">
               ← Kembali
             </a>
             <a href="/admin/pegawai/create" class="btn btn-add">

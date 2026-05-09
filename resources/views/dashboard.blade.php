@@ -143,7 +143,7 @@
           <i class="fas fa-building fa-3x"></i>
           <div class="text">
             <h4>Bidang Koperasi</h4>
-            <h2>{{ $koperasi }}</h2>
+            <h2>{{ $totalJumlah }}</h2>
           </div>
         </a>
 

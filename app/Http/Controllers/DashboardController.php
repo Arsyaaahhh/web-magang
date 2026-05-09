@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Surat;
 use App\Models\Koperasi;
+
 class DashboardController extends Controller
 {
 
@@ -21,6 +22,7 @@ public function index()
     $koperasi    = Surat::where('bidang','koperasi')->count();
     $pembinaan   = Surat::where('bidang','pembinaan')->count();
     $metrologi   = Surat::where('bidang','metrologi')->count();
+    $totalJumlah = Koperasi::sum('jumlah');
 
     $chartData = [
         $sekretariat,
@@ -49,7 +51,8 @@ public function index()
         'metrologi',
         'chartData',
         'trendLabels',
-        'trendData'
+        'trendData',
+        'totalJumlah'
     ));
 }
 }

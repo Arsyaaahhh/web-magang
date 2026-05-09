@@ -255,6 +255,69 @@
       width: 100%;
     }
   }
+  /* 🔥 TAMBAHAN KHUSUS RESPONSIVE (TIDAK MERUBAH DESAIN ASLI) */
+    body {
+      overflow-x: hidden; /* Mencegah layar HP tergeser ke kanan karena chart */
+    }
+
+    .toggle-btn {
+      display: none; /* Sembunyikan tombol burger di laptop */
+    }
+    
+    .chart-grid {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .chart-box {
+      position: relative;
+      height: 300px; /* Batasi tinggi grafik agar proporsional */
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Pastikan canvas tunduk pada ukuran box */
+    .chart-box canvas {
+      max-width: 100% !important;
+    }
+
+    /* Mode Mobile / Smartphone */
+    @media screen and (max-width: 768px) {
+      .toggle-btn {
+        display: block;
+        font-size: 24px;
+        cursor: pointer;
+        margin-right: 15px;
+      }
+      .sidebar {
+        position: fixed;
+        left: -250px;
+        top: 0;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s ease;
+      }
+      .sidebar.active {
+        left: 0;
+      }
+      .main {
+        margin-left: 0 !important;
+        width: 100%;
+      }
+      .cards {
+        display: grid !important;
+        grid-template-columns: 1fr !important; /* Paksa card berbaris 1 ke bawah */
+        gap: 15px;
+      }
+      .chart-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important; /* Paksa chart berbaris 1 ke bawah */
+        gap: 20px;
+      }
+      .chart-box {
+        height: 250px; /* Kurangi sedikit tingginya di HP agar pas di layar */
+      }
+    }
 </style>
 
 </head>
