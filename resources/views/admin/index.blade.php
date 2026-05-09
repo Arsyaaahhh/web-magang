@@ -146,6 +146,10 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
       <i class="fas fa-building"></i> Bidang Koperasi
     </a>
 
+    <a href="/admin/admin_metro">
+      <i class="fas fa-ruler-combined"></i> Bidang Metrologi Legal
+    </a>
+
   <!-- Tombol Logout -->
   <button onclick="window.location.href='/logout'" class="logout-btn">Logout</button>
 </div>
@@ -180,13 +184,13 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
   </a>
 
   <!-- 🔥 PEGAWAI (Diubah menjadi tag a href) -->
-  <a href="{{ route('pegawai.index') }}" class="card">
+  <a href="/admin/admin_sekre/pegawai" class="card">
     <h4>Data Pegawai</h4>
     <p>Informasi pegawai sekretariat</p>
   </a>
 
   <!-- 🔥 MAGANG (Diubah menjadi tag a href) -->
-  <a href="{{ route('magang.index') }}" class="card">
+  <a href="/admin/admin_sekre/magang" class="card">
     <h4>Data Magang</h4>
     <p>Daftar peserta magang</p>
   </a>

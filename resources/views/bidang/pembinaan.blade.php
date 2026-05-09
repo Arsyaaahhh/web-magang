@@ -146,15 +146,15 @@
         <div class="cards" id="menuUtama">
             <div class="card blue" onclick="loadJenis('tdg')">
                 <h4>Data TDG</h4>
-                <h2 id="countTDG">0</h2>
+                <!-- <h2 id="countTDG">0</h2> -->
             </div>
             <div class="card orange" onclick="loadJenis('pengawasan')">
                 <h4>Data Pengawasan</h4>
-                <h2 id="countPengawasan">0</h2>
+                <!-- <h2 id="countPengawasan">0</h2> -->
             </div>
             <div class="card green" onclick="loadJenis('minol')">
                 <h4>Minuman Alkohol</h4>
-                <h2 id="countMinol">0</h2>
+                <!-- <h2 id="countMinol">0</h2> -->
             </div>
         </div>
 

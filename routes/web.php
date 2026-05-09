@@ -16,6 +16,9 @@ use App\Http\Controllers\PumController;
 use App\Http\Controllers\PasarController;
 use App\Http\Controllers\TokokelontongController;
 use App\Http\Controllers\KoperasiController;
+use App\Http\Controllers\MetrologiAlatController;
+use App\Http\Controllers\MetrologiReparasiController;
+use App\Http\Controllers\FrontendMetrologiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -206,3 +209,27 @@ Route::prefix('admin/koperasi')->group(function () {
     Route::post('/update/{id}', [KoperasiController::class, 'update'])->name('koperasi.update');
     Route::get('/delete/{id}', [KoperasiController::class, 'destroy'])->name('koperasi.delete');
 });
+
+Route::get('/admin/admin_metro/', fn()=>view('admin.admin_metro.index'))->name('admin_metro.index');
+
+Route::prefix('admin/admin_metro/alat')->group(function () {
+    Route::get('/', [MetrologiAlatController::class, 'index']);
+    Route::get('/create', [MetrologiAlatController::class, 'create']);
+    Route::post('/store', [MetrologiAlatController::class, 'store']);
+    Route::get('/edit/{id}', [MetrologiAlatController::class, 'edit']);
+    Route::post('/update/{id}', [MetrologiAlatController::class, 'update']);
+    Route::delete('/delete/{id}', [MetrologiAlatController::class, 'destroy']);
+});
+
+Route::prefix('admin/admin_metro/reparasi')->group(function () {
+        Route::get('/', [MetrologiReparasiController::class, 'index']);
+        Route::get('/create', [MetrologiReparasiController::class, 'create']);
+        Route::post('/store', [MetrologiReparasiController::class, 'store']);
+        Route::get('/edit/{id}', [MetrologiReparasiController::class, 'edit']);
+        Route::post('/update/{id}', [MetrologiReparasiController::class, 'update']);
+        Route::delete('/delete/{id}', [MetrologiReparasiController::class, 'destroy']);
+    });
+
+// frontend metro
+// Route untuk melempar data JSON ke Frontend Metrologi
+Route::get('/metrologi-data', [FrontendMetrologiController::class, 'getData']);
