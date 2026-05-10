@@ -94,9 +94,9 @@
 
     <div class="header">
       <h2>Tambah Data Pegawai</h2>
-      <a href="/admin/pegawai">← Kembali</a>
+      <a href="/admin/pegawai/adminkoperasi" class="btn-back">← Kembali</a>
     </div>
-
+  
 <form action="/admin/pegawai/store" method="POST">
 @csrf
 

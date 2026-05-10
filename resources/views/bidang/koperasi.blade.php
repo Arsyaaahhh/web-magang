@@ -27,7 +27,7 @@
 
   .data-table th {
     padding: 12px;
-    text-align: left;
+    text-align: center;
     font-weight: 600;
     color: #0d6efd;
     border-bottom: 1px solid #ddd;
@@ -36,6 +36,7 @@
   .data-table td {
     padding: 12px;
     border-bottom: 1px solid #ddd;
+    text-align: center;
   }
 
   .data-table tbody tr:hover {
@@ -403,6 +404,16 @@
         <h2>{{ $jumlahTidakAktif }}</h2>
       </div>
 
+      <div class="card cyan" onclick="showTableView('padatKarya')">
+        <h4>Padat Karya</h4>
+        <h2>{{ $jumlahPadatKarya }}</h2>
+      </div>
+
+      <div class="card yellow" onclick="showTableView('pelaksanaanRat')">
+        <h4>Pelaksanaan RAT</h4>
+        <h2>{{ $totalPelaksanaanRat }}</h2>
+      </div>
+
       <!-- <div class="card blue" onclick="showTableView('totalPegawai')">
         <h4>Total Pegawai</h4>
         <h2>{{ $totalPegawai }}</h2>
@@ -456,9 +467,9 @@
                 <th>Jenis Mitra</th>
                 <th>Kelurahan</th>
                 <th>Kecamatan</th>
-                <th>Status RAT</th>
+                <th>Padat Karya</th>
                 <th>Status LPJ</th>
-                <th>Total Pengawasan</th>
+                <th>Pelaksanaan RAT</th>
               </tr>
             </thead>
             <tbody>
@@ -472,9 +483,9 @@
                   <td>{{ ucfirst($k->jenis_mitra) }}</td>
                   <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
                   <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-                  <td><span class="badge-status badge-{{ $k->status_rat == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_rat }}</span></td>
-                  <td><span class="badge-status badge-{{ $k->status_lpj == 'LENGKAP' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_lpj }}</span></td>
-                  <td>{{ $k->total_pengawasan }}</td>
+                  <td>{{ $k->padat_karya }}</td>
+                  <td>{{ $k->status_lpj }}</td>
+                  <td>{{ $k->pelaksanaan_rat }}</td>
                 </tr>
               @endforeach
             </tbody>
@@ -522,9 +533,9 @@
                 <th>Jenis Mitra</th>
                 <th>Kelurahan</th>
                 <th>Kecamatan</th>
-                <th>Status RAT</th>
+                <th>Padat Karya</th>
                 <th>Status LPJ</th>
-                <th>Total Pengawasan</th>
+                <th>Pelaksanaan RAT</th>
               </tr>
             </thead>
             <tbody>
@@ -537,9 +548,9 @@
                   <td>{{ ucfirst($k->jenis_mitra) }}</td>
                   <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
                   <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-                  <td><span class="badge-status badge-{{ $k->status_rat == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_rat }}</span></td>
+                  <td><span class="badge-status badge-{{ $k->padat_karya == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->padat_karya }}</span></td>
                   <td><span class="badge-status badge-{{ $k->status_lpj == 'LENGKAP' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_lpj }}</span></td>
-                  <td>{{ $k->total_pengawasan }}</td>
+                  <td>{{ $k->pelaksanaan_rat }}</td>
                 </tr>
               @endforeach
             </tbody>
@@ -587,9 +598,9 @@
                 <th>Jenis Mitra</th>
                 <th>Kelurahan</th>
                 <th>Kecamatan</th>
-                <th>Status RAT</th>
+                <th>Padat Karya</th>
                 <th>Status LPJ</th>
-                <th>Total Pengawasan</th>
+                <th>Pelaksanaan RAT</th>
               </tr>
             </thead>
             <tbody>
@@ -602,9 +613,9 @@
                   <td>{{ ucfirst($k->jenis_mitra) }}</td>
                   <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
                   <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-                  <td><span class="badge-status badge-{{ $k->status_rat == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_rat }}</span></td>
+                  <td><span class="badge-status badge-{{ $k->padat_karya == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->padat_karya }}</span></td>
                   <td><span class="badge-status badge-{{ $k->status_lpj == 'LENGKAP' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_lpj }}</span></td>
-                  <td>{{ $k->total_pengawasan }}</td>
+                  <td>{{ $k->pelaksanaan_rat }}</td>
                 </tr>
               @endforeach
             </tbody>
@@ -615,6 +626,140 @@
           </div>
         @else
           <div class="no-data">Tidak ada data koperasi tidak aktif</div>
+        @endif
+      </div>
+    </div>
+
+    <!-- PADAT KARYA TABLE -->
+    <div id="padatKarya-table" class="table-view">
+      <div class="table-view-header">
+        <h3><i class="fas fa-briefcase"></i> Data Koperasi dengan Padat Karya</h3>
+        <button class="back-btn" onclick="hideTableView()">← Kembali</button>
+      </div>
+
+      <!-- FILTER SECTION -->
+      <div class="filter-section">
+        <div class="filter-row-single">
+          <div class="filter-group-single">
+            <label for="searchPadatKarya">🔍 Cari Data</label>
+            <input type="text" id="searchPadatKarya" placeholder="Ketik untuk mencari...">
+          </div>
+          <div class="filter-btn-group">
+            <button class="filter-btn filter-btn-apply" onclick="applySearch('padatKarya')">Filter</button>
+            <button class="filter-btn filter-btn-reset" onclick="resetFilterSearch('padatKarya')">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        @if($padatKaryaDetail->count() > 0)
+          <table class="data-table" id="tablePadatKarya">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Jumlah</th>
+                <th>Tahun</th>
+                <th>Status</th>
+                <th>Status Mitra</th>
+                <th>Jenis Mitra</th>
+                <th>Kelurahan</th>
+                <th>Kecamatan</th>
+                <th>Padat Karya</th>
+                <th>Status LPJ</th>
+                <th>Pelaksanaan RAT</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($padatKaryaDetail as $k)
+                <tr class="koperasi-row" data-kecamatan="{{ $k->kecamatan->NM_KECAMATAN ?? '' }}" data-kelurahan="{{ $k->kelurahan->NM_KELURAHAN ?? '' }}" data-tahun="{{ $k->tahun }}">
+                  <td>{{ ($padatKaryaDetail->currentPage() - 1) * $padatKaryaDetail->perPage() + $loop->iteration }}</td>
+                  <td>{{ $k->jumlah }}</td>
+                  <td>{{ $k->tahun }}</td>
+                  <td><span class="badge-status badge-{{ $k->status == 'aktif' ? 'aktif' : 'tidak-aktif' }}">{{ ucfirst($k->status) }}</span></td>
+                  <td>{{ ucfirst($k->status_mitra) }}</td>
+                  <td>{{ ucfirst($k->jenis_mitra) }}</td>
+                  <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
+                  <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
+                  <td><span class="badge-status badge-{{ $k->padat_karya == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->padat_karya }}</span></td>
+                  <td><span class="badge-status badge-{{ $k->status_lpj == 'LENGKAP' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_lpj }}</span></td>
+                  <td>{{ $k->pelaksanaan_rat }}</td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+
+          <div class="pagination-wrapper">
+            {{ $padatKaryaDetail->appends(request()->except('padatkarya_p'))->links() }}
+          </div>
+        @else
+          <div class="no-data">Tidak ada data koperasi dengan padat karya</div>
+        @endif
+      </div>
+    </div>
+
+    <!-- PELAKSANAAN RAT TABLE -->
+    <div id="pelaksanaanRat-table" class="table-view">
+      <div class="table-view-header">
+        <h3><i class="fas fa-chart-bar"></i> Data Pelaksanaan RAT</h3>
+        <button class="back-btn" onclick="hideTableView()">← Kembali</button>
+      </div>
+
+      <!-- FILTER SECTION -->
+      <div class="filter-section">
+        <div class="filter-row-single">
+          <div class="filter-group-single">
+            <label for="searchPelaksanaanRat">🔍 Cari Data</label>
+            <input type="text" id="searchPelaksanaanRat" placeholder="Ketik untuk mencari...">
+          </div>
+          <div class="filter-btn-group">
+            <button class="filter-btn filter-btn-apply" onclick="applySearch('pelaksanaanRat')">Filter</button>
+            <button class="filter-btn filter-btn-reset" onclick="resetFilterSearch('pelaksanaanRat')">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        @if($pelaksanaanRatDetail->count() > 0)
+          <table class="data-table" id="tablePelaksanaanRat">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Jumlah</th>
+                <th>Tahun</th>
+                <th>Status</th>
+                <th>Status Mitra</th>
+                <th>Jenis Mitra</th>
+                <th>Kelurahan</th>
+                <th>Kecamatan</th>
+                <th>Padat Karya</th>
+                <th>Status LPJ</th>
+                <th>Pelaksanaan RAT</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($pelaksanaanRatDetail as $k)
+                <tr class="koperasi-row" data-kecamatan="{{ $k->kecamatan->NM_KECAMATAN ?? '' }}" data-kelurahan="{{ $k->kelurahan->NM_KELURAHAN ?? '' }}" data-tahun="{{ $k->tahun }}">
+                  <td>{{ ($pelaksanaanRatDetail->currentPage() - 1) * $pelaksanaanRatDetail->perPage() + $loop->iteration }}</td>
+                  <td>{{ $k->jumlah }}</td>
+                  <td>{{ $k->tahun }}</td>
+                  <td><span class="badge-status badge-{{ $k->status == 'aktif' ? 'aktif' : 'tidak-aktif' }}">{{ ucfirst($k->status) }}</span></td>
+                  <td>{{ ucfirst($k->status_mitra) }}</td>
+                  <td>{{ ucfirst($k->jenis_mitra) }}</td>
+                  <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
+                  <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
+                  <td><span class="badge-status badge-{{ $k->padat_karya == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->padat_karya }}</span></td>
+                  <td><span class="badge-status badge-{{ $k->status_lpj == 'LENGKAP' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_lpj }}</span></td>
+                  <td>{{ $k->pelaksanaan_rat }}</td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+
+          <div class="pagination-wrapper">
+            {{ $pelaksanaanRatDetail->appends(request()->except('pelaksanaanrat_p'))->links() }}
+          </div>
+        @else
+          <div class="no-data">Tidak ada data pelaksanaan RAT</div>
         @endif
       </div>
     </div>
@@ -735,14 +880,18 @@
 const tableIdMap = {
   'totalKoperasi': 'tableKoperasiTotal',
   'koperasiAktif': 'tableKoperasiAktif',
-  'koperasiTidakAktif': 'tableKoperasiTidakAktif'
+  'koperasiTidakAktif': 'tableKoperasiTidakAktif',
+  'padatKarya': 'tablePadatKarya',
+  'pelaksanaanRat': 'tablePelaksanaanRat'
 };
 
 // Mapping untuk search input ID
 const searchIdMap = {
   'totalKoperasi': 'searchTotal',
   'koperasiAktif': 'searchAktif',
-  'koperasiTidakAktif': 'searchTidakAktif'
+  'koperasiTidakAktif': 'searchTidakAktif',
+  'padatKarya': 'searchPadatKarya',
+  'pelaksanaanRat': 'searchPelaksanaanRat'
 };
 
 function logout(){
@@ -856,6 +1005,10 @@ document.addEventListener('DOMContentLoaded', function() {
     showTableView('koperasiAktif');
   } else if (urlParams.has('nonaktif_p')) {
     showTableView('koperasiTidakAktif');
+  } else if (urlParams.has('padatkarya_p')) {
+    showTableView('padatKarya');
+  } else if (urlParams.has('pelaksanaanrat_p')) {
+    showTableView('pelaksanaanRat');
   } else if (urlParams.has('pegawai_p')) {
     showTableView('totalPegawai');
   } else if (urlParams.has('pns_p')) {

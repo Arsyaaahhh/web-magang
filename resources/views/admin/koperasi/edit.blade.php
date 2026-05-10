@@ -203,10 +203,10 @@
   </div>
 
   <div>
-    <label>Status RAT</label>
-    <select name="status_rat" required>
-      <option value="YA" {{ $data->status_rat == 'YA' ? 'selected' : '' }}>YA</option>
-      <option value="TIDAK" {{ $data->status_rat == 'TIDAK' ? 'selected' : '' }}>TIDAK</option>
+    <label>Padat Karya</label>
+    <select name="padat_karya" required>
+      <option value="YA" {{ $data->padat_karya == 'YA' ? 'selected' : '' }}>YA</option>
+      <option value="TIDAK" {{ $data->padat_karya == 'TIDAK' ? 'selected' : '' }}>TIDAK</option>
     </select>
   </div>
 
@@ -219,8 +219,8 @@
   </div>
 
   <div>
-    <label>Total Pengawasan</label>
-    <input type="number" name="total_pengawasan" value="{{ old('total_pengawasan', $data->total_pengawasan) }}" required min="0">
+    <label>Pelaksanaan RAT</label>
+    <input type="number" name="pelaksanaan_rat" value="{{ old('pelaksanaan_rat', $data->pelaksanaan_rat) }}" required min="0">
   </div>
 
 </div>

@@ -171,6 +171,12 @@ body {
 .teal {
     background: linear-gradient(135deg, #20c997, #4dd0e1);
 }
+.cyan {
+    background: linear-gradient(135deg, #00bcd4, #4dd0e1);
+}
+.yellow {
+    background: linear-gradient(135deg, #ffc107, #ffeb3b);
+}
 
 /* DETAIL */
 #detailArea {
