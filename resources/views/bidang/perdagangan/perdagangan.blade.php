@@ -12,6 +12,15 @@
 
   <style>
 
+    /* OVERLAY */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+
     /* TABLE */
     table {
       width: 100%;
@@ -21,25 +30,24 @@
       font-weight: 400;
     }
 
-    th {
-      padding: 12px;
-      background: #eaf2ff;
-      font-size: 13px;
-      text-align: left;
-    }
+    th { padding: 12px; background: #eaf2ff; font-size: 13px; text-align: left; }
+    td { padding: 12px; font-size: 15px; border-bottom: 1px solid #e5e7eb; }
+    tbody tr:nth-child(even) { background: #f9fafb; }
+    tr:hover { background: #eef4ff; }
 
-    td {
-      padding: 12px;
-      font-size: 15px;
-      border-bottom: 1px solid #e5e7eb;
-    }
+    .toggle-btn { display: none; }
 
-    tbody tr:nth-child(even) {
-      background: #f9fafb;
-    }
-
-    tr:hover {
-      background: #eef4ff;
+    /* ======================================================= */
+    /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
+    /* ======================================================= */
+    @media (max-width: 768px) {
+        .sidebar { left: -100% !important; position: fixed !important; z-index: 1000; transition: 0.3s ease; }
+        .sidebar.active { left: 0 !important; }
+        .main { margin-left: 0 !important; width: 100% !important; }
+        .toggle-btn { display: inline-block !important; margin-right: 15px; font-size: 24px; cursor: pointer; color: #0d6efd; }
+        .overlay.active { display: block; }
+        .header { display: flex; align-items: center; }
+        .cards, #mainMenu { display: grid !important; grid-template-columns: 1fr !important; gap: 15px; }
     }
   </style>
 
@@ -47,10 +55,11 @@
 
 <body>
 
-<!-- SIDEBAR -->
+<div class="overlay" onclick="toggleSidebar()"></div>
+
 <div class="sidebar">
-  <h2>DINKOPUMDAG</h2>
-  <div id="tanggalSidebar" style="margin:10px 0; font-size:14px; color:#fff;"></div>
+  <h2 style="text-align:center;">DINKOPUMDAG</h2>
+  <div id="tanggalSidebar" style="margin-bottom:20px; font-size:13px; color:#e0e7ff; text-align: center;"></div>
 
   <div class="menu">
     <a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard Utama</a>
@@ -67,10 +76,8 @@
   </button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-  <!-- HEADER -->
   <div class="header">
     <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
     <img src="{{ asset('images/logo.jpg') }}" class="logo">
@@ -80,12 +87,10 @@
     </div>
   </div>
 
-  <!-- CONTENT -->
   <div class="container">
 
     <h2>Distribusi Perdagangan</h2>
 
-    <!-- MAIN MENU -->
     <div class="cards" id="mainMenu">
 
       <a class="card green" href="/bidang/perdagangan/pasar">
@@ -104,14 +109,23 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-// ================= COLOR =================
-function getColor(id){
-  const colors = ['blue','green','orange','teal','purple'];
-  return colors[id % colors.length];
-}
+    document.addEventListener('DOMContentLoaded', function() {
+        const elTanggal = document.getElementById('tanggalSidebar');
+        if (elTanggal) {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            elTanggal.textContent = now.toLocaleDateString('id-ID', options);
+        }
+    });
 
-// logout
+    function toggleSidebar() {
+        document.querySelector('.sidebar').classList.toggle('active');
+        document.querySelector('.overlay').classList.toggle('active');
+    }
+
+    // logout
     function logout() {
       Swal.fire({
         title: 'Logout?',
@@ -128,10 +142,7 @@ function getColor(id){
       });
     }
 
-    // LOGIN CHECK
-    if (localStorage.getItem("login") !== "true") {
-      window.location.href = "/";
-    }
+    if (localStorage.getItem("login") !== "true") { window.location.href = "/"; }
 </script>
 
 </body>

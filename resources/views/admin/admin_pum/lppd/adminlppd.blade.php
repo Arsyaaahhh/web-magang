@@ -48,11 +48,49 @@
     .pagination-info { font-size: 13px; color: #666; }
 
     /* SIDEBAR */
-    .sidebar { width: 240px; height: 100vh; background: #0d6efd; color: white; padding: 20px; position: fixed; top: 0; left: 0; z-index: 1000; transition: left 0.3s ease; }
-    .sidebar h2 { margin-bottom: 20px; }
-    .sidebar a { display: block; color: white; padding: 10px; border-radius: 8px; margin-bottom: 8px; font-weight: 500; cursor: pointer; text-decoration: none; }
-    .sidebar a i{ margin-right: 6px; }
-    .sidebar a:hover, .sidebar .active { background: rgba(255, 255, 255, 0.2); }
+        /* SIDEBAR */
+    .sidebar {
+      width: 240px;
+      height: 100vh;
+      background: #0d6efd;
+      color: white;
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 20px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      text-decoration: none;
+    }
+
+    .sidebar a:hover,
+    .sidebar .active {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .logout-btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #dc3545;
+      color: white;
+      cursor: pointer;
+    }
     .card h4 { font-weight: 500; letter-spacing: 0.3px; }
     .card h2 { font-weight: 600; }
     .card p { font-weight: 400; opacity: 0.85; }
@@ -84,11 +122,34 @@
 
   <div class="sidebar">
     <h2>ADMIN</h2>
-    <a href="/admin/admin_sekre"><i class="fas fa-user-tie"></i> Sekretariat</a>
-    <a class="active" href="/admin/admin_pum"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
-    <a href="/admin/admin_pup"><i class="fas fa-briefcase"></i> Pembinaan</a>
-    <a href="/admin/admin_perdagangan"><i class="fas fa-truck"></i> Perdagangan</a>
-    <button onclick="logout()" class="logout-btn">Logout</button>
+
+    <a href="/admin/admin_sekre">
+      <i class="fas fa-user-tie"></i> Sekretariat
+    </a>
+
+    <a class="active" href="/admin/admin_pum">
+      <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
+    </a>
+
+    <a href="/admin/admin_pup">
+      <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
+    </a>
+
+    <a href="/admin/admin_perdagangan">
+      <i class="fas fa-truck"></i> Distribusi Perdagangan
+    </a>
+
+        <a href="/admin/koperasi">
+      <i class="fas fa-building"></i> Bidang Koperasi
+    </a>
+
+    <a href="/admin/admin_metro">
+      <i class="fas fa-balance-scale"></i> Metrologi Legal
+    </a>
+
+    <button onclick="logout()" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
   </div>
 
   <main>

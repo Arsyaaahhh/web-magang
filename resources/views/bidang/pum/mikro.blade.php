@@ -11,6 +11,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
+    /* OVERLAY */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+
     /* TABLE */
     table {
       width: 100%;
@@ -40,13 +49,29 @@
     tr:hover {
       background: #eef4ff;
     }
+
+    .toggle-btn { display: none; }
+
+    /* ======================================================= */
+    /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
+    /* ======================================================= */
+    @media (max-width: 768px) {
+        .sidebar { left: -100% !important; position: fixed !important; z-index: 1000; transition: 0.3s ease; }
+        .sidebar.active { left: 0 !important; }
+        .main { margin-left: 0 !important; width: 100% !important; }
+        .toggle-btn { display: inline-block !important; margin-right: 15px; font-size: 24px; cursor: pointer; color: #0d6efd; }
+        .overlay.active { display: block; }
+        .header { display: flex; align-items: center; }
+        .cards, #mainMenu { display: grid !important; grid-template-columns: 1fr !important; gap: 15px; }
+    }
   </style>
 
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
+<div class="overlay" onclick="toggleSidebar()"></div>
+
 <div class="sidebar">
   <h2>DINKOPUMDAG</h2>
   <div id="tanggalSidebar" style="margin:10px 0; font-size:14px; color:#fff;"></div>
@@ -66,10 +91,8 @@
   </button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-  <!-- HEADER -->
   <div class="header">
     <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
     <img src="{{ asset('images/logo.jpg') }}" class="logo">
@@ -79,12 +102,10 @@
     </div>
   </div>
 
-  <!-- CONTENT -->
   <div class="container">
 
     <h2>Pemberdayaan Usaha Mikro</h2>
 
-    <!-- MAIN MENU -->
     <div class="cards" id="mainMenu">
 
       <a class="card green" href="/bidang/pum/umkm">
@@ -109,7 +130,12 @@
 </div>
 
 <script>
-// ================= NAV =================
+// ================= NAV & SIDEBAR =================
+function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('active');
+    document.querySelector('.overlay').classList.toggle('active');
+}
+
 function showUmkm(){
   mainMenu.style.display="none";
   umkmArea.style.display="block";

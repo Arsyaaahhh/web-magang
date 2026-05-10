@@ -47,7 +47,7 @@ Route::get('/koperasi', function () {
     $totalJumlah = \App\Models\Koperasi::count();
 
     // 2. Menghitung Koperasi yang Aktif
-    $jumlahAktif = \App\Models\Koperasi::where('status', 'Aktif')->count();
+    $jumlahAktif = \App\Models\Koperasi::where('status', 'aktif')->count();
 
     // 3. Menghitung Koperasi yang Tidak Aktif
     $jumlahTidakAktif = $totalJumlah - $jumlahAktif;
@@ -57,11 +57,11 @@ Route::get('/koperasi', function () {
         ->paginate(10, ['*'], 'all_p');
 
     $koperasiAktif = \App\Models\Koperasi::with(['kecamatan', 'kelurahan'])
-        ->where('status', 'Aktif')
+        ->where('status', 'aktif')
         ->paginate(10, ['*'], 'aktif_p');
 
     $koperasiTidakAktif = \App\Models\Koperasi::with(['kecamatan', 'kelurahan'])
-        ->where('status', '<>', 'Aktif')
+        ->where('status', '<>', 'aktif')
         ->paginate(10, ['*'], 'nonaktif_p');
 
     return view('bidang.koperasi', compact(
