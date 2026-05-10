@@ -315,7 +315,7 @@
 
     function logout() {
       localStorage.removeItem('login');
-      window.location.href = '/';
+      window.location.href = '/logout';
     }
   </script>
 </body>

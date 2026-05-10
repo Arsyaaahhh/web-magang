@@ -50,14 +50,20 @@
     .pagination a:hover { background: #0d6efd; color: white; }
     .pagination .active span { background: #0d6efd; color: white; border-color: #0d6efd; }
 
-    .sidebar { width: 240px; height: 100vh; background: #0d6efd; color: white; padding: 20px; position: fixed; left: 0; top: 0; z-index: 1000; transition: left 0.3s ease; }
-    .sidebar h2 { margin-bottom: 20px; }
-    .sidebar a { display: block; color: white; padding: 10px 14px; border-radius: 8px; margin-bottom: 8px; font-weight: 500; cursor: pointer; text-decoration: none; }
-    .sidebar a i{ margin-right: 8px; width: 20px; text-align: center; }
-    .sidebar a:hover, .sidebar .active { background: rgba(255, 255, 255, 0.2); }
-    .logout-btn { margin-top: 20px; width: 100%; padding: 10px; border: none; border-radius: 8px; background: #ef4444; color: white; cursor: pointer; font-size: 14px; text-align: left; font-weight: 500; }
-    .logout-btn i { margin-right: 6px; }
-    .logout-btn:hover { background: #dc2626; }
+    /* SIDEBAR */
+    .sidebar{
+      width:240px;height:100vh;background:#0d6efd;color:white;padding:20px;position:fixed;
+      z-index: 1000; transition: left 0.3s ease;
+    }
+    .sidebar h2{margin-bottom:20px;}
+    .sidebar a{
+      display:block;color:white;padding:10px;border-radius:8px;margin-bottom:8px;text-decoration:none;
+    }
+    .sidebar a:hover,.sidebar .active{background:rgba(255,255,255,0.2);}
+    .logout-btn{
+      margin-top:20px;width:100%;padding:10px;border:none;border-radius:8px;background:#dc3545;color:white;
+      cursor:pointer;
+    }
 
     @media (max-width: 768px) {
         .sidebar { left: -240px; }
@@ -77,12 +83,35 @@
   <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>ADMIN</h2>
-    <a href="/admin/admin_sekre"><i class="fas fa-user-tie"></i> Sekretariat</a>
-    <a href="/admin/admin_pum"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
-    <a href="/admin/pembinaan"><i class="fas fa-briefcase"></i> Pembinaan</a>
-    <a href="/admin/perdagangan"><i class="fas fa-truck"></i> Perdagangan</a>
-    <a class="active" href="/admin/admin_metro"><i class="fas fa-balance-scale"></i> Metrologi Legal</a>
-    <button onclick="logout()" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+
+    <a href="/admin/admin_sekre">
+      <i class="fas fa-user-tie"></i> Sekretariat
+    </a>
+
+    <a href="/admin/admin_pum">
+      <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
+    </a>
+
+    <a href="/admin/pembinaan">
+      <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
+    </a>
+
+    <a href="/admin/perdagangan">
+      <i class="fas fa-truck"></i> Distribusi Perdagangan
+    </a>
+
+        <a href="/admin/koperasi">
+      <i class="fas fa-building"></i> Bidang Koperasi
+    </a>
+
+    <!-- Menu Metrologi Aktif -->
+    <a class="active" href="/admin/admin_metro">
+      <i class="fas fa-balance-scale"></i> Metrologi Legal
+    </a>
+
+    <button onclick="logout()" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
   </div>
 
   <main>

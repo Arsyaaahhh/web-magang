@@ -87,9 +87,11 @@
 
 <body>
 
-<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
-    <h2>DINKOPUMDAG</h2>
+    <h2 style="text-align: center;">DINKOPUMDAG</h2>
+
+    <div id="tanggalSidebar" style="margin-bottom:20px; font-size:13px; color:#e0e7ff; text-align: center; font-weight: 400;"></div>
+    
     <div class="menu">
         <a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard Utama</a>
         <a href="/sekretariat"><i class="fas fa-user-tie"></i> Bidang Sekretariat</a>
@@ -102,7 +104,6 @@
     <button onclick="logout()" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Keluar</button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
     <div class="header">
@@ -117,19 +118,15 @@
     <div class="container" style="padding: 20px;">
         <h2 style="margin-bottom: 15px;">Detail : UPTD Metrologi Legal</h2>
 
-        <!-- AREA 1: MENU UTAMA -->
         <div class="cards" id="menuUtama">
             <div class="card blue" onclick="loadJenis('alat')">
-                <h4><i class="fas fa-weight-hanging"></i> Potensi Alat Ukur</h4>
-                <!-- <h2 id="countAlat">0</h2> -->
-            </div>
+                <h4>Potensi Alat Ukur</h4>
+                </div>
             <div class="card teal" onclick="loadJenis('reparasi')">
-                <h4><i class="fas fa-tools"></i> Tanda Daftar Reparasi</h4>
-                <!-- <h2 id="countReparasi">0</h2> -->
-            </div>
+                <h4>Tanda Daftar Reparasi</h4>
+                </div>
         </div>
 
-        <!-- AREA 2: DATA TABEL -->
         <div id="dataArea" style="display:none;">
             <button class="btn-back" onclick="backToUtama()"><i class="fas fa-arrow-left"></i> Kembali</button>
             <h3 id="judulArea" style="margin-bottom:15px;"></h3>
@@ -176,8 +173,10 @@ function loadCount(){
     fetch('/metrologi-data',{ headers:{'X-Requested-With':'XMLHttpRequest'} })
     .then(res=>res.json())
     .then(res=>{
-        document.getElementById("countAlat").innerText = res.jumlah.alat;
-        document.getElementById("countReparasi").innerText = res.jumlah.reparasi;
+        let countAlat = document.getElementById("countAlat");
+        let countReparasi = document.getElementById("countReparasi");
+        if(countAlat) countAlat.innerText = res.jumlah.alat;
+        if(countReparasi) countReparasi.innerText = res.jumlah.reparasi;
     });
 }
 
@@ -193,7 +192,7 @@ function loadJenis(jenis){
         document.getElementById("tableHeader").innerHTML = `<tr><th width="10%">No</th><th>Tahun</th><th>Jumlah Alat Ukur</th></tr>`;
     } else if(jenis === 'reparasi'){
         document.getElementById("judulArea").innerText = "Data Tanda Daftar Reparasi (TDR)";
-        document.getElementById("tableHeader").innerHTML = `<tr><th width="10%">No</th><th>Tahun</th><th>Jumlah Bengkel / Tempat</th></tr>`;
+        document.getElementById("tableHeader").innerHTML = `<tr><th width="10%">No</th><th>Tahun</th><th>Jumlah</th></tr>`;
     }
     
     loadData();
@@ -238,8 +237,24 @@ function backToUtama(){
     document.getElementById("menuUtama").style.display = "grid";
 }
 
-window.onload = loadCount;
-function logout(){ localStorage.removeItem("login"); window.location.href="/"; }
+// Menjalankan fungsi saat halaman selesai dimuat
+document.addEventListener('DOMContentLoaded', function() {
+    loadCount();
+    
+    // Tampilkan Hari, Tanggal, Bulan, Tahun di Sidebar
+    const elTanggal = document.getElementById('tanggalSidebar');
+    if (elTanggal) {
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        elTanggal.textContent = now.toLocaleDateString('id-ID', options);
+    }
+});
+
+function logout(){ localStorage.removeItem("login"); window.location.href="/logout"; }
+
+if (localStorage.getItem("login") !== "true") {
+  window.location.href = "/";
+}
 </script>
 </body>
 </html>

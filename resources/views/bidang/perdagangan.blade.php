@@ -106,6 +106,10 @@
 <script>
 function logout(){
   localStorage.removeItem("login");
+  window.location.href = "/logout";
+}
+
+if (localStorage.getItem("login") !== "true") {
   window.location.href = "/";
 }
 </script>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -120,55 +119,19 @@
       margin-bottom: 20px;
     }
 
-    /* BUTTON */
-    .btn {
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-add {
-      background: #20c997;
-      color: white;
-    }
-
-    .btn-add:hover {
-      background: #1aa179;
-      transition: 0.2s ease;
-    }
-
-    .btn-edit {
-      background: #ffc107;
-      color: black;
-    }
-
-    .btn-delete {
-      background: #dc3545;
-      color: white;
-    }
-
-    /* CARDS */
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      color: #0d6efd;
-      text-decoration: none;
-    }
-
-    /* CARD */
+    /* CARDS GRID */
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
       margin-bottom: 20px;
     }
 
+    /* MENU CARD (CUSTOMIZED) */
     .card {
       background: white;
       padding: 20px;
-      border-radius: 12px;
+      border-radius: 14px;
       border: 1px solid #e5e7eb;
       color: #333;
       text-decoration: none;
@@ -176,13 +139,25 @@
 
     .menu-card {
       cursor: pointer;
-      transition: transform .2s, box-shadow .2s;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 130px;
     }
 
     .menu-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(13, 110, 253, 0.12);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
     }
+
+    /* Wana & Font Khusus Card Menu */
+    .bg-blue { background: linear-gradient(135deg, #0d6efd, #0b5ed7); color: white; border: none; }
+    .bg-orange { background: linear-gradient(135deg, #fd7e14, #e86e04); color: white; border: none; }
+    
+    .menu-card i { font-size: 32px; margin-bottom: 12px; opacity: 0.9; }
+    .menu-card h4 { font-size: 20px; font-weight: 600; margin-bottom: 5px; }
+    .menu-card p { font-size: 14px; opacity: 0.85; }
 
     .overlay {
       display: none;
@@ -225,7 +200,6 @@
 
   <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-  <!-- SIDEBAR -->
   <div class="sidebar" id="sidebar">
     <h2>ADMIN</h2>
 
@@ -233,31 +207,33 @@
       <i class="fas fa-user-tie"></i> Sekretariat
     </a>
 
-    <a class="active" href="#">
+    <a class="active" href="/admin/admin_pum">
       <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
     </a>
 
-    <a href="/admin/admin_pup/adminpup">
-      <i class="fas fa-briefcase"></i> Pembinaan
-    </a>
-
-    <a href="/admin/koperasi">
-      <i class="fas fa-building"></i> Koperasi
+    <a href="/admin/admin_pup">
+      <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
     </a>
 
     <a href="/admin/admin_perdagangan">
-      <i class="fas fa-truck"></i> Perdagangan
+      <i class="fas fa-truck"></i> Distribusi Perdagangan
+    </a>
+
+    <a href="/admin/koperasi">
+      <i class="fas fa-building"></i> Bidang Koperasi
+    </a>
+
+    <a href="/admin/admin_metro">
+      <i class="fas fa-balance-scale"></i> Metrologi Legal
     </a>
 
     <button onclick="logout()" class="logout-btn">
-      Logout
+      <i class="fas fa-sign-out-alt"></i> Logout
     </button>
   </div>
 
-  <!-- MAIN -->
   <div class="main">
 
-    <!-- NAVBAR -->
     <div class="navbar">
       <div class="navbar-left">
         <button class="hamburger" onclick="toggleSidebar()">
@@ -271,7 +247,6 @@
       </div>
     </div>
 
-    <!-- CONTENT -->
     <div class="container">
 
       <div class="top">
@@ -280,16 +255,16 @@
 
       <div id="mainMenu" class="cards-grid">
 
-        <!-- Tombol untuk menuju halaman UMKM -->
-        <a class="card menu-card" href="/admin/admin_pum/adminumkm">
+        <a class="card menu-card bg-blue" href="/admin/admin_pum/adminumkm">
+          <i class="fas fa-store-alt"></i>
           <h4>UMKM</h4>
-          <p>Informasi UMKM</p>
+          <p>Informasi Data UMKM</p>
         </a>
 
-        <!-- Tombol untuk menuju halaman SWK -->
-        <a class="card menu-card" href="/admin/admin_pum/adminswk">
+        <a class="card menu-card bg-orange" href="/admin/admin_pum/adminswk">
+          <i class="fas fa-utensils"></i>
           <h4>SWK</h4>
-          <p>Informasi SWK</p>
+          <p>Informasi Data SWK</p>
         </a>
 
       </div>
@@ -297,8 +272,6 @@
     </div>
 
   </div>
-
-  <script src="{{ asset('js/script.js') }}"></script>
 
   <script>
     function toggleSidebar() {
@@ -338,5 +311,4 @@
   </script>
 
 </body>
-
 </html>

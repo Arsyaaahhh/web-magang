@@ -186,7 +186,7 @@ function login(){
 
       setTimeout(()=>{
         if(res.role === 'admin'){
-          window.location.href="/admin";
+          window.location.href="/admin/admin_sekre";
         }else{
           window.location.href="/dashboard";
         }

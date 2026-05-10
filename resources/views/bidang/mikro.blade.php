@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pemberdayaan Usaha Mikro</title>
+  <title>Pemberdayaan Usaha Mikro</title>
 
-<link rel="stylesheet" href="{{ asset('css/style.css') }}">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
     /* TABLE */
@@ -46,10 +46,9 @@
 
 <body>
 
-<!-- SIDEBAR -->
 <div class="sidebar">
   <h2>DINKOPUMDAG</h2>
-  <div id="tanggalSidebar" style="margin:10px 0; font-size:14px; color:#fff;"></div>
+  <div id="tanggalSidebar" style="margin:10px 0; font-size:14px; color:#fff; text-align: center;"></div>
 
   <div class="menu">
     <a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard Utama</a>
@@ -66,10 +65,8 @@
   </button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-  <!-- HEADER -->
   <div class="header">
     <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
     <img src="{{ asset('images/logo.jpg') }}" class="logo">
@@ -79,12 +76,10 @@
     </div>
   </div>
 
-  <!-- CONTENT -->
   <div class="container">
 
     <h2>Pemberdayaan Usaha Mikro</h2>
 
-    <!-- MAIN MENU -->
     <div class="cards" id="mainMenu">
 
       <div class="card green" onclick="showUmkm()">
@@ -99,7 +94,6 @@
 
     </div>
 
-    <!-- umkm -->
     <div id="umkmArea" style="display:none; margin-top:20px;">
       <h3>Data UMKM</h3>
       
@@ -151,7 +145,6 @@
         </div>
     </div>
 
-    <!-- swk -->
     <div id="swkArea" style="display:none; margin-top:20px;">
       <h3>Data Sentra Wisata Kuliner</h3>
       
@@ -206,6 +199,16 @@
 </div>
 
 <script>
+// ================= SCRIPT TANGGAL YANG DITAMBAHKAN =================
+document.addEventListener('DOMContentLoaded', function() {
+    const elTanggal = document.getElementById('tanggalSidebar');
+    if (elTanggal) {
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        elTanggal.textContent = now.toLocaleDateString('id-ID', options);
+    }
+});
+
 // ================= NAV =================
 function showUmkm(){
   mainMenu.style.display="none";
