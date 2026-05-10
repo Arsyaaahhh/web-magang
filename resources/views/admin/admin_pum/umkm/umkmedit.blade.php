@@ -215,6 +215,11 @@
                 <option value="">Loading...</option>
             </select>
             </div>
+          
+          <div>
+            <label>Kategori</label>
+            <input name="kategori" type="text" value="{{ $data->kategori }}" required>
+          </div>
 
           <div>
             <label>Total UMKM</label>
@@ -227,6 +232,17 @@
           </div>
 
           <div>
+            <label>NIB</label>
+            <input name="nib" type="number" value="{{ $data->nib }}" min="0">
+          </div>
+
+          <div>
+            <label>PIRT</label>
+            <input name="pirt" type="number" value="{{ $data->pirt }}" min="0">
+          </div>
+
+
+          <div>
             <label>Sertifikasi Halal</label>
             <input name="sertifikasi_halal" type="number" value="{{ $data->sertifikasi_halal }}" min="0">
           </div>
@@ -234,11 +250,6 @@
           <div>
             <label>Sertifikasi Merek</label>
             <input name="sertifikasi_merek" type="number" value="{{ $data->sertifikasi_merek }}" min="0">
-          </div>
-
-          <div>
-            <label>NIB</label>
-            <input name="nib" type="number" value="{{ $data->nib }}" min="0">
           </div>
 
           <div>

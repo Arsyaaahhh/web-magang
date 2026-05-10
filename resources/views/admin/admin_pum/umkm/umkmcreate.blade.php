@@ -192,6 +192,11 @@
             </div>
 
           <div>
+            <label>Kategori</label>
+            <input type="text" name="kategori" placeholder="Masukkan Kategori" required>
+          </div>
+
+          <div>
             <label>Total UMKM</label>
             <input type="number" name="total_umkm" placeholder="Masukkan Jumlah UMKM" required>
           </div>
@@ -202,6 +207,16 @@
           </div>
 
           <div>
+            <label>NIB</label>
+            <input type="number" name="nib" placeholder="Masukkan Jumlah Umkm Ber-NIB" required>
+          </div>
+
+          <div>
+            <label>PIRT</label>
+            <input type="number" name="pirt" placeholder="Masukkan Jumlah Umkm Ber-PIRT" required>
+          </div>
+
+          <div>
             <label>Sertifikasi Halal</label>
             <input type="number" name="sertifikasi_halal" placeholder="Masukkan Jumlah Sertifikasi Halal" required>
           </div>
@@ -209,11 +224,6 @@
           <div>
             <label>Sertifikasi Merek</label>
             <input type="number" name="sertifikasi_merek" placeholder="Masukkan Jumlah Sertifikasi Merek" required>
-          </div>
-
-          <div>
-            <label>NIB</label>
-            <input type="number" name="nib" placeholder="Masukkan Jumlah Umkm Ber-NIB" required>
           </div>
 
           <div>

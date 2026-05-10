@@ -267,6 +267,12 @@
           <p>Informasi Data SWK</p>
         </a>
 
+        <!-- Tombol untuk menuju halaman LPPD -->
+        <a class="card menu-card" href="{{ route('adminlppd') }}">
+          <h4>LPPD</h4>
+          <p>Laporan Penyelengaraan Peerintah Daerah </p>
+        </a>
+
       </div>
 
     </div>

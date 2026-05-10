@@ -450,6 +450,7 @@
                   <th>Alamat</th>
                   <th>Kecamatan</th>
                   <th>Kelurahan</th>
+                  <th>Luas (m²)</th>
                   <th>Jumlah Pedagang</th>
                   <th>Jumlah Stan</th>
                   <th>Stan Belum Terisi</th>
@@ -465,6 +466,7 @@
                     <td>{{ $d->alamat }}</td>
                     <td>{{ $d->kelurahan->kecamatan->NM_KECAMATAN ?? '-' }}</td>   
                     <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
+                    <td>{{ $d->luas }}</td>
                     <td>{{ $d->jumlah_pedagang }}</td>
                     <td>{{ $d->jumlah_stan }}</td>
                     <td>{{ $d->stan_belum_terisi }}</td>

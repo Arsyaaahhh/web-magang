@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tambah SWK</title>
+  <title>Tambah LPPD</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
@@ -32,20 +32,18 @@
 </head>
 <body>
   <div class="navbar">
-    <h3>Admin SWK</h3>
+    <h3>Admin LPPD</h3>
     <div style="font-size: 14px; color:#666;">Tambah Data</div>
   </div>
   <div class="container">
     <div class="card">
       <div class="header">
-        <h2>Tambah Data SWK</h2>
-        <a href="/admin/admin_pum/adminswk" class="back">← Kembali</a>
+        <h2>Tambah Data LPPD</h2>
+        <a href="/admin/admin_pum/adminlppd" class="back">← Kembali</a>
       </div>
-      <form action="/admin/admin_pum/swkstore" method="POST" enctype="multipart/form-data">
+      <form action="/admin/admin_pum/lppdstore" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-grid">
-          <div><label>Nama SWK</label><input type="text" name="nama_swk" placeholder="Masukkan Nama SWK" required></div>
-          <div><label>Alamat</label><input type="text" name="alamat" placeholder="Masukkan Alamat SWK" required></div>
           <div>
             <label>Kecamatan</label>
             <select id="kecamatan" name="kecamatan_id" required>
@@ -59,10 +57,8 @@
             <label>Kelurahan</label>
             <select id="kelurahan" name="kelurahan_id" required><option value="">Pilih Kelurahan</option></select>
           </div>
-          <div><label>Luas (m2)</label><input type="number" name="luas" placeholder="Masukkan Luas SWK" required></div>
-          <div><label>Jumlah Pedagang</label><input type="number" name="jumlah_pedagang" placeholder="Masukkan Jumlah Pedagang" required></div>
-          <div><label>Jumlah Stan</label><input type="number" name="jumlah_stan" placeholder="Masukkan Jumlah Stan" required></div>
-          <div><label>Stan Belum Terisi</label><input type="number" name="stan_belum_terisi" placeholder="Masukkan Jumlah Stan Belum Terisi" required></div>
+          <div><label>Tahun</label><input type="number" name="tahun" placeholder="Masukkan Tahun" required></div>
+          <div><label>Jumlah</label><input type="number" name="jumlah" placeholder="Masukkan Jumlah" required></div>
         </div>
         <button class="btn">Simpan Data</button>
       </form>

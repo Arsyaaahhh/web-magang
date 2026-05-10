@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Admin SWK</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Admin LPPD</title>
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
     .container { padding: 25px; display: flex; flex-direction: column; gap: 25px; }
     .top { display: flex; justify-content: space-between; margin-bottom: 20px; align-items: center;}
     .btn { padding: 8px 14px; border-radius: 8px; font-size: 14px; border: none; cursor: pointer; text-decoration:none; }
-    .btn-add { background: #20c997; color: white; font-size:14px !important; }
+    .btn-add { background: #20c997; color: white; font-size:18px !important; }
     .btn-add:hover{ background:#1aa179; transition:0.2s ease; }
     .btn-edit { background: #ffc107; color: black; }
     .btn-delete { background: #dc3545; color: white; }
@@ -47,41 +47,20 @@
     .pagination .disabled span { color: #aaa; background: #f3f4f6; }
     .pagination-info { font-size: 13px; color: #666; }
 
-        /* CSS TOMBOL KEMBALI */
-    .btn-back {
-      background: #6c757d;
-      color: white;
-      font-size: 14px !important;
-    }
-
-    .btn-back:hover {
-      background: #5a6268;
-      transition: 0.2s ease;
-    }
-
     /* SIDEBAR */
-/* SIDEBAR */
-.sidebar{
-  width:240px;height:100vh;background:#0d6efd;color:white;padding:20px;position:fixed;
-  z-index: 1000; transition: left 0.3s ease;
-}
-.sidebar h2{margin-bottom:20px;}
-.sidebar a{
-  display:block;color:white;padding:10px;border-radius:8px;margin-bottom:8px;text-decoration:none;
-}
-.sidebar a:hover,.sidebar .active{background:rgba(255,255,255,0.2);}
-.logout-btn{
-  margin-top:20px;width:100%;padding:10px;border:none;border-radius:8px;background:#dc3545;color:white;
-  cursor:pointer;
-}
+    .sidebar { width: 240px; height: 100vh; background: #0d6efd; color: white; padding: 20px; position: fixed; top: 0; left: 0; z-index: 1000; transition: left 0.3s ease; }
+    .sidebar h2 { margin-bottom: 20px; }
+    .sidebar a { display: block; color: white; padding: 10px; border-radius: 8px; margin-bottom: 8px; font-weight: 500; cursor: pointer; text-decoration: none; }
+    .sidebar a i{ margin-right: 6px; }
+    .sidebar a:hover, .sidebar .active { background: rgba(255, 255, 255, 0.2); }
     .card h4 { font-weight: 500; letter-spacing: 0.3px; }
     .card h2 { font-weight: 600; }
     .card p { font-weight: 400; opacity: 0.85; }
     .card i { font-size: 20px; margin-bottom: 8px; opacity: 0.85; }
     .card:hover { transform: translateY(-4px); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12); }
-    /* .logout-btn { margin-top: 20px; width: 100%; padding: 10px; border: none; border-radius: 8px; background: #ef4444; color: white; cursor: pointer; font-size: 14px; text-align: left; font-weight: 500; } */
-    /* .logout-btn i { margin-right: 6px; }
-    .logout-btn:hover { background: #dc2626; } */
+    .logout-btn { margin-top: 20px; width: 100%; padding: 10px; border: none; border-radius: 8px; background: #ef4444; color: white; cursor: pointer; font-size: 14px; text-align: left; font-weight: 500; }
+    .logout-btn i { margin-right: 6px; }
+    .logout-btn:hover { background: #dc2626; }
 
     /* ======================================================= */
     /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
@@ -103,38 +82,13 @@
 
   <div class="overlay" onclick="toggleSidebar()"></div>
 
-  <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>ADMIN</h2>
-
-    <a href="/admin/admin_sekre">
-      <i class="fas fa-user-tie"></i> Sekretariat
-    </a>
-
-    <a class="active" href="/admin/admin_pum">
-      <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
-    </a>
-
-    <a href="/admin/admin_pup">
-      <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
-    </a>
-
-    <a href="/admin/admin_perdagangan">
-      <i class="fas fa-truck"></i> Distribusi Perdagangan
-    </a>
-
-        <a href="/admin/koperasi">
-      <i class="fas fa-building"></i> Bidang Koperasi
-    </a>
-
-    <!-- Menu Metrologi Aktif -->
-    <a href="/admin/admin_metro">
-      <i class="fas fa-balance-scale"></i> Metrologi Legal
-    </a>
-
-    <button onclick="logout()" class="logout-btn">
-      <i class="fas fa-sign-out-alt"></i> Logout
-    </button>
+    <a href="/admin/admin_sekre"><i class="fas fa-user-tie"></i> Sekretariat</a>
+    <a class="active" href="/admin/admin_pum"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
+    <a href="/admin/admin_pup"><i class="fas fa-briefcase"></i> Pembinaan</a>
+    <a href="/admin/admin_perdagangan"><i class="fas fa-truck"></i> Perdagangan</a>
+    <button onclick="logout()" class="logout-btn">Logout</button>
   </div>
 
   <main>
@@ -150,12 +104,9 @@
 
     <div class="container">
       <div class="top">
-        <h2>Data Sentra Wisata Kuliner</h2>
-        <div style="display: flex; gap: 10px;">
-            <a href="javascript:history.back()" class="btn btn-back">← Kembali</a>
-            <a href="/admin/admin_pum/swkcreate" class="btn btn-add">+ Tambah</a>
-        </div>
-    </div>
+        <h2>Laporan penyelengaraan Pemerintah Daerah</h2>
+        <a href="/admin/admin_pum/lppdcreate" class="btn btn-add">+ Tambah</a>
+      </div>
 
       @if(session('success'))
         <div class="alert">{{ session('success') }}</div>
@@ -164,7 +115,6 @@
       <div class="card">
         <form method="GET">
           <div class="filter">
-            <input type="text" name="search" placeholder="Cari SWK" value="{{ request('search') }}">
             <select id="kecamatan" name="kecamatan_id">
               <option value="">Semua Kecamatan</option>
               @foreach($kecamatan as $k)
@@ -183,14 +133,10 @@
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Nama SWK</th>
-                  <th>Alamat</th>
                   <th>Kecamatan</th>
                   <th>Kelurahan</th>
-                  <th>Luas(m2)</th>
-                  <th>Jumlah Pedagang</th>
-                  <th>Jumlah Stan</th>
-                  <th>Stan Belum Terisi</th>
+                  <th>Tahun</th>
+                  <th>Jumlah</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -198,18 +144,14 @@
                 @forelse($data as $d)
                   <tr>
                     <td>{{ ($data->currentPage()-1)*$data->perPage() + $loop->iteration }}</td>
-                    <td>{{ $d->nama_swk }}</td>
-                    <td>{{ $d->alamat }}</td>
-                    <td>{{ $d->kelurahan->kecamatan->NM_KECAMATAN ?? '-' }}</td>  
+                    <td>{{ $d->kelurahan->kecamatan->NM_KECAMATAN ?? '-' }}</td>
                     <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
-                    <td>{{ $d->luas }}</td>
-                    <td>{{ $d->jumlah_pedagang }}</td>
-                    <td>{{ $d->jumlah_stan }}</td>
-                    <td>{{ $d->stan_belum_terisi }}</td>
+                    <td>{{ $d->tahun }}</td>
+                    <td>{{ $d->jumlah }}</td>
                     <td>
                       <div class="action">
-                        <a href="/admin/admin_pum/swkedit/{{ $d->id }}" class="btn btn-edit">Edit</a>
-                        <form id="deleteForm{{ $d->id }}" action="/admin/admin_pum/swkdelete/{{ $d->id }}" method="POST">
+                        <a href="/admin/admin_pum/lppdedit/{{ $d->id }}" class="btn btn-edit">Edit</a>
+                        <form id="deleteForm{{ $d->id }}" action="/admin/admin_pum/lppddelete/{{ $d->id }}" method="POST">
                           @csrf @method('DELETE')
                           <button type="button" class="btn btn-delete" onclick="confirmDelete('deleteForm{{ $d->id }}')">Hapus</button>
                         </form>
@@ -268,26 +210,9 @@
       .then((result) => { if (result.isConfirmed) { document.getElementById(formId).submit(); } });
     }
 
-    // LOGOUT
-    function logout(){
-
-      Swal.fire({
-        title:'Logout?',
-        text:'Kamu akan keluar',
-        icon:'warning',
-        showCancelButton:true,
-        confirmButtonColor:'#0d6efd',
-        confirmButtonText:'Ya, logout'
-      }).then((result)=>{
-
-        if(result.isConfirmed){
-
-          localStorage.removeItem("login");
-
-          window.location.href = "/logout";
-        }
-
-      });
+    function logout() {
+      Swal.fire({ title: 'Logout?', text: "Kamu akan keluar", icon: 'warning', showCancelButton: true, confirmButtonColor: '#0d6efd', confirmButtonText: 'Ya, logout' })
+      .then((result) => { if (result.isConfirmed) { localStorage.removeItem("login"); window.location.href = "/logout"; } });
     }
 
     if (localStorage.getItem("login") !== "true") { window.location.href = "/"; }

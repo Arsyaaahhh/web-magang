@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Tokokelontong;
+use App\Models\Lppd;
 use App\Models\Kecamatan;
 use App\Models\Kelurahan;
 
-class TokokelontongController extends Controller
+class LppdController extends Controller
 {
     // ================= ADMIN =================
     public function index(Request $request)
     {
-        $query = Tokokelontong::with('kelurahan.kecamatan');
+        $query = Lppd::with('kelurahan.kecamatan');
 
         // FILTER KECAMATAN
         if ($request->kecamatan_id) {
@@ -29,7 +29,7 @@ class TokokelontongController extends Controller
         $data = $query->latest()->paginate(10)->withQueryString();
         $kecamatan = Kecamatan::all();
 
-        return view('admin.admin_perdagangan.toko_kelontong.admintokokelontong', compact(
+        return view('admin.admin_pum.lppd.adminlppd', compact(
             'data',
             'kecamatan'
         ));
@@ -39,7 +39,7 @@ class TokokelontongController extends Controller
     public function create(){
         $kecamatan = Kecamatan::all();
         $kelurahan = Kelurahan::all();
-        return view('admin.admin_perdagangan.toko_kelontong.tokokelontongcreate', compact('kecamatan', 'kelurahan'));
+        return view('admin.admin_pum.lppd.lppdcreate', compact('kecamatan', 'kelurahan'));
     }
 
 
@@ -47,49 +47,49 @@ class TokokelontongController extends Controller
     {
         $request->validate([
             'kelurahan_id'  => 'required',
-            'total_toko'  => 'required',
-            'peken'  => 'required',
+            'tahun'  => 'required',
+            'jumlah'  => 'required',
         ]);
 
-        Tokokelontong::create([
+        Lppd::create([
             'kelurahan_id' => $request->kelurahan_id,
-            'total_toko' => $request->total_toko,
-            'peken' => $request->peken,
+            'tahun' => $request->tahun,
+            'jumlah' => $request->jumlah,
         ]);
 
-        return redirect('/admin/admin_perdagangan/tokokelontong/admintokokelontong')->with('success','Upload berhasil');
+        return redirect('/admin/admin_pum/adminlppd')->with('success','Upload berhasil');
     }
 
 
     public function edit($id){
-        $data = Tokokelontong::with(['kelurahan.kecamatan'])->findOrFail($id);
+        $data = Lppd::with(['kelurahan.kecamatan'])->findOrFail($id);
         $kecamatan = Kecamatan::all();
         $kelurahan = Kelurahan::all();
 
-        return view('admin.admin_perdagangan.toko_kelontong.tokokelontongedit', compact('data', 'kecamatan', 'kelurahan'));
+        return view('admin.admin_pum.lppd.lppdedit', compact('data', 'kecamatan', 'kelurahan'));
     }
 
 
     public function update(Request $request, $id)
     {
-        $data = Tokokelontong::findOrFail($id);
+        $data = Lppd::findOrFail($id);
 
         $data->update([
             'kelurahan_id' => $request->kelurahan_id,
-            'total_toko' => $request->total_toko,
-            'peken' => $request->peken,
+            'tahun' => $request->tahun,
+            'jumlah' => $request->jumlah,
         ]);
 
-        return redirect('/admin/admin_perdagangan/tokokelontong/admintokokelontong')->with('success','Update berhasil');
+        return redirect('/admin/admin_pum/adminlppd')->with('success','Update berhasil');
     }
 
 
     public function destroy($id)
     {
-        $tokokelontong = Tokokelontong::findOrFail($id);
-        $tokokelontong->delete();
+        $lppd = Lppd::findOrFail($id);
+        $lppd->delete();
 
-        return redirect('/admin/admin_perdagangan/tokokelontong/admintokokelontong')->with('success','Data berhasil dihapus');
+        return redirect('/admin/admin_pum/adminlppd')->with('success','Data berhasil dihapus');
     }
 
     public function getKelurahan($ID_KECAMATAN)
@@ -99,9 +99,9 @@ class TokokelontongController extends Controller
     }
 
     // ================= FRONTEND =================
-    public function tokokelontong(Request $request)
+    public function lppd(Request $request)
     {
-        $query = Tokokelontong::with('kelurahan.kecamatan');
+        $query = Lppd::with('kelurahan.kecamatan');
 
         // FILTER KECAMATAN
         if ($request->kecamatan_id) {
@@ -115,15 +115,21 @@ class TokokelontongController extends Controller
             $query->where('kelurahan_id', $request->kelurahan_id);
         }
 
+        // FILTER TAHUN
+        if($request->search){
+            $query->where(function($q) use ($request){
+                $q->where('tahun','like','%'.$request->search.'%');
+            });
+        }
+
         $summaryQuery = clone $query;
 
-        // ambil data Tokokelontong
+        // ambil data Lppd
         $data = $query->latest()->paginate(10)->withQueryString();
 
         // summary
         $summary = $summaryQuery->selectRaw('
-            SUM(total_toko) as total_toko,
-            SUM(peken) as total_peken
+            SUM(jumlah) as jumlah
         ')->first();
 
         // AJAX
@@ -137,7 +143,7 @@ class TokokelontongController extends Controller
         $kecamatan = Kecamatan::all();
 
         // kirim ke blade
-        return view('bidang.perdagangan.tokokelontong', [
+        return view('bidang.pum.lppd', [
             'data' => $data,
             'kecamatan' => $kecamatan,
             'summary' => $summary

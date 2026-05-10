@@ -15,6 +15,7 @@ class Pasar extends Model
         'jumlah_pedagang',
         'jumlah_stan',
         'stan_belum_terisi',
+        'luas',
     ];
 
     public function kelurahan()

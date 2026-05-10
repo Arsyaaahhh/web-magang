@@ -193,6 +193,11 @@
           </div>
 
           <div>
+            <label>Luas (m²)</label>
+            <input type="number" name="luas" placeholder="Masukkan Luas Pasar" min="0" required>
+          </div>
+
+          <div>
             <label>Jumlah Pedagang</label>
             <input type="number" name="jumlah_pedagang" placeholder="Masukkan Jumlah Pedagang" required>
           </div>
@@ -202,7 +207,7 @@
             <input type="number" name="jumlah_stan" placeholder="Masukkan Jumlah Stan" required>
           </div>
 
-          <div style="grid-column: 1 / -1;">
+          <div>
             <label>Stan Belum Terisi</label>
             <input type="number" name="stan_belum_terisi" placeholder="Masukkan Jumlah Stan Belum Terisi" required>
           </div>

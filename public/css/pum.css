@@ -142,7 +142,6 @@ body {
 }
 
 .card::after {
-    content: "Klik Detail →";
     position: absolute;
     bottom: 12px;
     right: 15px;
