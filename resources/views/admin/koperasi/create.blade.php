@@ -136,7 +136,7 @@
 
     <div class="header">
       <h2>Tambah Data Koperasi</h2>
-      <a href="/admin/koperasi" class="back">← Kembali</a>
+      <a href="/admin/koperasi/adminkoperasi" class="back">← Kembali</a>
     </div>
 
 <form action="/admin/koperasi/store" method="POST">
@@ -198,8 +198,8 @@
   </div>
 
   <div>
-    <label>Status RAT</label>
-    <select name="status_rat">
+    <label>Padat Karya</label>
+    <select name="padat_karya">
       <option value="YA">YA</option>
       <option value="TIDAK">TIDAK</option>
     </select>
@@ -214,8 +214,8 @@
   </div>
 
   <div>
-    <label>Total Pengawasan</label>
-    <input type="number" name="total_pengawasan" required min="0" value="0">
+    <label>Pelaksanaan RAT</label>
+    <input type="number" name="pelaksanaan_rat" required min="0" value="0">
   </div>
 
 </div>

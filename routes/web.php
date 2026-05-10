@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuratController;
@@ -41,39 +41,8 @@ Route::get('/dashboard', [DashboardController::class, 'index']);
 Route::get('/mikro', [PumController::class, 'index']);
 Route::get('/perdagangan', fn()=>view('bidang.perdagangan'));
 
-// 👇 Rute Koperasi yang sudah diperbaiki 👇
-Route::get('/koperasi', function () {
-    // 1. Menghitung total semua koperasi
-    $totalJumlah = \App\Models\Koperasi::count();
-
-    // 2. Menghitung Koperasi yang Aktif
-    $jumlahAktif = \App\Models\Koperasi::where('status', 'aktif')->count();
-
-    // 3. Menghitung Koperasi yang Tidak Aktif
-    $jumlahTidakAktif = $totalJumlah - $jumlahAktif;
-
-    // 4. Ambil data tabel untuk setiap view dengan pagination
-    $allKoperasi = \App\Models\Koperasi::with(['kecamatan', 'kelurahan'])
-        ->paginate(10, ['*'], 'all_p');
-
-    $koperasiAktif = \App\Models\Koperasi::with(['kecamatan', 'kelurahan'])
-        ->where('status', 'aktif')
-        ->paginate(10, ['*'], 'aktif_p');
-
-    $koperasiTidakAktif = \App\Models\Koperasi::with(['kecamatan', 'kelurahan'])
-        ->where('status', '<>', 'aktif')
-        ->paginate(10, ['*'], 'nonaktif_p');
-
-    return view('bidang.koperasi', compact(
-        'totalJumlah',
-        'jumlahAktif',
-        'jumlahTidakAktif',
-        'allKoperasi',
-        'koperasiAktif',
-        'koperasiTidakAktif'
-    ));
-});
-
+// Rute /koperasi sekarang dikelola oleh KoperasiController@userPage
+// supaya semua data detail tersedia dan logika tetap konsisten.
 Route::get('/metrologi', fn()=>view('bidang.metrologi'));
 
 // Data AJAX & Frontend
@@ -310,4 +279,18 @@ Route::get('/admin/admin_perdagangan/tokokelontong/tokokelontongedit/{id}', [Tok
 Route::post('/admin/admin_perdagangan/tokokelontong/tokokelontongstore', [TokokelontongController::class,'store']);
 Route::post('/admin/admin_perdagangan/tokokelontong/tokokelontongupdate/{id}', [TokokelontongController::class,'update']);
 
-Route::get('/get-kelurahan/{id}', [TokokelontongController::class, 'getKelurahan']); 
+Route::get('/get-kelurahan/{id}', [TokokelontongController::class, 'getKelurahan']);
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN KOPERASI
+|--------------------------------------------------------------------------
+*/
+Route::get('/admin/koperasi/adminkoperasi', [KoperasiController::class, 'index']);
+Route::get('/admin/koperasi/create', [KoperasiController::class, 'create']);
+Route::post('/admin/koperasi/store', [KoperasiController::class, 'store']);
+Route::get('/admin/koperasi/edit/{id}', [KoperasiController::class, 'edit']);
+Route::post('/admin/koperasi/update/{id}', [KoperasiController::class, 'update']);
+Route::get('/admin/koperasi/delete/{id}', [KoperasiController::class, 'destroy']);
+Route::get('/admin/koperasi/get-kelurahan/{id}', [KoperasiController::class, 'getKelurahan']);
+Route::get('/koperasi', [KoperasiController::class, 'userPage']);

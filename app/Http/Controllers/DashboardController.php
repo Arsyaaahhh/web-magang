@@ -34,6 +34,7 @@ class DashboardController extends Controller
 
         // Koperasi
         $koperasi = Koperasi::count();
+        $totalJumlah = $koperasi;
 
         // Pembinaan (Total dari TDG + Pengawasan + Alkohol)
         $pembinaan = Tdg::count() + Pengawasan::count() + Alkohol::count();
@@ -62,6 +63,7 @@ class DashboardController extends Controller
             'mikro', 
             'distribusi', 
             'koperasi', 
+            'totalJumlah',
             'pembinaan', 
             'metrologi',
             'chartData'

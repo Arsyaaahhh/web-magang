@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -272,21 +272,60 @@
       justify-content:center;
       gap:6px;
     }
-
     /* PAGINATION */
-    .pagination-wrapper{
-      margin-top:20px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:10px;
+    .pagination-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
-    .pagination-info{
-      font-size:13px;
-      color:#666;
+    .pagination {
+      display: flex;
+      gap: 6px;
     }
+
+    .pagination li {
+      list-style: none;
+    }
+
+    .pagination a,
+    .pagination span {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      background: white;
+      color: #333;
+      text-decoration: none;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    .pagination a:hover {
+      background: #0d6efd;
+      color: white;
+    }
+
+    .pagination .active span {
+      background: #0d6efd;
+      color: white;
+      border-color: #0d6efd;
+    }
+
+    .pagination .disabled span {
+      color: #aaa;
+      background: #f3f4f6;
+    }
+
+    .pagination-info {
+      font-size: 13px;
+      color: #666;
+    }
+
+    
 
     /* 🔥 MEDIA QUERY RESPONSIVE (SMARTPHONE) */
     @media(max-width:768px){

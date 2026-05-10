@@ -16,9 +16,9 @@ class Koperasi extends Model
         'jenis_mitra',
         'ID_KECAMATAN',
         'ID_KELURAHAN',
-        'status_rat',
+        'padat_karya',
         'status_lpj',
-        'total_pengawasan',
+        'pelaksanaan_rat',
     ];
 
     public $timestamps = true;

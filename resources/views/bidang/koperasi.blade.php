@@ -27,7 +27,7 @@
 
   .data-table th {
     padding: 12px;
-    text-align: left;
+    text-align: center;
     font-weight: 600;
     color: #0d6efd;
     border-bottom: 1px solid #ddd;
@@ -36,6 +36,7 @@
   .data-table td {
     padding: 12px;
     border-bottom: 1px solid #ddd;
+    text-align: center;
   }
 
   .data-table tbody tr:hover {
@@ -98,8 +99,9 @@
     display: block;
   }
 
+  /* PERBAIKAN: Tambahkan !important agar dijamin hilang saat diklik */
   .cards.hidden {
-    display: none;
+    display: none !important; 
   }
 
   .back-btn {
@@ -255,59 +257,93 @@
       width: 100%;
     }
   }
+  /* 🔥 TAMBAHAN KHUSUS RESPONSIVE (TIDAK MERUBAH DESAIN ASLI) */
+    body {
+      overflow-x: hidden; 
+    }
+
+    .toggle-btn {
+      display: none; 
+    }
+    
+    .chart-grid {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .chart-box {
+      position: relative;
+      height: 300px; 
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .chart-box canvas {
+      max-width: 100% !important;
+    }
+
+    @media screen and (max-width: 768px) {
+      .toggle-btn {
+        display: block;
+        font-size: 24px;
+        cursor: pointer;
+        margin-right: 15px;
+      }
+      .sidebar {
+        position: fixed;
+        left: -250px;
+        top: 0;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s ease;
+      }
+      .sidebar.active {
+        left: 0;
+      }
+      .main {
+        margin-left: 0 !important;
+        width: 100%;
+      }
+      .cards {
+        /* PERBAIKAN: Hapus display: grid !important agar .cards.hidden bisa bekerja */
+        grid-template-columns: 1fr !important; 
+        gap: 15px;
+      }
+      .chart-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+      }
+      .chart-box {
+        height: 250px; 
+      }
+    }
 </style>
 
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-  <h2>DINKOPUMDAG</h2>
-  <div class="sidebar-date" id="tanggalSidebar"></div>
+<div class="sidebar" id="sidebar">
+    <h2 style="text-align: center;">DINKOPUMDAG</h2>
 
-  <div class="menu">
-
-    <a href="/dashboard">
-      <i class="fas fa-chart-line"></i> Dashboard Utama
-    </a>
-
-    <a href="/sekretariat">
-      <i class="fas fa-user-tie"></i> Bidang Sekretariat
-    </a>
-
-    <a href="/mikro">
-      <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
-    </a>
-
-    <a href="/perdagangan">
-      <i class="fas fa-truck"></i> Distribusi Perdagangan
-    </a>
-
-    <!-- ✅ AKTIF -->
-    <a href="/koperasi" class="active">
-      <i class="fas fa-building"></i> Bidang Koperasi
-    </a>
-
-    <a href="/pembinaan">
-      <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
-    </a>
-
-    <a href="/metrologi">
-      <i class="fas fa-balance-scale"></i> UPTD Metrologi Legal
-    </a>
-
-  </div>
-
-  <button onclick="logout()" class="logout-btn">
-    <i class="fas fa-sign-out-alt"></i> Keluar
-  </button>
+    <div id="tanggalSidebar" style="margin-bottom:20px; font-size:13px; color:#e0e7ff; text-align: center; font-weight: 400;"></div>
+    
+    <div class="menu">
+        <a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard Utama</a>
+        <a href="/sekretariat"><i class="fas fa-user-tie"></i> Bidang Sekretariat</a>
+        <a href="/mikro"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
+        <a href="/perdagangan"><i class="fas fa-truck"></i> Distribusi Perdagangan</a>
+        <a href="/koperasi" class="active"><i class="fas fa-building"></i> Bidang Koperasi</a>
+        <a href="/pembinaan"><i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan</a>
+        <a href="/metrologi"><i class="fas fa-balance-scale"></i> UPTD Metrologi Legal</a>
+    </div>
+    <button onclick="logout()" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Keluar</button>
 </div>
 
-<!-- MAIN -->
+
 <div class="main">
 
-  <!-- HEADER -->
   <div class="header">
     <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
     <img src="{{ asset('images/logo.jpg') }}" class="logo">
@@ -317,12 +353,10 @@
     </div>
   </div>
 
-  <!-- CONTENT -->
   <div class="container">
 
     <h2>Detail : Koperasi</h2>
 
-    <!-- CARD VIEW -->
     <div class="cards" id="cardsView">
 
       <div class="card purple" onclick="showTableView('totalKoperasi')">
@@ -340,35 +374,24 @@
         <h2>{{ $jumlahTidakAktif }}</h2>
       </div>
 
-      {{--
-      <div class="card blue" onclick="showTableView('totalPegawai')">
-        <h4>Total Pegawai</h4>
-        <h2>{{ $totalPegawai }}</h2>
+      <div class="card cyan" onclick="showTableView('padatKarya')">
+        <h4>Padat Karya</h4>
+        <h2>{{ $jumlahPadatKarya }}</h2>
       </div>
 
-      <div class="card teal" onclick="showTableView('pegawaiPNS')">
-        <h4>Pegawai PNS</h4>
-        <h2>{{ $pegawaiPNS }}</h2>
+      <div class="card yellow" onclick="showTableView('pelaksanaanRat')">
+        <h4>Pelaksanaan RAT</h4>
+        <h2>{{ $totalPelaksanaanRat }}</h2>
       </div>
-
-      <div class="card red" onclick="showTableView('pegawaiNonPNS')">
-        <h4>Pegawai Non PNS</h4>
-        <h2>{{ $pegawaiNonPNS }}</h2>
-      </div>
-      --}}
 
     </div>
 
-    <!-- TABLE VIEWS -->
-    
-    <!-- TOTAL KOPERASI TABLE -->
     <div id="totalKoperasi-table" class="table-view">
       <div class="table-view-header">
         <h3><i class="fas fa-building"></i> Data Semua Koperasi</h3>
         <button class="back-btn" onclick="hideTableView()">← Kembali</button>
       </div>
 
-      <!-- FILTER SECTION -->
       <div class="filter-section">
         <div class="filter-row-single">
           <div class="filter-group-single">
@@ -395,9 +418,9 @@
                 <th>Jenis Mitra</th>
                 <th>Kelurahan</th>
                 <th>Kecamatan</th>
-                <th>Status RAT</th>
+                <th>Padat Karya</th>
                 <th>Status LPJ</th>
-                <th>Total Pengawasan</th>
+                <th>Pelaksanaan RAT</th>
               </tr>
             </thead>
             <tbody>
@@ -411,9 +434,9 @@
                   <td>{{ ucfirst($k->jenis_mitra) }}</td>
                   <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
                   <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-                  <td><span class="badge-status badge-{{ $k->status_rat == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_rat }}</span></td>
-                  <td><span class="badge-status badge-{{ $k->status_lpj == 'LENGKAP' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_lpj }}</span></td>
-                  <td>{{ $k->total_pengawasan }}</td>
+                  <td>{{ $k->padat_karya }}</td>
+                  <td>{{ $k->status_lpj }}</td>
+                  <td>{{ $k->pelaksanaan_rat }}</td>
                 </tr>
               @endforeach
             </tbody>
@@ -428,14 +451,12 @@
       </div>
     </div>
 
-    <!-- KOPERASI AKTIF TABLE -->
     <div id="koperasiAktif-table" class="table-view">
       <div class="table-view-header">
         <h3><i class="fas fa-check-circle"></i> Data Koperasi Aktif</h3>
         <button class="back-btn" onclick="hideTableView()">← Kembali</button>
       </div>
 
-      <!-- FILTER SECTION -->
       <div class="filter-section">
         <div class="filter-row-single">
           <div class="filter-group-single">
@@ -461,9 +482,9 @@
                 <th>Jenis Mitra</th>
                 <th>Kelurahan</th>
                 <th>Kecamatan</th>
-                <th>Status RAT</th>
+                <th>Padat Karya</th>
                 <th>Status LPJ</th>
-                <th>Total Pengawasan</th>
+                <th>Pelaksanaan RAT</th>
               </tr>
             </thead>
             <tbody>
@@ -476,9 +497,9 @@
                   <td>{{ ucfirst($k->jenis_mitra) }}</td>
                   <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
                   <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-                  <td><span class="badge-status badge-{{ $k->status_rat == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_rat }}</span></td>
+                  <td><span class="badge-status badge-{{ $k->padat_karya == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->padat_karya }}</span></td>
                   <td><span class="badge-status badge-{{ $k->status_lpj == 'LENGKAP' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_lpj }}</span></td>
-                  <td>{{ $k->total_pengawasan }}</td>
+                  <td>{{ $k->pelaksanaan_rat }}</td>
                 </tr>
               @endforeach
             </tbody>
@@ -493,14 +514,12 @@
       </div>
     </div>
 
-    <!-- KOPERASI TIDAK AKTIF TABLE -->
     <div id="koperasiTidakAktif-table" class="table-view">
       <div class="table-view-header">
         <h3><i class="fas fa-times-circle"></i> Data Koperasi Tidak Aktif</h3>
         <button class="back-btn" onclick="hideTableView()">← Kembali</button>
       </div>
 
-      <!-- FILTER SECTION -->
       <div class="filter-section">
         <div class="filter-row-single">
           <div class="filter-group-single">
@@ -526,9 +545,9 @@
                 <th>Jenis Mitra</th>
                 <th>Kelurahan</th>
                 <th>Kecamatan</th>
-                <th>Status RAT</th>
+                <th>Padat Karya</th>
                 <th>Status LPJ</th>
-                <th>Total Pengawasan</th>
+                <th>Pelaksanaan RAT</th>
               </tr>
             </thead>
             <tbody>
@@ -541,9 +560,9 @@
                   <td>{{ ucfirst($k->jenis_mitra) }}</td>
                   <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
                   <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-                  <td><span class="badge-status badge-{{ $k->status_rat == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_rat }}</span></td>
+                  <td><span class="badge-status badge-{{ $k->padat_karya == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->padat_karya }}</span></td>
                   <td><span class="badge-status badge-{{ $k->status_lpj == 'LENGKAP' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_lpj }}</span></td>
-                  <td>{{ $k->total_pengawasan }}</td>
+                  <td>{{ $k->pelaksanaan_rat }}</td>
                 </tr>
               @endforeach
             </tbody>
@@ -558,138 +577,187 @@
       </div>
     </div>
 
-    <!-- TOTAL PEGAWAI TABLE -->
-    {{-- <div id="totalPegawai-table" class="table-view">
+    <div id="padatKarya-table" class="table-view">
       <div class="table-view-header">
-        <h3><i class="fas fa-users"></i> Data Semua Pegawai</h3>
+        <h3><i class="fas fa-briefcase"></i> Data Koperasi dengan Padat Karya</h3>
         <button class="back-btn" onclick="hideTableView()">← Kembali</button>
       </div>
+
+      <div class="filter-section">
+        <div class="filter-row-single">
+          <div class="filter-group-single">
+            <label for="searchPadatKarya">🔍 Cari Data</label>
+            <input type="text" id="searchPadatKarya" placeholder="Ketik untuk mencari...">
+          </div>
+          <div class="filter-btn-group">
+            <button class="filter-btn filter-btn-apply" onclick="applySearch('padatKarya')">Filter</button>
+            <button class="filter-btn filter-btn-reset" onclick="resetFilterSearch('padatKarya')">Reset</button>
+          </div>
+        </div>
+      </div>
+
       <div class="table-container">
-        @if($allPegawai->count() > 0)
-          <table class="data-table">
+        @if($padatKaryaDetail->count() > 0)
+          <table class="data-table" id="tablePadatKarya">
             <thead>
               <tr>
                 <th>No</th>
-                <th>Jumlah Pegawai</th>
+                <th>Jumlah</th>
+                <th>Tahun</th>
                 <th>Status</th>
-                <th>Program</th>
+                <th>Status Mitra</th>
+                <th>Jenis Mitra</th>
+                <th>Kelurahan</th>
+                <th>Kecamatan</th>
+                <th>Padat Karya</th>
+                <th>Status LPJ</th>
+                <th>Pelaksanaan RAT</th>
               </tr>
             </thead>
             <tbody>
-              @foreach($allPegawai as $p)
-                <tr>
-                  <td>{{ ($allPegawai->currentPage() - 1) * $allPegawai->perPage() + $loop->iteration }}</td>
-                  <td>{{ $p->jumlah_pegawai }}</td>
-                  <td><span class="badge-status badge-{{ $p->status == 'pns' ? 'pns' : 'non-pns' }}">{{ ucfirst(str_replace('_', ' ', $p->status)) }}</span></td>
-                  <td>{{ ucfirst($p->program) }}</td>
+              @foreach($padatKaryaDetail as $k)
+                <tr class="koperasi-row" data-kecamatan="{{ $k->kecamatan->NM_KECAMATAN ?? '' }}" data-kelurahan="{{ $k->kelurahan->NM_KELURAHAN ?? '' }}" data-tahun="{{ $k->tahun }}">
+                  <td>{{ ($padatKaryaDetail->currentPage() - 1) * $padatKaryaDetail->perPage() + $loop->iteration }}</td>
+                  <td>{{ $k->jumlah }}</td>
+                  <td>{{ $k->tahun }}</td>
+                  <td><span class="badge-status badge-{{ $k->status == 'aktif' ? 'aktif' : 'tidak-aktif' }}">{{ ucfirst($k->status) }}</span></td>
+                  <td>{{ ucfirst($k->status_mitra) }}</td>
+                  <td>{{ ucfirst($k->jenis_mitra) }}</td>
+                  <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
+                  <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
+                  <td><span class="badge-status badge-{{ $k->padat_karya == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->padat_karya }}</span></td>
+                  <td><span class="badge-status badge-{{ $k->status_lpj == 'LENGKAP' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_lpj }}</span></td>
+                  <td>{{ $k->pelaksanaan_rat }}</td>
                 </tr>
               @endforeach
             </tbody>
           </table>
 
           <div class="pagination-wrapper">
-            {{ $allPegawai->appends(request()->except('pegawai_p'))->links() }}
+            {{ $padatKaryaDetail->appends(request()->except('padatkarya_p'))->links() }}
           </div>
         @else
-          <div class="no-data">Tidak ada data pegawai</div>
+          <div class="no-data">Tidak ada data koperasi dengan padat karya</div>
         @endif
       </div>
-    </div> --}}
+    </div>
 
-    {{-- PEGAWAI PNS TABLE --}}
-    {{-- <div id="pegawaiPNS-table" class="table-view">
+    <div id="pelaksanaanRat-table" class="table-view">
       <div class="table-view-header">
-        <h3><i class="fas fa-id-badge"></i> Data Pegawai PNS</h3>
+        <h3><i class="fas fa-chart-bar"></i> Data Pelaksanaan RAT</h3>
         <button class="back-btn" onclick="hideTableView()">← Kembali</button>
       </div>
+
+      <div class="filter-section">
+        <div class="filter-row-single">
+          <div class="filter-group-single">
+            <label for="searchPelaksanaanRat">🔍 Cari Data</label>
+            <input type="text" id="searchPelaksanaanRat" placeholder="Ketik untuk mencari...">
+          </div>
+          <div class="filter-btn-group">
+            <button class="filter-btn filter-btn-apply" onclick="applySearch('pelaksanaanRat')">Filter</button>
+            <button class="filter-btn filter-btn-reset" onclick="resetFilterSearch('pelaksanaanRat')">Reset</button>
+          </div>
+        </div>
+      </div>
+
       <div class="table-container">
-        @if($pegawaiPNSDetail->count() > 0)
-          <table class="data-table">
+        @if($pelaksanaanRatDetail->count() > 0)
+          <table class="data-table" id="tablePelaksanaanRat">
             <thead>
               <tr>
                 <th>No</th>
-                <th>Jumlah Pegawai</th>
-                <th>Program</th>
+                <th>Jumlah</th>
+                <th>Tahun</th>
+                <th>Status</th>
+                <th>Status Mitra</th>
+                <th>Jenis Mitra</th>
+                <th>Kelurahan</th>
+                <th>Kecamatan</th>
+                <th>Padat Karya</th>
+                <th>Status LPJ</th>
+                <th>Pelaksanaan RAT</th>
               </tr>
             </thead>
             <tbody>
-              @foreach($pegawaiPNSDetail as $p)
-                <tr>
-                  <td>{{ ($pegawaiPNSDetail->currentPage() - 1) * $pegawaiPNSDetail->perPage() + $loop->iteration }}</td>
-                  <td>{{ $p->jumlah_pegawai }}</td>
-                  <td>{{ ucfirst($p->program) }}</td>
+              @foreach($pelaksanaanRatDetail as $k)
+                <tr class="koperasi-row" data-kecamatan="{{ $k->kecamatan->NM_KECAMATAN ?? '' }}" data-kelurahan="{{ $k->kelurahan->NM_KELURAHAN ?? '' }}" data-tahun="{{ $k->tahun }}">
+                  <td>{{ ($pelaksanaanRatDetail->currentPage() - 1) * $pelaksanaanRatDetail->perPage() + $loop->iteration }}</td>
+                  <td>{{ $k->jumlah }}</td>
+                  <td>{{ $k->tahun }}</td>
+                  <td><span class="badge-status badge-{{ $k->status == 'aktif' ? 'aktif' : 'tidak-aktif' }}">{{ ucfirst($k->status) }}</span></td>
+                  <td>{{ ucfirst($k->status_mitra) }}</td>
+                  <td>{{ ucfirst($k->jenis_mitra) }}</td>
+                  <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
+                  <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
+                  <td><span class="badge-status badge-{{ $k->padat_karya == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->padat_karya }}</span></td>
+                  <td><span class="badge-status badge-{{ $k->status_lpj == 'LENGKAP' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_lpj }}</span></td>
+                  <td>{{ $k->pelaksanaan_rat }}</td>
                 </tr>
               @endforeach
             </tbody>
           </table>
 
           <div class="pagination-wrapper">
-            {{ $pegawaiPNSDetail->appends(request()->except('pns_p'))->links() }}
+            {{ $pelaksanaanRatDetail->appends(request()->except('pelaksanaanrat_p'))->links() }}
           </div>
         @else
-          <div class="no-data">Tidak ada data pegawai PNS</div>
+          <div class="no-data">Tidak ada data pelaksanaan RAT</div>
         @endif
       </div>
-    </div> --}}
-
-    {{-- PEGAWAI NON PNS TABLE --}}
-    {{-- <div id="pegawaiNonPNS-table" class="table-view">
-      <div class="table-view-header">
-        <h3><i class="fas fa-user-clock"></i> Data Pegawai Non PNS</h3>
-        <button class="back-btn" onclick="hideTableView()">← Kembali</button>
-      </div>
-      <div class="table-container">
-        @if($pegawaiNonPNSDetail->count() > 0)
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Jumlah Pegawai</th>
-                <th>Program</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach($pegawaiNonPNSDetail as $p)
-                <tr>
-                  <td>{{ $loop->iteration }}</td>
-                  <td>{{ $p->jumlah_pegawai }}</td>
-                  <td>{{ ucfirst($p->program) }}</td>
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
-        @else
-          <div class="no-data">Tidak ada data pegawai non PNS</div>
-        @endif
-      </div>
-    </div> --}}
+    </div>
 
   </div>
-
 
 <script src="{{ asset('js/script.js') }}"></script>
 
 <script>
+// TANGGAL DI SIDEBAR
+document.addEventListener('DOMContentLoaded', function() {
+    const elTanggal = document.getElementById('tanggalSidebar');
+    if (elTanggal) {
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        elTanggal.textContent = now.toLocaleDateString('id-ID', options);
+    }
+});
+
+// TOGGLE SIDEBAR UNTUK HP
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('active');
+}
+
+// Tutup sidebar jika klik di luar (layar HP)
+document.addEventListener('click', function(event) {
+    const sidebar = document.getElementById("sidebar");
+    const toggleBtn = document.querySelector(".toggle-btn");
+    if (window.innerWidth <= 768 && sidebar && toggleBtn) {
+        if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
+            sidebar.classList.remove("active");
+        }
+    }
+});
+
 // Mapping untuk ID table yang benar
 const tableIdMap = {
   'totalKoperasi': 'tableKoperasiTotal',
   'koperasiAktif': 'tableKoperasiAktif',
-  'koperasiTidakAktif': 'tableKoperasiTidakAktif'
+  'koperasiTidakAktif': 'tableKoperasiTidakAktif',
+  'padatKarya': 'tablePadatKarya',
+  'pelaksanaanRat': 'tablePelaksanaanRat'
 };
 
 // Mapping untuk search input ID
 const searchIdMap = {
   'totalKoperasi': 'searchTotal',
   'koperasiAktif': 'searchAktif',
-  'koperasiTidakAktif': 'searchTidakAktif'
+  'koperasiTidakAktif': 'searchTidakAktif',
+  'padatKarya': 'searchPadatKarya',
+  'pelaksanaanRat': 'searchPelaksanaanRat'
 };
 
 function logout(){
   localStorage.removeItem("login");
-  window.location.href = "/logout";
-}
-
-if (localStorage.getItem("login") !== "true") {
   window.location.href = "/";
 }
 
@@ -799,6 +867,10 @@ document.addEventListener('DOMContentLoaded', function() {
     showTableView('koperasiAktif');
   } else if (urlParams.has('nonaktif_p')) {
     showTableView('koperasiTidakAktif');
+  } else if (urlParams.has('padatkarya_p')) {
+    showTableView('padatKarya');
+  } else if (urlParams.has('pelaksanaanrat_p')) {
+    showTableView('pelaksanaanRat');
   } else if (urlParams.has('pegawai_p')) {
     showTableView('totalPegawai');
   } else if (urlParams.has('pns_p')) {
