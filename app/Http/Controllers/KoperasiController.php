@@ -198,8 +198,12 @@ class KoperasiController extends Controller
         $pegawaiPNS = \App\Models\Pegawai::where('status','pns')->sum('jumlah_pegawai');
         $pegawaiNonPNS = \App\Models\Pegawai::where('status','non_pns')->sum('jumlah_pegawai');
 
-        // Detail Data Koperasi
+        // =================================================================
+        // Detail Data Koperasi (Kita buat dua nama agar HTML tidak bingung)
+        // =================================================================
         $allKoperasi = Koperasi::with(['kecamatan', 'kelurahan'])->paginate(20, ['*'], 'all_p');
+        $dataKoperasi = $allKoperasi; // Alias untuk $dataKoperasi
+
         $koperasiAktif = Koperasi::with(['kecamatan', 'kelurahan'])->where('status', 'aktif')->paginate(20, ['*'], 'aktif_p');
         $koperasiTidakAktif = Koperasi::with(['kecamatan', 'kelurahan'])->where('status', 'tidak aktif')->paginate(20, ['*'], 'nonaktif_p');
         
@@ -207,18 +211,23 @@ class KoperasiController extends Controller
         $padatKaryaDetail = Koperasi::with(['kecamatan', 'kelurahan'])->where('padat_karya', 'YA')->paginate(20, ['*'], 'padatkarya_p');
         $pelaksanaanRatDetail = Koperasi::with(['kecamatan', 'kelurahan'])->paginate(20, ['*'], 'pelaksanaanrat_p');
 
-        // Detail Data Pegawai
+        // =================================================================
+        // Detail Data Pegawai (Kita buat dua nama juga)
+        // =================================================================
         $allPegawai = \App\Models\Pegawai::paginate(20, ['*'], 'pegawai_p');
+        $dataPegawai = $allPegawai; // Alias untuk $dataPegawai
+
         $pegawaiPNSDetail = \App\Models\Pegawai::where('status','pns')->paginate(20, ['*'], 'pns_p');
         $pegawaiNonPNSDetail = \App\Models\Pegawai::where('status','non_pns')->get();
 
+        // Kirim SEMUA variabel ke tampilan
         return view('bidang.koperasi', compact(
             'totalJumlah', 'jumlahAktif', 'jumlahTidakAktif', 
             'jumlahPadatKarya', 'totalPelaksanaanRat',
             'totalPegawai', 'pegawaiPNS', 'pegawaiNonPNS',
-            'allKoperasi', 'koperasiAktif', 'koperasiTidakAktif',
+            'allKoperasi', 'dataKoperasi', 'koperasiAktif', 'koperasiTidakAktif',
             'padatKaryaDetail', 'pelaksanaanRatDetail',
-            'allPegawai', 'pegawaiPNSDetail', 'pegawaiNonPNSDetail'
+            'allPegawai', 'dataPegawai', 'pegawaiPNSDetail', 'pegawaiNonPNSDetail'
         ));
     }
 }
