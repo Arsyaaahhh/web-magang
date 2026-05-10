@@ -38,7 +38,40 @@ Route::get('/logout', [AuthController::class,'logout']);
 Route::get('/dashboard', [DashboardController::class, 'index']);
 Route::get('/mikro', [PumController::class, 'index']);
 Route::get('/perdagangan', fn()=>view('bidang.perdagangan'));
-Route::get('/koperasi', fn()=>view('bidang.koperasi'));
+
+// 👇 Rute Koperasi yang sudah diperbaiki 👇
+Route::get('/koperasi', function () {
+    // 1. Menghitung total semua koperasi
+    $totalJumlah = \App\Models\Koperasi::count();
+
+    // 2. Menghitung Koperasi yang Aktif
+    $jumlahAktif = \App\Models\Koperasi::where('status', 'Aktif')->count();
+
+    // 3. Menghitung Koperasi yang Tidak Aktif
+    $jumlahTidakAktif = $totalJumlah - $jumlahAktif;
+
+    // 4. Ambil data tabel untuk setiap view dengan pagination
+    $allKoperasi = \App\Models\Koperasi::with(['kecamatan', 'kelurahan'])
+        ->paginate(10, ['*'], 'all_p');
+
+    $koperasiAktif = \App\Models\Koperasi::with(['kecamatan', 'kelurahan'])
+        ->where('status', 'Aktif')
+        ->paginate(10, ['*'], 'aktif_p');
+
+    $koperasiTidakAktif = \App\Models\Koperasi::with(['kecamatan', 'kelurahan'])
+        ->where('status', '<>', 'Aktif')
+        ->paginate(10, ['*'], 'nonaktif_p');
+
+    return view('bidang.koperasi', compact(
+        'totalJumlah',
+        'jumlahAktif',
+        'jumlahTidakAktif',
+        'allKoperasi',
+        'koperasiAktif',
+        'koperasiTidakAktif'
+    ));
+});
+
 Route::get('/metrologi', fn()=>view('bidang.metrologi'));
 
 // Data AJAX & Frontend
@@ -208,8 +241,5 @@ Route::prefix('admin')->group(function () {
 |--------------------------------------------------------------------------
 | AJAX GLOBAL
 |--------------------------------------------------------------------------
-| Rute ini diletakkan di luar karena dipakai oleh banyak tabel.
-| Di kode sebelumnya, Anda menulis rute ini 4 kali (untuk UMKM, Koperasi, Pasar, dll)
-| Di Laravel, cukup ditulis 1 kali saja menggunakan 1 Controller sebagai pusat pengambil data.
 */
 Route::get('/get-kelurahan/{id}', [UmkmController::class, 'getKelurahan']);

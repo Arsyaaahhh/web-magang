@@ -340,7 +340,8 @@
         <h2>{{ $jumlahTidakAktif }}</h2>
       </div>
 
-      <!-- <div class="card blue" onclick="showTableView('totalPegawai')">
+      {{--
+      <div class="card blue" onclick="showTableView('totalPegawai')">
         <h4>Total Pegawai</h4>
         <h2>{{ $totalPegawai }}</h2>
       </div>
@@ -353,7 +354,8 @@
       <div class="card red" onclick="showTableView('pegawaiNonPNS')">
         <h4>Pegawai Non PNS</h4>
         <h2>{{ $pegawaiNonPNS }}</h2>
-      </div> -->
+      </div>
+      --}}
 
     </div>
 
@@ -557,7 +559,7 @@
     </div>
 
     <!-- TOTAL PEGAWAI TABLE -->
-    <!-- <div id="totalPegawai-table" class="table-view">
+    {{-- <div id="totalPegawai-table" class="table-view">
       <div class="table-view-header">
         <h3><i class="fas fa-users"></i> Data Semua Pegawai</h3>
         <button class="back-btn" onclick="hideTableView()">← Kembali</button>
@@ -592,10 +594,10 @@
           <div class="no-data">Tidak ada data pegawai</div>
         @endif
       </div>
-    </div> -->
+    </div> --}}
 
-    <!-- PEGAWAI PNS TABLE -->
-    <!-- <div id="pegawaiPNS-table" class="table-view">
+    {{-- PEGAWAI PNS TABLE --}}
+    {{-- <div id="pegawaiPNS-table" class="table-view">
       <div class="table-view-header">
         <h3><i class="fas fa-id-badge"></i> Data Pegawai PNS</h3>
         <button class="back-btn" onclick="hideTableView()">← Kembali</button>
@@ -628,10 +630,10 @@
           <div class="no-data">Tidak ada data pegawai PNS</div>
         @endif
       </div>
-    </div> -->
+    </div> --}}
 
-    <!-- PEGAWAI NON PNS TABLE -->
-    <!-- <div id="pegawaiNonPNS-table" class="table-view">
+    {{-- PEGAWAI NON PNS TABLE --}}
+    {{-- <div id="pegawaiNonPNS-table" class="table-view">
       <div class="table-view-header">
         <h3><i class="fas fa-user-clock"></i> Data Pegawai Non PNS</h3>
         <button class="back-btn" onclick="hideTableView()">← Kembali</button>
@@ -660,7 +662,7 @@
           <div class="no-data">Tidak ada data pegawai non PNS</div>
         @endif
       </div>
-    </div> -->
+    </div> --}}
 
   </div>
 
