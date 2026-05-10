@@ -15,14 +15,21 @@
         margin:0;
         padding:0;
         box-sizing:border-box;
-        /* font-family:'Poppins', sans-serif; */
     }
 
     body{
         min-height:100vh;
         display:flex;
-        justify-content:center;
-        align-items:center;
+        overflow-x: hidden;
+    }
+
+    /* OVERLAY */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
     }
 
     .swkcard-image{
@@ -75,7 +82,6 @@
         font-weight:600;
         line-height:1.2;
     }
-
 
     .description{
         color:rgba(255,255,255,0.8);
@@ -158,17 +164,13 @@
         padding:30px;
         position:relative;
         animation:popup 0.25s ease;
+        max-height: 90vh;
+        overflow-y: auto;
     }
 
     @keyframes popup{
-        from{
-            transform:scale(0.9);
-            opacity:0;
-        }
-        to{
-            transform:scale(1);
-            opacity:1;
-        }
+        from{ transform:scale(0.9); opacity:0; }
+        to{ transform:scale(1); opacity:1; }
     }
 
     .close-btn{
@@ -179,19 +181,9 @@
         cursor:pointer;
     }
 
-    .detail-box h2{
-        margin-bottom:15px;
-    }
-
-    .detail-item{
-        margin-bottom:25px;
-    }
-
-    .detail-item p{
-        margin-top:5px;
-        color:#555;
-        line-height:1.6;
-    }
+    .detail-box h2{ margin-bottom:15px; }
+    .detail-item{ margin-bottom:25px; }
+    .detail-item p{ margin-top:5px; color:#555; line-height:1.6; }
 
     .detail-grid{
         display:grid;
@@ -206,38 +198,32 @@
         text-align:center;
     }
 
-    .detail-card.full{
-        grid-column:1 / -1;
-    }
+    .detail-card.full{ grid-column:1 / -1; }
+    .detail-card h4{ margin-bottom:10px; color:#666; }
+    .detail-card h2{ color:#111; }
 
-    .detail-card h4{
-        margin-bottom:10px;
-        color:#666;
-    }
+    .filter { display: flex; gap: 10px; margin-bottom: 5px; }
+    .filter input, .filter select { padding: 8px; border-radius: 6px; border: 1px solid #d1d5db; }
+    .btn { padding: 8px 14px; border-radius: 8px; font-size: 14px; border: none; cursor: pointer; text-decoration:none; }
 
-    .detail-card h2{
-        color:#111;
-    }
+    .toggle-btn { display: none; }
 
-    .filter { 
-        display: flex; 
-        gap: 10px; 
-        margin-bottom: 5px; 
-    }
-
-    .filter input, .filter select { 
-        padding: 8px; 
-        border-radius: 6px; 
-        border: 1px solid #d1d5db; 
-    }
-
-    .btn { 
-        padding: 8px 14px; 
-        border-radius: 8px; 
-        font-size: 14px; 
-        border: none; 
-        cursor: pointer; 
-        text-decoration:none; 
+    /* ======================================================= */
+    /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
+    /* ======================================================= */
+    @media (max-width: 768px) {
+        .sidebar { left: -100% !important; position: fixed !important; z-index: 1000; transition: 0.3s ease; }
+        .sidebar.active { left: 0 !important; }
+        .main { margin-left: 0 !important; width: 100% !important; }
+        .toggle-btn { display: inline-block !important; margin-right: 15px; font-size: 24px; cursor: pointer; color: #0d6efd; }
+        .overlay.active { display: block; }
+        .header { display: flex; align-items: center; }
+        .filter { flex-direction: column; }
+        .filter input, .filter select, .filter button { width: 100%; }
+        .cards, #mainMenu { display: grid !important; grid-template-columns: 1fr !important; gap: 15px; }
+        .swkcard { width: 100% !important; max-width: 100%; }
+        .swk-wrapper { justify-content: center; }
+        .detail-grid { grid-template-columns: 1fr !important; }
     }
   </style>
 
@@ -245,10 +231,11 @@
 
 <body>
 
-<!-- SIDEBAR -->
+<div class="overlay" onclick="toggleSidebar()"></div>
+
 <div class="sidebar">
-  <h2>DINKOPUMDAG</h2>
-  <div id="tanggalSidebar" style="margin:10px 0; font-size:14px; color:#fff;"></div>
+  <h2 style="text-align:center;">DINKOPUMDAG</h2>
+  <div id="tanggalSidebar" style="margin-bottom:20px; font-size:13px; color:#e0e7ff; text-align: center;"></div>
 
   <div class="menu">
     <a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard Utama</a>
@@ -265,10 +252,8 @@
   </button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-  <!-- HEADER -->
   <div class="header">
     <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
     <img src="{{ asset('images/logo.jpg') }}" class="logo">
@@ -278,14 +263,13 @@
     </div>
   </div>
 
-  <!-- CONTENT -->
   <div class="container">
 
     <h2>Pasar</h2>
 
         <form method="GET">
           <div class="filter">
-            <input type="text" name="search" placeholder="Cari SWK" value="{{ request('search') }}">
+            <input type="text" name="search" placeholder="Cari Pasar" value="{{ request('search') }}">
             <select id="kecamatan" name="kecamatan_id">
               <option value="">Semua Kecamatan</option>
               @foreach($kecamatan as $k)
@@ -299,132 +283,96 @@
           </div>
         </form>
 
-    <!-- MAIN MENU -->
     <div class="cards" id="mainMenu">
-
       <a class="card green">
         <h4>Total Pasar</h4>
         <h2>{{ $summary->total_pasar ?? 0 }}</h2>
       </a>
-
       <a class="card blue">
         <h4>Total Pedagang</h4>
         <h2>{{ $summary->total_pedagang ?? 0 }}</h2>
       </a>
-
       <a class="card green">
         <h4>Total Stan</h4>
         <h2>{{ $summary->total_stan ?? 0 }}</h2>
       </a>
-
       <a class="card purple">
         <h4>Total Stan Belum Terisi</h4>
         <h2>{{ $summary->total_stan_kosong ?? 0 }}</h2>
       </a>
-
     </div>
 
     <div class="swk-wrapper">
-        @foreach($pasar as $pasar)
-
+        @foreach($pasar as $psr)
         <div class="swkcard">
-
             <div class="swkcard-image">
-
                 <img src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=1200&auto=format&fit=crop" alt="Santorini">
-
                 <div class="swkcard-content">
-
                     <div class="top-row">
-                        <h2 class="title">
-                            {{ $pasar->nama_pasar }}
-                        </h2>
+                        <h2 class="title">{{ $psr->nama_pasar }}</h2>
                     </div>
-
-                    <p class="description">
-                        {{ $pasar->alamat }}
-                    </p>
-
-                    <p class="description">
-                        Luas: {{ $pasar->luas }} m²
-                    </p>
-
+                    <p class="description">{{ $psr->alamat }}</p>
+                    <p class="description">Luas: {{ $psr->luas }} m²</p>
                     <div class="tags">
-                        <div class="tag">
-                            Pedagang: {{ $pasar->jumlah_pedagang }}
-                        </div>
-
-                        <div class="tag">
-                            Stan: {{ $pasar->jumlah_stan }}
-                        </div>
+                        <div class="tag">Pedagang: {{ $psr->jumlah_pedagang }}</div>
+                        <div class="tag">Stan: {{ $psr->jumlah_stan }}</div>
                     </div>
-
                     <a href="#">
                         <button class="button"
                             onclick="showDetail(
-                                '{{ $pasar->nama_pasar }}',
-                                '{{ $pasar->alamat }}',
-                                '{{ $pasar->jumlah_pedagang }}',
-                                '{{ $pasar->jumlah_stan }}',
-                                '{{ $pasar->stan_belum_terisi }}'
+                                '{{ $psr->nama_pasar }}',
+                                '{{ $psr->alamat }}',
+                                '{{ $psr->jumlah_pedagang }}',
+                                '{{ $psr->jumlah_stan }}',
+                                '{{ $psr->stan_belum_terisi }}'
                             )">
                             Detail
                         </button>
                     </a>
-
                 </div>
             </div>
-
         </div>
-
         @endforeach
-
     </div>
 
-    <!-- DETAIL -->
     <div class="detail-modal" id="detailModal">
-
         <div class="detail-box">
-
-            <span class="close-btn" onclick="closeDetail()">
-                &times;
-            </span>
-
+            <span class="close-btn" onclick="closeDetail()">&times;</span>
             <h2 id="detailNama"></h2>
-
             <div class="detail-item">
                 <b>Alamat:</b>
                 <p id="detailAlamat"></p>
             </div>
-
             <div class="detail-grid">
-
                 <div class="detail-card">
                     <h4>Total Pedagang</h4>
                     <h2 id="detailPedagang"></h2>
                 </div>
-
                 <div class="detail-card">
                     <h4>Total Stan</h4>
                     <h2 id="detailStan"></h2>
                 </div>
-
                 <div class="detail-card full">
                     <h4>Stan Belum Terisi</h4>
                     <h2 id="detailKosong"></h2>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
   </div>
-
 </div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const elTanggal = document.getElementById('tanggalSidebar');
+        if (elTanggal) {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            elTanggal.textContent = now.toLocaleDateString('id-ID', options);
+        }
+    });
+
     function toggleSidebar() {
         document.querySelector('.sidebar').classList.toggle('active');
         document.querySelector('.overlay').classList.toggle('active');
@@ -463,26 +411,12 @@
         document.getElementById('detailPedagang').innerText = pedagang;
         document.getElementById('detailStan').innerText = stan;
         document.getElementById('detailKosong').innerText = kosong;
-
         document.getElementById('detailModal').style.display = 'flex';
     }
 
-    function closeDetail()
-    {
-        document.getElementById('detailModal').style.display = 'none';
-    }
+    function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
+    window.onclick = function(e) { const modal = document.getElementById('detailModal'); if(e.target === modal){ modal.style.display = 'none'; } }
 
-    // klik luar modal untuk close
-    window.onclick = function(e)
-    {
-        const modal = document.getElementById('detailModal');
-
-        if(e.target === modal){
-            modal.style.display = 'none';
-        }
-    }
-
-    // logout
     function logout() {
       Swal.fire({
         title: 'Logout?',
@@ -499,10 +433,7 @@
       });
     }
 
-    // LOGIN CHECK
-    if (localStorage.getItem("login") !== "true") {
-      window.location.href = "/";
-    }
+    if (localStorage.getItem("login") !== "true") { window.location.href = "/"; }
 </script>
 
 </body>

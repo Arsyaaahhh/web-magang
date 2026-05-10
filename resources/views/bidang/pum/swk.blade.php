@@ -15,7 +15,6 @@
         margin:0;
         padding:0;
         box-sizing:border-box;
-        /* font-family:'Poppins', sans-serif; */
     }
 
     body{
@@ -23,6 +22,16 @@
         display:flex;
         justify-content:center;
         align-items:center;
+        overflow-x: hidden;
+    }
+
+    /* OVERLAY */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
     }
 
     .swkcard-image{
@@ -158,17 +167,13 @@
         padding:30px;
         position:relative;
         animation:popup 0.25s ease;
+        max-height: 90vh;
+        overflow-y: auto;
     }
 
     @keyframes popup{
-        from{
-            transform:scale(0.9);
-            opacity:0;
-        }
-        to{
-            transform:scale(1);
-            opacity:1;
-        }
+        from{ transform:scale(0.9); opacity:0; }
+        to{ transform:scale(1); opacity:1; }
     }
 
     .close-btn{
@@ -179,19 +184,9 @@
         cursor:pointer;
     }
 
-    .detail-box h2{
-        margin-bottom:15px;
-    }
-
-    .detail-item{
-        margin-bottom:25px;
-    }
-
-    .detail-item p{
-        margin-top:5px;
-        color:#555;
-        line-height:1.6;
-    }
+    .detail-box h2{ margin-bottom:15px; }
+    .detail-item{ margin-bottom:25px; }
+    .detail-item p{ margin-top:5px; color:#555; line-height:1.6; }
 
     .detail-grid{
         display:grid;
@@ -206,38 +201,31 @@
         text-align:center;
     }
 
-    .detail-card.full{
-        grid-column:1 / -1;
-    }
+    .detail-card.full{ grid-column:1 / -1; }
+    .detail-card h4{ margin-bottom:10px; color:#666; }
+    .detail-card h2{ color:#111; }
 
-    .detail-card h4{
-        margin-bottom:10px;
-        color:#666;
-    }
+    .filter { display: flex; gap: 10px; margin-bottom: 5px; }
+    .filter input, .filter select { padding: 8px; border-radius: 6px; border: 1px solid #d1d5db; }
+    .btn { padding: 8px 14px; border-radius: 8px; font-size: 14px; border: none; cursor: pointer; text-decoration:none; }
+    .toggle-btn { display: none; }
 
-    .detail-card h2{
-        color:#111;
-    }
-
-    .filter { 
-        display: flex; 
-        gap: 10px; 
-        margin-bottom: 5px; 
-    }
-
-    .filter input, .filter select { 
-        padding: 8px; 
-        border-radius: 6px; 
-        border: 1px solid #d1d5db; 
-    }
-
-    .btn { 
-        padding: 8px 14px; 
-        border-radius: 8px; 
-        font-size: 14px; 
-        border: none; 
-        cursor: pointer; 
-        text-decoration:none; 
+    /* ======================================================= */
+    /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
+    /* ======================================================= */
+    @media (max-width: 768px) {
+        .sidebar { left: -100% !important; position: fixed !important; z-index: 1000; transition: 0.3s ease; }
+        .sidebar.active { left: 0 !important; }
+        .main { margin-left: 0 !important; width: 100% !important; }
+        .toggle-btn { display: inline-block !important; margin-right: 15px; font-size: 24px; cursor: pointer; color: #0d6efd; }
+        .overlay.active { display: block; }
+        .header { display: flex; align-items: center; }
+        .filter { flex-direction: column; }
+        .filter input, .filter select, .filter button { width: 100%; }
+        .cards, #mainMenu { display: grid !important; grid-template-columns: 1fr !important; gap: 15px; }
+        .swkcard { width: 100% !important; max-width: 100%; }
+        .swk-wrapper { justify-content: center; }
+        .detail-grid { grid-template-columns: 1fr !important; }
     }
   </style>
 
@@ -245,7 +233,8 @@
 
 <body>
 
-<!-- SIDEBAR -->
+<div class="overlay" onclick="toggleSidebar()"></div>
+
 <div class="sidebar">
   <h2>DINKOPUMDAG</h2>
   <div id="tanggalSidebar" style="margin:10px 0; font-size:14px; color:#fff;"></div>
@@ -265,10 +254,8 @@
   </button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-  <!-- HEADER -->
   <div class="header">
     <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
     <img src="{{ asset('images/logo.jpg') }}" class="logo">
@@ -278,7 +265,6 @@
     </div>
   </div>
 
-  <!-- CONTENT -->
   <div class="container">
 
     <h2>Sentra Wisata Kuliner</h2>
@@ -299,7 +285,6 @@
           </div>
         </form>
 
-    <!-- MAIN MENU -->
     <div class="cards" id="mainMenu">
 
       <a class="card green">
@@ -381,7 +366,6 @@
 
     </div>
 
-    <!-- DETAIL -->
     <div class="detail-modal" id="detailModal">
 
         <div class="detail-box">

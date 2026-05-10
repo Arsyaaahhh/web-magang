@@ -141,7 +141,6 @@ class UmkmController extends Controller
             SUM(sertifikasi_halal) as sertifikasi_halal,
             SUM(sertifikasi_merek) as sertifikasi_merek,
             SUM(nib) as nib,
-            SUM(pirt) as pirt,
             SUM(peken) as peken,
             SUM(padat_karya) as padat_karya
         ')->first();

@@ -24,7 +24,7 @@
       align-items:center;
     }
 
-    /* OVERLAY (Background gelap saat sidebar terbuka di HP) */
+    /* OVERLAY */
     .overlay {
       display: none;
       position: fixed;
@@ -75,145 +75,50 @@
       border-collapse: collapse;
       border: 1px solid #e5e7eb;
       color: #333;
-      min-width: 600px; /* Menjaga tabel agar tetap bisa discroll di HP */
+      min-width: 600px;
     }
 
-    th {
-      padding: 12px;
-      background: #eaf2ff;
-      font-size: 13px;
-      text-align: left;
-    }
+    th { padding: 12px; background: #eaf2ff; font-size: 13px; text-align: left; }
+    td { padding: 12px; font-size: 15px; border-bottom: 1px solid #e5e7eb; }
+    tbody tr:nth-child(even) { background: #f9fafb; }
+    tr:hover { background: #eef4ff; }
 
-    td {
-      padding: 12px;
-      font-size: 15px;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    tbody tr:nth-child(even) {
-      background: #f9fafb;
-    }
-
-    tr:hover {
-      background: #eef4ff;
-    }
-
-    .btn { 
-        padding: 8px 14px; 
-        border-radius: 8px; 
-        font-size: 14px; 
-        border: none; 
-        cursor: pointer; 
-        text-decoration:none; 
-    }
+    .btn { padding: 8px 14px; border-radius: 8px; font-size: 14px; border: none; cursor: pointer; text-decoration:none; }
 
     /* PAGINATION */
-    .pagination-wrapper {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 15px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
+    .pagination-wrapper { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; flex-wrap: wrap; gap: 10px; }
+    .pagination { display: flex; gap: 6px; flex-wrap: wrap; }
+    .pagination li { list-style: none; }
+    .pagination a, .pagination span { display: inline-block; padding: 6px 12px; border-radius: 8px; border: 1px solid #d1d5db; background: white; color: #333; text-decoration: none; font-size: 14px; transition: 0.2s; }
+    .pagination a:hover { background: #0d6efd; color: white; }
+    .pagination .active span { background: #0d6efd; color: white; border-color: #0d6efd; }
+    .pagination .disabled span { color: #aaa; background: #f3f4f6; }
+    .pagination-info { font-size: 13px; color: #666; }
 
-    .pagination {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .pagination li {
-      list-style: none;
-    }
-
-    .pagination a,
-    .pagination span {
-      display: inline-block;
-      padding: 6px 12px;
-      border-radius: 8px;
-      border: 1px solid #d1d5db;
-      background: white;
-      color: #333;
-      text-decoration: none;
-      font-size: 14px;
-      transition: 0.2s;
-    }
-
-    .pagination a:hover {
-      background: #0d6efd;
-      color: white;
-    }
-
-    .pagination .active span {
-      background: #0d6efd;
-      color: white;
-      border-color: #0d6efd;
-    }
-
-    .pagination .disabled span {
-      color: #aaa;
-      background: #f3f4f6;
-    }
-
-    .pagination-info {
-      font-size: 13px;
-      color: #666;
-    }
+    .toggle-btn { display: none; }
 
     /* ======================================================= */
     /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
     /* ======================================================= */
     @media (max-width: 768px) {
-        .sidebar {
-            left: -240px;
-        }
-        .sidebar.active {
-            left: 0;
-        }
-
-        main {
-            margin-left: 0;
-        }
-
-        .toggle-btn {
-            display: block;
-        }
-
-        .overlay.active {
-            display: block;
-        }
-
-        .top {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 15px;
-        }
-
-        .filter {
-            flex-direction: column;
-        }
-
-        .filter input,
-        .filter select,
-        .filter button {
-            width: 100%;
-        }
-
-        .navbar {
-            padding: 15px 20px;
-        }
+        .sidebar { left: -100% !important; position: fixed !important; z-index: 1000; transition: 0.3s ease; }
+        .sidebar.active { left: 0 !important; }
+        main { margin-left: 0 !important; width: 100% !important; }
+        .toggle-btn { display: inline-block !important; margin-right: 15px; font-size: 24px; cursor: pointer; color: #0d6efd; }
+        .overlay.active { display: block; }
+        .header { display: flex; align-items: center; }
+        .filter { flex-direction: column; }
+        .filter input, .filter select, .filter button { width: 100%; }
+        .cards, #mainMenu { display: grid !important; grid-template-columns: 1fr !important; gap: 15px; }
+        .navbar { padding: 15px 20px; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- OVERLAY (Muncul di HP saat sidebar terbuka) -->
   <div class="overlay" onclick="toggleSidebar()"></div>
 
-    <!-- SIDEBAR -->
     <div class="sidebar">
         <h2>DINKOPUMDAG</h2>
         <div id="tanggalSidebar" style="margin:10px 0; font-size:14px; color:#fff;"></div>
@@ -233,10 +138,8 @@
         </button>
     </div>
 
-  <!-- MAIN -->
   <main>
 
-  <!-- HEADER -->
   <div class="header">
     <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
     <img src="{{ asset('images/logo.jpg') }}" class="logo">
@@ -246,12 +149,10 @@
     </div>
   </div>
 
-    <!-- CONTENT -->
     <div class="container">
 
       <h2>Pemberdayaan Usaha Mikro</h2>
 
-        <!-- FILTER -->
         <form method="GET">
           <div class="filter">
             <select id="kecamatan" name="kecamatan_id">
@@ -268,8 +169,7 @@
           </div>
         </form>
 
-      <!-- MAIN MENU -->
-        <div class="cards" id="mainMenu">
+      <div class="cards" id="mainMenu">
             <a class="card green">
                 <h4>Total Umkm</h4>
                 <h2>{{ $summary->jumlah ?? 0 }}</h2>
@@ -278,7 +178,6 @@
       
       <div class="card">
 
-        <!-- TABLE -->
         <div class="table-responsive">
             <table>
               <thead>
@@ -302,14 +201,13 @@
                   </tr>
                 @empty
                   <tr>
-                    <td colspan="6" style="text-align:center;">Tidak ada data</td>
+                    <td colspan="5" style="text-align:center;">Tidak ada data</td>
                   </tr>
                 @endforelse
               </tbody>
             </table>
         </div>
 
-        <!-- PAGINATION -->
         <div class="pagination-wrapper">
           <div class="pagination">
             {{ $data->links('components.pagination') }}
@@ -325,7 +223,6 @@
 
   </main>
 
-  <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>

@@ -458,18 +458,19 @@
 
               <tbody>
                 @forelse($dataKoperasi as $d)
-                  <tr>
+                <tr>
                     <td>{{ ($dataKoperasi->currentPage()-1)*$dataKoperasi->perPage() + $loop->iteration }}</td>
                     <td>{{ $d->jumlah }}</td>
                     <td>{{ $d->tahun }}</td>
-                    <td><span class="badge" style="background: {{ $d->status == 'aktif' ? '#d1e7dd' : '#f8d7da' }}">{{ ucfirst($d->status) }}</span></td>
+                    <td><span class="badge" style="{{ $d->status == 'aktif' ? 'background-color: #d1e7dd;' : 'background-color: #f8d7da;' }}">{{ ucfirst($d->status) }}</span></td>
                     <td>{{ ucfirst($d->status_mitra) }}</td>
                     <td>{{ ucfirst($d->jenis_mitra) }}</td>
                     <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
                     <td>{{ $d->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-                    <td><span class="badge" style="background: {{ $d->status_rat == 'YA' ? '#d1e7dd' : '#f8d7da' }}">{{ $d->status_rat }}</span></td>
-                    <td><span class="badge" style="background: {{ $d->status_lpj == 'LENGKAP' ? '#d1e7dd' : '#f8d7da' }}">{{ $d->status_lpj }}</span></td>
+                    <td><span class="badge" style="{{ $d->status_rat == 'YA' ? 'background-color: #d1e7dd;' : 'background-color: #f8d7da;' }}">{{ $d->status_rat }}</span></td>
+                    <td><span class="badge" style="{{ $d->status_lpj == 'LENGKAP' ? 'background-color: #d1e7dd;' : 'background-color: #f8d7da;' }}">{{ $d->status_lpj }}</span></td>
                     <td>{{ $d->total_pengawasan }}</td>
+                    
                     <td>
                       <div class="action">
                         <a href="/admin/koperasi/edit/{{ $d->id }}" class="btn btn-edit">Edit</a>
@@ -478,6 +479,7 @@
                         </button>
                       </div>
                     </td>
+                  </tr>
                   </tr>
                 @empty
                   <tr>

@@ -20,8 +20,8 @@
       overflow-x: hidden;
       min-height:100vh;
       display:flex;
-      justify-content:center;
-      align-items:center;
+      /* justify-content:center; -> Dihapus agar layout tidak menyempit ke tengah */
+      /* align-items:center; -> Dihapus agar sidebar bisa full height */
     }
 
     /* OVERLAY (Background gelap saat sidebar terbuka di HP) */
@@ -162,23 +162,41 @@
       color: #666;
     }
 
+    /* TOMBOL MENU DEFAULT SEMBUNYI DI LAPTOP */
+    .toggle-btn {
+        display: none;
+    }
+
     /* ======================================================= */
     /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
     /* ======================================================= */
     @media (max-width: 768px) {
         .sidebar {
-            left: -240px;
+            position: fixed !important;
+            left: -100% !important; /* Tarik ke luar layar agar tersembunyi */
+            z-index: 1000;
+            transition: left 0.3s ease;
         }
         .sidebar.active {
-            left: 0;
+            left: 0 !important;
         }
 
         main {
-            margin-left: 0;
+            margin-left: 0 !important;
+            width: 100% !important;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
         }
 
         .toggle-btn {
-            display: block;
+            display: inline-block !important;
+            margin-right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #0d6efd;
         }
 
         .overlay.active {
@@ -201,6 +219,13 @@
             width: 100%;
         }
 
+        /* Mengubah Cards agar menurun 1 baris di HP */
+        .cards {
+            display: grid !important;
+            grid-template-columns: 1fr !important;
+            gap: 15px;
+        }
+
         .navbar {
             padding: 15px 20px;
         }
@@ -210,10 +235,8 @@
 
 <body>
 
-  <!-- OVERLAY (Muncul di HP saat sidebar terbuka) -->
   <div class="overlay" onclick="toggleSidebar()"></div>
 
-    <!-- SIDEBAR -->
     <div class="sidebar">
         <h2>DINKOPUMDAG</h2>
         <div id="tanggalSidebar" style="margin:10px 0; font-size:14px; color:#fff;"></div>
@@ -233,10 +256,8 @@
         </button>
     </div>
 
-  <!-- MAIN -->
   <main>
 
-  <!-- HEADER -->
   <div class="header">
     <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
     <img src="{{ asset('images/logo.jpg') }}" class="logo">
@@ -246,12 +267,10 @@
     </div>
   </div>
 
-    <!-- CONTENT -->
     <div class="container">
 
       <h2>Pemberdayaan Usaha Mikro</h2>
 
-        <!-- FILTER -->
         <form method="GET">
           <div class="filter">
             <select id="kecamatan" name="kecamatan_id">
@@ -268,8 +287,7 @@
           </div>
         </form>
 
-      <!-- MAIN MENU -->
-        <div class="cards" id="mainMenu">
+      <div class="cards" id="mainMenu">
 
             <a class="card green">
                 <h4>Total Umkm</h4>
@@ -315,7 +333,6 @@
 
       <div class="card">
 
-        <!-- TABLE -->
         <div class="table-responsive">
             <table>
               <thead>
@@ -353,14 +370,13 @@
                   </tr>
                 @empty
                   <tr>
-                    <td colspan="6" style="text-align:center;">Tidak ada data</td>
+                    <td colspan="12" style="text-align:center;">Tidak ada data</td>
                   </tr>
                 @endforelse
               </tbody>
             </table>
         </div>
 
-        <!-- PAGINATION -->
         <div class="pagination-wrapper">
           <div class="pagination">
             {{ $data->links('components.pagination') }}
@@ -376,7 +392,6 @@
 
   </main>
 
-  <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>

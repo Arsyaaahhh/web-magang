@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Distirbusi Perdagangan</title>
+  <title>Distribusi Perdagangan</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ asset('css/pum.css') }}">
@@ -10,21 +10,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       overflow-x: hidden;
       min-height:100vh;
       display:flex;
-      justify-content:center;
-      align-items:center;
     }
 
-    /* OVERLAY (Background gelap saat sidebar terbuka di HP) */
+    /* OVERLAY */
     .overlay {
       display: none;
       position: fixed;
@@ -33,190 +27,56 @@
       z-index: 999;
     }
 
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      margin-left: 240px;
-      transition: margin-left 0.3s ease;
-    }
-
-    /* CONTAINER */
-    .container {
-        padding: 25px;
-        display: flex;
-        flex-direction: column;
-        gap: 25px;
-    }
-
     /* FILTER */
-    .filter {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 5px;
-    }
-
-    .filter input,
-    .filter select {
-      padding: 8px;
-      border-radius: 6px;
-      border: 1px solid #d1d5db;
-    }
+    .filter { display: flex; gap: 10px; margin-bottom: 5px; }
+    .filter input, .filter select { padding: 8px; border-radius: 6px; border: 1px solid #d1d5db; }
 
     /* TABLE */
-    .table-responsive {
-      width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
+    .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; border: 1px solid #e5e7eb; color: #333; min-width: 600px; }
+    th { padding: 12px; background: #eaf2ff; font-size: 13px; text-align: left; }
+    td { padding: 12px; font-size: 15px; border-bottom: 1px solid #e5e7eb; }
+    tbody tr:nth-child(even) { background: #f9fafb; }
+    tr:hover { background: #eef4ff; }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      border: 1px solid #e5e7eb;
-      color: #333;
-      min-width: 600px; /* Menjaga tabel agar tetap bisa discroll di HP */
-    }
-
-    th {
-      padding: 12px;
-      background: #eaf2ff;
-      font-size: 13px;
-      text-align: left;
-    }
-
-    td {
-      padding: 12px;
-      font-size: 15px;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    tbody tr:nth-child(even) {
-      background: #f9fafb;
-    }
-
-    tr:hover {
-      background: #eef4ff;
-    }
-
-    .btn { 
-        padding: 8px 14px; 
-        border-radius: 8px; 
-        font-size: 14px; 
-        border: none; 
-        cursor: pointer; 
-        text-decoration:none; 
-    }
+    .btn { padding: 8px 14px; border-radius: 8px; font-size: 14px; border: none; cursor: pointer; text-decoration:none; }
 
     /* PAGINATION */
-    .pagination-wrapper {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 15px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
+    .pagination-wrapper { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; flex-wrap: wrap; gap: 10px; }
+    .pagination { display: flex; gap: 6px; flex-wrap: wrap; }
+    .pagination li { list-style: none; }
+    .pagination a, .pagination span { display: inline-block; padding: 6px 12px; border-radius: 8px; border: 1px solid #d1d5db; background: white; color: #333; text-decoration: none; font-size: 14px; transition: 0.2s; }
+    .pagination a:hover { background: #0d6efd; color: white; }
+    .pagination .active span { background: #0d6efd; color: white; border-color: #0d6efd; }
+    .pagination .disabled span { color: #aaa; background: #f3f4f6; }
+    .pagination-info { font-size: 13px; color: #666; }
 
-    .pagination {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .pagination li {
-      list-style: none;
-    }
-
-    .pagination a,
-    .pagination span {
-      display: inline-block;
-      padding: 6px 12px;
-      border-radius: 8px;
-      border: 1px solid #d1d5db;
-      background: white;
-      color: #333;
-      text-decoration: none;
-      font-size: 14px;
-      transition: 0.2s;
-    }
-
-    .pagination a:hover {
-      background: #0d6efd;
-      color: white;
-    }
-
-    .pagination .active span {
-      background: #0d6efd;
-      color: white;
-      border-color: #0d6efd;
-    }
-
-    .pagination .disabled span {
-      color: #aaa;
-      background: #f3f4f6;
-    }
-
-    .pagination-info {
-      font-size: 13px;
-      color: #666;
-    }
+    .toggle-btn { display: none; }
 
     /* ======================================================= */
     /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
     /* ======================================================= */
     @media (max-width: 768px) {
-        .sidebar {
-            left: -240px;
-        }
-        .sidebar.active {
-            left: 0;
-        }
-
-        main {
-            margin-left: 0;
-        }
-
-        .toggle-btn {
-            display: block;
-        }
-
-        .overlay.active {
-            display: block;
-        }
-
-        .top {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 15px;
-        }
-
-        .filter {
-            flex-direction: column;
-        }
-
-        .filter input,
-        .filter select,
-        .filter button {
-            width: 100%;
-        }
-
-        .navbar {
-            padding: 15px 20px;
-        }
+        .sidebar { left: -100% !important; position: fixed !important; z-index: 1000; transition: 0.3s ease; }
+        .sidebar.active { left: 0 !important; }
+        .main { margin-left: 0 !important; width: 100% !important; }
+        .toggle-btn { display: inline-block !important; margin-right: 15px; font-size: 24px; cursor: pointer; color: #0d6efd; }
+        .overlay.active { display: block; }
+        .header { display: flex; align-items: center; }
+        .filter { flex-direction: column; }
+        .filter input, .filter select, .filter button { width: 100%; }
+        .cards, #mainMenu { display: grid !important; grid-template-columns: 1fr !important; gap: 15px; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- OVERLAY (Muncul di HP saat sidebar terbuka) -->
   <div class="overlay" onclick="toggleSidebar()"></div>
 
-    <!-- SIDEBAR -->
     <div class="sidebar">
-        <h2>DINKOPUMDAG</h2>
-        <div id="tanggalSidebar" style="margin:10px 0; font-size:14px; color:#fff;"></div>
+        <h2 style="text-align:center;">DINKOPUMDAG</h2>
+        <div id="tanggalSidebar" style="margin-bottom:20px; font-size:13px; color:#e0e7ff; text-align: center;"></div>
 
         <div class="menu">
             <a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard Utama</a>
@@ -233,10 +93,8 @@
         </button>
     </div>
 
-  <!-- MAIN -->
-  <main>
+  <div class="main">
 
-  <!-- HEADER -->
   <div class="header">
     <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
     <img src="{{ asset('images/logo.jpg') }}" class="logo">
@@ -246,12 +104,10 @@
     </div>
   </div>
 
-    <!-- CONTENT -->
     <div class="container">
 
-      <h2>Distribusi Perdagangan</h2>
+      <h2>Toko Kelontong</h2>
 
-        <!-- FILTER -->
         <form method="GET">
           <div class="filter">
             <select id="kecamatan" name="kecamatan_id">
@@ -267,8 +123,7 @@
           </div>
         </form>
 
-      <!-- MAIN MENU -->
-        <div class="cards" id="mainMenu">
+      <div class="cards" id="mainMenu">
             <a class="card green">
                 <h4>Total Toko Kelontong</h4>
                 <h2>{{ $summary->total_toko ?? 0 }}</h2>
@@ -282,7 +137,6 @@
       
       <div class="card">
 
-        <!-- TABLE -->
         <div class="table-responsive">
             <table>
               <thead>
@@ -306,14 +160,13 @@
                   </tr>
                 @empty
                   <tr>
-                    <td colspan="6" style="text-align:center;">Tidak ada data</td>
+                    <td colspan="5" style="text-align:center;">Tidak ada data</td>
                   </tr>
                 @endforelse
               </tbody>
             </table>
         </div>
 
-        <!-- PAGINATION -->
         <div class="pagination-wrapper">
           <div class="pagination">
             {{ $data->links('components.pagination') }}
@@ -327,13 +180,20 @@
       </div>
     </div>
 
-  </main>
+  </div>
 
-  <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
-    // TOGGLE SIDEBAR UNTUK HP
+    document.addEventListener('DOMContentLoaded', function() {
+        const elTanggal = document.getElementById('tanggalSidebar');
+        if (elTanggal) {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            elTanggal.textContent = now.toLocaleDateString('id-ID', options);
+        }
+    });
+
     function toggleSidebar() {
         document.querySelector('.sidebar').classList.toggle('active');
         document.querySelector('.overlay').classList.toggle('active');
@@ -378,38 +238,10 @@
                 });
         }
 
-        // AUTO LOAD
-        if(kecamatan.value){
-            loadKelurahan(
-                kecamatan.value,
-                selectedKelurahan
-            );
-        }
-
-        // CHANGE
-        kecamatan.addEventListener('change', function () {
-            loadKelurahan(this.value);
-        });
-
+        if(kecamatan.value){ loadKelurahan(kecamatan.value, selectedKelurahan); }
+        kecamatan.addEventListener('change', function () { loadKelurahan(this.value); });
     });
     
-    // DELETE
-    function confirmDelete(formId) {
-      Swal.fire({
-        title: 'Yakin?',
-        text: "Data akan dihapus!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#dc3545',
-        confirmButtonText: 'Ya, hapus!'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          document.getElementById(formId).submit();
-        }
-      });
-    }
-
-    // LOGOUT
     function logout() {
       Swal.fire({
         title: 'Logout?',
@@ -426,10 +258,7 @@
       });
     }
 
-    // LOGIN CHECK
-    if (localStorage.getItem("login") !== "true") {
-      window.location.href = "/";
-    }
+    if (localStorage.getItem("login") !== "true") { window.location.href = "/"; }
   </script>
 
 </body>

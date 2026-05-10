@@ -268,9 +268,10 @@
         </a>
 
         <!-- Tombol untuk menuju halaman LPPD -->
-        <a class="card menu-card" href="{{ route('adminlppd') }}">
+        <a class="card menu-card bg-green" href="/admin/admin_pum/adminlppd">
+          <i class="fas fa-chart-line"></i>
           <h4>LPPD</h4>
-          <p>Laporan Penyelengaraan Peerintah Daerah </p>
+          <p>Laporan Penyelengaraan Perintah Daerah </p>
         </a>
 
       </div>
