@@ -60,6 +60,7 @@ class SwkController extends Controller
             'jumlah_pedagang'   => 'required|numeric',
             'jumlah_stan'       => 'required|numeric',
             'stan_belum_terisi' => 'required|numeric',
+            'luas'              => 'required|numeric',
         ]);
 
         Swk::create([
@@ -69,6 +70,7 @@ class SwkController extends Controller
             'jumlah_pedagang' => $request->jumlah_pedagang,
             'jumlah_stan' => $request->jumlah_stan,
             'stan_belum_terisi' => $request->stan_belum_terisi,
+            'luas' => $request->luas,
         ]);
 
         return redirect('/admin/admin_pum/adminswk')->with('success','Data SWK berhasil ditambahkan');
@@ -93,6 +95,7 @@ class SwkController extends Controller
             'jumlah_pedagang'   => 'required|numeric',
             'jumlah_stan'       => 'required|numeric',
             'stan_belum_terisi' => 'required|numeric',
+            'luas'              => 'required|numeric',
         ]);
 
         $data = Swk::findOrFail($id);
@@ -104,6 +107,7 @@ class SwkController extends Controller
             'jumlah_pedagang' => $request->jumlah_pedagang,
             'jumlah_stan' => $request->jumlah_stan,
             'stan_belum_terisi' => $request->stan_belum_terisi,
+            'luas' => $request->luas,
         ]);
 
         return redirect('/admin/admin_pum/adminswk')->with('success','Data SWK berhasil diperbarui');
@@ -128,6 +132,12 @@ class SwkController extends Controller
     {
         $query = Swk::with('kelurahan.kecamatan');
 
+        if($request->search){
+            $query->where(function($q) use ($request){
+                $q->where('nama_swk','like','%'.$request->search.'%');
+            });
+        }
+
         // FILTER KECAMATAN
         if ($request->kecamatan_id) {
             $query->whereHas('kelurahan', function($q) use ($request) {
@@ -141,8 +151,11 @@ class SwkController extends Controller
         }
 
         $summaryQuery = clone $query;
-        $data = $query->get();
 
+        // ambil data SWK
+        $data = $query->latest()->get();
+
+        // summary
         $summary = $summaryQuery->selectRaw('
             COUNT(*) as total_swk,
             SUM(jumlah_pedagang) as total_pedagang,
@@ -150,6 +163,7 @@ class SwkController extends Controller
             SUM(stan_belum_terisi) as total_stan_kosong
         ')->first();
 
+        // AJAX
         if ($request->ajax()) {
             return response()->json([
                 'data' => $data,
@@ -157,9 +171,13 @@ class SwkController extends Controller
             ]);
         }
 
-        return view('frontend.swk', compact(
-            'data',
-            'summary'
-        ));
+        $kecamatan = Kecamatan::all();
+
+        // kirim ke blade
+        return view('bidang.pum.swk', [
+            'swks' => $data,
+            'kecamatan' => $kecamatan,
+            'summary' => $summary
+        ]);
     }
 }

@@ -15,6 +15,8 @@ use App\Http\Controllers\SwkController;
 use App\Http\Controllers\PumController;
 use App\Http\Controllers\PasarController;
 use App\Http\Controllers\TokokelontongController;
+use App\Http\Controllers\LppdController;
+use App\Http\Controllers\PerdaganganController;
 use App\Http\Controllers\KoperasiController;
 use App\Http\Controllers\MetrologiAlatController;
 use App\Http\Controllers\MetrologiReparasiController;
@@ -78,10 +80,17 @@ Route::get('/metrologi', fn()=>view('bidang.metrologi'));
 Route::get('/pembinaan', [PembinaanController::class,'view']);
 Route::get('/pembinaan-data', [PembinaanController::class,'index']);
 Route::get('/sekretariat', [SuratController::class,'sekretariat']);
-Route::get('/umkm', [UmkmController::class, 'umkm']);
-Route::get('/swk', [SwkController::class, 'swk']);
-Route::get('/metrologi-data', [FrontendMetrologiController::class, 'getData']);
 
+// Pum (User JSON/AJAX Data)
+Route::get('/mikro', [PumController::class, 'index']);
+Route::get('bidang/pum/umkm', [UmkmController::class, 'umkm']);
+Route::get('bidang/pum/swk', [SwkController::class, 'swk']);
+Route::get('bidang/pum/lppd', [LppdController::class, 'lppd']);
+
+// Perdagangan (User JSON/AJAX Data)
+Route::get('/perdagangan', [PerdaganganController::class, 'index']);
+Route::get('bidang/perdagangan/pasar', [PasarController::class, 'pasar']);
+Route::get('bidang/perdagangan/tokokelontong', [TokokelontongController::class, 'tokokelontong']);
 
 /*
 |--------------------------------------------------------------------------
@@ -239,7 +248,66 @@ Route::prefix('admin')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| AJAX GLOBAL
+| ADMIN PUM
 |--------------------------------------------------------------------------
 */
+// Menu Utama PUM
+Route::get('/admin/admin_pum/', fn()=>view('admin.admin_pum.adminpum'))->name('admin_pum.adminpum');
+
+// ================= ADMIN UMKM =================
+Route::get('/admin/admin_pum/adminumkm', [UmkmController::class, 'index'])->name('adminumkm');
+Route::get('/admin/admin_pum/umkmcreate', [UmkmController::class,'create']);
+Route::post('/admin/admin_pum/umkmstore', [UmkmController::class,'store']);
+Route::get('/admin/admin_pum/umkmedit/{id}', [UmkmController::class,'edit']);
+Route::post('/admin/admin_pum/umkmupdate/{id}', [UmkmController::class,'update']);
+Route::delete('/admin/admin_pum/umkmdelete/{id}', [UmkmController::class,'destroy']);
+
 Route::get('/get-kelurahan/{id}', [UmkmController::class, 'getKelurahan']);
+
+// ================= ADMIN SWK =================
+Route::get('/admin/admin_pum/adminswk', [SwkController::class, 'index'])->name('adminswk');
+Route::get('/admin/admin_pum/swkcreate', [SwkController::class,'create']);
+Route::post('/admin/admin_pum/swkstore', [SwkController::class,'store']);
+Route::get('/admin/admin_pum/swkedit/{id}', [SwkController::class,'edit']);
+Route::post('/admin/admin_pum/swkupdate/{id}', [SwkController::class,'update']);
+Route::delete('/admin/admin_pum/swkdelete/{id}', [SwkController::class,'destroy']);
+
+Route::get('/get-kelurahan/{id}', [SwkController::class, 'getKelurahan']);
+
+// ================= ADMIN LPPD =================
+Route::get('/admin/admin_pum/adminlppd', [LppdController::class, 'index'])->name('adminlppd');
+Route::get('/admin/admin_pum/lppdcreate', [LppdController::class,'create']);
+Route::post('/admin/admin_pum/lppdstore', [LppdController::class,'store']);
+Route::get('/admin/admin_pum/lppdedit/{id}', [LppdController::class,'edit']);
+Route::post('/admin/admin_pum/lppdupdate/{id}', [LppdController::class,'update']);
+Route::delete('/admin/admin_pum/lppddelete/{id}', [LppdController::class,'destroy']);
+
+Route::get('/get-kelurahan/{id}', [LppdController::class, 'getKelurahan']);
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN PERDAGANGAN
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/admin/admin_perdagangan/', fn()=>view('admin.admin_perdagangan.adminperdagangan'));
+
+// pasar
+Route::get('/admin/admin_perdagangan/pasar/adminpasar', [PasarController::class, 'index'])->name('adminpasar');
+Route::delete('/admin/admin_perdagangan/pasar/pasardelete/{id}', [PasarController::class,'destroy']);
+Route::get('/admin/admin_perdagangan/pasar/pasarcreate', [PasarController::class,'create']);
+Route::get('/admin/admin_perdagangan/pasar/pasaredit/{id}', [PasarController::class,'edit']);
+Route::post('/admin/admin_perdagangan/pasar/pasarstore', [PasarController::class,'store']);
+Route::post('/admin/admin_perdagangan/pasar/pasarupdate/{id}', [PasarController::class,'update']);
+
+Route::get('/get-kelurahan/{id}', [PasarController::class, 'getKelurahan']);
+
+// toko kelontong
+Route::get('/admin/admin_perdagangan/tokokelontong/admintokokelontong', [TokokelontongController::class, 'index'])->name('admintokokelontong');
+Route::delete('/admin/admin_perdagangan/tokokelontong/tokokelontongdelete/{id}', [TokokelontongController::class,'destroy']);
+Route::get('/admin/admin_perdagangan/tokokelontong/tokokelontongcreate', [TokokelontongController::class,'create']);
+Route::get('/admin/admin_perdagangan/tokokelontong/tokokelontongedit/{id}', [TokokelontongController::class,'edit']);
+Route::post('/admin/admin_perdagangan/tokokelontong/tokokelontongstore', [TokokelontongController::class,'store']);
+Route::post('/admin/admin_perdagangan/tokokelontong/tokokelontongupdate/{id}', [TokokelontongController::class,'update']);
+
+Route::get('/get-kelurahan/{id}', [TokokelontongController::class, 'getKelurahan']); 

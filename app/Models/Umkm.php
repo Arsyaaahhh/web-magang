@@ -16,7 +16,9 @@ class Umkm extends Model
         'sertifikasi_merek',
         'nib',
         'peken',
-        'padat_karya'
+        'padat_karya',
+        'kategori',
+        'pirt'
     ];
 
     public function kelurahan()
