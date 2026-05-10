@@ -34,72 +34,18 @@
     }
 
     /* SIDEBAR */
-    .sidebar {
-      width: 240px;
-      height: 100vh;
-      background: #0d6efd;
-      color: white;
-      padding: 20px;
-      position: fixed;
-      left: 0;
-      top: 0;
-      z-index: 1000;
-      transition: left 0.3s ease;
-      overflow-y: auto;
+    .sidebar{
+      width:240px;height:100vh;background:#0d6efd;color:white;padding:20px;position:fixed;
+      z-index: 1000; transition: left 0.3s ease;
     }
-
-    .sidebar h2 {
-      margin-bottom: 25px;
-      font-size: 20px;
+    .sidebar h2{margin-bottom:20px;}
+    .sidebar a{
+      display:block;color:white;padding:10px;border-radius:8px;margin-bottom:8px;text-decoration:none;
     }
-
-    .sidebar a {
-      display: block;
-      color: white;
-      padding: 10px 14px;
-      border-radius: 8px;
-      margin-bottom: 8px;
-      font-weight: 500;
-      cursor: pointer;
-      text-decoration: none;
-      font-size: 15px;
-      transition: 0.2s;
-    }
-
-    .sidebar a i {
-      margin-right: 10px;
-      width: 18px;
-      text-align: center;
-    }
-
-    .sidebar a:hover,
-    .sidebar .active {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    .logout-btn {
-      margin-top: 25px;
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      background: #dc3545;
-      color: white;
-      cursor: pointer;
-      font-size: 15px;
-      text-align: left;
-      font-weight: 500;
-      transition: 0.2s;
-    }
-
-    .logout-btn i {
-      margin-right: 10px;
-      width: 18px;
-      text-align: center;
-    }
-
-    .logout-btn:hover {
-      background: #bb2d3b;
+    .sidebar a:hover,.sidebar .active{background:rgba(255,255,255,0.2);}
+    .logout-btn{
+      margin-top:20px;width:100%;padding:10px;border:none;border-radius:8px;background:#dc3545;color:white;
+      cursor:pointer;
     }
 
     /* MAIN CONTENT */
@@ -168,61 +114,37 @@
     /* MENU CARDS (PILIHAN) */
     .menu-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 20px;
     }
 
+    /* CARD CUSTOMIZATION */
     .menu-card {
-      background: white;
-      border-radius: 14px;
-      padding: 25px;
-      border: 1px solid #e5e7eb;
+      padding: 25px 20px;
+      border-radius: 16px;
+      color: white;
       text-decoration: none;
-      color: #333;
       display: flex;
-      align-items: flex-start;
-      gap: 18px;
-      transition: 0.3s ease;
-      cursor: pointer;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 150px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .menu-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(13, 110, 253, 0.1);
-      border-color: #0d6efd;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
     }
 
-    .icon-box {
-      background: #eaf2ff;
-      color: #0d6efd;
-      width: 55px;
-      height: 55px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      flex-shrink: 0;
-      transition: 0.3s;
-    }
+    /* Warna Background Card */
+    .bg-blue { background: linear-gradient(135deg, #0d6efd, #0b5ed7); }
+    .bg-teal { background: linear-gradient(135deg, #20c997, #1aa179); }
 
-    .menu-card:hover .icon-box {
-      background: #0d6efd;
-      color: white;
-    }
-
-    .card-info h3 {
-      font-size: 17px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #1f2937;
-    }
-
-    .card-info p {
-      font-size: 13px;
-      color: #6b7280;
-      line-height: 1.5;
-    }
+    /* Elemen di dalam Card */
+    .menu-card i { font-size: 36px; margin-bottom: 15px; opacity: 0.9; }
+    .menu-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 8px; letter-spacing: 0.5px; }
+    .menu-card p { font-size: 14px; opacity: 0.85; font-weight: 400; line-height: 1.5; }
 
     /* ======================================================= */
     /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
@@ -241,10 +163,8 @@
 </head>
 <body>
 
-  <!-- OVERLAY (Muncul di HP saat sidebar terbuka) -->
   <div class="overlay" onclick="toggleSidebar()"></div>
 
-  <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>ADMIN</h2>
 
@@ -257,14 +177,17 @@
     </a>
 
     <a href="/admin/pembinaan">
-      <i class="fas fa-briefcase"></i> Pembinaan
+      <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
     </a>
 
     <a href="/admin/perdagangan">
-      <i class="fas fa-truck"></i> Perdagangan
+      <i class="fas fa-truck"></i> Distribusi Perdagangan
     </a>
 
-    <!-- Menu Metrologi Aktif -->
+        <a href="/admin/koperasi">
+      <i class="fas fa-building"></i> Bidang Koperasi
+    </a>
+
     <a class="active" href="/admin/admin_metro">
       <i class="fas fa-balance-scale"></i> Metrologi Legal
     </a>
@@ -274,10 +197,8 @@
     </button>
   </div>
 
-  <!-- MAIN -->
   <main>
 
-    <!-- NAVBAR -->
     <div class="navbar">
       <div class="navbar-left">
         <button class="toggle-btn" onclick="toggleSidebar()">
@@ -290,33 +211,18 @@
       </div>
     </div>
 
-    <!-- CONTENT -->
     <div class="container">
 
-
-      <!-- GRID KARTU PILIHAN -->
       <div class="menu-grid">
 
-        <!-- KARTU 1: ALAT UKUR (Nomor 8) -->
-        <a href="/admin/admin_metro/alat" class="menu-card">
-          <div class="icon-box">
-            <i class="fas fa-weight-hanging"></i>
-          </div>
-          <div class="card-info">
-            <h3>Potensi Alat Ukur</h3>
-            <p>Kelola rincian jumlah potensi Alat Ukur, Takar, Timbang, dan Perlengkapannya (UTTP) yang wajib tera/tera ulang.</p>
-          </div>
+        <a href="/admin/admin_metro/alat" class="menu-card bg-blue">
+          <i class="fas fa-weight-hanging"></i>
+          <h3>Potensi Alat Ukur</h3>
         </a>
 
-        <!-- KARTU 2: REPARASI (Nomor 9) -->
-        <a href="/admin/admin_metro/reparasi" class="menu-card">
-          <div class="icon-box">
-            <i class="fas fa-tools"></i>
-          </div>
-          <div class="card-info">
-            <h3>Tanda Daftar Reparasi</h3>
-            <p>Kelola data dan status surat Rekomendasi Tanda Daftar Reparasi untuk teknisi/bengkel alat ukur.</p>
-          </div>
+        <a href="/admin/admin_metro/reparasi" class="menu-card bg-teal">
+          <i class="fas fa-tools"></i>
+          <h3>Tanda Daftar Reparasi</h3>
         </a>
 
       </div>
@@ -325,7 +231,6 @@
 
   </main>
 
-  <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
@@ -339,7 +244,7 @@
     function logout() {
       Swal.fire({
         title: 'Logout?',
-        text: "Kamu akan keluar dari sistem",
+        text: "Kamu akan keluar dari sistem admin",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#0d6efd',

@@ -133,20 +133,39 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
 <!-- OVERLAY (Hanya Muncul di Mobile) -->
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-<!-- SIDEBAR -->
-<div class="sidebar" id="sidebarMenu">
-  <h2>ADMIN</h2>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>ADMIN</h2>
 
-  <a href="/admin/admin_sekre" class="active"><i class="fas fa-user-tie"></i> Sekretariat</a>
-      <a href="/admin/admin_pum" >
+    <a class="active" href="/admin/admin_sekre">
+      <i class="fas fa-user-tie"></i> Sekretariat
+    </a>
+
+    <a href="/admin/admin_pum">
       <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
     </a>
-  <a href="/admin/admin_pup"><i class="fas fa-briefcase"></i> Pembinaan</a>
-  <a href="/admin/koperasi"><i class="fas fa-building"></i> Koperasi</a>
-  <a href="/admin/perdagangan"><i class="fas fa-truck"></i> Perdagangan</a>
 
-  <button onclick="logout()" class="logout-btn">Logout</button>
-</div>
+    <a href="/admin/admin_pup">
+      <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
+    </a>
+
+    <a href="/admin/admin_perdagangan">
+      <i class="fas fa-truck"></i> Distribusi Perdagangan
+    </a>
+
+        <a href="/admin/koperasi">
+      <i class="fas fa-building"></i> Bidang Koperasi
+    </a>
+
+    <!-- Menu Metrologi Aktif -->
+    <a href="/admin/admin_metro">
+      <i class="fas fa-balance-scale"></i> Metrologi Legal
+    </a>
+
+    <button onclick="logout()" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+  </div>
 
 <!-- MAIN -->
 <div class="main">
@@ -202,6 +221,7 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
 </div>
 </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 // Fungsi untuk toggle sidebar di HP
 function toggleSidebar() {
@@ -212,9 +232,22 @@ function toggleSidebar() {
   overlay.classList.toggle('active');
 }
 
-function logout(){
-  window.location.href="/logout";
-}
+    // LOGOUT
+    function logout() {
+      Swal.fire({
+        title: 'Logout?',
+        text: "Kamu akan keluar",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#0d6efd',
+        confirmButtonText: 'Ya, logout'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.removeItem("login");
+          window.location.href = "/logout";
+        }
+      });
+    }
 </script>
 
 </body>

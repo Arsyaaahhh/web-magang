@@ -17,59 +17,19 @@ body{
   overflow-x: hidden;
 }
 
-/* ================= SIDEBAR ================= */
+/* SIDEBAR */
 .sidebar{
-  width:240px;
-  height:100vh;
-  background:linear-gradient(180deg,#1f6feb,#2563eb);
-  color:white;
-  padding:20px;
-  position:fixed;
-  display:flex;
-  flex-direction:column;
-  z-index: 1000;
-  transition: left 0.3s ease;
+  width:240px;height:100vh;background:#0d6efd;color:white;padding:20px;position:fixed;
+  z-index: 1000; transition: left 0.3s ease;
 }
-
-.sidebar h2{
-  margin-bottom:25px;
+.sidebar h2{margin-bottom:20px;}
+.sidebar a{
+  display:block;color:white;padding:10px;border-radius:8px;margin-bottom:8px;text-decoration:none;
 }
-
-.menu{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.menu a{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px;
-  border-radius:10px;
-  color:white;
-  text-decoration:none;
-  transition:0.2s;
-}
-
-.menu a:hover{
-  background:rgba(255,255,255,0.15);
-}
-
-.menu .active{
-  background:rgba(255,255,255,0.25);
-}
-
+.sidebar a:hover,.sidebar .active{background:rgba(255,255,255,0.2);}
 .logout-btn{
-  margin-top:auto;
-  padding:12px;
-  border:none;
-  border-radius:10px;
-  background:#ef4444;
-  color:white;
+  margin-top:20px;width:100%;padding:10px;border:none;border-radius:8px;background:#dc3545;color:white;
   cursor:pointer;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
 }
 
 /* ================= MAIN ================= */
@@ -237,11 +197,11 @@ tr:hover{
 
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-<div class="sidebar" id="sidebarMenu">
-  <h2>ADMIN</h2>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>ADMIN</h2>
 
-  <div class="menu">
-    <a href="/admin/admin_sekre" class="active">
+    <a class="active" href="/admin/admin_sekre">
       <i class="fas fa-user-tie"></i> Sekretariat
     </a>
 
@@ -249,24 +209,27 @@ tr:hover{
       <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
     </a>
 
-    <a href="/admin/pembinaan">
-      <i class="fas fa-briefcase"></i> Pembinaan
+    <a href="/admin/admin_pup">
+      <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
     </a>
 
-    <a href="/admin/koperasi">
-      <i class="fas fa-building"></i> Koperasi
+    <a href="/admin/admin_perdagangan">
+      <i class="fas fa-truck"></i> Distribusi Perdagangan
     </a>
 
-
-    <a href="/admin/perdagangan">
-      <i class="fas fa-truck"></i> Perdagangan
+        <a href="/admin/koperasi">
+      <i class="fas fa-building"></i> Bidang Koperasi
     </a>
+
+    <!-- Menu Metrologi Aktif -->
+    <a href="/admin/admin_metro">
+      <i class="fas fa-balance-scale"></i> Metrologi Legal
+    </a>
+
+    <button onclick="logout()" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
   </div>
-
-  <button onclick="logout()" class="logout-btn">
-    Logout
-  </button>
-</div>
 
 <div class="main">
 
@@ -367,9 +330,22 @@ function confirmDelete(url){
   });
 }
 
-function logout(){
-  window.location.href="/logout";
-}
+    // LOGOUT
+    function logout() {
+      Swal.fire({
+        title: 'Logout?',
+        text: "Kamu akan keluar",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#0d6efd',
+        confirmButtonText: 'Ya, logout'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.removeItem("login");
+          window.location.href = "/logout";
+        }
+      });
+    }
 </script>
 
 </body>

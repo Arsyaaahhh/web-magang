@@ -3,53 +3,68 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Models\Surat;
-use App\Models\Koperasi;
+
+// PASTIKAN ANDA MENG-IMPORT SEMUA MODEL YANG DIBUTUHKAN DI SINI
+use App\Models\Surat;             // Untuk Sekretariat
+use App\Models\Umkm;              // Untuk UMKM
+use App\Models\Swk;               // Untuk SWK
+use App\Models\Pasar;             // Untuk Pasar
+use App\Models\Tokokelontong;     // Untuk Toko Kelontong
+use App\Models\Koperasi;          // Untuk Koperasi
+use App\Models\Tdg;               // Untuk TDG (Pembinaan)
+use App\Models\Pengawasan;        // Untuk Pengawasan (Pembinaan)
+use App\Models\Alkohol;           // Untuk Alkohol (Pembinaan)
+use App\Models\MetrologiAlat;     // Untuk Alat Ukur
+use App\Models\MetrologiReparasi; // Untuk Reparasi
+
 class DashboardController extends Controller
 {
+    public function index()
+    {
+        // 1. HITUNG JUMLAH BARIS DATA (Menggunakan perintah count() bawaan Laravel)
+        
+        // Sekretariat (Misal dari tabel Surat)
+        $sekretariat = Surat::count();
 
-public function index()
-{
-    if(!session('login')){
-        return redirect('/');
+        // PUM (Total dari UMKM + SWK)
+        $mikro = Umkm::count() + Swk::count();
+
+        // Distribusi Perdagangan (Total dari Pasar + Toko Kelontong)
+        $distribusi = Pasar::count() + Tokokelontong::count();
+
+        // Koperasi
+        $koperasi = Koperasi::count();
+
+        // Pembinaan (Total dari TDG + Pengawasan + Alkohol)
+        $pembinaan = Tdg::count() + Pengawasan::count() + Alkohol::count();
+
+        // Metrologi (Tergantung logika Anda, apakah menghitung baris tabel (count) 
+        // atau menjumlahkan kolom 'jumlah' (sum). Di sini saya asumsikan menghitung baris)
+        $metrologi = MetrologiAlat::count() + MetrologiReparasi::count();
+
+
+        // 2. MASUKKAN KE DALAM ARRAY UNTUK CHART
+        // Urutannya harus sama dengan label di Javascript: 
+        // ['Sekretariat', 'UMKM', 'Distribusi', 'Koperasi', 'Pembinaan', 'Metrologi']
+        $chartData = [
+            $sekretariat, 
+            $mikro, 
+            $distribusi, 
+            $koperasi, 
+            $pembinaan, 
+            $metrologi
+        ];
+
+
+        // 3. LEMPAR DATA KE TAMPILAN BLADE
+        return view('dashboard', compact(
+            'sekretariat', 
+            'mikro', 
+            'distribusi', 
+            'koperasi', 
+            'pembinaan', 
+            'metrologi',
+            'chartData'
+        ));
     }
-
-    $sekretariat = Surat::where('bidang','sekretariat')->count();
-    $mikro       = Surat::where('bidang','mikro')->count();
-    $distribusi  = Surat::where('bidang','perdagangan')->count();
-    $koperasi    = Surat::where('bidang','koperasi')->count();
-    $pembinaan   = Surat::where('bidang','pembinaan')->count();
-    $metrologi   = Surat::where('bidang','metrologi')->count();
-
-    $chartData = [
-        $sekretariat,
-        $mikro,
-        $distribusi,
-        $koperasi,
-        $pembinaan,
-        $metrologi
-    ];
-
-    // 🔥 TREND PER TAHUN (DINAMIS)
-    $trend = Surat::select('tahun', DB::raw('count(*) as total'))
-        ->groupBy('tahun')
-        ->orderBy('tahun')
-        ->get();
-
-    $trendLabels = $trend->pluck('tahun');
-    $trendData   = $trend->pluck('total');
-
-    return view('dashboard', compact(
-        'sekretariat',
-        'mikro',
-        'distribusi',
-        'koperasi',
-        'pembinaan',
-        'metrologi',
-        'chartData',
-        'trendLabels',
-        'trendData'
-    ));
-}
 }

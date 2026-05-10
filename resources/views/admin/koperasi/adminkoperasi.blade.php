@@ -34,61 +34,17 @@
 
     /* SIDEBAR */
     .sidebar{
-      width:240px;
-      height:100vh;
-      background:#0d6efd;
-      color:white;
-      padding:20px;
-      position:fixed;
-      top:0;
-      left:0;
-      overflow-y:auto;
-      z-index:1000;
-      transition: left 0.3s ease;
+      width:240px;height:100vh;background:#0d6efd;color:white;padding:20px;position:fixed;
+      z-index: 1000; transition: left 0.3s ease;
     }
-
-    .sidebar h2{
-      margin-bottom:30px;
-      font-size:20px;
-      font-weight:600;
-    }
-
+    .sidebar h2{margin-bottom:20px;}
     .sidebar a{
-      display:block;
-      color:white;
-      text-decoration:none;
-      padding:12px 14px;
-      border-radius:10px;
-      margin-bottom:10px;
-      transition:0.2s ease;
-      font-size:15px;
+      display:block;color:white;padding:10px;border-radius:8px;margin-bottom:8px;text-decoration:none;
     }
-
-    .sidebar a i{
-      margin-right:10px;
-      width:18px;
-    }
-
-    .sidebar a:hover,
-    .sidebar a.active{
-      background:rgba(255,255,255,0.2);
-    }
-
+    .sidebar a:hover,.sidebar .active{background:rgba(255,255,255,0.2);}
     .logout-btn{
-      width:100%;
-      margin-top:25px;
-      padding:12px;
-      border:none;
-      border-radius:10px;
-      background:#dc3545;
-      color:white;
+      margin-top:20px;width:100%;padding:10px;border:none;border-radius:8px;background:#dc3545;color:white;
       cursor:pointer;
-      font-size:15px;
-      transition:0.2s ease;
-    }
-
-    .logout-btn:hover{
-      background:#bb2d3b;
     }
 
     /* MAIN */
@@ -118,13 +74,13 @@
       gap: 15px;
     }
 
-    .menu-toggle {
+    .toggle-btn {
       display: none;
+      font-size: 1.5rem;
+      color: #0d6efd;
+      cursor: pointer;
       background: none;
       border: none;
-      font-size: 20px;
-      cursor: pointer;
-      color: #0d6efd;
     }
 
     .navbar h3{
@@ -337,7 +293,7 @@
       .sidebar { left: -240px; }
       .sidebar.active { left: 0; }
       main { margin-left: 0; width: 100%; }
-      .menu-toggle { display: block; }
+      .toggle-btn { display: block; }
       .overlay.active { display: block; }
       .navbar { padding: 15px 20px; }
       .navbar h3 { font-size: 18px; }
@@ -357,33 +313,31 @@
     <h2>ADMIN</h2>
 
     <a href="/admin/admin_sekre">
-      <i class="fas fa-user-tie"></i>
-      Sekretariat
+      <i class="fas fa-user-tie"></i> Sekretariat
     </a>
 
     <a href="/admin/admin_pum">
-      <i class="fas fa-store"></i>
-      Pemberdayaan Usaha Mikro
+      <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
     </a>
 
-    <a href="/admin/admin_pup/adminpup">
-      <i class="fas fa-briefcase"></i>
-      Pembinaan
-    </a>
-
-    <a class="active" href="/admin/koperasi">
-      <i class="fas fa-building"></i>
-      Koperasi
+    <a href="/admin/admin_pup">
+      <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
     </a>
 
     <a href="/admin/admin_perdagangan">
-      <i class="fas fa-truck"></i>
-      Perdagangan
+      <i class="fas fa-truck"></i> Distribusi Perdagangan
+    </a>
+
+    <a class="active" href="/admin/koperasi">
+      <i class="fas fa-building"></i> Bidang Koperasi
+    </a>
+
+    <a href="/admin/admin_metro">
+      <i class="fas fa-balance-scale"></i> Metrologi Legal
     </a>
 
     <button onclick="logout()" class="logout-btn">
-      <i class="fas fa-sign-out-alt"></i>
-      Logout
+      <i class="fas fa-sign-out-alt"></i> Logout
     </button>
 
   </div>
@@ -393,7 +347,7 @@
     <div class="navbar">
 
       <div class="navbar-left">
-        <button class="menu-toggle" onclick="toggleSidebar()">
+        <button class="toggle-btn" onclick="toggleSidebar()">
           <i class="fas fa-bars"></i>
         </button>
         <h3>Bidang Koperasi</h3>

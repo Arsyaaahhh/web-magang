@@ -94,17 +94,29 @@
       border: none;
       cursor: pointer;
       text-decoration:none;
+      display: inline-block;
+      transition: 0.2s ease;
     }
 
     .btn-add {
       background: #20c997;
       color: white;
-      font-size:18px !important;
+      font-size: 14px !important; /* Disesuaikan agar sejajar dengan tombol kembali */
     }
 
     .btn-add:hover{
       background:#1aa179;
-      transition:0.2s ease;
+    }
+
+    /* CSS TOMBOL KEMBALI */
+    .btn-back {
+      background: #6c757d;
+      color: white;
+      font-size: 14px !important;
+    }
+
+    .btn-back:hover {
+      background: #5a6268;
     }
 
     .btn-edit {
@@ -252,9 +264,8 @@
       padding: 20px;
       position: fixed;
       left: 0;
-      top: 0;
       z-index: 1000;
-      transition: left 0.3s ease;
+      transition: left 0.3s ease; /* Efek animasi saat dibuka dari HP */
     }
 
     .sidebar h2 {
@@ -267,13 +278,7 @@
       padding: 10px;
       border-radius: 8px;
       margin-bottom: 8px;
-      font-weight: 500;
-      cursor: pointer;
       text-decoration: none;
-    }
-
-    .sidebar a i{
-        margin-right: 6px;
     }
 
     .sidebar a:hover,
@@ -281,27 +286,15 @@
       background: rgba(255, 255, 255, 0.2);
     }
 
-    /* TOMBOL KELUAR */
     .logout-btn {
-        margin-top: 20px;
-        width: 100%;
-        padding: 10px;
-        border: none;
-        border-radius: 8px;
-        background: #ef4444;
-        color: white;
-        cursor: pointer;
-        font-size: 14px;
-        text-align: left;
-        font-weight: 500;
-    }
-
-    .logout-btn i {
-        margin-right: 6px;
-    }
-
-    .logout-btn:hover {
-        background: #dc2626;
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #dc3545;
+      color: white;
+      cursor: pointer;
     }
 
     /* ======================================================= */
@@ -352,10 +345,8 @@
 
 <body>
 
-  <!-- OVERLAY (Muncul di HP saat sidebar terbuka) -->
   <div class="overlay" onclick="toggleSidebar()"></div>
 
-  <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>ADMIN</h2>
 
@@ -368,26 +359,28 @@
     </a>
 
     <a href="/admin/admin_pup">
-      <i class="fas fa-briefcase"></i> Pembinaan
+      <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
     </a>
 
-    <a href="/admin/koperasi">
-      <i class="fas fa-building"></i> Koperasi
+    <a class="active" href="/admin/admin_perdagangan">
+      <i class="fas fa-truck"></i> Distribusi Perdagangan
     </a>
 
-    <a class="active" href="/admin/admin_perdagangan/">
-      <i class="fas fa-truck"></i> Perdagangan
+        <a href="/admin/koperasi">
+      <i class="fas fa-building"></i> Bidang Koperasi
+    </a>
+
+    <a href="/admin/admin_metro">
+      <i class="fas fa-balance-scale"></i> Metrologi Legal
     </a>
 
     <button onclick="logout()" class="logout-btn">
-      Logout
+      <i class="fas fa-sign-out-alt"></i> Logout
     </button>
   </div>
 
-  <!-- MAIN -->
   <main>
 
-    <!-- NAVBAR -->
     <div class="navbar">
       <div class="navbar-left">
         <i class="fas fa-bars toggle-btn" onclick="toggleSidebar()"></i>
@@ -399,12 +392,15 @@
       </div>
     </div>
 
-    <!-- CONTENT -->
     <div class="container">
 
       <div class="top">
         <h2>Data Pasar Binaan</h2>
-        <a href="/admin/admin_perdagangan/pasar/pasarcreate" class="btn btn-add">+ Tambah</a>
+        
+        <div style="display: flex; gap: 10px;">
+            <a href="javascript:history.back()" class="btn btn-back"><i class="fas fa-arrow-left"></i> Kembali</a>
+            <a href="/admin/admin_perdagangan/pasar/pasarcreate" class="btn btn-add"><i class="fas fa-plus"></i> Tambah</a>
+        </div>
       </div>
 
       @if(session('success'))
@@ -415,7 +411,6 @@
 
       <div class="card">
 
-        <!-- FILTER -->
         <form method="GET">
           <div class="filter">
 
@@ -426,7 +421,6 @@
               value="{{ request('search') }}"
             >
 
-            <!-- KECAMATAN -->
             <select id="kecamatan" name="kecamatan_id">
               <option value="">Semua Kecamatan</option>
 
@@ -438,7 +432,6 @@
               @endforeach
             </select>
 
-            <!-- KELURAHAN -->
             <select id="kelurahan" name="kelurahan_id">
               <option value="">Semua Kelurahan</option>
             </select>
@@ -448,7 +441,6 @@
           </div>
         </form>
 
-        <!-- TABLE -->
         <div class="table-responsive">
             <table>
               <thead>
@@ -504,7 +496,6 @@
             </table>
         </div>
 
-        <!-- PAGINATION -->
         <div class="pagination-wrapper">
           <div class="pagination">
             {{ $data->links('components.pagination') }}
@@ -520,7 +511,6 @@
 
   </main>
 
-  <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
@@ -583,7 +573,7 @@
         });
 
     });
-    
+
     // DELETE
     function confirmDelete(formId) {
       Swal.fire({
