@@ -111,9 +111,11 @@
 
 <body>
 
-<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
-    <h2>DINKOPUMDAG</h2>
+    <h2 style="text-align: center;">DINKOPUMDAG</h2>
+
+    <div id="tanggalSidebar" style="margin-bottom:20px; font-size:13px; color:#e0e7ff; text-align: center; font-weight: 400;"></div>
+
     <div class="menu">
         <a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard Utama</a>
         <a href="/sekretariat"><i class="fas fa-user-tie"></i> Bidang Sekretariat</a>
@@ -126,11 +128,9 @@
     <button onclick="logout()" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Keluar</button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
     <div class="header">
-        <!-- Tombol Hamburger (☰) -->
         <div class="toggle-btn" onclick="toggleMenu()" style="cursor:pointer; font-size: 20px; margin-right: 15px;">☰</div>
         <img src="{{ asset('images/logo.jpg') }}" class="logo" style="width:40px; height:40px;">
         <div>
@@ -142,30 +142,24 @@
     <div class="container" style="padding: 20px;">
         <h2 style="margin-bottom: 15px;">Detail : Pembinaan Usaha Perdagangan</h2>
 
-        <!-- AREA 1: MENU UTAMA -->
         <div class="cards" id="menuUtama">
             <div class="card blue" onclick="loadJenis('tdg')">
                 <h4>Data TDG</h4>
-                <h2 id="countTDG">0</h2>
-            </div>
+                </div>
             <div class="card orange" onclick="loadJenis('pengawasan')">
                 <h4>Data Pengawasan</h4>
-                <h2 id="countPengawasan">0</h2>
-            </div>
+                </div>
             <div class="card green" onclick="loadJenis('minol')">
                 <h4>Minuman Alkohol</h4>
-                <h2 id="countMinol">0</h2>
-            </div>
+                </div>
         </div>
 
-        <!-- AREA 2: SUB-MENU -->
         <div id="subMenuArea" style="display:none;">
             <button class="btn-back" onclick="backToUtama()"><i class="fas fa-arrow-left"></i> Kembali</button>
             <h3 id="judulSubArea" style="margin-bottom:15px;"></h3>
             <div class="sub-cards" id="subCards"></div>
         </div>
 
-        <!-- AREA 3: DATA TABEL -->
         <div id="dataArea" style="display:none;">
             <button class="btn-back" onclick="backToPrevious()"><i class="fas fa-arrow-left"></i> Kembali</button>
             <h3 id="judulArea" style="margin-bottom:15px;"></h3>
@@ -209,9 +203,13 @@ function loadCount(){
     fetch('/pembinaan-data',{ headers:{'X-Requested-With':'XMLHttpRequest'} })
     .then(res=>res.json())
     .then(res=>{
-        document.getElementById("countTDG").innerText = res.jumlah.tdg;
-        document.getElementById("countPengawasan").innerText = res.jumlah.pengawasan;
-        document.getElementById("countMinol").innerText = res.jumlah.minol;
+        let countTDG = document.getElementById("countTDG");
+        let countPengawasan = document.getElementById("countPengawasan");
+        let countMinol = document.getElementById("countMinol");
+        
+        if (countTDG) countTDG.innerText = res.jumlah.tdg;
+        if (countPengawasan) countPengawasan.innerText = res.jumlah.pengawasan;
+        if (countMinol) countMinol.innerText = res.jumlah.minol;
     });
 }
 
@@ -289,8 +287,24 @@ function backToPrevious(){
     else document.getElementById("subMenuArea").style.display = "block";
 }
 
-window.onload = loadCount;
-function logout(){ localStorage.removeItem("login"); window.location.href="/"; }
+// Menjalankan fungsi saat halaman selesai dimuat
+document.addEventListener('DOMContentLoaded', function() {
+    loadCount();
+    
+    // Tampilkan Hari, Tanggal, Bulan, Tahun di Sidebar
+    const elTanggal = document.getElementById('tanggalSidebar');
+    if (elTanggal) {
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        elTanggal.textContent = now.toLocaleDateString('id-ID', options);
+    }
+});
+
+function logout(){ localStorage.removeItem("login"); window.location.href="/logout"; }
+
+if (localStorage.getItem("login") !== "true") {
+  window.location.href = "/";
+}
 </script>
 </body>
 </html>

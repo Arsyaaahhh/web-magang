@@ -530,7 +530,11 @@ function loadCount(){
 
 // ================= UTIL =================
 function openPDF(file){ window.open('/pdf/' + file, '_blank'); }
-function logout(){ location.href="/logout"; }
+function logout(){ localStorage.removeItem("login"); location.href="/logout"; }
+
+if (localStorage.getItem("login") !== "true") {
+  window.location.href = "/";
+}
 
 function getColor(id){
   const colors = ['blue','green','orange','teal','purple'];

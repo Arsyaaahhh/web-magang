@@ -197,6 +197,11 @@
                 <option value="">Loading...</option>
             </select>
             </div>
+          
+          <div>
+            <label>Luas (m²)</label>
+            <input name="luas" type="number" value="{{ $data->luas }}" min="0">
+          </div>
 
           <div>
             <label>Jumlah Pedagang</label>
@@ -208,7 +213,7 @@
             <input name="jumlah_stan" type="number" value="{{ $data->jumlah_stan }}" min="0">
           </div>
 
-          <div style="grid-column: 1 / -1;">
+          <div>
             <label>Stan Belum Terisi</label>
             <input name="stan_belum_terisi" type="number" value="{{ $data->stan_belum_terisi }}" min="0">
           </div>

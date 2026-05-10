@@ -10,12 +10,19 @@
 /* STYLE SAMA PERSIS DENGAN SEBELUMNYA */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{display:flex;background:#f4f7fb; min-height: 100vh;}
-.sidebar{width:240px; height:100vh; background:linear-gradient(180deg,#1f6feb,#2563eb);color:white; padding:20px; position:fixed; display:flex; flex-direction:column; transition: all 0.3s ease; z-index: 1000;}
-.sidebar h2{margin-bottom:20px; font-size: 22px;}
-.menu{display:flex; flex-direction:column; gap:8px;}
-.menu a{display:flex; align-items:center; gap:10px; padding:12px; border-radius:10px; color:white; text-decoration:none; transition:0.2s;}
-.menu a:hover, .menu .active{background:rgba(255,255,255,0.2);}
-.logout-btn{margin-top:auto; padding:12px; border:none; border-radius:10px; background:#ef4444; color:white; cursor:pointer;}
+.sidebar{
+  width:240px;height:100vh;background:#0d6efd;color:white;padding:20px;position:fixed;
+  z-index: 1000; transition: left 0.3s ease;
+}
+.sidebar h2{margin-bottom:20px;}
+.sidebar a{
+  display:block;color:white;padding:10px;border-radius:8px;margin-bottom:8px;text-decoration:none;
+}
+.sidebar a:hover,.sidebar .active{background:rgba(255,255,255,0.2);}
+.logout-btn{
+  margin-top:20px;width:100%;padding:10px;border:none;border-radius:8px;background:#dc3545;color:white;
+  cursor:pointer;
+}
 .main{margin-left:240px; width:calc(100% - 240px); transition: all 0.3s ease;}
 .navbar{background:white; padding:15px 30px; display:flex; justify-content:space-between; align-items: center; box-shadow:0 2px 10px rgba(0,0,0,0.05);}
 .menu-toggle{display: none; background: none; border: none; font-size: 20px; cursor: pointer;}
@@ -27,24 +34,51 @@ body{display:flex;background:#f4f7fb; min-height: 100vh;}
 table{width:100%; border-collapse:collapse; min-width: 600px;}
 th{padding:12px; background:#eaf2ff; text-align:left;}
 td{padding:12px; border-bottom:1px solid #e5e7eb;}
-.btn{padding:10px 16px; border-radius:8px; border:none; cursor:pointer; background:#22c55e; color:white; text-decoration:none; white-space: nowrap;}
+
+/* BUTTONS */
+.btn{padding:10px 16px; border-radius:8px; border:none; cursor:pointer; background:#22c55e; color:white; text-decoration:none; white-space: nowrap; display: inline-block; transition: 0.2s ease;}
+.btn:hover { background: #16a34a; }
+
+.btn-back { background: #6c757d; }
+.btn-back:hover { background: #5a6268; }
+
 .alert{padding:10px; margin-bottom:10px; background:#d1e7dd; border-radius:6px; color:#0f5132;}
 @media (max-width: 768px) { .sidebar { left: -240px; } .sidebar.active { left: 0; } .main { margin-left: 0; width: 100%; } .menu-toggle { display: block; } .container { padding: 15px; } .top { flex-direction: column; align-items: flex-start; } .navbar { padding: 15px; } .top h2 { font-size: 1.2rem; } }
 </style>
 </head>
 <body>
 
-<div class="sidebar" id="sidebar">
+  <div class="sidebar" id="sidebar">
     <h2>ADMIN</h2>
-    <div class="menu">
-        <a href="{{ route('surat.index') }}"><i class="fas fa-user-tie"></i> Sekretariat</a>
-        <a href="{{ route('admin_pum.adminpum') }}"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
-        <a href="{{ route('admin_pup.index') }}" class="active"><i class="fas fa-briefcase"></i> Pembinaan</a>
-        <a href="/admin/koperasi"><i class="fas fa-building"></i> Koperasi</a>
-        <a href="#"><i class="fas fa-truck"></i> Perdagangan</a>
-    </div>
-    <button onclick="logout()" class="logout-btn">Logout</button>
-</div>
+
+    <a href="/admin/admin_sekre">
+      <i class="fas fa-user-tie"></i> Sekretariat
+    </a>
+
+    <a href="/admin/admin_pum">
+      <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
+    </a>
+
+    <a class="active"  href="/admin/admin_pup">
+      <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
+    </a>
+
+    <a href="/admin/admin_perdagangan">
+      <i class="fas fa-truck"></i> Distribusi Perdagangan
+    </a>
+
+        <a href="/admin/koperasi">
+      <i class="fas fa-building"></i> Bidang Koperasi
+    </a>
+
+    <a href="/admin/admin_metro">
+      <i class="fas fa-balance-scale"></i> Metrologi Legal
+    </a>
+
+    <button onclick="logout()" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+  </div>
 
 <div class="main">
     <div class="navbar">
@@ -56,7 +90,11 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
     <div class="container">
         <div class="top">
             <h2>Rekap Penjual Minuman Beralkohol</h2>
-            <a href="{{ route('alkohol.create') }}" class="btn"><i class="fas fa-plus"></i> Tambah Data</a>
+
+            <div style="display: flex; gap: 10px;">
+                <a href="javascript:history.back()" class="btn btn-back"><i class="fas fa-arrow-left"></i> Kembali</a>
+                <a href="{{ route('alkohol.create') }}" class="btn"><i class="fas fa-plus"></i> Tambah Data</a>
+            </div>
         </div>
 
         @if(session('success'))
@@ -93,14 +131,35 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
                     </tbody>
                 </table>
             </div>
-            <div style="margin-top: 15px;">{{ $data->links() }}</div>
+            <div style="margin-top: 15px;">{{ $data->links() ?? '' }}</div>
         </div>
     </div>
 </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
-function logout() { window.location.href="/logout"; }
+    // LOGOUT
+    function logout(){
+
+      Swal.fire({
+        title:'Logout?',
+        text:'Kamu akan keluar',
+        icon:'warning',
+        showCancelButton:true,
+        confirmButtonColor:'#0d6efd',
+        confirmButtonText:'Ya, logout'
+      }).then((result)=>{
+
+        if(result.isConfirmed){
+
+          localStorage.removeItem("login");
+
+          window.location.href = "/logout";
+        }
+
+      });
+    }
 </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -34,61 +34,17 @@
 
     /* SIDEBAR */
     .sidebar{
-      width:240px;
-      height:100vh;
-      background:#0d6efd;
-      color:white;
-      padding:20px;
-      position:fixed;
-      top:0;
-      left:0;
-      overflow-y:auto;
-      z-index:1000;
-      transition: left 0.3s ease;
+      width:240px;height:100vh;background:#0d6efd;color:white;padding:20px;position:fixed;
+      z-index: 1000; transition: left 0.3s ease;
     }
-
-    .sidebar h2{
-      margin-bottom:30px;
-      font-size:20px;
-      font-weight:600;
-    }
-
+    .sidebar h2{margin-bottom:20px;}
     .sidebar a{
-      display:block;
-      color:white;
-      text-decoration:none;
-      padding:12px 14px;
-      border-radius:10px;
-      margin-bottom:10px;
-      transition:0.2s ease;
-      font-size:15px;
+      display:block;color:white;padding:10px;border-radius:8px;margin-bottom:8px;text-decoration:none;
     }
-
-    .sidebar a i{
-      margin-right:10px;
-      width:18px;
-    }
-
-    .sidebar a:hover,
-    .sidebar a.active{
-      background:rgba(255,255,255,0.2);
-    }
-
+    .sidebar a:hover,.sidebar .active{background:rgba(255,255,255,0.2);}
     .logout-btn{
-      width:100%;
-      margin-top:25px;
-      padding:12px;
-      border:none;
-      border-radius:10px;
-      background:#dc3545;
-      color:white;
+      margin-top:20px;width:100%;padding:10px;border:none;border-radius:8px;background:#dc3545;color:white;
       cursor:pointer;
-      font-size:15px;
-      transition:0.2s ease;
-    }
-
-    .logout-btn:hover{
-      background:#bb2d3b;
     }
 
     /* MAIN */
@@ -118,13 +74,13 @@
       gap: 15px;
     }
 
-    .menu-toggle {
+    .toggle-btn {
       display: none;
+      font-size: 1.5rem;
+      color: #0d6efd;
+      cursor: pointer;
       background: none;
       border: none;
-      font-size: 20px;
-      cursor: pointer;
-      color: #0d6efd;
     }
 
     .navbar h3{
@@ -219,13 +175,13 @@
     }
 
     /* TAMBAHAN UNTUK TOMBOL KEMBALI */
-    .btn-back {
+    /* .btn-back {
       background: #6c757d;
       color: white;
     }
     .btn-back:hover {
       background: #5a6268;
-    }
+    } */
 
     .btn-edit{
       background:#ffc107;
@@ -376,7 +332,7 @@
       .sidebar { left: -240px; }
       .sidebar.active { left: 0; }
       main { margin-left: 0; width: 100%; }
-      .menu-toggle { display: block; }
+      .toggle-btn { display: block; }
       .overlay.active { display: block; }
       .navbar { padding: 15px 20px; }
       .navbar h3 { font-size: 18px; }
@@ -396,33 +352,31 @@
     <h2>ADMIN</h2>
 
     <a href="/admin/admin_sekre">
-      <i class="fas fa-user-tie"></i>
-      Sekretariat
+      <i class="fas fa-user-tie"></i> Sekretariat
     </a>
 
     <a href="/admin/admin_pum">
-      <i class="fas fa-store"></i>
-      Pemberdayaan Usaha Mikro
+      <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
     </a>
 
-    <a href="/admin/admin_pup/adminpup">
-      <i class="fas fa-briefcase"></i>
-      Pembinaan
-    </a>
-
-    <a class="active" href="/admin/koperasi/adminkoperasi">
-      <i class="fas fa-building"></i>
-      Koperasi
+    <a href="/admin/admin_pup">
+      <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
     </a>
 
     <a href="/admin/admin_perdagangan">
-      <i class="fas fa-truck"></i>
-      Perdagangan
+      <i class="fas fa-truck"></i> Distribusi Perdagangan
+    </a>
+
+    <a class="active" href="/admin/koperasi">
+      <i class="fas fa-building"></i> Bidang Koperasi
+    </a>
+
+    <a href="/admin/admin_metro">
+      <i class="fas fa-balance-scale"></i> Metrologi Legal
     </a>
 
     <button onclick="logout()" class="logout-btn">
-      <i class="fas fa-sign-out-alt"></i>
-      Logout
+      <i class="fas fa-sign-out-alt"></i> Logout
     </button>
 
   </div>
@@ -432,7 +386,7 @@
     <div class="navbar">
 
       <div class="navbar-left">
-        <button class="menu-toggle" onclick="toggleSidebar()">
+        <button class="toggle-btn" onclick="toggleSidebar()">
           <i class="fas fa-bars"></i>
         </button>
         <h3>Bidang Koperasi</h3>
@@ -466,136 +420,113 @@
 
       </div>
 
+      <!-- TAB KOPERASI -->
       <div id="koperasi" class="tab-content active">
-
         <div class="top">
           <h2>Data Koperasi</h2>
-
-          <div style="display: flex; gap: 10px;">
-            <a href="/admin/koperasi/adminkoperasi" onclick="history.back()" class="btn btn-back">
-              ← Kembali
-            </a>
-            <a href="/admin/koperasi/create" class="btn btn-add">
-              + Tambah
-            </a>
-          </div>
+          <a href="/admin/koperasi/create" class="btn btn-add">+ Tambah</a>
         </div>
 
         <div class="card">
 
+          <!-- FILTER KOPERASI -->
           <form method="GET">
-
             <div class="filter">
 
               <input
                 type="text"
                 name="search"
-                placeholder="Cari data..."
+                placeholder="Cari jumlah, status, mitra, jenis, kelurahan, kecamatan, rat, lpj, pengawasan..."
                 value="{{ request('search') }}"
               >
 
               <select name="status">
                 <option value="">Semua Status</option>
-                <option value="aktif">Aktif</option>
-                <option value="tidak aktif">Tidak Aktif</option>
+                <option value="aktif" {{ request('status')=='aktif'?'selected':'' }}>Aktif</option>
+                <option value="tidak aktif" {{ request('status')=='tidak aktif'?'selected':'' }}>Tidak Aktif</option>
               </select>
 
               <select name="status_mitra">
                 <option value="">Semua Mitra</option>
-                <option value="bermitra">Bermitra</option>
-                <option value="belum">Belum</option>
+                <option value="bermitra" {{ request('status_mitra')=='bermitra'?'selected':'' }}>Bermitra</option>
+                <option value="belum" {{ request('status_mitra')=='belum'?'selected':'' }}>Belum</option>
               </select>
 
-              <button type="submit" class="btn">
-                Filter
-              </button>
+              <select name="jenis_mitra">
+                <option value="">Semua Jenis Mitra</option>
+                <option value="perbankan" {{ request('jenis_mitra')=='perbankan'?'selected':'' }}>Perbankan</option>
+                <option value="non" {{ request('jenis_mitra')=='non'?'selected':'' }}>Non Perbankan</option>          
+              </select>
+
+              <select name="status_rat">
+                <option value="">Semua Status RAT</option>
+                <option value="YA" {{ request('status_rat')=='YA'?'selected':'' }}>YA</option>
+                <option value="TIDAK" {{ request('status_rat')=='TIDAK'?'selected':'' }}>TIDAK</option>
+              </select>
+
+              <select name="status_lpj">
+                <option value="">Semua Status LPJ</option>
+                <option value="LENGKAP" {{ request('status_lpj')=='LENGKAP'?'selected':'' }}>LENGKAP</option>
+                <option value="TIDAK LENGKAP" {{ request('status_lpj')=='TIDAK LENGKAP'?'selected':'' }}>TIDAK LENGKAP</option>
+              </select>
+
+              <button type="submit" class="btn">Filter</button>
 
             </div>
-
           </form>
 
+          <!-- TABLE KOPERASI -->
           <div class="table-wrapper">
-
-            <table>
-
+            <table class="table-koperasi">
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Jumlah</th>
+                  <th>Jumlah Koperasi</th>
                   <th>Tahun</th>
                   <th>Status</th>
                   <th>Status Mitra</th>
                   <th>Jenis Mitra</th>
                   <th>Kelurahan</th>
                   <th>Kecamatan</th>
-                  <th>padat Karya</th>
-                  <th>status LPJ</th>
-                  <th>Pelaksanaan RAT</th>
+                  <th>Status RAT</th>
+                  <th>Status LPJ</th>
+                  <th>Total Pengawasan</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
 
               <tbody>
-
                 @forelse($dataKoperasi as $d)
-
                 <tr>
-
-                  <td>
-                    {{ ($dataKoperasi->currentPage()-1)*$dataKoperasi->perPage() + $loop->iteration }}
-                  </td>
-
-                  <td>{{ $d->jumlah }}</td>
-
-                  <td>{{ $d->tahun }}</td>
-
-                  <td>
-                    <span class="badge" style="background: {{ $d->status == 'aktif' ? '#d1e7dd' : '#f8d7da' }}; color: {{ $d->status == 'aktif' ? '#0f5132' : '#842029' }};">
-                      {{ ucfirst($d->status) }}
-                    </span>
-                  </td>
-
-                  <td>{{ ucfirst($d->status_mitra) }}</td>
-
-                  <td>{{ ucfirst($d->jenis_mitra) }}</td>
-
-                  <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
-
-                  <td>{{ $d->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-                  <td>{{ ucfirst($d->padat_karya) }}</td>
-                  <td>{{ ucfirst($d->status_lpj) }}</td>
-                  <td>{{ $d->pelaksanaan_rat }}</td>
-                  <td>
-                    <div class="action">
-
-                      <a href="/admin/koperasi/edit/{{ $d->id }}" class="btn btn-edit">
-                        Edit
-                      </a>
-
-                      <button
-                        onclick="confirmDelete('/admin/koperasi/delete/{{ $d->id }}')"
-                        class="btn btn-delete"
-                      >
-                        Hapus
-                      </button>
-
-                    </div>
-                  </td>
-
-                </tr>
-
+                    <td>{{ ($dataKoperasi->currentPage()-1)*$dataKoperasi->perPage() + $loop->iteration }}</td>
+                    <td>{{ $d->jumlah }}</td>
+                    <td>{{ $d->tahun }}</td>
+                    <td><span class="badge" style="{{ $d->status == 'aktif' ? 'background-color: #d1e7dd;' : 'background-color: #f8d7da;' }}">{{ ucfirst($d->status) }}</span></td>
+                    <td>{{ ucfirst($d->status_mitra) }}</td>
+                    <td>{{ ucfirst($d->jenis_mitra) }}</td>
+                    <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
+                    <td>{{ $d->kecamatan->NM_KECAMATAN ?? '-' }}</td>
+                    <td><span class="badge" style="{{ $d->status_rat == 'YA' ? 'background-color: #d1e7dd;' : 'background-color: #f8d7da;' }}">{{ $d->status_rat }}</span></td>
+                    <td><span class="badge" style="{{ $d->status_lpj == 'LENGKAP' ? 'background-color: #d1e7dd;' : 'background-color: #f8d7da;' }}">{{ $d->status_lpj }}</span></td>
+                    <td>{{ $d->total_pengawasan }}</td>
+                    
+                    <td>
+                      <div class="action">
+                        <a href="/admin/koperasi/edit/{{ $d->id }}" class="btn btn-edit">Edit</a>
+                        <button onclick="confirmDelete('/admin/koperasi/delete/{{ $d->id }}')" class="btn btn-delete">
+                          Hapus
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  </tr>
                 @empty
-
-                <tr>
-                  <td colspan="9">Tidak ada data</td>
-                </tr>
-
+                  <tr>
+                    <td colspan="12" style="text-align:center;">Tidak ada data</td>
+                  </tr>
                 @endforelse
-
               </tbody>
-
             </table>
-
           </div>
 
           <!-- PAGINATION KOPERASI -->
@@ -609,10 +540,7 @@
             </div>
           </div>
 
-          </div>
-
         </div>
-
       </div>
 
       <div id="pegawai" class="tab-content">
@@ -622,9 +550,9 @@
           <h2>Data Pegawai</h2>
 
           <div style="display: flex; gap: 10px;">
-            <a href="/admin/koperasi/adminkoperasi" onclick="history.back()" class="btn btn-back">
+            <!-- <a href="#" onclick="history.back()" class="btn btn-back">
               ← Kembali
-            </a>
+            </a> -->
             <a href="/admin/pegawai/create" class="btn btn-add">
               + Tambah
             </a>

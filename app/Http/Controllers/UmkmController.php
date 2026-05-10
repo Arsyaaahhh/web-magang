@@ -123,8 +123,17 @@ class UmkmController extends Controller
             $query->where('kelurahan_id', $request->kelurahan_id);
         }
 
+        // FILTER KATEGORI
+        if($request->search){
+            $query->where(function($q) use ($request){
+                $q->where('kategori','like','%'.$request->search.'%');
+            });
+        }
+
         $summaryQuery = clone $query;
-        $data = $query->get();
+
+        // ambil data Umkm
+        $data = $query->latest()->paginate(10)->withQueryString();
 
         $summary = $summaryQuery->selectRaw('
             SUM(total_umkm) as total_umkm,
@@ -143,9 +152,13 @@ class UmkmController extends Controller
             ]);
         }
 
-        return view('frontend.umkm', compact(
-            'data',
-            'summary'
-        ));
+        $kecamatan = Kecamatan::all();
+
+        // kirim ke blade
+        return view('bidang.pum.umkm', [
+            'data' => $data,
+            'kecamatan' => $kecamatan,
+            'summary' => $summary
+        ]);
     }
 }

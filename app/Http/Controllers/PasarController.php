@@ -58,6 +58,7 @@ class PasarController extends Controller
             'jumlah_pedagang'  => 'required',
             'jumlah_stan'  => 'required',
             'stan_belum_terisi'  => 'required',
+            'luas'  => 'required',
         ]);
 
         Pasar::create([
@@ -67,6 +68,7 @@ class PasarController extends Controller
             'jumlah_pedagang' => $request->jumlah_pedagang,
             'jumlah_stan' => $request->jumlah_stan,
             'stan_belum_terisi' => $request->stan_belum_terisi,
+            'luas' => $request->luas,
         ]);
 
         return redirect('/admin/admin_perdagangan/pasar/adminpasar')->with('success','Upload berhasil');
@@ -93,6 +95,7 @@ class PasarController extends Controller
             'jumlah_pedagang' => $request->jumlah_pedagang,
             'jumlah_stan' => $request->jumlah_stan,
             'stan_belum_terisi' => $request->stan_belum_terisi,
+            'luas' => $request->luas,
         ]);
 
         return redirect('/admin/admin_perdagangan/pasar/adminpasar')->with('success','Update berhasil');
@@ -118,6 +121,12 @@ class PasarController extends Controller
     {
         $query = Pasar::with('kelurahan.kecamatan');
 
+        if($request->search){
+            $query->where(function($q) use ($request){
+                $q->where('nama_pasar','like','%'.$request->search.'%');
+            });
+        }
+
         // FILTER KECAMATAN
         if ($request->kecamatan_id) {
             $query->whereHas('kelurahan', function($q) use ($request) {
@@ -130,18 +139,20 @@ class PasarController extends Controller
             $query->where('kelurahan_id', $request->kelurahan_id);
         }
 
-        // DATA
-        $data = $query->get();
+        $summaryQuery = clone $query;
 
-        // ================= SUMMARY =================
-        $summary = Pasar::selectRaw('
+        // ambil data Pasar
+        $data = $query->latest()->get();
+
+        // summary
+        $summary = $summaryQuery->selectRaw('
             COUNT(*) as total_pasar,
             SUM(jumlah_pedagang) as total_pedagang,
             SUM(jumlah_stan) as total_stan,
             SUM(stan_belum_terisi) as total_stan_kosong
         ')->first();
 
-        // ================= AJAX =================
+        // AJAX
         if ($request->ajax()) {
             return response()->json([
                 'data' => $data,
@@ -149,9 +160,13 @@ class PasarController extends Controller
             ]);
         }
 
-        return view('frontend.pasar', compact(
-            'data',
-            'summary'
-        ));
+        $kecamatan = Kecamatan::all();
+
+        // kirim ke blade
+        return view('bidang.perdagangan.pasar', [
+            'pasar' => $data,
+            'kecamatan' => $kecamatan,
+            'summary' => $summary
+        ]);
     }
 }

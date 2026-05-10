@@ -121,6 +121,7 @@ body {
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    text-decoration: none;
 }
 
 .card i {
@@ -131,11 +132,13 @@ body {
 .card h4 {
     margin: 5px 0;
     font-size: 18px;
+    text-decoration: none;
 }
 
 .card h2 {
     margin: 0;
     font-size: 32px;
+    text-decoration: none;
 }
 
 .card::after {

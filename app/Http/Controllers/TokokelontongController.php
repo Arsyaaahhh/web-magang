@@ -99,44 +99,48 @@ class TokokelontongController extends Controller
     }
 
     // ================= FRONTEND =================
-    // public function pasar(Request $request)
-    // {
-    //     $query = Pasar::with('kelurahan.kecamatan');
+    public function tokokelontong(Request $request)
+    {
+        $query = Tokokelontong::with('kelurahan.kecamatan');
 
-    //     // FILTER KECAMATAN
-    //     if ($request->kecamatan_id) {
-    //         $query->whereHas('kelurahan', function($q) use ($request) {
-    //             $q->where('ID_KECAMATAN', $request->kecamatan_id);
-    //         });
-    //     }
+        // FILTER KECAMATAN
+        if ($request->kecamatan_id) {
+            $query->whereHas('kelurahan', function($q) use ($request) {
+                $q->where('ID_KECAMATAN', $request->kecamatan_id);
+            });
+        }
 
-    //     // FILTER KELURAHAN
-    //     if ($request->kelurahan_id) {
-    //         $query->where('kelurahan_id', $request->kelurahan_id);
-    //     }
+        // FILTER KELURAHAN
+        if ($request->kelurahan_id) {
+            $query->where('kelurahan_id', $request->kelurahan_id);
+        }
 
-    //     // DATA
-    //     $data = $query->get();
+        $summaryQuery = clone $query;
 
-    //     // ================= SUMMARY =================
-    //     $summary = Pasar::selectRaw('
-    //         COUNT(*) as total_pasar,
-    //         SUM(jumlah_pedagang) as total_pedagang,
-    //         SUM(jumlah_stan) as total_stan,
-    //         SUM(stan_belum_terisi) as total_stan_kosong
-    //     ')->first();
+        // ambil data Tokokelontong
+        $data = $query->latest()->paginate(10)->withQueryString();
 
-    //     // ================= AJAX =================
-    //     if ($request->ajax()) {
-    //         return response()->json([
-    //             'data' => $data,
-    //             'summary' => $summary
-    //         ]);
-    //     }
+        // summary
+        $summary = $summaryQuery->selectRaw('
+            SUM(total_toko) as total_toko,
+            SUM(peken) as total_peken
+        ')->first();
 
-    //     return view('frontend.pasar', compact(
-    //         'data',
-    //         'summary'
-    //     ));
-    // }
+        // AJAX
+        if ($request->ajax()) {
+            return response()->json([
+                'data' => $data,
+                'summary' => $summary
+            ]);
+        }
+
+        $kecamatan = Kecamatan::all();
+
+        // kirim ke blade
+        return view('bidang.perdagangan.tokokelontong', [
+            'data' => $data,
+            'kecamatan' => $kecamatan,
+            'summary' => $summary
+        ]);
+    }
 }

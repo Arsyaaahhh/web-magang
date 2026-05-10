@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pemberdayaan Usaha Mikro</title>
+
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* OVERLAY */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+
+    /* TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid #e5e7eb;
+      color: #333;
+      font-weight: 400;
+    }
+
+    th {
+      padding: 12px;
+      background: #eaf2ff;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    td {
+      padding: 12px;
+      font-size: 15px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #f9fafb;
+    }
+
+    tr:hover {
+      background: #eef4ff;
+    }
+
+    .toggle-btn { display: none; }
+
+    /* ======================================================= */
+    /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
+    /* ======================================================= */
+    @media (max-width: 768px) {
+        .sidebar { left: -100% !important; position: fixed !important; z-index: 1000; transition: 0.3s ease; }
+        .sidebar.active { left: 0 !important; }
+        .main { margin-left: 0 !important; width: 100% !important; }
+        .toggle-btn { display: inline-block !important; margin-right: 15px; font-size: 24px; cursor: pointer; color: #0d6efd; }
+        .overlay.active { display: block; }
+        .header { display: flex; align-items: center; }
+        .cards, #mainMenu { display: grid !important; grid-template-columns: 1fr !important; gap: 15px; }
+    }
+  </style>
+
+</head>
+
+<body>
+
+<div class="overlay" onclick="toggleSidebar()"></div>
+
+<div class="sidebar">
+  <h2>DINKOPUMDAG</h2>
+  <div id="tanggalSidebar" style="margin:10px 0; font-size:14px; color:#fff;"></div>
+
+  <div class="menu">
+    <a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard Utama</a>
+    <a href="/sekretariat"><i class="fas fa-user-tie"></i> Bidang Sekretariat</a>
+    <a href="/mikro" class="active"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
+    <a href="/perdagangan"><i class="fas fa-truck"></i> Distribusi Perdagangan</a>
+    <a href="/koperasi"><i class="fas fa-building"></i> Bidang Koperasi</a>
+    <a href="/pembinaan"><i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan</a>
+    <a href="/metrologi"><i class="fas fa-balance-scale"></i> UPTD Metrologi Legal</a>
+  </div>
+
+  <button onclick="logout()" class="logout-btn">
+    <i class="fas fa-sign-out-alt"></i> Keluar
+  </button>
+</div>
+
+<div class="main">
+
+  <div class="header">
+    <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+    <img src="{{ asset('images/logo.jpg') }}" class="logo">
+    <div>
+      <b>Pemberdayaan Usaha Mikro</b><br>
+      <small>Dinkopumdag Surabaya</small>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <h2>Pemberdayaan Usaha Mikro</h2>
+
+    <div class="cards" id="mainMenu">
+
+      <a class="card green" href="/bidang/pum/umkm">
+        <h4>UMKM</h4>
+        <p>Informasi UMKM</p>
+      </a>
+
+      <a class="card blue" href="/bidang/pum/swk">
+        <h4>Sentra Wisata Kuliner</h4>
+        <p>Informasi Sentra Wisata Kuliner</p>
+      </a>
+
+      <a class="card purple" href="/bidang/pum/lppd">
+        <h4>LPPD</h4>
+        <p>Informasi LPPD</p>
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+// ================= NAV & SIDEBAR =================
+function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('active');
+    document.querySelector('.overlay').classList.toggle('active');
+}
+
+function showUmkm(){
+  mainMenu.style.display="none";
+  umkmArea.style.display="block";
+  swkArea.style.display="none";
+}
+
+function showSwk(){
+  mainMenu.style.display="none";
+  umkmArea.style.display="none";
+  swkArea.style.display="block";
+}
+
+function hideAll(){
+  mainMenu.style.display="grid";
+  umkmArea.style.display="none";
+  swkArea.style.display="none";
+}
+
+// ================= COLOR =================
+function getColor(id){
+  const colors = ['blue','green','orange','teal','purple'];
+  return colors[id % colors.length];
+}
+
+// logout
+    function logout() {
+      Swal.fire({
+        title: 'Logout?',
+        text: "Kamu akan keluar",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#0d6efd',
+        confirmButtonText: 'Ya, logout'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.removeItem("login");
+          window.location.href = "/logout";
+        }
+      });
+    }
+
+    // LOGIN CHECK
+    if (localStorage.getItem("login") !== "true") {
+      window.location.href = "/";
+    }
+</script>
+
+</body>
+</html>
