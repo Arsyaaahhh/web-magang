@@ -145,6 +145,37 @@
             font-size: 16px;
         }
     }
+
+    .full-width{
+        grid-column:1 / -1;
+    }
+
+    .preview-box{
+        margin-top:12px;
+        width:100%;
+        height:250px;
+        border:2px dashed #cbd5e1;
+        border-radius:12px;
+        overflow:hidden;
+        position:relative;
+        background:#f8fafc;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        flex-direction:column;
+    }
+
+    .preview-box img{
+        width:100%;
+        height:100%;
+        object-fit:cover;
+    }
+
+    .preview-text{
+        position:absolute;
+        color:#94a3b8;
+        font-size:14px;
+    }
   </style>
 </head>
 
@@ -218,6 +249,35 @@
             <input name="stan_belum_terisi" type="number" value="{{ $data->stan_belum_terisi }}" min="0">
           </div>
 
+          <div class="full-width">
+
+              <label>Foto Pasar</label>
+
+              <input 
+                  type="file" 
+                  name="foto"
+                  accept="image/*"
+                  onchange="previewImage(event)"
+              >
+
+              <div class="preview-box">
+
+                  <img 
+                      id="previewImage"
+                      src="{{ $data->foto ? asset('storage/' . $data->foto) : 'https://via.placeholder.com/800x400?text=Belum+Ada+Foto' }}"
+                      alt="Preview Foto"
+                  >
+
+                  @if(!$data->foto)
+                      <span class="preview-text">
+                          Belum Ada Foto
+                      </span>
+                  @endif
+
+              </div>
+
+          </div>
+
         </div>
 
         <button class="btn">Update Data</button>
@@ -263,6 +323,25 @@
         });
 
     });
+
+    // foto
+    function previewImage(event)
+    {
+        const input = event.target;
+        const preview = document.getElementById('previewImage');
+
+        if(input.files && input.files[0])
+        {
+            const reader = new FileReader();
+
+            reader.onload = function(e)
+            {
+                preview.src = e.target.result;
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
   </script>
 
 </body>

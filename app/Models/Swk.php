@@ -16,6 +16,7 @@ class Swk extends Model
         'jumlah_stan',
         'stan_belum_terisi',
         'luas',
+        'foto',
     ];
 
     public function kelurahan()

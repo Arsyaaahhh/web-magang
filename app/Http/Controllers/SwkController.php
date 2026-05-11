@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Swk;
 use App\Models\Kecamatan;
 use App\Models\Kelurahan;
@@ -61,7 +62,15 @@ class SwkController extends Controller
             'jumlah_stan'       => 'required|numeric',
             'stan_belum_terisi' => 'required|numeric',
             'luas'              => 'required|numeric',
+            'foto'              => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
+
+        // upload foto
+        $foto = null;
+
+        if ($request->hasFile('foto')) {
+            $foto = $request->file('foto')->store('swk', 'public');
+        }
 
         Swk::create([
             'nama_swk' => $request->nama_swk,
@@ -71,6 +80,7 @@ class SwkController extends Controller
             'jumlah_stan' => $request->jumlah_stan,
             'stan_belum_terisi' => $request->stan_belum_terisi,
             'luas' => $request->luas,
+            'foto' => $foto,
         ]);
 
         return redirect('/admin/admin_pum/adminswk')->with('success','Data SWK berhasil ditambahkan');
@@ -96,9 +106,24 @@ class SwkController extends Controller
             'jumlah_stan'       => 'required|numeric',
             'stan_belum_terisi' => 'required|numeric',
             'luas'              => 'required|numeric',
+            'foto'              => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
         $data = Swk::findOrFail($id);
+
+        // upload foto baru
+        if ($request->hasFile('foto')) {
+
+            // hapus foto lama
+            if ($data->foto && Storage::disk('public')->exists($data->foto)) {
+                Storage::disk('public')->delete($data->foto);
+            }
+
+            $foto = $request->file('foto')->store('swk', 'public');
+
+        } else {
+            $foto = $data->foto;
+        }
 
         $data->update([
             'nama_swk' => $request->nama_swk,
@@ -108,6 +133,7 @@ class SwkController extends Controller
             'jumlah_stan' => $request->jumlah_stan,
             'stan_belum_terisi' => $request->stan_belum_terisi,
             'luas' => $request->luas,
+            'foto' => $foto,
         ]);
 
         return redirect('/admin/admin_pum/adminswk')->with('success','Data SWK berhasil diperbarui');
@@ -116,6 +142,12 @@ class SwkController extends Controller
     public function destroy($id)
     {
         $swk = Swk::findOrFail($id);
+
+        // hapus foto
+        if ($swk->foto && Storage::disk('public')->exists($swk->foto)) {
+            Storage::disk('public')->delete($swk->foto);
+        }
+
         $swk->delete();
 
         return redirect('/admin/admin_pum/adminswk')->with('success','Data berhasil dihapus');

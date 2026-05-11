@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Pasar;
 use App\Models\Kecamatan;
 use App\Models\Kelurahan;
@@ -59,7 +60,15 @@ class PasarController extends Controller
             'jumlah_stan'  => 'required',
             'stan_belum_terisi'  => 'required',
             'luas'  => 'required',
+            'foto'  => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
+
+        // upload foto
+        $foto = null;
+
+        if ($request->hasFile('foto')) {
+            $foto = $request->file('foto')->store('pasar', 'public');
+        }
 
         Pasar::create([
             'nama_pasar' => $request->nama_pasar,
@@ -69,6 +78,7 @@ class PasarController extends Controller
             'jumlah_stan' => $request->jumlah_stan,
             'stan_belum_terisi' => $request->stan_belum_terisi,
             'luas' => $request->luas,
+            'foto' => $foto,
         ]);
 
         return redirect('/admin/admin_perdagangan/pasar/adminpasar')->with('success','Upload berhasil');
@@ -86,7 +96,32 @@ class PasarController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nama_pasar'        => 'required|string',
+            'alamat'            => 'required|string',
+            'kelurahan_id'      => 'required',
+            'jumlah_pedagang'   => 'required|numeric',
+            'jumlah_stan'       => 'required|numeric',
+            'stan_belum_terisi' => 'required|numeric',
+            'luas'              => 'required|numeric',
+            'foto'              => 'nullable|image|mimes:jpg,jpeg,png',
+        ]);
+
         $data = Pasar::findOrFail($id);
+
+        // upload foto baru
+        if ($request->hasFile('foto')) {
+
+            // hapus foto lama
+            if ($data->foto && Storage::disk('public')->exists($data->foto)) {
+                Storage::disk('public')->delete($data->foto);
+            }
+
+            $foto = $request->file('foto')->store('pasar', 'public');
+
+        } else {
+            $foto = $data->foto;
+        }
 
         $data->update([
             'nama_pasar' => $request->nama_pasar,
@@ -96,6 +131,7 @@ class PasarController extends Controller
             'jumlah_stan' => $request->jumlah_stan,
             'stan_belum_terisi' => $request->stan_belum_terisi,
             'luas' => $request->luas,
+            'foto' => $foto,
         ]);
 
         return redirect('/admin/admin_perdagangan/pasar/adminpasar')->with('success','Update berhasil');
@@ -105,6 +141,12 @@ class PasarController extends Controller
     public function destroy($id)
     {
         $pasar = Pasar::findOrFail($id);
+
+        // hapus foto
+        if ($pasar->foto && Storage::disk('public')->exists($pasar->foto)) {
+            Storage::disk('public')->delete($pasar->foto);
+        }
+
         $pasar->delete();
 
         return redirect('/admin/admin_perdagangan/pasar/adminpasar')->with('success','Data berhasil dihapus');

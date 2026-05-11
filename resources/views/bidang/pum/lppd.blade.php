@@ -169,12 +169,13 @@
           </div>
         </form>
 
-      <div class="cards" id="mainMenu">
+      <!-- MAIN MENU -->
+        <!-- <div class="cards" id="mainMenu">
             <a class="card green">
                 <h4>Total Umkm</h4>
                 <h2>{{ $summary->jumlah ?? 0 }}</h2>
             </a>
-        </div>
+        </div> -->
       
       <div class="card">
 
@@ -185,8 +186,8 @@
                   <th>No</th>
                   <th>Kecamatan</th>
                   <th>Kelurahan</th>
-                  <th>Jumlah Umkm</th>
                   <th>Tahun</th>
+                  <th>Jumlah Umkm</th>
                 </tr>
               </thead>
 
@@ -196,8 +197,8 @@
                     <td>{{ ($data->currentPage()-1)*$data->perPage() + $loop->iteration }}</td>
                     <td>{{ $d->kelurahan->kecamatan->NM_KECAMATAN ?? '-' }}</td>   
                     <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
-                    <td>{{ $d->jumlah }}</td>
                     <td>{{ $d->tahun }}</td>
+                    <td>{{ $d->jumlah }}</td>
                   </tr>
                 @empty
                   <tr>
