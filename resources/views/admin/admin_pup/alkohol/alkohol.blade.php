@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 <style>
-/* STYLE SAMA PERSIS DENGAN SEBELUMNYA */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{display:flex;background:#f4f7fb; min-height: 100vh;}
 .sidebar{
@@ -31,18 +30,24 @@ body{display:flex;background:#f4f7fb; min-height: 100vh;}
 .top h2 { font-size: 1.5rem; }
 .card{background:white; padding:20px; border-radius:12px; border:1px solid #e5e7eb;}
 .table-responsive{overflow-x:auto; -webkit-overflow-scrolling: touch;}
-table{width:100%; border-collapse:collapse; min-width: 600px;}
+table{width:100%; border-collapse:collapse; min-width: 600px;} 
 th{padding:12px; background:#eaf2ff; text-align:left;}
 td{padding:12px; border-bottom:1px solid #e5e7eb;}
 
+/* 🔥 CSS FILTER DROPDOWN */
+.filter { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; }
+.filter select { padding: 8px 12px; border-radius: 6px; border: 1px solid #d1d5db; min-width: 150px; outline: none; background: white; font-size: 14px; }
+.filter select:focus { border-color: #0d6efd; box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.1); }
+
 /* BUTTONS */
 .btn{padding:10px 16px; border-radius:8px; border:none; cursor:pointer; background:#22c55e; color:white; text-decoration:none; white-space: nowrap; display: inline-block; transition: 0.2s ease;}
+.btn-primary { background: #0d6efd; }
+.btn-primary:hover { background: #0b5ed7; }
 .btn:hover { background: #16a34a; }
-
 .btn-back { background: #6c757d; }
 .btn-back:hover { background: #5a6268; }
 
-.alert{padding:10px; margin-bottom:10px; background:#d1e7dd; border-radius:6px; color:#0f5132;}
+.alert{padding:10px; margin-bottom:15px; background:#d1e7dd; border-radius:6px; color:#0f5132;}
 @media (max-width: 768px) { .sidebar { left: -240px; } .sidebar.active { left: 0; } .main { margin-left: 0; width: 100%; } .menu-toggle { display: block; } .container { padding: 15px; } .top { flex-direction: column; align-items: flex-start; } .navbar { padding: 15px; } .top h2 { font-size: 1.2rem; } }
 </style>
 </head>
@@ -50,30 +55,12 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
 
   <div class="sidebar" id="sidebar">
     <h2>ADMIN</h2>
-
-    <a href="/admin/admin_sekre">
-      <i class="fas fa-user-tie"></i> Sekretariat
-    </a>
-
-    <a href="/admin/admin_pum">
-      <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
-    </a>
-
-    <a class="active"  href="/admin/admin_pup">
-      <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
-    </a>
-
-    <a href="/admin/admin_perdagangan">
-      <i class="fas fa-truck"></i> Distribusi Perdagangan
-    </a>
-
-        <a href="/admin/koperasi">
-      <i class="fas fa-building"></i> Bidang Koperasi
-    </a>
-
-    <a href="/admin/admin_metro">
-      <i class="fas fa-balance-scale"></i> Metrologi Legal
-    </a>
+    <a href="/admin/admin_sekre"><i class="fas fa-user-tie"></i> Sekretariat</a>
+    <a href="/admin/admin_pum"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
+    <a class="active"  href="/admin/admin_pup"><i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan</a>
+    <a href="/admin/admin_perdagangan"><i class="fas fa-truck"></i> Distribusi Perdagangan</a>
+    <a href="/admin/koperasi"><i class="fas fa-building"></i> Bidang Koperasi</a>
+    <a href="/admin/admin_metro"><i class="fas fa-balance-scale"></i> Metrologi Legal</a>
 
     <button onclick="logout()" class="logout-btn">
       <i class="fas fa-sign-out-alt"></i> Logout
@@ -102,6 +89,25 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
         @endif
 
         <div class="card">
+
+            <form method="GET" action="{{ url()->current() }}">
+                <div class="filter">
+                    <select name="tahun" style="min-width: 150px;">
+                        <option value="">-- Semua Tahun --</option>
+                        @if(isset($list_tahun))
+                            @foreach($list_tahun as $t)
+                                <option value="{{ $t }}" {{ request('tahun') == $t ? 'selected' : '' }}>
+                                    {{ $t }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-filter"></i> Filter</button>
+                    <a href="{{ url()->current() }}" class="btn btn-back"><i class="fas fa-sync-alt"></i> Reset</a>
+                </div>
+            </form>
+
             <div class="table-responsive">
                 <table>
                     <thead>
@@ -119,14 +125,14 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
                             <td>{{ ($data->currentPage()-1)*$data->perPage()+$loop->iteration }}</td>
                             <td><strong>Minuman Beralkohol {{ $item->golongan }}</strong></td>
                             <td>{{ $item->tahun }}</td>
-                            <td>{{ $item->jumlah }} Penjual</td>
+                            <td>{{ $item->jumlah }}</td>
                             <td>
                                 <a href="{{ route('alkohol.edit',$item->id) }}" style="color:#2563eb; margin-right: 10px;"><i class="fas fa-pen"></i></a>
                                 <a href="{{ route('alkohol.delete',$item->id) }}" style="color:#ef4444;" onclick="return confirm('Hapus data ini?')"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                         @empty
-                        <tr><td colspan="5" align="center">Belum ada data Penjual Alkohol</td></tr>
+                        <tr><td colspan="5" align="center" style="padding: 20px;">Belum ada data Penjual Alkohol</td></tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -141,7 +147,6 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
     // LOGOUT
     function logout(){
-
       Swal.fire({
         title:'Logout?',
         text:'Kamu akan keluar',
@@ -150,14 +155,10 @@ function toggleSidebar() { document.getElementById('sidebar').classList.toggle('
         confirmButtonColor:'#0d6efd',
         confirmButtonText:'Ya, logout'
       }).then((result)=>{
-
         if(result.isConfirmed){
-
           localStorage.removeItem("login");
-
           window.location.href = "/logout";
         }
-
       });
     }
 </script>

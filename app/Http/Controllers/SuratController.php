@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Surat;
 use App\Models\Magang;
 use App\Models\PegawaiRekap; // 🔥 pakai ini (bukan Pegawai)
+use App\Models\Penelitian;
 
 class SuratController extends Controller
 {
@@ -71,20 +72,24 @@ class SuratController extends Controller
 
     public function store(Request $request)
     {
+        // Cek apakah jenisnya ZI
+        $isZI = strtoupper($request->jenis) === 'ZI';
+
+        // Validasi otomatis menyesuaikan jenis (ZI = Excel, Lainnya = PDF)
         $request->validate([
-            'nomor'  => 'required',
-            'judul'  => 'required',
             'jenis'  => 'required',
             'tahun'  => 'required',
-            'file'   => 'required|mimes:pdf',
+            'nomor'  => $isZI ? 'nullable' : 'required',
+            'judul'  => $isZI ? 'nullable' : 'required',
+            'file'   => $isZI ? 'required|mimes:xlsx,xls,csv' : 'required|mimes:pdf',
         ]);
 
         $fileName = time().'.'.$request->file('file')->extension();
-        $request->file('file')->move(public_path('pdf'), $fileName);
+        $request->file('file')->move(public_path('pdf'), $fileName); // Tetap ditaruh di folder yang sama
 
         Surat::create([
-            'nomor'  => $request->nomor,
-            'judul'  => $request->judul,
+            'nomor'  => $isZI ? '-' : $request->nomor,
+            'judul'  => $isZI ? 'Dokumen ZI' : $request->judul,
             'jenis'  => strtoupper($request->jenis),
             'tahun'  => $request->tahun,
             'file'   => $fileName,
@@ -104,6 +109,16 @@ class SuratController extends Controller
     public function update(Request $request, $id)
     {
         $data = Surat::findOrFail($id);
+        $isZI = strtoupper($request->jenis) === 'ZI';
+
+        // Validasi edit menyesuaikan jenis
+        $request->validate([
+            'jenis'  => 'required',
+            'tahun'  => 'required',
+            'nomor'  => $isZI ? 'nullable' : 'required',
+            'judul'  => $isZI ? 'nullable' : 'required',
+            'file'   => $isZI ? 'nullable|mimes:xlsx,xls,csv' : 'nullable|mimes:pdf',
+        ]);
 
         if($request->file){
             $fileName = time().'.'.$request->file('file')->extension();
@@ -112,8 +127,8 @@ class SuratController extends Controller
         }
 
         $data->update([
-            'nomor'  => $request->nomor,
-            'judul'  => $request->judul,
+            'nomor'  => $isZI ? '-' : $request->nomor,
+            'judul'  => $isZI ? 'Dokumen ZI' : $request->judul,
             'jenis'  => strtoupper($request->jenis),
             'tahun'  => $request->tahun,
         ]);
@@ -166,6 +181,7 @@ class SuratController extends Controller
                     'sk' => Surat::where('bidang','sekretariat')->where('jenis','SK')->count(),
                     'sp' => Surat::where('bidang','sekretariat')->where('jenis','SP')->count(),
                     'sop' => Surat::where('bidang','sekretariat')->where('jenis','SOP')->count(),
+                    'zi' => Surat::where('bidang','sekretariat')->where('jenis','ZI')->count(),
                 ]
             ]);
         }
@@ -173,7 +189,8 @@ class SuratController extends Controller
         // ===== VIEW (🔥 FIX: pakai REKAP) =====
         return view('bidang.sekretariat', [
             'pegawai' => PegawaiRekap::latest()->get(),
-            'magang'  => Magang::latest()->get()
+            'magang'  => Magang::latest()->get(),
+            'penelitian' => Penelitian::latest()->get()
         ]);
     }
 }

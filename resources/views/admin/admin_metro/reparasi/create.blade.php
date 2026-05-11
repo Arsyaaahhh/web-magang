@@ -18,8 +18,12 @@
     .back:hover { background: #f3f4f6; color: #374151; }
     .form-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
     label { font-size: 12px; color: #6b7280; margin-bottom: 4px; display: block; font-weight: 500; }
-    input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 13px; outline: none; transition: 0.2s; }
-    input:focus { border-color: #0d6efd; box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1); }
+    
+    /* 🔥 CSS diupdate agar select juga cantik styling-nya */
+    input, select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 13px; outline: none; transition: 0.2s; background: white; }
+    input:focus, select:focus { border-color: #0d6efd; box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1); }
+    
+    .error { font-size: 12px; color: #dc3545; margin-top: 5px; }
     .btn { margin-top: 20px; width: 100%; padding: 12px; border: none; border-radius: 8px; background: #0d6efd; color: white; font-weight: 500; cursor: pointer; transition: 0.3s; }
     .btn:hover { background: #0b5ed7; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(13, 110, 253, 0.2); }
   </style>
@@ -40,11 +44,29 @@
         <div class="form-grid">
           <div>
             <label>Tahun</label>
-            <input type="number" name="tahun" placeholder="Contoh: 2026" required min="2000">
+            <input type="number" name="tahun" value="{{ old('tahun') }}" placeholder="Contoh: 2026" required min="2000">
+            @error('tahun') <div class="error">{{ $message }}</div> @enderror
           </div>
+
+          <div>
+            <label>Kecamatan</label>
+            <select name="kecamatan" required>
+                <option value="">-- Pilih Kecamatan --</option>
+                @if(isset($list_kecamatan))
+                    @foreach($list_kecamatan as $k)
+                        <option value="{{ $k->NM_KECAMATAN }}" {{ old('kecamatan') == $k->NM_KECAMATAN ? 'selected' : '' }}>
+                            {{ $k->NM_KECAMATAN }}
+                        </option>
+                    @endforeach
+                @endif
+            </select>
+            @error('kecamatan') <div class="error">{{ $message }}</div> @enderror
+          </div>
+
           <div>
             <label>Jumlah Bengkel / TDR (Unit)</label>
-            <input type="number" name="jumlah" placeholder="Masukkan Jumlah" required min="0">
+            <input type="number" name="jumlah" value="{{ old('jumlah') }}" placeholder="Masukkan Jumlah" required min="0">
+            @error('jumlah') <div class="error">{{ $message }}</div> @enderror
           </div>
         </div>
         <button class="btn">Simpan Data</button>

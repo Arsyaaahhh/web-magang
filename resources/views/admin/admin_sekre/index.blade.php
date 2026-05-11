@@ -99,6 +99,7 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
 .card-blue { background: linear-gradient(135deg, #0d6efd, #0a58ca); }
 .card-green { background: linear-gradient(135deg, #20c997, #1aa179); }
 .card-orange { background: linear-gradient(135deg, #fd7e14, #e37112); }
+.card-red { background: linear-gradient(135deg, #e83e8c, #c82333); } /* 🔥 TAMBAHAN WARNA UNTUK PENELITIAN */
 
 .alert{
   padding:10px;margin-bottom:20px;background:#d1e7dd;border-radius:6px; color: #0f5132; font-size: 14px;
@@ -130,11 +131,9 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
 
 <body>
 
-<!-- OVERLAY (Hanya Muncul di Mobile) -->
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-  <!-- SIDEBAR -->
-  <div class="sidebar">
+  <div class="sidebar" id="sidebarMenu">
     <h2>ADMIN</h2>
 
     <a class="active" href="/admin/admin_sekre">
@@ -157,7 +156,6 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
       <i class="fas fa-building"></i> Bidang Koperasi
     </a>
 
-    <!-- Menu Metrologi Aktif -->
     <a href="/admin/admin_metro">
       <i class="fas fa-balance-scale"></i> Metrologi Legal
     </a>
@@ -167,7 +165,6 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
     </button>
   </div>
 
-<!-- MAIN -->
 <div class="main">
 
 <div class="navbar">
@@ -186,33 +183,36 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
 <div class="alert">{{ session('success') }}</div>
 @endif
 
-<!-- MENU -->
 <div class="cards-grid">
 
-  <!-- SURAT: Warna Biru -->
   <a href="{{ route('surat.list') }}" class="card card-blue">
     <i class="fas fa-envelope-open-text card-icon"></i>
     <div>
-      <h4>Surat</h4>
+      <h4>Dokumen</h4>
       <p>Arsip SK, SP, dan SOP</p>
     </div>
   </a>
 
-  <!-- PEGAWAI: Warna Hijau -->
   <a href="{{ route('pegawai.rekap') }}" class="card card-green">
     <i class="fas fa-users card-icon"></i>
     <div>
-      <h4>Data Pegawai</h4>
+      <h4>Kepegawaian</h4>
       <p>Informasi & Rekap Pegawai</p>
     </div>
   </a>
 
-  <!-- MAGANG: Warna Oranye -->
   <a href="{{ route('magang.index') }}" class="card card-orange">
     <i class="fas fa-id-badge card-icon"></i>
     <div>
-      <h4>Data Magang</h4>
+      <h4>Magang</h4>
       <p>Daftar Peserta Magang</p>
+    </div>
+  </a>
+
+  <a href="{{ route('penelitian.index') }}" class="card card-red">
+    <i class="fas fa-microscope card-icon"></i> <div>
+      <h4>Penelitian</h4>
+      <p>Daftar Penelitian</p>
     </div>
   </a>
 

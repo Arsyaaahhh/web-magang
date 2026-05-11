@@ -2,7 +2,6 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<!-- 🔥 Tag wajib untuk responsive -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tambah Rekap Pegawai</title>
 
@@ -122,7 +121,7 @@ input:focus, select:focus{
 
 /* 🔥 MEDIA QUERY RESPONSIVE (SMARTPHONE) */
 @media screen and (max-width: 600px) {
-  .form-grid { grid-template-columns: 1fr; } /* Form berubah ke 1 kolom menyusun kebawah */
+  .form-grid { grid-template-columns: 1fr; }
   .navbar { padding: 15px 20px; }
   .card { padding: 20px; }
   .header h2 { font-size: 16px; }
@@ -150,10 +149,9 @@ input:focus, select:focus{
 
 <div class="form-grid">
 
-<!-- STATUS -->
 <div>
 <label>Status</label>
-<select name="status" required>
+<select name="status" id="statusSelect" required>
   <option value="">-- Pilih Status --</option>
   <option value="PNS" {{ old('status')=='PNS'?'selected':'' }}>PNS</option>
   <option value="Non PNS" {{ old('status')=='Non PNS'?'selected':'' }}>Non PNS</option>
@@ -161,7 +159,39 @@ input:focus, select:focus{
 @error('status')<div class="error">{{ $message }}</div>@enderror
 </div>
 
-<!-- PENDIDIKAN -->
+<div id="pangkatContainer" style="display: none;">
+<label>Pangkat / Golongan</label>
+<select name="pangkat_golongan" id="pangkatInput">
+  <option value="">-- Pilih Pangkat/Golongan --</option>
+  <optgroup label="Golongan I (Juru)">
+    <option value="I/a" {{ old('pangkat_golongan')=='I/a'?'selected':'' }}>I/a - Juru Muda</option>
+    <option value="I/b" {{ old('pangkat_golongan')=='I/b'?'selected':'' }}>I/b - Juru Muda Tingkat I</option>
+    <option value="I/c" {{ old('pangkat_golongan')=='I/c'?'selected':'' }}>I/c - Juru</option>
+    <option value="I/d" {{ old('pangkat_golongan')=='I/d'?'selected':'' }}>I/d - Juru Tingkat I</option>
+  </optgroup>
+  <optgroup label="Golongan II (Pengatur)">
+    <option value="II/a" {{ old('pangkat_golongan')=='II/a'?'selected':'' }}>II/a - Pengatur Muda</option>
+    <option value="II/b" {{ old('pangkat_golongan')=='II/b'?'selected':'' }}>II/b - Pengatur Muda Tingkat I</option>
+    <option value="II/c" {{ old('pangkat_golongan')=='II/c'?'selected':'' }}>II/c - Pengatur</option>
+    <option value="II/d" {{ old('pangkat_golongan')=='II/d'?'selected':'' }}>II/d - Pengatur Tingkat I</option>
+  </optgroup>
+  <optgroup label="Golongan III (Penata)">
+    <option value="III/a" {{ old('pangkat_golongan')=='III/a'?'selected':'' }}>III/a - Penata Muda</option>
+    <option value="III/b" {{ old('pangkat_golongan')=='III/b'?'selected':'' }}>III/b - Penata Muda Tingkat I</option>
+    <option value="III/c" {{ old('pangkat_golongan')=='III/c'?'selected':'' }}>III/c - Penata</option>
+    <option value="III/d" {{ old('pangkat_golongan')=='III/d'?'selected':'' }}>III/d - Penata Tingkat I</option>
+  </optgroup>
+  <optgroup label="Golongan IV (Pembina)">
+    <option value="IV/a" {{ old('pangkat_golongan')=='IV/a'?'selected':'' }}>IV/a - Pembina</option>
+    <option value="IV/b" {{ old('pangkat_golongan')=='IV/b'?'selected':'' }}>IV/b - Pembina Tingkat I</option>
+    <option value="IV/c" {{ old('pangkat_golongan')=='IV/c'?'selected':'' }}>IV/c - Pembina Utama Muda</option>
+    <option value="IV/d" {{ old('pangkat_golongan')=='IV/d'?'selected':'' }}>IV/d - Pembina Utama Madya</option>
+    <option value="IV/e" {{ old('pangkat_golongan')=='IV/e'?'selected':'' }}>IV/e - Pembina Utama</option>
+  </optgroup>
+</select>
+@error('pangkat_golongan')<div class="error">{{ $message }}</div>@enderror
+</div>
+
 <div>
 <label>Pendidikan</label>
 <select name="pendidikan" required>
@@ -176,7 +206,6 @@ input:focus, select:focus{
 @error('pendidikan')<div class="error">{{ $message }}</div>@enderror
 </div>
 
-<!-- BIDANG -->
 <div>
 <label>Bidang</label>
 <select name="bidang" required>
@@ -191,7 +220,6 @@ input:focus, select:focus{
 @error('bidang')<div class="error">{{ $message }}</div>@enderror
 </div>
 
-<!-- JUMLAH -->
 <div>
 <label>Jumlah Pegawai</label>
 <input type="number" name="jumlah" value="{{ old('jumlah') }}" required>
@@ -206,6 +234,27 @@ input:focus, select:focus{
 
 </div>
 </div>
+
+<script>
+  // Script logic untuk memunculkan input pangkat hanya saat PNS dipilih
+  const statusSelect = document.getElementById('statusSelect');
+  const pangkatContainer = document.getElementById('pangkatContainer');
+  const pangkatInput = document.getElementById('pangkatInput');
+
+  // Cek state saat halaman baru dimuat (berguna jika ada error validasi)
+  if(statusSelect.value === 'PNS') {
+    pangkatContainer.style.display = 'block';
+  }
+
+  statusSelect.addEventListener('change', function() {
+    if (this.value === 'PNS') {
+      pangkatContainer.style.display = 'block';
+    } else {
+      pangkatContainer.style.display = 'none';
+      pangkatInput.value = ''; // Kembalikan ke pilihan kosong
+    }
+  });
+</script>
 
 </body>
 </html>

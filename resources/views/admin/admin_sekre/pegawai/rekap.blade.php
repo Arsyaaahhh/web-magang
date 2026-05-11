@@ -128,7 +128,7 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
 table{
   width:100%;
   border-collapse:collapse;
-  min-width: 500px;
+  min-width: 600px;
 }
 th{
   background:#eaf2ff;
@@ -180,7 +180,6 @@ td{
 
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-  <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>ADMIN</h2>
 
@@ -204,7 +203,6 @@ td{
       <i class="fas fa-building"></i> Bidang Koperasi
     </a>
 
-    <!-- Menu Metrologi Aktif -->
     <a href="/admin/admin_metro">
       <i class="fas fa-balance-scale"></i> Metrologi Legal
     </a>
@@ -247,8 +245,10 @@ td{
     <tr>
     <th>No</th>
     <th>Status</th>
+    <th>Pangkat / Golongan</th>
     <th>Pendidikan</th>
-    <th>Bidang</th> <th>Jumlah</th>
+    <th>Bidang</th> 
+    <th>Jumlah</th>
     <th>Aksi</th>
     </tr>
 
@@ -256,8 +256,16 @@ td{
     <tr>
     <td>{{ $loop->iteration }}</td>
     <td>{{ $d->status }}</td>
+    <td>
+      @if($d->status == 'PNS' || strcasecmp($d->status, 'pns') == 0)
+        {{ $d->pangkat_golongan ?? '-' }}
+      @else
+        <span style="color: #999;">-</span>
+      @endif
+    </td>
     <td>{{ $d->pendidikan }}</td>
-    <td>{{ $d->bidang }}</td> <td>{{ $d->jumlah }}</td>
+    <td>{{ $d->bidang }}</td> 
+    <td>{{ $d->jumlah }}</td>
 
     <td>
       <div class="action">
@@ -272,7 +280,7 @@ td{
     </tr>
     @empty
     <tr>
-    <td colspan="6" align="center">Tidak ada data</td> </tr>
+    <td colspan="7" align="center">Tidak ada data</td> </tr>
     @endforelse
 
     </table>

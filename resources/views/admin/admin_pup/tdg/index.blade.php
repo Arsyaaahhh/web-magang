@@ -45,16 +45,24 @@ body{display:flex;background:#f4f7fb; min-height: 100vh;}
 /* TABLE & CARD */
 .card{background:white; padding:20px; border-radius:12px; border:1px solid #e5e7eb;}
 .table-responsive{overflow-x:auto; -webkit-overflow-scrolling: touch;}
-table{width:100%; border-collapse:collapse; min-width: 500px;} /* Supaya tabel tidak terlalu ciut di HP */
+table{width:100%; border-collapse:collapse; min-width: 600px;} 
 th{padding:12px; background:#eaf2ff; text-align:left;}
 td{padding:12px; border-bottom:1px solid #e5e7eb;}
 
-/* BUTTONS */
-.btn{padding:10px 16px; border-radius:8px; border:none; cursor:pointer; background:#22c55e; color:white; text-decoration:none; white-space: nowrap; display: inline-block;}
-.btn:hover { background: #16a34a; transition: 0.2s ease; }
+/* 🔥 FILTER DROPDOWN */
+.filter { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; }
+.filter select { padding: 8px 12px; border-radius: 6px; border: 1px solid #d1d5db; min-width: 150px; outline: none; background: white; font-size: 14px; }
+.filter select:focus { border-color: #0d6efd; box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.1); }
 
+/* BUTTONS */
+.btn{padding:10px 16px; border-radius:8px; border:none; cursor:pointer; background:#22c55e; color:white; text-decoration:none; white-space: nowrap; display: inline-block; transition: 0.2s ease;}
+.btn-primary { background: #0d6efd; }
+.btn-primary:hover { background: #0b5ed7; }
+.btn-success { background: #20c997; }
+.btn-success:hover { background: #1aa179; }
 .btn-back { background: #6c757d; }
 .btn-back:hover { background: #5a6268; }
+.alert { padding: 10px; margin-bottom: 15px; background: #d1e7dd; color: #0f5132; border-radius: 6px; }
 
 /* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
@@ -73,34 +81,13 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
 
   <div class="sidebar" id="sidebar">
     <h2>ADMIN</h2>
-
-    <a href="/admin/admin_sekre">
-      <i class="fas fa-user-tie"></i> Sekretariat
-    </a>
-
-    <a href="/admin/admin_pum">
-      <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
-    </a>
-
-    <a class="active"  href="/admin/admin_pup">
-      <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
-    </a>
-
-    <a href="/admin/admin_perdagangan">
-      <i class="fas fa-truck"></i> Distribusi Perdagangan
-    </a>
-
-        <a href="/admin/koperasi">
-      <i class="fas fa-building"></i> Bidang Koperasi
-    </a>
-
-    <a href="/admin/admin_metro">
-      <i class="fas fa-balance-scale"></i> Metrologi Legal
-    </a>
-
-    <button onclick="logout()" class="logout-btn">
-      <i class="fas fa-sign-out-alt"></i> Logout
-    </button>
+    <a href="/admin/admin_sekre"><i class="fas fa-user-tie"></i> Sekretariat</a>
+    <a href="/admin/admin_pum"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
+    <a class="active"  href="/admin/admin_pup"><i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan</a>
+    <a href="/admin/admin_perdagangan"><i class="fas fa-truck"></i> Distribusi Perdagangan</a>
+    <a href="/admin/koperasi"><i class="fas fa-building"></i> Bidang Koperasi</a>
+    <a href="/admin/admin_metro"><i class="fas fa-balance-scale"></i> Metrologi Legal</a>
+    <button onclick="logout()" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
   </div>
 
 <div class="main">
@@ -116,17 +103,52 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
             
             <div style="display: flex; gap: 10px;">
                 <a href="javascript:history.back()" class="btn btn-back"><i class="fas fa-arrow-left"></i> Kembali</a>
-                <a href="{{ route('tdg.create') }}" class="btn"><i class="fas fa-plus"></i> Tambah</a>
+                <a href="{{ route('tdg.create') }}" class="btn btn-success"><i class="fas fa-plus"></i> Tambah</a>
             </div>
         </div>
 
+        @if(session('success'))
+            <div class="alert">{{ session('success') }}</div>
+        @endif
+
         <div class="card">
+            
+            <form method="GET" action="{{ url()->current() }}">
+                <div class="filter">
+                    <select name="tahun" style="min-width: 150px;">
+                        <option value="">-- Semua Tahun --</option>
+                        @if(isset($list_tahun))
+                            @foreach($list_tahun as $t)
+                                <option value="{{ $t }}" {{ request('tahun') == $t ? 'selected' : '' }}>
+                                    {{ $t }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+
+                    <select name="kecamatan" style="min-width: 200px;">
+                        <option value="">-- Semua Kecamatan --</option>
+                        @if(isset($list_kecamatan))
+                            @foreach($list_kecamatan as $k)
+                                <option value="{{ $k->NM_KECAMATAN }}" {{ request('kecamatan') == $k->NM_KECAMATAN ? 'selected' : '' }}>
+                                    {{ $k->NM_KECAMATAN }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-filter"></i> Filter</button>
+                    <a href="{{ url()->current() }}" class="btn btn-back"><i class="fas fa-sync-alt"></i> Reset</a>
+                </div>
+            </form>
+
             <div class="table-responsive">
                 <table>
                     <thead>
                         <tr>
                             <th>No</th>
                             <th>Tahun</th>
+                            <th>Kecamatan</th>
                             <th>Jumlah TDG</th>
                             <th>Aksi</th>
                         </tr>
@@ -136,6 +158,7 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
                         <tr>
                             <td>{{ ($data->currentPage()-1)*$data->perPage()+$loop->iteration }}</td>
                             <td>{{ $item->tahun }}</td>
+                            <td>{{ $item->kecamatan }}</td>
                             <td>{{ $item->jumlah }} Dokumen</td>
                             <td>
                                 <a href="{{ route('tdg.edit',$item->id) }}" style="color:#2563eb; margin-right: 10px;"><i class="fas fa-pen"></i></a>
@@ -143,7 +166,7 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
                             </td>
                         </tr>
                         @empty
-                        <tr><td colspan="4" align="center">Data Kosong</td></tr>
+                        <tr><td colspan="5" align="center" style="padding: 20px;">Data Kosong</td></tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -158,7 +181,6 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
     // LOGOUT
     function logout(){
-
       Swal.fire({
         title:'Logout?',
         text:'Kamu akan keluar',
@@ -167,14 +189,10 @@ function toggleSidebar() { document.getElementById('sidebar').classList.toggle('
         confirmButtonColor:'#0d6efd',
         confirmButtonText:'Ya, logout'
       }).then((result)=>{
-
         if(result.isConfirmed){
-
           localStorage.removeItem("login");
-
           window.location.href = "/logout";
         }
-
       });
     }
 </script>

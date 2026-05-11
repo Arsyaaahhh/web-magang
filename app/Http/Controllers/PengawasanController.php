@@ -4,19 +4,38 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pengawasan;
+use App\Models\Kecamatan; // 🔥 TAMBAHAN: Panggil model Kecamatan
 
 class PengawasanController extends Controller
 {
     /**
      * Menampilkan halaman utama (tabel data pengawasan)
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Mengambil data dari database, diurutkan dari yang terbaru, 10 data per halaman
-        $data = Pengawasan::latest()->paginate(10);
+        $query = Pengawasan::query();
+
+        // 🔥 Tangkap Filter Tahun
+        if ($request->tahun) {
+            $query->where('tahun', $request->tahun);
+        }
+
+        // 🔥 Tangkap Filter Kecamatan
+        if ($request->kecamatan) {
+            $query->where('kecamatan', $request->kecamatan);
+        }
+
+        // Mengambil data dari database dengan filter, diurutkan terbaru, dan simpan state pagination
+        $data = $query->orderBy('tahun', 'desc')->paginate(10)->withQueryString();
         
+        // 🔥 Ambil list kecamatan untuk dropdown filter
+        $list_kecamatan = Kecamatan::orderBy('NM_KECAMATAN', 'asc')->get();
+
+        // 🔥 Ambil list tahun yang ada di database (unik) untuk dropdown filter
+        $list_tahun = Pengawasan::select('tahun')->distinct()->orderBy('tahun', 'desc')->pluck('tahun');
+
         // Mengarah ke file: resources/views/admin/admin_pup/pengawasan/pengawasan.blade.php
-        return view('admin.admin_pup.pengawasan.pengawasan', compact('data'));
+        return view('admin.admin_pup.pengawasan.pengawasan', compact('data', 'list_kecamatan', 'list_tahun'));
     }
 
     /**
@@ -24,8 +43,10 @@ class PengawasanController extends Controller
      */
     public function create()
     {
-        // Mengarah ke file: resources/views/admin/admin_pup/pengawasan/create.blade.php
-        return view('admin.admin_pup.pengawasan.create');
+        // Mengambil list kecamatan dari database
+        $list_kecamatan = Kecamatan::orderBy('NM_KECAMATAN', 'asc')->get();
+
+        return view('admin.admin_pup.pengawasan.create', compact('list_kecamatan'));
     }
 
     /**
@@ -36,8 +57,9 @@ class PengawasanController extends Controller
         // 1. Validasi inputan form
         $request->validate([
             'jenis_pengawasan' => 'required',
-            'tahun' => 'required|numeric',
-            'jumlah' => 'required|numeric',
+            'kecamatan'        => 'required', 
+            'tahun'            => 'required|numeric',
+            'jumlah'           => 'required|numeric',
         ]);
 
         // 2. Simpan ke database
@@ -55,8 +77,10 @@ class PengawasanController extends Controller
         // Cari data berdasarkan ID
         $data = Pengawasan::findOrFail($id);
         
-        // Mengarah ke file: resources/views/admin/admin_pup/pengawasan/edit.blade.php
-        return view('admin.admin_pup.pengawasan.edit', compact('data'));
+        // Mengambil list kecamatan dari database
+        $list_kecamatan = Kecamatan::orderBy('NM_KECAMATAN', 'asc')->get();
+        
+        return view('admin.admin_pup.pengawasan.edit', compact('data', 'list_kecamatan'));
     }
 
     /**
@@ -67,8 +91,9 @@ class PengawasanController extends Controller
         // 1. Validasi inputan form
         $request->validate([
             'jenis_pengawasan' => 'required',
-            'tahun' => 'required|numeric',
-            'jumlah' => 'required|numeric',
+            'kecamatan'        => 'required',
+            'tahun'            => 'required|numeric',
+            'jumlah'           => 'required|numeric',
         ]);
 
         // 2. Cari data yang mau diedit, lalu update
