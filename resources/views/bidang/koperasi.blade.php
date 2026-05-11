@@ -10,15 +10,21 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 <style>
-  /* TABLE */
+  /* TABLE & CONTAINER UTAMA */
   .table-container {
+    background: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
     overflow-x: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    margin-bottom: 20px;
   }
 
   .data-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
+    border: none;
   }
 
   .data-table thead {
@@ -47,6 +53,7 @@
     background: #f5f8ff;
   }
 
+  /* BADGES */
   .badge-status {
     padding: 4px 8px;
     border-radius: 6px;
@@ -99,7 +106,6 @@
     display: block;
   }
 
-  /* PERBAIKAN: Tambahkan !important agar dijamin hilang saat diklik */
   .cards.hidden {
     display: none !important; 
   }
@@ -223,6 +229,127 @@
     background: #5a6268;
   }
 
+  /* =========================================
+     PAGINATION STYLING (MODERN & COMFORT UX)
+     ========================================= */
+.pagination-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  background: #ffffff;
+  border-top: 1px solid #eaebec;
+  border-radius: 0 0 8px 8px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Text info */
+.pagination-info {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Navigation */
+.pagination-links {
+  display: flex;
+  align-items: center;
+}
+
+.pagination-links nav {
+  display: flex;
+  align-items: center;
+}
+
+/* Hide Laravel default text */
+.pagination-links nav > div:first-of-type,
+.pagination-links nav > div > p.text-sm,
+.pagination-links nav > div.sm\:hidden,
+.pagination-links nav p {
+  display: none !important;
+}
+
+/* Pagination container */
+.pagination-links ul,
+.pagination-links .relative.z-0.inline-flex {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  box-shadow: none !important;
+}
+
+/* Item */
+.pagination-links li,
+.pagination-links .relative.z-0.inline-flex > span,
+.pagination-links .relative.z-0.inline-flex > a {
+  list-style: none;
+  display: flex;
+}
+
+/* Button style */
+.pagination-links a,
+.pagination-links span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 32px;
+  height: 32px;
+
+  padding: 0 10px;
+
+  border-radius: 6px !important;
+  border: 1px solid #dbe2ea;
+
+  background: #ffffff;
+  color: #334155;
+
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+
+  transition: all 0.18s ease;
+  margin: 0 !important;
+}
+
+/* Hover */
+.pagination-links a:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+/* Active */
+.pagination-links .active span,
+.pagination-links span[aria-current="page"] span {
+  background: #0d6efd !important;
+  color: #ffffff !important;
+  border-color: #0d6efd !important;
+  box-shadow: 0 2px 6px rgba(13, 110, 253, 0.18);
+}
+
+/* Disabled */
+.pagination-links .disabled span,
+.pagination-links span[aria-disabled="true"] span,
+.pagination-links span[aria-disabled="true"] {
+  color: #94a3b8 !important;
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* SVG icon */
+.pagination-links svg {
+  width: 14px !important;
+  height: 14px !important;
+  stroke-width: 2.5;
+}
+
+  /* RESPONSIVE LAYOUT */
   @media (max-width: 768px) {
     .filter-row {
       grid-template-columns: 1fr;
@@ -232,92 +359,85 @@
       flex-direction: column;
     }
 
-    /* PAGINATION STYLING */
-    .pagination-wrapper {
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
-    }
-    
-    .pagination-wrapper nav svg {
-      width: 20px;
-    }
-
-    .pagination-wrapper .relative.inline-flex.items-center {
-      padding: 8px 12px;
-      border: 1px solid #ddd;
-      margin: 0 2px;
-      border-radius: 4px;
-      text-decoration: none;
-      color: #0d6efd;
-      background: #fff;
-    }
-
     .filter-btn {
       width: 100%;
     }
+
+    /* Menyesuaikan pagination untuk layar kecil */
+    .pagination-wrapper {
+      flex-direction: column-reverse; /* Tombol navigasi di atas teks info */
+      justify-content: center;
+      text-align: center;
+      padding: 16px;
+      gap: 12px;
+    }
+
+    .pagination-links {
+      width: 100%;
+      justify-content: center;
+    }
   }
-  /* 🔥 TAMBAHAN KHUSUS RESPONSIVE (TIDAK MERUBAH DESAIN ASLI) */
-    body {
-      overflow-x: hidden; 
-    }
 
+  /* TAMBAHAN KHUSUS RESPONSIVE SIDEBAR & CHART */
+  body {
+    overflow-x: hidden; 
+  }
+
+  .toggle-btn {
+    display: none; 
+  }
+  
+  .chart-grid {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .chart-box {
+    position: relative;
+    height: 300px; 
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .chart-box canvas {
+    max-width: 100% !important;
+  }
+
+  @media screen and (max-width: 768px) {
     .toggle-btn {
-      display: none; 
+      display: block;
+      font-size: 24px;
+      cursor: pointer;
+      margin-right: 15px;
     }
-    
+    .sidebar {
+      position: fixed;
+      left: -250px;
+      top: 0;
+      height: 100vh;
+      z-index: 1000;
+      transition: left 0.3s ease;
+    }
+    .sidebar.active {
+      left: 0;
+    }
+    .main {
+      margin-left: 0 !important;
+      width: 100%;
+    }
+    .cards {
+      grid-template-columns: 1fr !important; 
+      gap: 15px;
+    }
     .chart-grid {
-      width: 100%;
-      box-sizing: border-box;
+      display: grid !important;
+      grid-template-columns: 1fr !important;
+      gap: 20px;
     }
-
     .chart-box {
-      position: relative;
-      height: 300px; 
-      width: 100%;
-      box-sizing: border-box;
+      height: 250px; 
     }
-
-    .chart-box canvas {
-      max-width: 100% !important;
-    }
-
-    @media screen and (max-width: 768px) {
-      .toggle-btn {
-        display: block;
-        font-size: 24px;
-        cursor: pointer;
-        margin-right: 15px;
-      }
-      .sidebar {
-        position: fixed;
-        left: -250px;
-        top: 0;
-        height: 100vh;
-        z-index: 1000;
-        transition: left 0.3s ease;
-      }
-      .sidebar.active {
-        left: 0;
-      }
-      .main {
-        margin-left: 0 !important;
-        width: 100%;
-      }
-      .cards {
-        /* PERBAIKAN: Hapus display: grid !important agar .cards.hidden bisa bekerja */
-        grid-template-columns: 1fr !important; 
-        gap: 15px;
-      }
-      .chart-grid {
-        display: grid !important;
-        grid-template-columns: 1fr !important;
-        gap: 20px;
-      }
-      .chart-box {
-        height: 250px; 
-      }
-    }
+  }
 </style>
 
 </head>
@@ -443,8 +563,21 @@
           </table>
 
           <div class="pagination-wrapper">
-            {{ $allKoperasi->appends(request()->except('all_p'))->links() }}
+
+            <div class="pagination-links">
+              {{ $allKoperasi->appends(request()->except('total_p'))->onEachSide(1)->links() }}
+            </div>
+
+            <div class="pagination-info">
+              Menampilkan {{ $allKoperasi->firstItem() ?? 0 }}
+              hingga {{ $allKoperasi->lastItem() ?? 0 }}
+              dari {{ $allKoperasi->total() }} data
+            </div>
+
           </div>
+
+          
+          
         @else
           <div class="no-data">Tidak ada data koperasi</div>
         @endif
@@ -506,8 +639,15 @@
           </table>
 
           <div class="pagination-wrapper">
-            {{ $koperasiAktif->appends(request()->except('aktif_p'))->links() }}
+            <div class="pagination-links">
+              {{ $koperasiAktif->appends(request()->except('aktif_p'))->links() }}
+            </div>
+
+            <div class="pagination-info">
+              Menampilkan {{ $koperasiAktif->firstItem() ?? 0 }} hingga {{ $koperasiAktif->lastItem() ?? 0 }} dari {{ $koperasiAktif->total() }} data
+            </div>
           </div>
+          
         @else
           <div class="no-data">Tidak ada data koperasi aktif</div>
         @endif
@@ -569,7 +709,13 @@
           </table>
 
           <div class="pagination-wrapper">
-            {{ $koperasiTidakAktif->appends(request()->except('nonaktif_p'))->links() }}
+            <div class="pagination-links">
+              {{ $koperasiTidakAktif->appends(request()->except('tidak_aktif_p'))->links() }}
+            </div>
+
+            <div class="pagination-info">
+              Menampilkan {{ $koperasiTidakAktif->firstItem() ?? 0 }} hingga {{ $koperasiTidakAktif->lastItem() ?? 0 }} dari {{ $koperasiTidakAktif->total() }} data
+            </div>
           </div>
         @else
           <div class="no-data">Tidak ada data koperasi tidak aktif</div>
@@ -634,7 +780,13 @@
           </table>
 
           <div class="pagination-wrapper">
-            {{ $padatKaryaDetail->appends(request()->except('padatkarya_p'))->links() }}
+            <div class="pagination-links">
+              {{ $padatKaryaDetail->appends(request()->except('padat_karya_p'))->links() }}
+            </div>
+
+            <div class="pagination-info">
+              Menampilkan {{ $padatKaryaDetail->firstItem() ?? 0 }} hingga {{ $padatKaryaDetail->lastItem() ?? 0 }} dari {{ $padatKaryaDetail->total() }} data
+            </div>
           </div>
         @else
           <div class="no-data">Tidak ada data koperasi dengan padat karya</div>
@@ -699,7 +851,13 @@
           </table>
 
           <div class="pagination-wrapper">
-            {{ $pelaksanaanRatDetail->appends(request()->except('pelaksanaanrat_p'))->links() }}
+            <div class="pagination-links">
+              {{ $pelaksanaanRatDetail->appends(request()->except('pelaksanaan_rat_p'))->links() }}
+            </div>
+
+            <div class="pagination-info">
+              Menampilkan {{ $pelaksanaanRatDetail->firstItem() ?? 0 }} hingga {{ $pelaksanaanRatDetail->lastItem() ?? 0 }} dari {{ $pelaksanaanRatDetail->total() }} data
+            </div>
           </div>
         @else
           <div class="no-data">Tidak ada data pelaksanaan RAT</div>
@@ -764,7 +922,13 @@ function logout(){
 // TABLE VIEW FUNCTIONS
 function showTableView(tableId) {
   document.getElementById('cardsView').classList.add('hidden');
-  document.getElementById(tableId + '-table').classList.add('active');
+  document.querySelectorAll('.table-view.active').forEach(table => {
+    table.classList.remove('active');
+  });
+  const table = document.getElementById(tableId + '-table');
+  if (table) {
+    table.classList.add('active');
+  }
   // Scroll to top
   window.scrollTo(0, 0);
 }
@@ -861,15 +1025,15 @@ function resetFilterSearch(tableId) {
 document.addEventListener('DOMContentLoaded', function() {
   // Logic to maintain table view on pagination reload
   const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has('all_p')) {
+  if (urlParams.has('total_p')) {
     showTableView('totalKoperasi');
   } else if (urlParams.has('aktif_p')) {
     showTableView('koperasiAktif');
-  } else if (urlParams.has('nonaktif_p')) {
+  } else if (urlParams.has('tidak_aktif_p')) {
     showTableView('koperasiTidakAktif');
-  } else if (urlParams.has('padatkarya_p')) {
+  } else if (urlParams.has('padat_karya_p')) {
     showTableView('padatKarya');
-  } else if (urlParams.has('pelaksanaanrat_p')) {
+  } else if (urlParams.has('pelaksanaan_rat_p')) {
     showTableView('pelaksanaanRat');
   } else if (urlParams.has('pegawai_p')) {
     showTableView('totalPegawai');

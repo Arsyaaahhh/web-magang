@@ -201,15 +201,15 @@ class KoperasiController extends Controller
         // =================================================================
         // Detail Data Koperasi (Kita buat dua nama agar HTML tidak bingung)
         // =================================================================
-        $allKoperasi = Koperasi::with(['kecamatan', 'kelurahan'])->paginate(20, ['*'], 'all_p');
+        $allKoperasi = Koperasi::with(['kecamatan', 'kelurahan'])->paginate(20, ['*'], 'total_p');
         $dataKoperasi = $allKoperasi; // Alias untuk $dataKoperasi
 
         $koperasiAktif = Koperasi::with(['kecamatan', 'kelurahan'])->where('status', 'aktif')->paginate(20, ['*'], 'aktif_p');
-        $koperasiTidakAktif = Koperasi::with(['kecamatan', 'kelurahan'])->where('status', 'tidak aktif')->paginate(20, ['*'], 'nonaktif_p');
+        $koperasiTidakAktif = Koperasi::with(['kecamatan', 'kelurahan'])->where('status', 'tidak aktif')->paginate(20, ['*'], 'tidak_aktif_p');
         
         // Padat Karya and Pelaksanaan RAT Detail
-        $padatKaryaDetail = Koperasi::with(['kecamatan', 'kelurahan'])->where('padat_karya', 'YA')->paginate(20, ['*'], 'padatkarya_p');
-        $pelaksanaanRatDetail = Koperasi::with(['kecamatan', 'kelurahan'])->paginate(20, ['*'], 'pelaksanaanrat_p');
+        $padatKaryaDetail = Koperasi::with(['kecamatan', 'kelurahan'])->where('padat_karya', 'YA')->paginate(20, ['*'], 'padat_karya_p');
+        $pelaksanaanRatDetail = Koperasi::with(['kecamatan', 'kelurahan'])->paginate(20, ['*'], 'pelaksanaan_rat_p');
 
         // =================================================================
         // Detail Data Pegawai (Kita buat dua nama juga)
