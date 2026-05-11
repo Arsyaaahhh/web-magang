@@ -130,7 +130,7 @@
         display:flex;
         flex-wrap:wrap;
         gap:20px;
-        margin-top:20px;
+        margin-top:10px;
     }
 
     .swkcard{
@@ -149,14 +149,14 @@
     }
 
     .detail-modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.5);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-    padding:20px;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,0.5);
+        display:none;
+        justify-content:center;
+        align-items:center;
+        z-index:9999;
+        padding:20px;
     }
 
     .detail-box{
@@ -201,31 +201,53 @@
         text-align:center;
     }
 
-    .detail-card.full{ grid-column:1 / -1; }
-    .detail-card h4{ margin-bottom:10px; color:#666; }
-    .detail-card h2{ color:#111; }
+    .detail-card.full{
+        grid-column:1 / -1;
+    }
 
-    .filter { display: flex; gap: 10px; margin-bottom: 5px; }
-    .filter input, .filter select { padding: 8px; border-radius: 6px; border: 1px solid #d1d5db; }
-    .btn { padding: 8px 14px; border-radius: 8px; font-size: 14px; border: none; cursor: pointer; text-decoration:none; }
-    .toggle-btn { display: none; }
+    .detail-card h4{
+        margin-bottom:10px;
+        color:#666;
+    }
 
-    /* ======================================================= */
-    /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
-    /* ======================================================= */
-    @media (max-width: 768px) {
-        .sidebar { left: -100% !important; position: fixed !important; z-index: 1000; transition: 0.3s ease; }
-        .sidebar.active { left: 0 !important; }
-        .main { margin-left: 0 !important; width: 100% !important; }
-        .toggle-btn { display: inline-block !important; margin-right: 15px; font-size: 24px; cursor: pointer; color: #0d6efd; }
-        .overlay.active { display: block; }
-        .header { display: flex; align-items: center; }
-        .filter { flex-direction: column; }
-        .filter input, .filter select, .filter button { width: 100%; }
-        .cards, #mainMenu { display: grid !important; grid-template-columns: 1fr !important; gap: 15px; }
-        .swkcard { width: 100% !important; max-width: 100%; }
-        .swk-wrapper { justify-content: center; }
-        .detail-grid { grid-template-columns: 1fr !important; }
+    .detail-card h2{
+        color:#111;
+    }
+
+    .filter { 
+        display: flex; 
+        gap: 10px; 
+        margin-bottom: 5px; 
+    }
+
+    .filter input, .filter select { 
+        padding: 8px; 
+        border-radius: 6px; 
+        border: 1px solid #d1d5db; 
+    }
+
+    .btn { 
+        padding: 8px 14px; 
+        border-radius: 8px; 
+        font-size: 14px; 
+        border: none; 
+        cursor: pointer; 
+        text-decoration:none; 
+    }
+
+    .empty-data{
+        width:100%;
+        height: 270px;
+        padding:60px 20px;
+        background: #f4f6f9;
+        border-radius:24px;
+        text-align:center;
+    }
+
+    .empty-data p{
+        font-size:16px;
+        margin-bottom:10px;
+        color:#111827;
     }
   </style>
 
@@ -285,7 +307,8 @@
           </div>
         </form>
 
-    <div class="cards" id="mainMenu">
+    <!-- MAIN MENU -->
+    <!-- <div class="cards" id="mainMenu">
 
       <a class="card green">
         <h4>Total Swk</h4>
@@ -307,16 +330,22 @@
         <h2>{{ $summary->total_stan_kosong ?? 0 }}</h2>
       </a>
 
-    </div>
+    </div> -->
 
     <div class="swk-wrapper">
-        @foreach($swks as $swk)
+        @forelse($swks as $swk)
 
         <div class="swkcard">
 
             <div class="swkcard-image">
 
-                <img src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=1200&auto=format&fit=crop" alt="Santorini">
+                <img 
+                    src="{{ $swk->foto 
+                        ? asset('storage/' . $swk->foto) 
+                        : 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=1200&auto=format&fit=crop' 
+                    }}" 
+                    alt="{{ $swk->nama_swk }}"
+                >
 
                 <div class="swkcard-content">
 
@@ -362,7 +391,13 @@
 
         </div>
 
-        @endforeach
+        @empty
+
+        <div class="empty-data">
+            <p>Tidak Ada Data</p>
+        </div>
+
+        @endforelse
 
     </div>
 

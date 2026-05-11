@@ -309,7 +309,7 @@
                 <h2>{{ $summary->pirt ?? 0 }}</h2>
             </a>
 
-            <a class="card teal">
+            <!-- <a class="card teal">
                 <h4>Total Sertifikasi Halal</h4>
                 <h2>{{ $summary->sertifikasi_halal ?? 0 }}</h2>
             </a>
@@ -317,7 +317,7 @@
             <a class="card orange">
                 <h4>Total Sertifikasi Merek</h4>
                 <h2>{{ $summary->sertifikasi_merek ?? 0 }}</h2>
-            </a>
+            </a> -->
 
             <a class="card teal">
                 <h4>Total Umkm Peken</h4>

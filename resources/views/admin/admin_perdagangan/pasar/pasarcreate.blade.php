@@ -142,6 +142,38 @@
             font-size: 16px;
         }
     }
+
+  .full-width{
+      grid-column:1 / -1;
+  }
+
+  .preview-box{
+      margin-top:12px;
+      width:100%;
+      height:250px;
+      border:2px dashed #cbd5e1;
+      border-radius:12px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex-direction:column;
+      overflow:hidden;
+      background:#f8fafc;
+      position:relative;
+  }
+
+  .preview-box img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:none;
+  }
+
+  .preview-box span{
+      color:#94a3b8;
+      font-size:14px;
+      position:absolute;
+  }
   </style>
 </head>
 
@@ -212,6 +244,29 @@
             <input type="number" name="stan_belum_terisi" placeholder="Masukkan Jumlah Stan Belum Terisi" required>
           </div>
 
+          <div class="full-width">
+
+              <label>Foto SWK</label>
+
+              <input 
+                  type="file" 
+                  name="foto" 
+                  id="fotoInput"
+                  accept="image/*"
+                  onchange="previewImage(event)"
+              >
+
+              <!-- PREVIEW -->
+              <div class="preview-box" id="previewBox">
+
+                  <img id="previewImage" src="" alt="Preview Foto">
+
+                  <span>Preview Foto SWK</span>
+
+              </div>
+
+          </div>
+
         </div>
 
         <button class="btn">Simpan Data</button>
@@ -237,6 +292,29 @@
                 });
             });
     });
+
+    // foto
+    function previewImage(event)
+    {
+        const input = event.target;
+        const preview = document.getElementById('previewImage');
+        const previewBox = document.getElementById('previewBox');
+        const text = previewBox.querySelector('span');
+
+        if(input.files && input.files[0])
+        {
+            const reader = new FileReader();
+
+            reader.onload = function(e)
+            {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                text.style.display = 'none';
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
   </script>
 </body>
 </html>

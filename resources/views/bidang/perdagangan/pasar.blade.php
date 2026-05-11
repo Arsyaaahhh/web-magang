@@ -198,32 +198,53 @@
         text-align:center;
     }
 
-    .detail-card.full{ grid-column:1 / -1; }
-    .detail-card h4{ margin-bottom:10px; color:#666; }
-    .detail-card h2{ color:#111; }
+    .detail-card.full{
+        grid-column:1 / -1;
+    }
 
-    .filter { display: flex; gap: 10px; margin-bottom: 5px; }
-    .filter input, .filter select { padding: 8px; border-radius: 6px; border: 1px solid #d1d5db; }
-    .btn { padding: 8px 14px; border-radius: 8px; font-size: 14px; border: none; cursor: pointer; text-decoration:none; }
+    .detail-card h4{
+        margin-bottom:10px;
+        color:#666;
+    }
 
-    .toggle-btn { display: none; }
+    .detail-card h2{
+        color:#111;
+    }
 
-    /* ======================================================= */
-    /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
-    /* ======================================================= */
-    @media (max-width: 768px) {
-        .sidebar { left: -100% !important; position: fixed !important; z-index: 1000; transition: 0.3s ease; }
-        .sidebar.active { left: 0 !important; }
-        .main { margin-left: 0 !important; width: 100% !important; }
-        .toggle-btn { display: inline-block !important; margin-right: 15px; font-size: 24px; cursor: pointer; color: #0d6efd; }
-        .overlay.active { display: block; }
-        .header { display: flex; align-items: center; }
-        .filter { flex-direction: column; }
-        .filter input, .filter select, .filter button { width: 100%; }
-        .cards, #mainMenu { display: grid !important; grid-template-columns: 1fr !important; gap: 15px; }
-        .swkcard { width: 100% !important; max-width: 100%; }
-        .swk-wrapper { justify-content: center; }
-        .detail-grid { grid-template-columns: 1fr !important; }
+    .filter { 
+        display: flex; 
+        gap: 10px; 
+        margin-bottom: 5px; 
+    }
+
+    .filter input, .filter select { 
+        padding: 8px; 
+        border-radius: 6px; 
+        border: 1px solid #d1d5db; 
+    }
+
+    .btn { 
+        padding: 8px 14px; 
+        border-radius: 8px; 
+        font-size: 14px; 
+        border: none; 
+        cursor: pointer; 
+        text-decoration:none; 
+    }
+
+    .empty-data{
+        width:100%;
+        height: 270px;
+        padding:60px 20px;
+        background: #f4f6f9;
+        border-radius:24px;
+        text-align:center;
+    }
+
+    .empty-data p{
+        font-size:16px;
+        margin-bottom:10px;
+        color:#111827;
     }
   </style>
 
@@ -283,7 +304,9 @@
           </div>
         </form>
 
-    <div class="cards" id="mainMenu">
+    <!-- MAIN MENU -->
+    <!-- <div class="cards" id="mainMenu">
+
       <a class="card green">
         <h4>Total Pasar</h4>
         <h2>{{ $summary->total_pasar ?? 0 }}</h2>
@@ -300,31 +323,41 @@
         <h4>Total Stan Belum Terisi</h4>
         <h2>{{ $summary->total_stan_kosong ?? 0 }}</h2>
       </a>
-    </div>
+
+    </div> -->
 
     <div class="swk-wrapper">
-        @foreach($pasar as $psr)
+        @forelse($pasar as $pasar)
+
         <div class="swkcard">
             <div class="swkcard-image">
-                <img src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=1200&auto=format&fit=crop" alt="Santorini">
+
+                <img 
+                    src="{{ $pasar->foto 
+                        ? asset('storage/' . $pasar->foto) 
+                        : 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=1200&auto=format&fit=crop' 
+                    }}" 
+                    alt="{{ $pasar->nama_pasar }}"
+                >
+
                 <div class="swkcard-content">
                     <div class="top-row">
-                        <h2 class="title">{{ $psr->nama_pasar }}</h2>
+                        <h2 class="title">{{ $pasar->nama_pasar }}</h2>
                     </div>
-                    <p class="description">{{ $psr->alamat }}</p>
-                    <p class="description">Luas: {{ $psr->luas }} m²</p>
+                    <p class="description">{{ $pasar->alamat }}</p>
+                    <p class="description">Luas: {{ $pasar->luas }} m²</p>
                     <div class="tags">
-                        <div class="tag">Pedagang: {{ $psr->jumlah_pedagang }}</div>
-                        <div class="tag">Stan: {{ $psr->jumlah_stan }}</div>
+                        <div class="tag">Pedagang: {{ $pasar->jumlah_pedagang }}</div>
+                        <div class="tag">Stan: {{ $pasar->jumlah_stan }}</div>
                     </div>
                     <a href="#">
                         <button class="button"
                             onclick="showDetail(
-                                '{{ $psr->nama_pasar }}',
-                                '{{ $psr->alamat }}',
-                                '{{ $psr->jumlah_pedagang }}',
-                                '{{ $psr->jumlah_stan }}',
-                                '{{ $psr->stan_belum_terisi }}'
+                                '{{ $pasar->nama_pasar }}',
+                                '{{ $pasar->alamat }}',
+                                '{{ $pasar->jumlah_pedagang }}',
+                                '{{ $pasar->jumlah_stan }}',
+                                '{{ $pasar->stan_belum_terisi }}'
                             )">
                             Detail
                         </button>
@@ -332,7 +365,15 @@
                 </div>
             </div>
         </div>
-        @endforeach
+
+        @empty
+
+        <div class="empty-data">
+            <p>Tidak Ada Data</p>
+        </div>
+
+        @endforelse
+
     </div>
 
     <div class="detail-modal" id="detailModal">
