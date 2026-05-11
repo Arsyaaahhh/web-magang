@@ -488,9 +488,9 @@
                   <th>Jenis Mitra</th>
                   <th>Kelurahan</th>
                   <th>Kecamatan</th>
-                  <th>Status RAT</th>
+                  <th>Padat Karya</th>
                   <th>Status LPJ</th>
-                  <th>Total Pengawasan</th>
+                  <th>Pelaksanaan RAT</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -506,9 +506,9 @@
                     <td>{{ ucfirst($d->jenis_mitra) }}</td>
                     <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
                     <td>{{ $d->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-                    <td><span class="badge" style="{{ $d->status_rat == 'YA' ? 'background-color: #d1e7dd;' : 'background-color: #f8d7da;' }}">{{ $d->status_rat }}</span></td>
+                    <td><span class="badge" style="{{ $d->padat_karya == 'YA' ? 'background-color: #d1e7dd;' : 'background-color: #f8d7da;' }}">{{ $d->padat_karya }}</span></td>
                     <td><span class="badge" style="{{ $d->status_lpj == 'LENGKAP' ? 'background-color: #d1e7dd;' : 'background-color: #f8d7da;' }}">{{ $d->status_lpj }}</span></td>
-                    <td>{{ $d->total_pengawasan }}</td>
+                    <td>{{ $d->pelaksanaan_rat }}</td>
                     
                     <td>
                       <div class="action">
