@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class MetrologiReparasi extends Model
 {
     protected $table = 'metrologi_reparasis';
-    protected $fillable = ['tahun', 'jumlah'];
+    protected $fillable = ['tahun', 'kecamatan', 'jumlah'];
 }

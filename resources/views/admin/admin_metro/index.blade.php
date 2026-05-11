@@ -176,11 +176,11 @@
       <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
     </a>
 
-    <a href="/admin/pembinaan">
+    <a href="/admin/admin_pup">
       <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
     </a>
 
-    <a href="/admin/perdagangan">
+    <a href="/admin/admin_perdagangan">
       <i class="fas fa-truck"></i> Distribusi Perdagangan
     </a>
 
@@ -217,7 +217,7 @@
 
         <a href="/admin/admin_metro/alat" class="menu-card bg-blue">
           <i class="fas fa-weight-hanging"></i>
-          <h3>Potensi Alat Ukur</h3>
+          <h3>UTTP</h3>
         </a>
 
         <a href="/admin/admin_metro/reparasi" class="menu-card bg-teal">

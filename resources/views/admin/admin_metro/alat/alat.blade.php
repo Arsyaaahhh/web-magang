@@ -30,8 +30,11 @@
     .btn-delete { background: #dc3545; color: white; }
 
     .card { background: white; padding: 18px; border-radius: 12px; border: 1px solid #e5e7eb; }
-    .filter { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
-    .filter input { padding: 8px; border-radius: 6px; border: 1px solid #d1d5db; min-width: 150px; }
+    
+    /* 🔥 CSS Filter ditambahkan styling untuk select dropdown */
+    .filter { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; }
+    .filter input, .filter select { padding: 8px 12px; border-radius: 6px; border: 1px solid #d1d5db; min-width: 150px; outline: none; background: white; font-size: 14px; }
+    .filter input:focus, .filter select:focus { border-color: #0d6efd; box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.1); }
     
     .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     table { width: 100%; border-collapse: collapse; border: 1px solid #e5e7eb; color: #333; min-width: 500px; }
@@ -51,19 +54,11 @@
     .pagination .active span { background: #0d6efd; color: white; border-color: #0d6efd; }
 
     /* SIDEBAR */
-    .sidebar{
-      width:240px;height:100vh;background:#0d6efd;color:white;padding:20px;position:fixed;
-      z-index: 1000; transition: left 0.3s ease;
-    }
+    .sidebar{ width:240px;height:100vh;background:#0d6efd;color:white;padding:20px;position:fixed; z-index: 1000; transition: left 0.3s ease; }
     .sidebar h2{margin-bottom:20px;}
-    .sidebar a{
-      display:block;color:white;padding:10px;border-radius:8px;margin-bottom:8px;text-decoration:none;
-    }
+    .sidebar a{ display:block;color:white;padding:10px;border-radius:8px;margin-bottom:8px;text-decoration:none; }
     .sidebar a:hover,.sidebar .active{background:rgba(255,255,255,0.2);}
-    .logout-btn{
-      margin-top:20px;width:100%;padding:10px;border:none;border-radius:8px;background:#dc3545;color:white;
-      cursor:pointer;
-    }
+    .logout-btn{ margin-top:20px;width:100%;padding:10px;border:none;border-radius:8px;background:#dc3545;color:white; cursor:pointer; }
 
     @media (max-width: 768px) {
         .sidebar { left: -240px; }
@@ -80,38 +75,15 @@
 
   <div class="overlay" onclick="toggleSidebar()"></div>
 
-  <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>ADMIN</h2>
-
-    <a href="/admin/admin_sekre">
-      <i class="fas fa-user-tie"></i> Sekretariat
-    </a>
-
-    <a href="/admin/admin_pum">
-      <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
-    </a>
-
-    <a href="/admin/pembinaan">
-      <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
-    </a>
-
-    <a href="/admin/perdagangan">
-      <i class="fas fa-truck"></i> Distribusi Perdagangan
-    </a>
-
-        <a href="/admin/koperasi">
-      <i class="fas fa-building"></i> Bidang Koperasi
-    </a>
-
-    <!-- Menu Metrologi Aktif -->
-    <a class="active" href="/admin/admin_metro">
-      <i class="fas fa-balance-scale"></i> Metrologi Legal
-    </a>
-
-    <button onclick="logout()" class="logout-btn">
-      <i class="fas fa-sign-out-alt"></i> Logout
-    </button>
+    <a href="/admin/admin_sekre"><i class="fas fa-user-tie"></i> Sekretariat</a>
+    <a href="/admin/admin_pum"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
+    <a href="/admin/admin_pup"><i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan</a>
+    <a href="/admin/admin_perdagangan"><i class="fas fa-truck"></i> Distribusi Perdagangan</a>
+    <a href="/admin/koperasi"><i class="fas fa-building"></i> Bidang Koperasi</a>
+    <a class="active" href="/admin/admin_metro"><i class="fas fa-balance-scale"></i> Metrologi Legal</a>
+    <button onclick="logout()" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
   </div>
 
   <main>
@@ -127,11 +99,9 @@
 
     <div class="container">
       <div class="top">
-        <h2>Jumlah Potensi Alat Ukur (UTTP)</h2>
+        <h2>UTTP</h2>
         <div style="display: flex; gap: 10px;">
-            <!-- Tombol kembali ke dashboard utama metrologi -->
             <a href="/admin/admin_metro" class="btn btn-back">← Kembali</a>
-            <!-- Tombol tambah data -->
             <a href="/admin/admin_metro/alat/create" class="btn btn-add">+ Tambah Data</a>
         </div>
       </div>
@@ -141,10 +111,20 @@
       @endif
 
       <div class="card">
-        <form method="GET">
+        <form method="GET" action="{{ url()->current() }}">
           <div class="filter">
-            <input type="number" name="tahun" placeholder="Cari Tahun..." value="{{ request('tahun') }}">
-            <button type="submit" class="btn btn-add">Filter</button>
+            <select name="tahun" style="min-width: 150px;">
+                <option value="">-- Semua Tahun --</option>
+                @if(isset($list_tahun))
+                    @foreach($list_tahun as $t)
+                        <option value="{{ $t }}" {{ request('tahun') == $t ? 'selected' : '' }}>
+                            {{ $t }}
+                        </option>
+                    @endforeach
+                @endif
+            </select>
+            <button type="submit" class="btn btn-add"><i class="fas fa-filter"></i> Filter</button>
+            <a href="{{ url()->current() }}" class="btn btn-back"><i class="fas fa-sync-alt"></i> Reset</a>
           </div>
         </form>
 
@@ -167,7 +147,6 @@
                     <td>
                       <div class="action">
                         <a href="/admin/admin_metro/alat/edit/{{ $d->id }}" class="btn btn-edit">Edit</a>
-                        <!-- Pastikan Route delete Anda di web.php sesuai dengan URL ini -->
                         <form id="deleteForm{{ $d->id }}" action="/admin/admin_metro/alat/delete/{{ $d->id }}" method="POST" style="margin:0;">
                           @csrf 
                           @method('DELETE')
@@ -178,7 +157,7 @@
                   </tr>
                 @empty
                   <tr>
-                    <td colspan="4" style="text-align:center;">Tidak ada data</td>
+                    <td colspan="4" style="text-align:center; padding: 20px;">Tidak ada data</td>
                   </tr>
                 @endforelse
               </tbody>

@@ -21,6 +21,8 @@ use App\Http\Controllers\KoperasiController;
 use App\Http\Controllers\MetrologiAlatController;
 use App\Http\Controllers\MetrologiReparasiController;
 use App\Http\Controllers\FrontendMetrologiController;
+use App\Http\Controllers\PenelitianController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -294,3 +296,15 @@ Route::post('/admin/koperasi/update/{id}', [KoperasiController::class, 'update']
 Route::get('/admin/koperasi/delete/{id}', [KoperasiController::class, 'destroy']);
 Route::get('/admin/koperasi/get-kelurahan/{id}', [KoperasiController::class, 'getKelurahan']);
 Route::get('/koperasi', [KoperasiController::class, 'userPage']);
+
+Route::get('/metrologi-data', [FrontendMetrologiController::class, 'getData']);
+
+// ================= ADMIN PENELITIAN =================
+Route::prefix('admin/penelitian')->group(function () {
+    Route::get('/', [PenelitianController::class, 'index'])->name('penelitian.index');
+    Route::get('/create', [PenelitianController::class, 'create'])->name('penelitian.create');
+    Route::post('/store', [PenelitianController::class, 'store'])->name('penelitian.store');
+    Route::get('/edit/{id}', [PenelitianController::class, 'edit'])->name('penelitian.edit');
+    Route::post('/update/{id}', [PenelitianController::class, 'update'])->name('penelitian.update');
+    Route::get('/delete/{id}', [PenelitianController::class, 'destroy'])->name('penelitian.delete');
+});

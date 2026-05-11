@@ -119,7 +119,7 @@
           <i class="fas fa-user-tie fa-3x"></i>
           <div class="text">
             <h4>Bidang Sekretariat</h4>
-            <h2>{{ $sekretariat }}</h2>
+            <!-- <h2>{{ $sekretariat }}</h2> -->
           </div>
         </a>
 
@@ -127,7 +127,7 @@
           <i class="fas fa-store fa-3x"></i>
           <div class="text">
             <h4>Pemberdayaan Usaha Mikro</h4>
-            <h2>{{ $mikro }}</h2>
+            <!-- <h2>{{ $mikro }}</h2> -->
           </div>
         </a>
 
@@ -135,7 +135,7 @@
           <i class="fas fa-truck fa-3x"></i>
           <div class="text">
             <h4>Distribusi Perdagangan</h4>
-            <h2>{{ $distribusi }}</h2>
+            <!-- <h2>{{ $distribusi }}</h2> -->
           </div>
         </a>
 
@@ -143,7 +143,7 @@
           <i class="fas fa-building fa-3x"></i>
           <div class="text">
             <h4>Bidang Koperasi</h4>
-            <h2>{{ $totalJumlah }}</h2>
+            <!-- <h2>{{ $totalJumlah }}</h2> -->
           </div>
         </a>
 
@@ -151,7 +151,7 @@
           <i class="fas fa-briefcase fa-3x"></i>
           <div class="text">
             <h4>Pembinaan Usaha Perdagangan</h4>
-            <h2>{{ $pembinaan }}</h2>
+            <!-- <h2>{{ $pembinaan }}</h2> -->
           </div>
         </a>
 
@@ -159,7 +159,7 @@
           <i class="fas fa-balance-scale fa-3x"></i>
           <div class="text">
             <h4>UPTD Metrologi Legal</h4>
-            <h2>{{ $metrologi }}</h2>
+            <!-- <h2>{{ $metrologi }}</h2> -->
           </div>
         </a>
       </div>

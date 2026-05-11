@@ -12,13 +12,11 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{background:#f4f7fb; min-height: 100vh;}
 
-/* NAVBAR */
 .navbar{
     background:white; padding:15px 30px; display:flex; justify-content:space-between; align-items: center;
     box-shadow:0 2px 10px rgba(0,0,0,0.05);
 }
 
-/* WRAPPER & CARD */
 .wrapper{padding:40px 20px; display:flex; justify-content:center; align-items: center;}
 .card{
     width: 100%; max-width: 550px; background:white; padding:30px; 
@@ -26,7 +24,6 @@ body{background:#f4f7fb; min-height: 100vh;}
 }
 .card h2{margin-bottom:25px; font-size: 1.5rem; color: #1e293b;}
 
-/* FORM */
 .form-group{margin-bottom:20px;}
 .form-group label{display:block; margin-bottom:8px; font-weight:500; font-size: 14px; color: #64748b;}
 .form-group input, .form-group select{
@@ -37,10 +34,8 @@ body{background:#f4f7fb; min-height: 100vh;}
     border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
 }
 
-/* ALERT ERROR */
 .alert{padding:12px 16px; margin-bottom:20px; border-radius:10px; background:#f8d7da; color:#842029; border:1px solid #f5c2c7; font-size: 13px;}
 
-/* BUTTON GROUP */
 .btn-group{display:flex; gap:12px; margin-top:30px;}
 .btn{
     flex: 1; padding:12px; border:none; border-radius:10px; 
@@ -49,7 +44,6 @@ body{background:#f4f7fb; min-height: 100vh;}
 .btn-primary{background:#2563eb; color:white;}
 .btn-secondary{background:#f1f5f9; color:#64748b;}
 
-/* MOBILE RESPONSIVE */
 @media (max-width: 480px) {
     .card { padding: 20px; }
     .wrapper { padding: 20px 15px; }
@@ -61,7 +55,7 @@ body{background:#f4f7fb; min-height: 100vh;}
 
 <div class="navbar">
     <h3>Admin Pengawasan</h3>
-    <span style="font-size: 14px; color: #64748b;">Sistem Informasi Magang</span>
+    <span style="font-size: 14px; color: #64748b;">Dinkopumdag Surabaya</span>
 </div>
 
 <div class="wrapper">
@@ -98,6 +92,20 @@ body{background:#f4f7fb; min-height: 100vh;}
             <div class="form-group">
                 <label>Tahun Pendataan</label>
                 <input type="number" name="tahun" value="{{ old('tahun') }}" placeholder="Contoh: 2026" required>
+            </div>
+
+            <div class="form-group">
+                <label>Kecamatan</label>
+                <select name="kecamatan" required>
+                    <option value="">-- Pilih Kecamatan --</option>
+                    @if(isset($list_kecamatan))
+                        @foreach($list_kecamatan as $k)
+                            <option value="{{ $k->NM_KECAMATAN }}" {{ old('kecamatan') == $k->NM_KECAMATAN ? 'selected' : '' }}>
+                                {{ $k->NM_KECAMATAN }}
+                            </option>
+                        @endforeach
+                    @endif
+                </select>
             </div>
 
             <div class="form-group">

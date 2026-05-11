@@ -17,7 +17,7 @@ class PegawaiController extends Controller
     // ================= CREATE =================
     public function createRekap()
     {
-        return view('admin.admin_sekre.pegawai.create'); // ✅ FIX
+        return view('admin.admin_sekre.pegawai.create'); 
     }
 
     // ================= STORE =================
@@ -26,11 +26,19 @@ class PegawaiController extends Controller
         $request->validate([
             'status' => 'required',
             'pendidikan' => 'required',
-            'bidang' => 'required', // <--- TAMBAHAN VALIDASI BIDANG
-            'jumlah' => 'required|numeric'
+            'bidang' => 'required', 
+            'jumlah' => 'required|numeric',
+            'pangkat_golongan' => 'nullable|string'
         ]);
 
-        PegawaiRekap::create($request->all());
+        $data = $request->all();
+        
+        // PERBAIKAN: Gunakan huruf besar 'PNS' sesuai dengan value di HTML
+        if ($data['status'] !== 'PNS') {
+            $data['pangkat_golongan'] = null;
+        }
+
+        PegawaiRekap::create($data);
 
         return redirect()->route('pegawai.rekap')
             ->with('success','Data berhasil ditambahkan');
@@ -40,7 +48,7 @@ class PegawaiController extends Controller
     public function editRekap($id)
     {
         $data = PegawaiRekap::findOrFail($id);
-        return view('admin.admin_sekre.pegawai.edit', compact('data')); // ✅ FIX
+        return view('admin.admin_sekre.pegawai.edit', compact('data')); 
     }
 
     // ================= UPDATE =================
@@ -49,12 +57,20 @@ class PegawaiController extends Controller
         $request->validate([
             'status' => 'required',
             'pendidikan' => 'required',
-            'bidang' => 'required', // <--- TAMBAHAN VALIDASI BIDANG
-            'jumlah' => 'required|numeric'
+            'bidang' => 'required', 
+            'jumlah' => 'required|numeric',
+            'pangkat_golongan' => 'nullable|string'
         ]);
 
+        $input = $request->all();
+        
+        // PERBAIKAN: Gunakan huruf besar 'PNS' sesuai dengan value di HTML
+        if ($input['status'] !== 'PNS') {
+            $input['pangkat_golongan'] = null;
+        }
+
         $data = PegawaiRekap::findOrFail($id);
-        $data->update($request->all());
+        $data->update($input);
 
         return redirect()->route('pegawai.rekap')
             ->with('success','Data berhasil diupdate');

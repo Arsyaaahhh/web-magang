@@ -9,6 +9,7 @@ class Tdg extends Model
     // Hanya mengizinkan mass-assignment untuk tahun dan jumlah
     protected $fillable = [
         'tahun',
-        'jumlah'
+        'jumlah',
+        'kecamatan',
     ];
 }

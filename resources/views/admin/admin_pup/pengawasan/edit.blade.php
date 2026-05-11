@@ -9,7 +9,6 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 <style>
-/* CSS Sama persis dengan create */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{background:#f4f7fb; min-height: 100vh;}
 .navbar{background:white; padding:15px 30px; display:flex; justify-content:space-between; align-items: center; box-shadow:0 2px 10px rgba(0,0,0,0.05);}
@@ -32,7 +31,7 @@ body{background:#f4f7fb; min-height: 100vh;}
 
 <div class="navbar">
     <h3>Admin Pengawasan</h3>
-    <span style="font-size: 14px; color: #64748b;">Sistem Informasi Magang</span>
+    <span style="font-size: 14px; color: #64748b;">Dinkopumdag Surabaya</span>
 </div>
 
 <div class="wrapper">
@@ -68,6 +67,21 @@ body{background:#f4f7fb; min-height: 100vh;}
             <div class="form-group">
                 <label>Tahun Pendataan</label>
                 <input type="number" name="tahun" value="{{ old('tahun', $data->tahun) }}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Kecamatan</label>
+                <select name="kecamatan" required>
+                    <option value="">-- Pilih Kecamatan --</option>
+                    @if(isset($list_kecamatan))
+                        @foreach($list_kecamatan as $k)
+                            <option value="{{ $k->NM_KECAMATAN }}" 
+                                {{ old('kecamatan', $data->kecamatan) == $k->NM_KECAMATAN ? 'selected' : '' }}>
+                                {{ $k->NM_KECAMATAN }}
+                            </option>
+                        @endforeach
+                    @endif
+                </select>
             </div>
 
             <div class="form-group">

@@ -113,18 +113,34 @@ input:focus, select:focus {
   background-color: #dde9ff !important;
 }
 
-/* ===== 🔥 TAMBAHAN: CSS RESPONSIVE & TABEL SCROLL ===== */
+/* ===== Warna teks tabel PENELITIAN ===== */
+#penelitianArea table thead tr th {
+  color: #ffffff !important;
+  background-color: #0d6efd !important;
+  white-space: nowrap;
+}
+#penelitianArea table tbody tr td {
+  color: #212529 !important;
+  background-color: #ffffff !important;
+}
+#penelitianArea table tbody tr:nth-child(even) td {
+  background-color: #f0f4ff !important;
+}
+#penelitianArea table tbody tr:hover td {
+  background-color: #dde9ff !important;
+}
+
+/* ===== 🔥 CSS RESPONSIVE & TABEL SCROLL ===== */
 .table-responsive {
   width: 100%;
-  overflow-x: auto; /* Memungkinkan scroll horizontal untuk tabel di layar kecil */
+  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
 @media screen and (max-width: 768px) {
   .cards, .cards-sm {
-    grid-template-columns: 1fr; /* Mengubah grid menjadi 1 kolom ke bawah di HP */
+    grid-template-columns: 1fr;
   }
-  
   .sidebar {
     position: fixed;
     left: -250px;
@@ -134,23 +150,17 @@ input:focus, select:focus {
     z-index: 1000;
     transition: left 0.3s ease;
   }
-  
-  /* Kelas ini akan ditambahkan lewat JS saat tombol burger menu diklik */
   .sidebar.active {
     left: 0;
   }
-  
   .main {
     margin-left: 0 !important;
     width: 100%;
     transition: margin-left 0.3s ease;
   }
-  
   .header {
     width: 100%;
   }
-
-  /* Filter form dropdown dan search menyusut ke bawah di HP */
   .filter-container {
     flex-direction: column;
   }
@@ -160,11 +170,9 @@ input:focus, select:focus {
 
 <body>
 
-<!-- SIDEBAR -->
 <div class="sidebar" id="sidebarMenu">
   <h2>DINKOPUMDAG</h2>
 
-  <!-- 🔥 FIX: Tambahkan text-align: center; agar tanggal di tengah -->
   <div id="tanggalSidebar" style="margin:10px 0; font-size:14px; color:#fff; text-align: center; font-weight: 500;"></div>
 
   <div class="menu">
@@ -182,7 +190,6 @@ input:focus, select:focus {
   </button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
 <div class="header">
@@ -198,26 +205,41 @@ input:focus, select:focus {
 
 <h2>Bidang Sekretariat</h2>
 
-<!-- ================= MENU UTAMA ================= -->
 <div class="cards" id="mainMenu">
   <div class="card blue" onclick="showSuratMenu()">
-    <h4>Surat</h4>
-    <p>SK, SP, dan SOP</p>
+    <h4>Dokumen</h4>
+    <p>SK, SP, SOP, dan ZI</p>
   </div>
 
   <div class="card green" onclick="showPegawaiMenu()">
-    <h4>Data Pegawai</h4>
+    <h4>Kepegawaian</h4>
     <p>Rekap pegawai</p>
   </div>
 
-  <div class="card orange" onclick="showMagang()">
-    <h4>Data Magang</h4>
-    <p>Rekap peserta magang</p>
+  <div class="card orange" onclick="showMagangPenelitianMenu()">
+    <h4>Magang/Penelitian</h4>
+    <p>Rekap magang dan penelitian</p>
   </div>
 </div>
 
+<div id="magangPenelitianMenuArea" style="display:none; margin-top:20px;">
+  <h3>Kategori Magang & Penelitian</h3>
+  <button onclick="hideAll()" class="btn-back btn-primary">
+    <i class="fas fa-arrow-left"></i> Kembali ke Menu Utama
+  </button>
 
-<!-- ================= SUBMENU SURAT ================= -->
+  <div class="cards">
+    <div class="card orange" onclick="showMagang()">
+      <h4>Data Magang</h4>
+      <p>Rekap data peserta magang</p>
+    </div>
+    <div class="card" onclick="showPenelitian()" style="background: linear-gradient(135deg, #e83e8c, #c82333); color:white;">
+      <h4>Data Penelitian</h4>
+      <p>Daftar mahasiswa peneliti</p>
+    </div>
+  </div>
+</div>
+
 <div id="suratMenuArea" style="display:none; margin-top:20px;">
   <h3>Kategori Surat</h3>
   <button onclick="hideAll()" class="btn-back btn-primary">
@@ -235,13 +257,17 @@ input:focus, select:focus {
       <h2 id="countSP">0</h2>
     </div>
     <div class="card orange" onclick="showSOP()">
-      <h4>SOP</h4>
+      <h4>Standar Operasional Pelayanan</h4>
       <h2 id="countSOP">0</h2>
+    </div>
+    <div class="card" onclick="showZI()" style="background: linear-gradient(135deg, #20c997, #1aa179); color:white;">
+      <h4>Zona Integritas (ZI)</h4>
+      <p>Arsip dokumen ZI</p>
+      <h2 id="countZI">0</h2>
     </div>
   </div>
 </div>
 
-<!-- ================= SK ================= -->
 <div id="skArea" style="display:none; margin-top:20px;">
   <h3>Detail : Sekretariat (SK)</h3>
   <button onclick="showSuratMenu()" class="btn-back">
@@ -257,7 +283,6 @@ input:focus, select:focus {
   <div class="cards cards-sm" id="cardContainer"></div>
 </div>
 
-<!-- ================= SP ================= -->
 <div id="spArea" style="display:none; margin-top:20px;">
   <h3>Detail : Standar Pelayanan</h3>
   <button onclick="showSuratMenu()" class="btn-back">
@@ -273,7 +298,6 @@ input:focus, select:focus {
   <div class="cards cards-sm" id="cardContainerSP"></div>
 </div>
 
-<!-- ================= SOP ================= -->
 <div id="sopArea" style="display:none; margin-top:20px;">
   <h3>Detail : SOP</h3>
   <button onclick="showSuratMenu()" class="btn-back">
@@ -289,8 +313,21 @@ input:focus, select:focus {
   <div class="cards cards-sm" id="cardContainerSOP"></div>
 </div>
 
+<div id="ziArea" style="display:none; margin-top:20px;">
+  <h3>Detail : Zona Integritas (ZI)</h3>
+  <button onclick="showSuratMenu()" class="btn-back">
+    <i class="fas fa-arrow-left"></i> Kembali ke Kategori Surat
+  </button>
 
-<!-- ================= SUBMENU PEGAWAI ================= -->
+  <div class="filter-container" style="display:flex; gap:10px; margin-bottom:20px;">
+    <input id="searchZI" placeholder="🔎 Cari..." onkeyup="delayFilterZI()" style="flex:1;">
+    <select id="tahunZI" onchange="filterZI()">
+      <option value="all">Semua Tahun</option>
+    </select>
+  </div>
+  <div class="cards cards-sm" id="cardContainerZI"></div>
+</div>
+
 <div id="pegawaiMenuArea" style="display:none; margin-top:20px;">
   <h3>Kategori Pegawai</h3>
   <button onclick="hideAll()" class="btn-back btn-primary">
@@ -309,7 +346,6 @@ input:focus, select:focus {
   </div>
 </div>
 
-<!-- ================= TABEL PEGAWAI PNS ================= -->
 <div id="pnsArea" style="display:none; margin-top:20px;">
   <h3>Data Pegawai - PNS</h3>
   <button onclick="showPegawaiMenu()" class="btn-back">
@@ -317,7 +353,6 @@ input:focus, select:focus {
   </button>
 
   <div class="card" style="padding: 0;">
-    <!-- 🔥 FIX: Wrapper responsif untuk tabel -->
     <div class="table-responsive">
       <table style="width:100%; border-collapse:collapse; min-width: 500px;">
         <thead>
@@ -326,6 +361,7 @@ input:focus, select:focus {
             <th style="padding:10px; color:#ffffff;">Status</th>
             <th style="padding:10px; color:#ffffff;">Pendidikan</th>
             <th style="padding:10px; color:#ffffff;">Bidang</th>
+            <th style="padding:10px; color:#ffffff;">Pangkat Golongan</th>
             <th style="padding:10px; color:#ffffff;">Jumlah</th>
           </tr>
         </thead>
@@ -339,15 +375,16 @@ input:focus, select:focus {
               <td style="padding:10px; color:#212529;">{{ $p->status }}</td>
               <td style="padding:10px; color:#212529;">{{ $p->pendidikan }}</td>
               <td style="padding:10px; color:#212529;">{{ $p->bidang }}</td>
+              <td style="padding:10px; color:#212529;">{{ $p->pangkat_golongan }}</td>
               <td style="padding:10px; color:#212529;">{{ $p->jumlah }}</td>
             </tr>
             @endif
           @endforeach
           @if($noPns == 1)
-          <tr><td colspan="5" style="text-align:center; padding:10px; color:#999;">Tidak ada data pegawai PNS</td></tr>
+          <tr><td colspan="6" style="text-align:center; padding:10px; color:#999;">Tidak ada data pegawai PNS</td></tr>
           @endif
         @else
-          <tr><td colspan="5" style="text-align:center; padding:10px; color:#999;">Tidak ada data pegawai</td></tr>
+          <tr><td colspan="6" style="text-align:center; padding:10px; color:#999;">Tidak ada data pegawai</td></tr>
         @endif
         </tbody>
       </table>
@@ -355,7 +392,6 @@ input:focus, select:focus {
   </div>
 </div>
 
-<!-- ================= TABEL PEGAWAI NON PNS ================= -->
 <div id="nonPnsArea" style="display:none; margin-top:20px;">
   <h3>Data Pegawai - Non PNS</h3>
   <button onclick="showPegawaiMenu()" class="btn-back">
@@ -363,7 +399,6 @@ input:focus, select:focus {
   </button>
 
   <div class="card" style="padding: 0;">
-    <!-- 🔥 FIX: Wrapper responsif untuk tabel -->
     <div class="table-responsive">
       <table style="width:100%; border-collapse:collapse; min-width: 500px;">
         <thead>
@@ -371,7 +406,7 @@ input:focus, select:focus {
             <th style="padding:10px; color:#ffffff;">No</th>
             <th style="padding:10px; color:#ffffff;">Status</th>
             <th style="padding:10px; color:#ffffff;">Pendidikan</th>
-            <th style="padding:10px; color:#ffffff;">Bidang</th>      
+            <th style="padding:10px; color:#ffffff;">Bidang</th>    
             <th style="padding:10px; color:#ffffff;">Jumlah</th>
           </tr>
         </thead>
@@ -401,42 +436,76 @@ input:focus, select:focus {
   </div>
 </div>
 
-<!-- ================= MAGANG ================= -->
 <div id="magangArea" style="display:none; margin-top:20px;">
   <h3>Data Magang</h3>
-  <button onclick="hideAll()" class="btn-back btn-primary">
-    <i class="fas fa-arrow-left"></i> Kembali ke Menu Utama
+  <button onclick="showMagangPenelitianMenu()" class="btn-back btn-primary">
+    <i class="fas fa-arrow-left"></i> Kembali ke Pilihan
   </button>
 
-  <div class="card" style="padding: 0;">
-    <!-- 🔥 FIX: Wrapper responsif untuk tabel -->
+  <div class="card" style="padding: 0; overflow: hidden;">
+    <div class="table-responsive">
+      <table style="width:100%; border-collapse:collapse; font-size:13px; min-width: 500px;">
+        <thead>
+          <tr style="background:#0d6efd;">
+            <th style="padding:12px 15px; color:#ffffff; text-align: left;">No</th>
+            <th style="padding:12px 15px; color:#ffffff; text-align: left;">Tahun</th>
+            <th style="padding:12px 15px; color:#ffffff; text-align: left;">Bulan</th>
+            <th style="padding:12px 15px; color:#ffffff; text-align: left;">Jumlah Peserta</th>
+          </tr>
+        </thead>
+        <tbody>
+        @if(isset($magang) && count($magang) > 0)
+          @forelse($magang as $m)
+          <tr style="border-bottom: 1px solid #e5e7eb;">
+            <td style="padding:12px 15px;">{{ $loop->iteration }}</td>
+            <td style="padding:12px 15px;"><b>{{ $m->tahun }}</b></td>
+            <td style="padding:12px 15px;">{{ $m->bulan }}</td>
+            <td style="padding:12px 15px;">{{ $m->jumlah }} Orang</td>
+          </tr>
+          @empty
+          <tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">Tidak ada data rekap magang</td></tr>
+          @endforelse
+        @else
+          <tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">Tidak ada data magang</td></tr>
+        @endif
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div id="penelitianArea" style="display:none; margin-top:20px;">
+  <h3>Data Penelitian</h3>
+  <button onclick="showMagangPenelitianMenu()" class="btn-back btn-primary">
+    <i class="fas fa-arrow-left"></i> Kembali ke Pilihan
+  </button>
+
+  <div class="card" style="padding: 0; overflow: hidden;"> 
     <div class="table-responsive">
       <table style="width:100%; border-collapse:collapse; font-size:13px; min-width: 800px;">
         <thead>
           <tr style="background:#0d6efd;">
-            <th style="padding:10px; color:#ffffff;">No</th>
-            <th style="padding:10px; color:#ffffff;">Email</th>
-            <th style="padding:10px; color:#ffffff;">Nama</th>
-            <th style="padding:10px; color:#ffffff;">Asal Univ</th>
-            <th style="padding:10px; color:#ffffff;">Mulai</th>
-            <th style="padding:10px; color:#ffffff;">Selesai</th>
-            <th style="padding:10px; color:#ffffff;">Posisi</th>
+            <th style="padding:12px 15px; color:#ffffff; text-align: left;">No</th>
+            <th style="padding:12px 15px; color:#ffffff; text-align: left;">Nama Peneliti</th>
+            <th style="padding:12px 15px; color:#ffffff; text-align: left;">Universitas</th>
+            <th style="padding:12px 15px; color:#ffffff; text-align: left;">Judul Penelitian</th>
+            <th style="padding:12px 15px; color:#ffffff; text-align: left;">Tahun</th>
           </tr>
         </thead>
         <tbody>
-        @forelse($magang as $m)
-        <tr>
-          <td style="padding:10px;">{{ $loop->iteration }}</td>
-          <td style="padding:10px;">{{ $m->email }}</td>
-          <td style="padding:10px;">{{ $m->nama }}</td>
-          <td style="padding:10px;">{{ $m->asal_univ }}</td>
-          <td style="padding:10px;">{{ \Carbon\Carbon::parse($m->awal_pelaksanaan)->format('d M Y') }}</td>
-          <td style="padding:10px;">{{ \Carbon\Carbon::parse($m->akhir_pelaksanaan)->format('d M Y') }}</td>
-          <td style="padding:10px;">{{ $m->posisi }}</td>
-        </tr>
-        @empty
-        <tr><td colspan="7" style="text-align:center; padding:12px; color:#999;">Tidak ada data magang</td></tr>
-        @endforelse
+        @if(isset($penelitian) && count($penelitian) > 0)
+          @foreach($penelitian as $p)
+          <tr style="border-bottom: 1px solid #e5e7eb;">
+            <td style="padding:12px 15px;">{{ $loop->iteration }}</td>
+            <td style="padding:12px 15px;"><b>{{ $p->nama }}</b></td>
+            <td style="padding:12px 15px;">{{ $p->univ }}</td>
+            <td style="padding:12px 15px;">{{ $p->judul }}</td>
+            <td style="padding:12px 15px;">{{ $p->tahun }}</td>
+          </tr>
+          @endforeach
+        @else
+          <tr><td colspan="5" style="text-align:center; padding:20px; color:#999;">Tidak ada data penelitian</td></tr>
+        @endif
         </tbody>
       </table>
     </div>
@@ -453,7 +522,6 @@ function toggleSidebar() {
   sidebar.classList.toggle('active');
 }
 
-// Tutup sidebar otomatis jika user klik di luar area sidebar (untuk mobile)
 document.addEventListener('click', function(event) {
   const sidebar = document.getElementById('sidebarMenu');
   const toggleBtn = document.querySelector('.toggle-btn');
@@ -468,8 +536,9 @@ document.addEventListener('click', function(event) {
 // ================= RESET NAVIGASI =================
 function hideAllViews() {
   const views = [
-    'mainMenu', 'suratMenuArea', 'skArea', 'spArea', 'sopArea', 
-    'pegawaiMenuArea', 'pnsArea', 'nonPnsArea', 'magangArea'
+    'mainMenu', 'suratMenuArea', 'skArea', 'spArea', 'sopArea', 'ziArea',
+    'pegawaiMenuArea', 'pnsArea', 'nonPnsArea', 
+    'magangPenelitianMenuArea', 'magangArea', 'penelitianArea'
   ];
   views.forEach(v => {
     if(document.getElementById(v)) document.getElementById(v).style.display = 'none';
@@ -489,9 +558,17 @@ function showPegawaiMenu() {
   hideAllViews(); 
   document.getElementById('pegawaiMenuArea').style.display = 'block'; 
 }
+function showMagangPenelitianMenu() { 
+  hideAllViews(); 
+  document.getElementById('magangPenelitianMenuArea').style.display = 'block'; 
+}
 function showMagang() { 
   hideAllViews(); 
   document.getElementById('magangArea').style.display = 'block'; 
+}
+function showPenelitian() { 
+  hideAllViews(); 
+  document.getElementById('penelitianArea').style.display = 'block'; 
 }
 function showSK() { 
   hideAllViews(); 
@@ -507,6 +584,11 @@ function showSOP() {
   hideAllViews(); 
   document.getElementById('sopArea').style.display = 'block'; 
   filterSOP(); 
+}
+function showZI() { 
+  hideAllViews(); 
+  document.getElementById('ziArea').style.display = 'block'; 
+  filterZI(); 
 }
 function showPNS() { 
   hideAllViews(); 
@@ -525,11 +607,26 @@ function loadCount(){
     if(document.getElementById("countSK")) document.getElementById("countSK").innerText = res.jumlah.sk || 0;
     if(document.getElementById("countSP")) document.getElementById("countSP").innerText = res.jumlah.sp || 0;
     if(document.getElementById("countSOP")) document.getElementById("countSOP").innerText = res.jumlah.sop || 0;
+    if(document.getElementById("countZI")) document.getElementById("countZI").innerText = res.jumlah.zi || 0;
   }).catch(err => console.log("Gagal memuat jumlah surat", err));
 }
 
 // ================= UTIL =================
-function openPDF(file){ window.open('/pdf/' + file, '_blank'); }
+function openFile(file) {
+    let ext = file.split('.').pop().toLowerCase();
+    let fileUrl = '/pdf/' + file;
+
+    if (ext === 'pdf') {
+        window.open(fileUrl, '_blank'); // Buka PDF di Tab Baru
+    } else {
+        window.open(fileUrl, '_blank'); // Download Excel
+
+        // Jika nanti sudah dionlinekan di hosting, pakai ini agar Excel terbuka di browser:
+        // let domainPublik = 'https://domain-dinkopumdag.go.id'; 
+        // window.open('https://view.officeapps.live.com/op/view.aspx?src=' + encodeURIComponent(domainPublik + fileUrl), '_blank');
+    }
+}
+
 function logout(){ localStorage.removeItem("login"); location.href="/logout"; }
 
 if (localStorage.getItem("login") !== "true") {
@@ -566,7 +663,7 @@ function filterData(){
     res.data.forEach(item=>{
       let color = getColor(item.id);
       container.innerHTML += `
-      <div class="card card-sm ${color}" onclick="openPDF('${item.file}')">
+      <div class="card card-sm ${color}" onclick="openFile('${item.file}')">
         <h4>${item.nomor}</h4>
         <p>${item.judul}</p>
         <small>Tahun: ${item.tahun}</small>
@@ -600,7 +697,7 @@ function filterSP(){
     res.data.forEach(item=>{
       let color = getColor(item.id);
       container.innerHTML += `
-      <div class="card card-sm ${color}" onclick="openPDF('${item.file}')">
+      <div class="card card-sm ${color}" onclick="openFile('${item.file}')">
         <h4>${item.nomor}</h4>
         <p>${item.judul}</p>
         <small>Tahun: ${item.tahun}</small>
@@ -634,7 +731,7 @@ function filterSOP(){
     res.data.forEach(item=>{
       let color = getColor(item.id);
       container.innerHTML += `
-      <div class="card card-sm ${color}" onclick="openPDF('${item.file}')">
+      <div class="card card-sm ${color}" onclick="openFile('${item.file}')">
         <h4>${item.nomor}</h4>
         <p>${item.judul}</p>
         <small>Tahun: ${item.tahun}</small>
@@ -643,11 +740,46 @@ function filterSOP(){
   });
 }
 
+// ================= FILTER ZI =================
+function filterZI(){
+  let search = document.getElementById("searchZI").value;
+  let tahun  = document.getElementById("tahunZI").value;
+  let container = document.getElementById("cardContainerZI");
+  let select = document.getElementById("tahunZI");
+
+  container.innerHTML = "Loading...";
+
+  fetch(`/sekretariat?jenis=zi&search=${search}&tahun=${tahun}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+  .then(res => res.json())
+  .then(res => {
+    let selected = tahun;
+    select.innerHTML = `<option value="all">Semua Tahun</option>`;
+    if(res.tahunList) {
+      res.tahunList.forEach(t=>{ select.innerHTML += `<option value="${t}">${t}</option>`; });
+    }
+    select.value = selected;
+
+    container.innerHTML = "";
+    if(!res.data || res.data.length === 0){ container.innerHTML = "Tidak ada data"; return; }
+
+    res.data.forEach(item=>{
+      let color = getColor(item.id);
+      container.innerHTML += `
+      <div class="card card-sm ${color}" onclick="openFile('${item.file}')">
+        <h4 style="font-size: 16px;">Tahun ${item.tahun}</h4>
+        <p>${item.judul}</p>
+        <small>Format: Excel</small>
+      </div>`;
+    });
+  });
+}
+
 // ================= DELAY FILTER =================
-let t1, t2, t3;
+let t1, t2, t3, t4;
 function delayFilter(){ clearTimeout(t1); t1=setTimeout(filterData, 400); }
 function delayFilterSP(){ clearTimeout(t2); t2=setTimeout(filterSP, 400); }
 function delayFilterSOP(){ clearTimeout(t3); t3=setTimeout(filterSOP, 400); }
+function delayFilterZI(){ clearTimeout(t4); t4=setTimeout(filterZI, 400); }
 
 // ================= INIT =================
 window.onload = function(){

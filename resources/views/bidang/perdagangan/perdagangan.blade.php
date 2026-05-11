@@ -57,23 +57,21 @@
 
 <div class="overlay" onclick="toggleSidebar()"></div>
 
-<div class="sidebar">
-  <h2 style="text-align:center;">DINKOPUMDAG</h2>
-  <div id="tanggalSidebar" style="margin-bottom:20px; font-size:13px; color:#e0e7ff; text-align: center;"></div>
+<div class="sidebar" id="sidebar">
+    <h2 style="text-align: center;">DINKOPUMDAG</h2>
 
-  <div class="menu">
-    <a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard Utama</a>
-    <a href="/sekretariat"><i class="fas fa-user-tie"></i> Bidang Sekretariat</a>
-    <a href="/mikro"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
-    <a href="/perdagangan" class="active"><i class="fas fa-truck"></i> Distribusi Perdagangan</a>
-    <a href="/koperasi"><i class="fas fa-building"></i> Bidang Koperasi</a>
-    <a href="/pembinaan"><i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan</a>
-    <a href="/metrologi"><i class="fas fa-balance-scale"></i> UPTD Metrologi Legal</a>
-  </div>
-
-  <button onclick="logout()" class="logout-btn">
-    <i class="fas fa-sign-out-alt"></i> Keluar
-  </button>
+    <div id="tanggalSidebar" style="margin-bottom:20px; font-size:13px; color:#e0e7ff; text-align: center; font-weight: 400;"></div>
+    
+    <div class="menu">
+        <a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard Utama</a>
+        <a href="/sekretariat"><i class="fas fa-user-tie"></i> Bidang Sekretariat</a>
+        <a href="/mikro"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
+        <a href="/perdagangan" class="active"><i class="fas fa-truck"></i> Distribusi Perdagangan</a>
+        <a href="/koperasi"><i class="fas fa-building"></i> Bidang Koperasi</a>
+        <a href="/pembinaan"><i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan</a>
+        <a href="/metrologi"><i class="fas fa-balance-scale"></i> UPTD Metrologi Legal</a>
+    </div>
+    <button onclick="logout()" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Keluar</button>
 </div>
 
 <div class="main">

@@ -21,67 +21,22 @@
 }
 
 /* STYLE UNTUK KONTEN DALAM */
-.cards {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 kolom untuk Metrologi */
-    gap: 18px;
-}
-
-.card {
-    padding: 16px 18px;
-    border-radius: 16px;
-    min-height: 110px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    color: white;
-    cursor: pointer;
-    transition: 0.25s;
-    box-sizing: border-box;
-}
-
+.cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.card { padding: 16px 18px; border-radius: 16px; min-height: 110px; display: flex; flex-direction: column; justify-content: space-between; color: white; cursor: pointer; transition: 0.25s; box-sizing: border-box; }
 .card.blue { background: #0d6efd; }
 .card.teal { background: #20c997; }
+.card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-}
-
-.btn-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    color: #333;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 15px;
-    transition: 0.2s;
-}
-
-.btn-back:hover {
-    background: #f8fafc;
-}
+.btn-back { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: #fff; border: 1px solid #ccc; border-radius: 8px; color: #333; cursor: pointer; font-size: 14px; font-weight: 500; margin-bottom: 15px; transition: 0.2s; }
+.btn-back:hover { background: #f8fafc; }
 
 .table { width: 100%; border-collapse: collapse; text-align: left; }
 .table th { background: #0d6efd; color: white; padding: 12px; white-space: nowrap; }
 .table td { padding: 12px; border-bottom: 1px solid #e5e7eb; color: #000; }
 
-.filter-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
-    background: #fff;
-    padding: 10px 15px;
-    border-radius: 12px;
-    border: 1px solid #e5e7eb;
-}
+.filter-container { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; background: #fff; padding: 10px 15px; border-radius: 12px; border: 1px solid #e5e7eb; flex-wrap: wrap; }
+.filter-input { padding: 8px 12px; border-radius: 8px; border: 1px solid #d1d5db; outline: none; background: white; font-size: 14px; min-width: 160px; }
+.filter-input:focus { border-color: #0d6efd; }
 </style>
 </head>
 
@@ -120,11 +75,11 @@
 
         <div class="cards" id="menuUtama">
             <div class="card blue" onclick="loadJenis('alat')">
-                <h4>Potensi Alat Ukur</h4>
-                </div>
+                <h4>Alat-alat Ukur, Takar, Timbang, dan Perlengkapannya (UTTP)</h4>
+            </div>
             <div class="card teal" onclick="loadJenis('reparasi')">
                 <h4>Tanda Daftar Reparasi</h4>
-                </div>
+            </div>
         </div>
 
         <div id="dataArea" style="display:none;">
@@ -132,10 +87,19 @@
             <h3 id="judulArea" style="margin-bottom:15px;"></h3>
             
             <div class="filter-container">
-                <strong>Filter Tahun:</strong>
-                <select id="filterTahun" class="filter-input" style="padding:8px; border-radius:8px;" onchange="loadData()">
-                    <option value="">-- Semua Tahun --</option>
-                </select>
+                <div>
+                    <strong style="display:block; font-size:12px; margin-bottom:4px; color:#6b7280;">Filter Tahun</strong>
+                    <select id="filterTahun" class="filter-input" onchange="loadData()">
+                        <option value="">-- Semua Tahun --</option>
+                    </select>
+                </div>
+                
+                <div id="wrapperKecamatan" style="display:none;">
+                    <strong style="display:block; font-size:12px; margin-bottom:4px; color:#6b7280;">Filter Kecamatan</strong>
+                    <select id="filterKecamatan" class="filter-input" onchange="loadData()">
+                        <option value="">-- Semua Kecamatan --</option>
+                    </select>
+                </div>
             </div>
 
             <div class="card" style="padding:0; overflow:hidden; background: white; border: 1px solid #e5e7eb; cursor: default;">
@@ -155,11 +119,8 @@
 let currentJenis = '';
 
 // Fungsi Buka-Tutup Sidebar di HP
-function toggleMenu() {
-    document.getElementById("sidebar").classList.toggle("active");
-}
+function toggleMenu() { document.getElementById("sidebar").classList.toggle("active"); }
 
-// Tutup sidebar jika klik di luar (layar HP)
 document.addEventListener('click', function(event) {
     const sidebar = document.getElementById("sidebar");
     const toggleBtn = document.querySelector(".toggle-btn");
@@ -177,22 +138,29 @@ function loadCount(){
         let countReparasi = document.getElementById("countReparasi");
         if(countAlat) countAlat.innerText = res.jumlah.alat;
         if(countReparasi) countReparasi.innerText = res.jumlah.reparasi;
-    });
+    })
+    .catch(err => console.error("Error mengambil data count:", err));
 }
 
 // Munculkan tabel berdasarkan jenis (alat atau reparasi)
 function loadJenis(jenis){
     currentJenis = jenis;
+    
+    // Reset Filter
     document.getElementById("filterTahun").innerHTML = '<option value="">-- Semua Tahun --</option>';
+    document.getElementById("filterKecamatan").innerHTML = '<option value="">-- Semua Kecamatan --</option>';
+    
     document.getElementById("menuUtama").style.display = "none";
     document.getElementById("dataArea").style.display = "block";
 
     if(jenis === 'alat'){
-        document.getElementById("judulArea").innerText = "Data Potensi Alat Ukur Wajib Tera";
+        document.getElementById("wrapperKecamatan").style.display = "none";
+        document.getElementById("judulArea").innerText = "Alat-alat Ukur, Takar, Timbang, dan Perlengkapannya (UTTP)";
         document.getElementById("tableHeader").innerHTML = `<tr><th width="10%">No</th><th>Tahun</th><th>Jumlah Alat Ukur</th></tr>`;
     } else if(jenis === 'reparasi'){
+        document.getElementById("wrapperKecamatan").style.display = "block";
         document.getElementById("judulArea").innerText = "Data Tanda Daftar Reparasi (TDR)";
-        document.getElementById("tableHeader").innerHTML = `<tr><th width="10%">No</th><th>Tahun</th><th>Jumlah</th></tr>`;
+        document.getElementById("tableHeader").innerHTML = `<tr><th width="5%">No</th><th>Tahun</th><th>Kecamatan</th><th>Jumlah</th></tr>`;
     }
     
     loadData();
@@ -201,33 +169,56 @@ function loadJenis(jenis){
 // Ambil data dari server untuk diisi ke tabel
 function loadData(){
     let container = document.getElementById("containerData");
-    let filterSelect = document.getElementById("filterTahun");
-    let tahunTerpilih = filterSelect.value;
+    let filterTahun = document.getElementById("filterTahun");
+    let filterKecamatan = document.getElementById("filterKecamatan");
     
-    container.innerHTML = "<tr><td colspan='3' align='center'>Memuat...</td></tr>";
+    let tahunTerpilih = filterTahun.value;
+    let kecamatanTerpilih = filterKecamatan.value;
+    
+    container.innerHTML = "<tr><td colspan='4' align='center'>Memuat...</td></tr>";
 
-    fetch(`/metrologi-data?jenis=${currentJenis}&tahun=${tahunTerpilih}`,{
+    fetch(`/metrologi-data?jenis=${currentJenis}&tahun=${tahunTerpilih}&kecamatan=${kecamatanTerpilih}`,{
         headers:{'X-Requested-With':'XMLHttpRequest'}
     })
     .then(res=>res.json())
     .then(res=>{
         container.innerHTML = "";
         if(res.data.length === 0){
-            container.innerHTML = `<tr><td colspan="3" align="center">Tidak ada data.</td></tr>`;
+            container.innerHTML = `<tr><td colspan="${currentJenis === 'reparasi' ? '4' : '3'}" align="center" style="padding:20px;">Tidak ada data.</td></tr>`;
         } else {
             res.data.forEach((item, index)=>{
-                let satuan = currentJenis === 'alat' ? 'Unit' : 'Tempat';
-                container.innerHTML += `<tr><td>${index + 1}</td><td>${item.tahun}</td><td><b>${item.jumlah}</b> ${satuan}</td></tr>`;
+                let satuan = currentJenis === 'alat' ? 'Unit' : 'Lokasi';
+                
+                // Render baris (Dengan atau tanpa kecamatan)
+                let row = `<tr><td>${index + 1}</td><td>${item.tahun}</td>`;
+                if(currentJenis === 'reparasi') {
+                    row += `<td>${item.kecamatan ?? '-'}</td>`;
+                }
+                row += `<td><b>${item.jumlah}</b> ${satuan}</td></tr>`;
+                
+                container.innerHTML += row;
             });
         }
         
-        // Isi dropdown tahun jika belum diisi
+        // Isi dropdown tahun jika sedang reset
         if (tahunTerpilih === "") {
-            filterSelect.innerHTML = '<option value="">-- Semua Tahun --</option>'; 
-            res.tahun_list.forEach(tahun => { 
-                filterSelect.innerHTML += `<option value="${tahun}">${tahun}</option>`; 
-            });
+            filterTahun.innerHTML = '<option value="">-- Semua Tahun --</option>'; 
+            if(res.tahun_list) {
+                res.tahun_list.forEach(tahun => { filterTahun.innerHTML += `<option value="${tahun}">${tahun}</option>`; });
+            }
         }
+
+        // Isi dropdown kecamatan jika sedang reset (Khusus reparasi)
+        if (kecamatanTerpilih === "" && currentJenis === 'reparasi') {
+            filterKecamatan.innerHTML = '<option value="">-- Semua Kecamatan --</option>'; 
+            if(res.kecamatan_list) {
+                res.kecamatan_list.forEach(kec => { filterKecamatan.innerHTML += `<option value="${kec}">${kec}</option>`; });
+            }
+        }
+    })
+    .catch(err => {
+        console.error("Error mengambil data tabel:", err);
+        container.innerHTML = `<tr><td colspan="4" align="center" style="color:red;">Gagal memuat data. Periksa koneksi.</td></tr>`;
     });
 }
 
@@ -235,6 +226,10 @@ function loadData(){
 function backToUtama(){
     document.getElementById("dataArea").style.display = "none";
     document.getElementById("menuUtama").style.display = "grid";
+    
+    // Reset Filter value
+    document.getElementById("filterTahun").value = "";
+    document.getElementById("filterKecamatan").value = "";
 }
 
 // Menjalankan fungsi saat halaman selesai dimuat
@@ -252,9 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function logout(){ localStorage.removeItem("login"); window.location.href="/logout"; }
 
-if (localStorage.getItem("login") !== "true") {
-  window.location.href = "/";
-}
+if (localStorage.getItem("login") !== "true") { window.location.href = "/"; }
 </script>
 </body>
 </html>
