@@ -9,33 +9,26 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
   <style>
-    /* 🔥 TAMBAHAN KHUSUS RESPONSIVE (TIDAK MERUBAH DESAIN ASLI) */
     body {
-      overflow-x: hidden; /* Mencegah layar HP tergeser ke kanan karena chart */
+      overflow-x: hidden; 
     }
-
     .toggle-btn {
-      display: none; /* Sembunyikan tombol burger di laptop */
+      display: none; 
     }
-    
     .chart-grid {
       width: 100%;
       box-sizing: border-box;
     }
-
     .chart-box {
       position: relative;
-      height: 300px; /* Batasi tinggi grafik agar proporsional */
+      height: 300px; 
       width: 100%;
       box-sizing: border-box;
     }
-
-    /* Pastikan canvas tunduk pada ukuran box */
     .chart-box canvas {
       max-width: 100% !important;
     }
 
-    /* Mode Mobile / Smartphone */
     @media screen and (max-width: 768px) {
       .toggle-btn {
         display: block;
@@ -60,22 +53,21 @@
       }
       .cards {
         display: grid !important;
-        grid-template-columns: 1fr !important; /* Paksa card berbaris 1 ke bawah */
+        grid-template-columns: 1fr !important; 
         gap: 15px;
       }
       .chart-grid {
         display: grid !important;
-        grid-template-columns: 1fr !important; /* Paksa chart berbaris 1 ke bawah */
+        grid-template-columns: 1fr !important; 
         gap: 20px;
       }
       .chart-box {
-        height: 250px; /* Kurangi sedikit tingginya di HP agar pas di layar */
+        height: 250px; 
       }
     }
   </style>
 </head>
 <body>
-  <!-- SIDEBAR -->
   <div class="sidebar" id="sidebarMenu">
     <h2>DINKOPUMDAG</h2>
     <div class="sidebar-date" id="tanggalSidebar"></div>
@@ -95,9 +87,7 @@
     </button>
   </div>
 
-  <!-- MAIN -->
   <div class="main">
-    <!-- HEADER -->
     <div class="header">
       <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
       <img src="{{ asset('images/logo.jpg') }}" class="logo">
@@ -111,60 +101,46 @@
       </div>
     </div>
 
-    <!-- CONTENT -->
     <div class="container">
-      <!-- CARD -->
       <div class="cards">
         <a href="/sekretariat" class="card blue">
           <i class="fas fa-user-tie fa-3x"></i>
           <div class="text">
             <h4>Bidang Sekretariat</h4>
-            <!-- <h2>{{ $sekretariat }}</h2> -->
           </div>
         </a>
-
         <a href="/mikro" class="card green">
           <i class="fas fa-store fa-3x"></i>
           <div class="text">
             <h4>Pemberdayaan Usaha Mikro</h4>
-            <!-- <h2>{{ $mikro }}</h2> -->
           </div>
         </a>
-
         <a href="/distribusi" class="card orange">
           <i class="fas fa-truck fa-3x"></i>
           <div class="text">
             <h4>Distribusi Perdagangan</h4>
-            <!-- <h2>{{ $distribusi }}</h2> -->
           </div>
         </a>
-
         <a href="/koperasi" class="card purple">
           <i class="fas fa-building fa-3x"></i>
           <div class="text">
             <h4>Bidang Koperasi</h4>
-            <!-- <h2>{{ $totalJumlah }}</h2> -->
           </div>
         </a>
-
         <a href="/pembinaan" class="card red">
           <i class="fas fa-briefcase fa-3x"></i>
           <div class="text">
             <h4>Pembinaan Usaha Perdagangan</h4>
-            <!-- <h2>{{ $pembinaan }}</h2> -->
           </div>
         </a>
-
         <a href="/metrologi" class="card teal">
           <i class="fas fa-balance-scale fa-3x"></i>
           <div class="text">
             <h4>UPTD Metrologi Legal</h4>
-            <!-- <h2>{{ $metrologi }}</h2> -->
           </div>
         </a>
       </div>
 
-      <!-- CHART -->
       <div class="chart-grid">
         <div class="chart-box"><canvas id="trendChart"></canvas></div>
         <div class="chart-box"><canvas id="kategoriChart"></canvas></div>
@@ -175,13 +151,12 @@
   </div>
 
   <script>
-    // 🔥 TAMBAHAN FUNGSI RESPONSIVE SIDEBAR
+    // FUNGSI RESPONSIVE SIDEBAR
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebarMenu');
       sidebar.classList.toggle('active');
     }
 
-    // Auto tutup sidebar di HP kalau ngeklik di luar area
     document.addEventListener('click', function(event) {
       const sidebar = document.getElementById('sidebarMenu');
       const toggleBtn = document.querySelector('.toggle-btn');
@@ -192,11 +167,16 @@
       }
     });
 
-    // 🔥 HANYA INI DARI DB
-    const chartDataJson = '{{ json_encode($chartData) }}';
-    const chartData = JSON.parse(chartDataJson);
+    // ==========================================
+    // CARA PALING AMAN MELEMPAR DATA PHP KE JS (LARAVEL MODERN)
+    // ==========================================
+    const chartData = JSON.parse('{!! json_encode($chartData ?? []) !!}');
+    const rawTrendData = JSON.parse('{!! json_encode($trendLppd ?? []) !!}');
 
-    // WARNA
+    // Mapping Data
+    const trendLabels = rawTrendData.map(item => item.tahun);
+    const trendValues = rawTrendData.map(item => item.jumlah);
+
     const colors = {
       sekretariat: '#0d6efd',
       umkm: '#20c997',
@@ -206,31 +186,28 @@
       metrologi: '#17a2b8'
     };
 
-    // 🔥 PENGATURAN CHART AGAR RAPI DI HP
     const chartOptions = {
       responsive: true,
-      maintainAspectRatio: false, // Wajib agar tidak gepeng
+      maintainAspectRatio: false,
       plugins: {
         legend: {
-          position: 'bottom', // Pindahkan legend ke bawah agar grafik tidak tertindih
+          position: 'bottom',
           labels: {
             boxWidth: 12,
-            font: {
-              size: 11 // Kecilkan ukuran teks keterangan sedikit
-            }
+            font: { size: 11 }
           }
         }
       }
     };
 
-    /// ================= TREND (DUMMY) =================
+    // ================= TREND CHART =================
     new Chart(document.getElementById('trendChart'), {
       type: 'line',
       data: {
-        labels: ['2021', '2022', '2023', '2024', '2025'],
+        labels: trendLabels, 
         datasets: [{
-          label: 'Trend Kinerja',
-          data: [7000, 7800, 8200, 9000, 9800],
+          label: 'Jumlah UMKM per Tahun',
+          data: trendValues, 
           borderColor: colors.sekretariat,
           backgroundColor: colors.sekretariat + '33',
           fill: true,
@@ -240,7 +217,7 @@
       options: chartOptions
     });
 
-    /// ================= BAR (REAL DB) =================
+    // ================= BAR CHART =================
     new Chart(document.getElementById('kategoriChart'), {
       type: 'bar',
       data: {
@@ -249,19 +226,15 @@
           label: 'Jumlah Data',
           data: chartData,
           backgroundColor: [
-            colors.sekretariat,
-            colors.umkm,
-            colors.distribusi,
-            colors.koperasi,
-            colors.pembinaan,
-            colors.metrologi
+            colors.sekretariat, colors.umkm, colors.distribusi,
+            colors.koperasi, colors.pembinaan, colors.metrologi
           ]
         }]
       },
       options: chartOptions
     });
 
-    /// ================= DONUT (DUMMY) =================
+    // ================= DONUT CHART =================
     new Chart(document.getElementById('sertifikatChart'), {
       type: 'doughnut',
       data: {
@@ -269,19 +242,15 @@
         datasets: [{
           data: [32, 85, 42, 23, 31, 68],
           backgroundColor: [
-            colors.sekretariat,
-            colors.umkm,
-            colors.distribusi,
-            colors.koperasi,
-            colors.pembinaan,
-            colors.metrologi
+            colors.sekretariat, colors.umkm, colors.distribusi,
+            colors.koperasi, colors.pembinaan, colors.metrologi
           ]
         }]
       },
       options: chartOptions
     });
 
-    /// ================= PERBANDINGAN (DUMMY) =================
+    // ================= BAR PERBANDINGAN =================
     new Chart(document.getElementById('perbandinganChart'), {
       type: 'bar',
       data: {
@@ -295,20 +264,16 @@
       options: chartOptions
     });
 
-    // TANGGAL SAAT INI
+    // SIDEBAR DATE
     const tanggalSidebar = document.getElementById('tanggalSidebar');
     if (tanggalSidebar) {
       const hariNama = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
       const bulanNama = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
       const sekarang = new Date();
-      const hari = hariNama[sekarang.getDay()];
-      const tanggal = sekarang.getDate();
-      const bulan = bulanNama[sekarang.getMonth()];
-      const tahun = sekarang.getFullYear();
-      tanggalSidebar.textContent = `${hari}, ${tanggal} ${bulan} ${tahun}`;
+      tanggalSidebar.textContent = `${hariNama[sekarang.getDay()]}, ${sekarang.getDate()} ${bulanNama[sekarang.getMonth()]} ${sekarang.getFullYear()}`;
     }
 
-    /// LOGIN CHECK
+    // LOGIN CHECK
     if (localStorage.getItem('login') !== 'true') {
       window.location.href = '/';
     }
