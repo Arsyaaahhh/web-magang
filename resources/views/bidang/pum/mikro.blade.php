@@ -86,9 +86,9 @@
     <a href="/metrologi"><i class="fas fa-balance-scale"></i> UPTD Metrologi Legal</a>
   </div>
 
-  <button onclick="logout()" class="logout-btn">
-    <i class="fas fa-sign-out-alt"></i> Keluar
-  </button>
+    <button onclick="logout()" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
 </div>
 
 <div class="main">
@@ -129,7 +129,7 @@
 
 </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 // ================= NAV & SIDEBAR =================
 function toggleSidebar() {
@@ -161,7 +161,7 @@ function getColor(id){
   return colors[id % colors.length];
 }
 
-// logout
+    // LOGOUT
     function logout() {
       Swal.fire({
         title: 'Logout?',

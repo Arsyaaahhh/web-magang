@@ -112,6 +112,33 @@
         .cards, #mainMenu { display: grid !important; grid-template-columns: 1fr !important; gap: 15px; }
         .navbar { padding: 15px 20px; }
     }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-back {
+        margin-bottom: 15px;
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        margin-bottom: 5px;
+    }
+
+    .btn-back:hover {
+        background-color: #5a6268;
+    }
   </style>
 </head>
 
@@ -153,6 +180,7 @@
 
       <h2>Pemberdayaan Usaha Mikro</h2>
 
+      <div class="top">
         <form method="GET">
           <div class="filter">
             <select id="kecamatan" name="kecamatan_id">
@@ -168,6 +196,11 @@
             <button type="submit" class="btn" style="background:#0d6efd; color:white;">Filter</button>
           </div>
         </form>
+
+        <a href="/mikro" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+      </div>
 
       <!-- MAIN MENU -->
         <!-- <div class="cards" id="mainMenu">
@@ -225,7 +258,6 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
   <script>
     // TOGGLE SIDEBAR UNTUK HP
     function toggleSidebar() {

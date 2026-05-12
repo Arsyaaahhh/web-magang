@@ -5,7 +5,7 @@
   <title>Pemberdayaan Usaha Mikro</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ asset('css/pum.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/umkm.css') }}">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -230,6 +230,33 @@
             padding: 15px 20px;
         }
     }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-back {
+        margin-bottom: 15px;
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        margin-bottom: 5px;
+    }
+
+    .btn-back:hover {
+        background-color: #5a6268;
+    }
   </style>
 </head>
 
@@ -271,61 +298,57 @@
 
       <h2>Pemberdayaan Usaha Mikro</h2>
 
-        <form method="GET">
-          <div class="filter">
-            <select id="kecamatan" name="kecamatan_id">
-              <option value="">Semua Kecamatan</option>
-              @foreach($kecamatan as $k)
-                <option value="{{ $k->ID_KECAMATAN }}" {{ request('kecamatan_id') == $k->ID_KECAMATAN ? 'selected' : '' }}>
-                  {{ $k->NM_KECAMATAN }}
-                </option>
-              @endforeach
-            </select>
-            <select id="kelurahan" name="kelurahan_id"><option value="">Semua Kelurahan</option></select>
-            <input type="text" name="search" placeholder="Cari Kategori" value="{{ request('search') }}">
-            <button type="submit" class="btn" style="background:#0d6efd; color:white;">Filter</button>
-          </div>
-        </form>
+        <div class="top">
+          <form method="GET">
+            <div class="filter">
+              <select id="kecamatan" name="kecamatan_id">
+                <option value="">Semua Kecamatan</option>
+                @foreach($kecamatan as $k)
+                  <option value="{{ $k->ID_KECAMATAN }}" {{ request('kecamatan_id') == $k->ID_KECAMATAN ? 'selected' : '' }}>
+                    {{ $k->NM_KECAMATAN }}
+                  </option>
+                @endforeach
+              </select>
+              <select id="kelurahan" name="kelurahan_id"><option value="">Semua Kelurahan</option></select>
+              <input type="text" name="search" placeholder="Cari Kategori" value="{{ request('search') }}">
+              <button type="submit" class="btn" style="background:#0d6efd; color:white;">Filter</button>
+            </div>
+          </form>
+
+          <a href="/mikro" class="btn-back">
+              <i class="fas fa-arrow-left"></i> Kembali
+          </a>
+        </div>
 
       <div class="cards" id="mainMenu">
 
             <a class="card green">
-                <h4>Total Umkm</h4>
+                <h4>Umkm</h4>
                 <h2>{{ $summary->total_umkm ?? 0 }}</h2>
             </a>
 
             <a class="card blue">
-                <h4>Total Umkm Binaan</h4>
+                <h4>Umkm Binaan</h4>
                 <h2>{{ $summary->umkm_binaan ?? 0 }}</h2>
             </a>
 
             <a class="card purple">
-                <h4>Total Umkm Ber-NIB</h4>
+                <h4>NIB</h4>
                 <h2>{{ $summary->nib ?? 0 }}</h2>
             </a>
 
             <a class="card orange">
-                <h4>Total Umkm Ber-PIRT</h4>
+                <h4>PIRT</h4>
                 <h2>{{ $summary->pirt ?? 0 }}</h2>
             </a>
 
-            <!-- <a class="card teal">
-                <h4>Total Sertifikasi Halal</h4>
-                <h2>{{ $summary->sertifikasi_halal ?? 0 }}</h2>
-            </a>
-
-            <a class="card orange">
-                <h4>Total Sertifikasi Merek</h4>
-                <h2>{{ $summary->sertifikasi_merek ?? 0 }}</h2>
-            </a> -->
-
             <a class="card teal">
-                <h4>Total Umkm Peken</h4>
+                <h4>Peken</h4>
                 <h2>{{ $summary->peken ?? 0 }}</h2>
             </a>
 
             <a class="card blue">
-                <h4>Total Umkm Padat Karya</h4>
+                <h4>Padat Karya</h4>
                 <h2>{{ $summary->padat_karya ?? 0 }}</h2>
             </a>
 
@@ -393,7 +416,6 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
   <script>
     // TOGGLE SIDEBAR UNTUK HP
     function toggleSidebar() {

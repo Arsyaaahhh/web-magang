@@ -29,14 +29,125 @@
     .filter input, .filter select { padding: 8px; border-radius: 6px; border: 1px solid #d1d5db; }
     
     /* TABLE RESPONSIVE */
-    .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    table { width: 100%; border-collapse: collapse; border: 1px solid #e5e7eb; color: #333; min-width: 900px; }
-    th { padding: 12px; background: #eaf2ff; font-size: 13px; text-align: left; }
-    td { padding: 12px; font-size: 15px; border-bottom: 1px solid #e5e7eb; }
-    tbody tr:nth-child(even) { background: #f9fafb; }
-    tr:hover { background: #eef4ff; }
-    .action { display: flex; gap: 6px; }
-    .alert { padding: 10px; margin-bottom: 10px; background: #d1e7dd; border-radius: 6px; }
+    .table-responsive{
+        width:100%;
+        overflow-x:auto;
+        -webkit-overflow-scrolling:touch;
+        border-radius:12px;
+    }
+
+    /* TABLE */
+    table{
+        width:100%;
+        min-width:1200px;
+        border-collapse:collapse;
+        table-layout:fixed;
+        background:white;
+        border-radius:12px;
+        overflow:hidden;
+    }
+
+    /* HEADER */
+    th{
+        padding:14px 12px;
+        background:#eaf2ff;
+        font-size:14px;
+        font-weight:600;
+        text-align:left;
+        color:#374151;
+        border-bottom:1px solid #dbe3f0;
+    }
+
+    /* BODY */
+    td{
+        padding:14px 12px;
+        font-size:14px;
+        color:#374151;
+        border-bottom:1px solid #eef2f7;
+        vertical-align:middle;
+        word-wrap:break-word;
+    }
+
+    /* ROW */
+    tbody tr:nth-child(even){
+        background:#f9fafb;
+    }
+
+    tbody tr:hover{
+        background:#eef4ff;
+        transition:0.2s;
+    }
+
+    /* ACTION BUTTON */
+    .action{
+        display:flex;
+        flex-direction:row;
+        gap:8px;
+        justify-content:center;
+        align-items:center;
+        flex-wrap:nowrap;
+    }
+
+    /* ALERT */
+    .alert{
+        padding:10px;
+        margin-bottom:10px;
+        background:#d1e7dd;
+        border-radius:6px;
+    }
+
+    /* UKURAN KOLOM */
+    .swk-table th:nth-child(1),
+    .swk-table td:nth-child(1){
+        width:50px;
+        text-align:center;
+    }
+
+    .swk-table th:nth-child(2),
+    .swk-table td:nth-child(2){
+        width:140px;
+    }
+
+    .swk-table th:nth-child(3),
+    .swk-table td:nth-child(3){
+        width:260px;
+    }
+
+    .swk-table th:nth-child(4),
+    .swk-table td:nth-child(4){
+        width:160px;
+    }
+
+    .swk-table th:nth-child(5),
+    .swk-table td:nth-child(5){
+        width:160px;
+    }
+
+    .swk-table th:nth-child(6),
+    .swk-table td:nth-child(6),
+    .swk-table th:nth-child(7),
+    .swk-table td:nth-child(7),
+    .swk-table th:nth-child(8),
+    .swk-table td:nth-child(8),
+    .swk-table th:nth-child(9),
+    .swk-table td:nth-child(9),
+    .swk-table th:nth-child(10),
+    .swk-table td:nth-child(10){
+        width:110px;
+        text-align:center;
+    }
+
+    .swk-table th:nth-child(11),
+    .swk-table td:nth-child(11){
+        width:150px;
+        text-align:center;
+    }
+
+    .swk-table th:last-child,
+    .swk-table td:last-child{
+        width:180px;
+        min-width:180px;
+    }
     
     .pagination-wrapper { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; flex-wrap: wrap; gap: 10px; }
     .pagination { display: flex; gap: 6px; flex-wrap: wrap;}
@@ -179,7 +290,7 @@
         </form>
 
         <div class="table-responsive">
-            <table>
+            <table class="swk-table">
               <thead>
                 <tr>
                   <th>No</th>
@@ -187,10 +298,11 @@
                   <th>Alamat</th>
                   <th>Kecamatan</th>
                   <th>Kelurahan</th>
-                  <th>Luas(m2)</th>
                   <th>Jumlah Pedagang</th>
                   <th>Jumlah Stan</th>
                   <th>Stan Belum Terisi</th>
+                  <th>Luas(m2)</th>
+                  <th>Kapasitas (orang)</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -202,10 +314,11 @@
                     <td>{{ $d->alamat }}</td>
                     <td>{{ $d->kelurahan->kecamatan->NM_KECAMATAN ?? '-' }}</td>  
                     <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
-                    <td>{{ $d->luas }}</td>
                     <td>{{ $d->jumlah_pedagang }}</td>
                     <td>{{ $d->jumlah_stan }}</td>
                     <td>{{ $d->stan_belum_terisi }}</td>
+                    <td>{{ $d->luas }}</td>
+                    <td>{{ $d->kapasitas }}</td>
                     <td>
                       <div class="action">
                         <a href="/admin/admin_pum/swkedit/{{ $d->id }}" class="btn btn-edit">Edit</a>

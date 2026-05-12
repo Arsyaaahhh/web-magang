@@ -225,11 +225,6 @@
           </div>
 
           <div>
-            <label>Luas (m²)</label>
-            <input type="number" name="luas" placeholder="Masukkan Luas Pasar" min="0" required>
-          </div>
-
-          <div>
             <label>Jumlah Pedagang</label>
             <input type="number" name="jumlah_pedagang" placeholder="Masukkan Jumlah Pedagang" required>
           </div>
@@ -244,9 +239,19 @@
             <input type="number" name="stan_belum_terisi" placeholder="Masukkan Jumlah Stan Belum Terisi" required>
           </div>
 
+          <div>
+            <label>Luas (m²)</label>
+            <input type="number" name="luas" placeholder="Masukkan Luas Pasar" min="0" required>
+          </div>
+
+          <div>
+            <label>Kapasitas (orang)</label>
+            <input type="number" name="kapasitas" placeholder="Masukkan Kapasitas Pasar" min="0" required>
+          </div>
+
           <div class="full-width">
 
-              <label>Foto SWK</label>
+              <label>Foto Pasar</label>
 
               <input 
                   type="file" 
@@ -261,7 +266,7 @@
 
                   <img id="previewImage" src="" alt="Preview Foto">
 
-                  <span>Preview Foto SWK</span>
+                  <span>Preview Foto Pasar</span>
 
               </div>
 

@@ -60,6 +60,7 @@ class PasarController extends Controller
             'jumlah_stan'  => 'required',
             'stan_belum_terisi'  => 'required',
             'luas'  => 'required',
+            'kapasitas'  => 'required',
             'foto'  => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
@@ -78,6 +79,7 @@ class PasarController extends Controller
             'jumlah_stan' => $request->jumlah_stan,
             'stan_belum_terisi' => $request->stan_belum_terisi,
             'luas' => $request->luas,
+            'kapasitas' => $request->kapasitas,
             'foto' => $foto,
         ]);
 
@@ -104,6 +106,7 @@ class PasarController extends Controller
             'jumlah_stan'       => 'required|numeric',
             'stan_belum_terisi' => 'required|numeric',
             'luas'              => 'required|numeric',
+            'kapasitas'         => 'required|numeric',
             'foto'              => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
@@ -131,6 +134,7 @@ class PasarController extends Controller
             'jumlah_stan' => $request->jumlah_stan,
             'stan_belum_terisi' => $request->stan_belum_terisi,
             'luas' => $request->luas,
+            'kapasitas' => $request->kapasitas,
             'foto' => $foto,
         ]);
 

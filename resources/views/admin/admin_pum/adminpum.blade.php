@@ -122,19 +122,20 @@
     /* CARDS GRID */
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap: 15px;
       margin-bottom: 20px;
     }
 
     /* MENU CARD (CUSTOMIZED) */
     .card {
       background: white;
-      padding: 20px;
+      padding: 15px;
       border-radius: 14px;
       border: 1px solid #e5e7eb;
       color: #333;
       text-decoration: none;
+      min-height: 110px;
     }
 
     .menu-card {
@@ -143,7 +144,8 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      min-height: 130px;
+      min-height: 110px;
+      color: white;
     }
 
     .menu-card:hover {
@@ -154,10 +156,19 @@
     /* Wana & Font Khusus Card Menu */
     .bg-blue { background: linear-gradient(135deg, #0d6efd, #0b5ed7); color: white; border: none; }
     .bg-orange { background: linear-gradient(135deg, #fd7e14, #e86e04); color: white; border: none; }
+    .bg-green { background: linear-gradient(135deg, #198754, #146c43); color: white; border: none; }
     
-    .menu-card i { font-size: 32px; margin-bottom: 12px; opacity: 0.9; }
-    .menu-card h4 { font-size: 20px; font-weight: 600; margin-bottom: 5px; }
-    .menu-card p { font-size: 14px; opacity: 0.85; }
+    .menu-card i{
+      font-size: 32px; /* Ikon dikecilkan */
+      margin-bottom: 8px;
+      opacity: 0.9;
+    }
+
+    .menu-card h4 {
+      font-size: 20px; /* Judul card lebih kecil */
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
 
     .overlay {
       display: none;
@@ -258,20 +269,16 @@
         <a class="card menu-card bg-blue" href="/admin/admin_pum/adminumkm">
           <i class="fas fa-store-alt"></i>
           <h4>UMKM</h4>
-          <p>Informasi Data UMKM</p>
         </a>
 
         <a class="card menu-card bg-orange" href="/admin/admin_pum/adminswk">
           <i class="fas fa-utensils"></i>
           <h4>SWK</h4>
-          <p>Informasi Data SWK</p>
         </a>
 
-        <!-- Tombol untuk menuju halaman LPPD -->
         <a class="card menu-card bg-green" href="/admin/admin_pum/adminlppd">
           <i class="fas fa-chart-line"></i>
           <h4>LPPD</h4>
-          <p>Laporan Penyelengaraan Perintah Daerah </p>
         </a>
 
       </div>
