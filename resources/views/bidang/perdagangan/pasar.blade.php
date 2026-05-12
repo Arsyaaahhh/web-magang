@@ -34,7 +34,7 @@
 
     .swkcard-image{
         position:relative;
-        height:380px;
+        height:290px;
     }
 
     .swkcard-image img{
@@ -64,7 +64,7 @@
         bottom:0;
         left:0;
         width:100%;
-        padding:22px;
+        padding:18px;
         z-index:2;
         color:white;
     }
@@ -78,16 +78,16 @@
     }
 
     .title{
-        font-size:24px;
+        font-size:20px;
         font-weight:600;
         line-height:1.2;
     }
 
     .description{
         color:rgba(255,255,255,0.8);
-        font-size:12px;
+        font-size:11px;
         line-height:1.6;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
     }
 
     .tags{
@@ -101,20 +101,20 @@
         background:rgba(255,255,255,0.12);
         backdrop-filter:blur(10px);
         border-radius:24px;
-        padding:7px 12px;
-        font-size:14px;
+        padding:6px 10px;
+        font-size:12px;
         color:white;
     }
 
     .button{
         width:100%;
         border:none;
-        border-radius:20px;
-        padding:15px;
+        border-radius:16px;
+        padding:12px;
         background:white;
         color:black;
-        font-size:14px;
-        font-weight:600;
+        font-size:13px;
+        font-weight:500;
         cursor:pointer;
         transition:0.3s;
     }
@@ -127,17 +127,18 @@
         display:flex;
         flex-wrap:wrap;
         gap:20px;
-        margin-top:20px;
+        margin-top:7px;
     }
 
     .swkcard{
-        width:300px;
-        border-radius:28px;
+        width:220px;
+        border-radius:22px;
         overflow:hidden;
         position:relative;
         background:#253047;
         box-shadow:0 20px 40px rgba(0,0,0,0.2);
         flex-shrink:0;
+        transition:0.3s;
     }
 
     .swkcard:hover {
@@ -246,6 +247,33 @@
         margin-bottom:10px;
         color:#111827;
     }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-back {
+        margin-bottom: 15px;
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        margin-bottom: 5px;
+    }
+
+    .btn-back:hover {
+        background-color: #5a6268;
+    }
   </style>
 
 </head>
@@ -288,6 +316,7 @@
 
     <h2>Pasar</h2>
 
+    <div class="top">
         <form method="GET">
           <div class="filter">
             <input type="text" name="search" placeholder="Cari Pasar" value="{{ request('search') }}">
@@ -303,6 +332,11 @@
             <button type="submit" class="btn" style="background:#0d6efd; color:white;">Filter</button>
           </div>
         </form>
+
+        <a href="/perdagangan" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+    </div>
 
     <!-- MAIN MENU -->
     <!-- <div class="cards" id="mainMenu">
@@ -345,7 +379,7 @@
                         <h2 class="title">{{ $pasar->nama_pasar }}</h2>
                     </div>
                     <p class="description">{{ $pasar->alamat }}</p>
-                    <p class="description">Luas: {{ $pasar->luas }} m²</p>
+                    <p class="description">Luas: {{ $pasar->luas }} m² | Kapasitas: {{ $pasar->kapasitas }} orang</p>
                     <div class="tags">
                         <div class="tag">Pedagang: {{ $pasar->jumlah_pedagang }}</div>
                         <div class="tag">Stan: {{ $pasar->jumlah_stan }}</div>
@@ -459,6 +493,7 @@
     function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
     window.onclick = function(e) { const modal = document.getElementById('detailModal'); if(e.target === modal){ modal.style.display = 'none'; } }
 
+    // LOGOUT
     function logout() {
       Swal.fire({
         title: 'Logout?',

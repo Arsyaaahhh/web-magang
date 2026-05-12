@@ -17,6 +17,7 @@ class Swk extends Model
         'stan_belum_terisi',
         'luas',
         'foto',
+        'kapasitas',
     ];
 
     public function kelurahan()

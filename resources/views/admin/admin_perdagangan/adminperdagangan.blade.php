@@ -95,27 +95,30 @@
     /* CARDS GRID */
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap: 15px;
       margin-bottom: 20px;
     }
 
     /* CARD CUSTOMIZATION */
     .card {
-      padding: 25px 20px;
-      border-radius: 16px;
-      color: white;
+      background: white;
+      padding: 15px;
+      border-radius: 14px;
+      border: 1px solid #e5e7eb;
+      color: #333;
       text-decoration: none;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      min-height: 140px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      min-height: 110px;
     }
 
     .menu-card {
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 110px;
+      color: white;
     }
 
     .menu-card:hover {
@@ -128,9 +131,17 @@
     .bg-teal { background: linear-gradient(135deg, #20c997, #1aa179); }
 
     /* Elemen di dalam Card */
-    .menu-card i { font-size: 36px; margin-bottom: 15px; opacity: 0.9; }
-    .menu-card h4 { font-size: 20px; font-weight: 600; margin-bottom: 6px; letter-spacing: 0.5px; }
-    .menu-card p { font-size: 14px; opacity: 0.85; font-weight: 400; line-height: 1.4; }
+    .menu-card i{
+      font-size: 32px; /* Ikon dikecilkan */
+      margin-bottom: 8px;
+      opacity: 0.9;
+    }
+
+    .menu-card h4 {
+      font-size: 20px; /* Judul card lebih kecil */
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
 
     /* ======================================================= */
     /* RESPONSIVE (HP & TABLET)                                */
@@ -210,13 +221,11 @@
         <a class="card menu-card bg-blue" href="/admin/admin_perdagangan/pasar/adminpasar">
           <i class="fas fa-store-alt"></i>
           <h4>Pasar</h4>
-          <p>Informasi Pasar Binaan</p>
         </a>
 
         <a class="card menu-card bg-teal" href="/admin/admin_perdagangan/tokokelontong/admintokokelontong">
           <i class="fas fa-shopping-basket"></i>
           <h4>Toko Kelontong</h4>
-          <p>Informasi Toko Kelontong</p>
         </a>
 
       </div>

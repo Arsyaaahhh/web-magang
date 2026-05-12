@@ -123,7 +123,7 @@
         document.querySelector('.overlay').classList.toggle('active');
     }
 
-    // logout
+    // LOGOUT
     function logout() {
       Swal.fire({
         title: 'Logout?',
