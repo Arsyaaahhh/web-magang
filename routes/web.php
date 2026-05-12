@@ -17,11 +17,12 @@ use App\Http\Controllers\PasarController;
 use App\Http\Controllers\TokokelontongController;
 use App\Http\Controllers\LppdController;
 use App\Http\Controllers\PerdaganganController;
-use App\Http\Controllers\KoperasiController;
+use App\Http\Controllers\KKMPController;
 use App\Http\Controllers\MetrologiAlatController;
 use App\Http\Controllers\MetrologiReparasiController;
 use App\Http\Controllers\FrontendMetrologiController;
 use App\Http\Controllers\PenelitianController;
+use App\Http\Controllers\KoperasiController;
 
 
 /*
@@ -188,6 +189,15 @@ Route::prefix('admin')->group(function () {
         Route::get('/edit/{id}', [KoperasiController::class, 'edit'])->name('koperasi.edit');
         Route::post('/update/{id}', [KoperasiController::class, 'update'])->name('koperasi.update');
         Route::get('/delete/{id}', [KoperasiController::class, 'destroy'])->name('koperasi.delete');
+
+        // KKMP Routes
+        Route::get('/kkmp', [KKMPController::class, 'index'])->name('kkmp.index');
+        Route::get('/kkmp/create', [KKMPController::class, 'create'])->name('kkmp.create');
+        Route::post('/kkmp/store', [KKMPController::class, 'store'])->name('kkmp.store');
+        Route::get('/kkmp/edit/{id}', [KKMPController::class, 'edit'])->name('kkmp.edit');
+        Route::post('/kkmp/update/{id}', [KKMPController::class, 'update'])->name('kkmp.update');
+        Route::get('/kkmp/delete/{id}', [KKMPController::class, 'destroy'])->name('kkmp.delete');
+        Route::get('/kkmp/get-kelurahan/{id}', [KKMPController::class, 'getKelurahan'])->name('kkmp.getkelurahan');
     });
 
     // 8. METROLOGI LEGAL
@@ -283,18 +293,6 @@ Route::post('/admin/admin_perdagangan/tokokelontong/tokokelontongupdate/{id}', [
 
 Route::get('/get-kelurahan/{id}', [TokokelontongController::class, 'getKelurahan']);
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN KOPERASI
-|--------------------------------------------------------------------------
-*/
-Route::get('/admin/koperasi/adminkoperasi', [KoperasiController::class, 'index']);
-Route::get('/admin/koperasi/create', [KoperasiController::class, 'create']);
-Route::post('/admin/koperasi/store', [KoperasiController::class, 'store']);
-Route::get('/admin/koperasi/edit/{id}', [KoperasiController::class, 'edit']);
-Route::post('/admin/koperasi/update/{id}', [KoperasiController::class, 'update']);
-Route::get('/admin/koperasi/delete/{id}', [KoperasiController::class, 'destroy']);
-Route::get('/admin/koperasi/get-kelurahan/{id}', [KoperasiController::class, 'getKelurahan']);
 Route::get('/koperasi', [KoperasiController::class, 'userPage']);
 
 Route::get('/metrologi-data', [FrontendMetrologiController::class, 'getData']);

@@ -154,6 +154,12 @@
       gap: 10px;
     }
 
+    /* BUNGKUSAN UNTUK TOMBOL */
+    .top-actions {
+      display: flex;
+      gap: 10px;
+    }
+
     /* BUTTON */
     .btn{
       padding:8px 14px;
@@ -175,13 +181,13 @@
     }
 
     /* TAMBAHAN UNTUK TOMBOL KEMBALI */
-    /* .btn-back {
+    .btn-back {
       background: #6c757d;
       color: white;
     }
     .btn-back:hover {
       background: #5a6268;
-    } */
+    } 
 
     .btn-edit{
       background:#ffc107;
@@ -342,7 +348,6 @@
     }
   </style>
 </head>
-
 <body>
 
   <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
@@ -413,18 +418,27 @@
           Data Koperasi
         </button>
 
-        <button class="tab-btn" onclick="switchTab(event, 'pegawai')">
-          <i class="fas fa-users"></i>
-          Data Pegawai
+        <button class="tab-btn" onclick="window.location.href='/admin/koperasi/kkmp'">
+          <i class="fas fa-store"></i>
+          Data KKMP
         </button>
-
       </div>
 
       <!-- TAB KOPERASI -->
       <div id="koperasi" class="tab-content active">
         <div class="top">
           <h2>Data Koperasi</h2>
-          <a href="/admin/koperasi/create" class="btn btn-add">+ Tambah</a>
+          
+          <!-- BUNGKUSAN TOMBOL -->
+          <div class="top-actions">
+            <a href="javascript:history.back()" class="btn btn-back">
+              <i class="fas fa-arrow-left"></i> Kembali
+            </a>
+            <a href="/admin/koperasi/create" class="btn btn-add">
+              + Tambah
+            </a>
+          </div>
+
         </div>
 
         <div class="card">
@@ -518,8 +532,6 @@
                         </button>
                       </div>
                     </td>
-                  </tr>
-                  </tr>
                 @empty
                   <tr>
                     <td colspan="12" style="text-align:center;">Tidak ada data</td>
@@ -543,16 +555,18 @@
         </div>
       </div>
 
+      <!-- TAB PEGAWAI -->
       <div id="pegawai" class="tab-content">
 
         <div class="top">
 
           <h2>Data Pegawai</h2>
-
-          <div style="display: flex; gap: 10px;">
-            <!-- <a href="#" onclick="history.back()" class="btn btn-back">
-              ← Kembali
-            </a> -->
+          
+          <!-- BUNGKUSAN TOMBOL PEGAWAI (DIRAPIKAN) -->
+          <div class="top-actions">
+            <a href="javascript:history.back()" class="btn btn-back">
+              <i class="fas fa-arrow-left"></i> Kembali
+            </a>
             <a href="/admin/pegawai/create" class="btn btn-add">
               + Tambah
             </a>
@@ -620,7 +634,7 @@
                 @empty
 
                 <tr>
-                  <td colspan="5">Tidak ada data</td>
+                  <td colspan="5" style="text-align:center;">Tidak ada data</td>
                 </tr>
 
                 @endforelse
