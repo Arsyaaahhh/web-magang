@@ -90,6 +90,96 @@
     transform: scale(0.98);
   }
 
+  /* MAIN CARDS VIEW */
+  .main-cards-view {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .main-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 30px !important;
+    text-align: left;
+    border-radius: 14px;
+    transition: all 0.3s ease;
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+  }
+
+
+  .main-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    text-decoration: none;
+  }
+
+  .main-card p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.7;
+  }
+
+  .main-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .main-card::after {
+    content: "Klik Detail →";
+    position: absolute;
+    bottom: 12px;
+    right: 15px;
+    font-size: 11px;
+    opacity: 0.7;
+  }
+
+  .koperasi-main-card {
+    background:   linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .kkmp-main-card {
+    background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+  }
+
+  /* STATISTIK VIEW */
+  .statistik-view {
+    display: none;
+    margin-top: 20px;
+  }
+
+  .statistik-view.active {
+    display: block;
+    animation: slideIn 0.3s ease-out;
+  }
+
+  .statistik-view h3 {
+    margin-bottom: 20px;
+    color: #0d6efd;
+    font-size: 18px;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+
   /* NO DATA */
   .no-data {
     text-align: center;
@@ -108,6 +198,10 @@
 
   .cards.hidden {
     display: none !important; 
+  }
+
+  .main-cards-view.hidden {
+    display: none !important;
   }
 
   .back-btn {
@@ -158,15 +252,31 @@
   }
 
   .filter-row-single {
-    display: flex;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
     align-items: end;
   }
 
   .filter-group-single {
-    flex: 1;
     display: flex;
     flex-direction: column;
+  }
+
+  .filter-group-single select {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white;
+    color: #333;
+    width: 100%;
+  }
+
+  .filter-group-single select:focus {
+    outline: none;
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
   }
 
   .filter-group-single label {
@@ -429,6 +539,14 @@
       grid-template-columns: 1fr !important; 
       gap: 15px;
     }
+    .main-cards-view {
+      grid-template-columns: 1fr !important;
+      gap: 15px;
+    }
+    .main-cards-view {
+      grid-template-columns: 1fr !important;
+      gap: 15px;
+    }
     .chart-grid {
       display: grid !important;
       grid-template-columns: 1fr !important;
@@ -475,9 +593,71 @@
 
   <div class="container">
 
-    <h2>Detail : Koperasi</h2>
+    <h2>Bidang Koperasi</h2>
 
-    <div class="cards" id="cardsView">
+    <!-- MAIN CARDS VIEW -->
+    <div class="main-cards-view" id="mainCardsView">
+      <div class="card main-card koperasi-main-card" onclick="showKoperasiCards()">
+        <h4>Koperasi</h4>
+        <p>Informasi tentang koperasi</p>
+      </div>
+
+      <div class="card main-card kkmp-main-card" onclick="showKKMPCards()">
+        <h4>KKMP</h4>
+        <p>Informasi tentang KKMP</p>
+      </div>
+    </div>
+
+    <!-- KOPERASI STATISTIK CARDS -->
+    <div class="statistik-view" id="koperasiStatistikView">
+      <button class="back-btn" onclick="showMainCards()">← Kembali</button>
+      <h3>Statistik Koperasi</h3>
+      <div class="cards" id="koperasiCardsView">
+
+        <div class="card purple" onclick="showTableView('totalKoperasi')">
+          <h4>Jumlah Koperasi</h4>
+          <h2>{{ $totalJumlah }}</h2>
+        </div>
+
+        <div class="card green" onclick="showTableView('koperasiAktif')">
+          <h4>Koperasi Aktif</h4>
+          <h2>{{ $jumlahAktif }}</h2>
+        </div>
+
+        <div class="card orange" onclick="showTableView('koperasiTidakAktif')">
+          <h4>Koperasi Nonaktif</h4>
+          <h2>{{ $jumlahTidakAktif }}</h2>
+        </div>
+
+        <div class="card cyan" onclick="showTableView('padatKarya')">
+          <h4>Padat Karya</h4>
+          <h2>{{ $jumlahPadatKarya }}</h2>
+        </div>
+
+        <div class="card yellow" onclick="showTableView('pelaksanaanRat')">
+          <h4>Pelaksanaan RAT</h4>
+          <h2>{{ $totalPelaksanaanRat }}</h2>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- KKMP STATISTIK CARDS -->
+    <div class="statistik-view" id="kkmpStatistikView">
+      <button class="back-btn" onclick="showMainCards()">← Kembali</button>
+      <h3>Statistik KKMP</h3>
+      <div class="cards" id="kkmpCardsView">
+
+        <div class="card blue" onclick="showTableView('totalKKMP')">
+          <h4>Jumlah KKMP</h4>
+          <h2>{{ $totalKKMP }}</h2>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- STATISTICS CARDS (LAMA - DIGUNAKAN UNTUK COMPATIBILITY) -->
+    <div class="cards hidden" id="cardsView">
 
       <div class="card purple" onclick="showTableView('totalKoperasi')">
         <h4>Jumlah Koperasi</h4>
@@ -515,12 +695,20 @@
       <div class="filter-section">
         <div class="filter-row-single">
           <div class="filter-group-single">
-            <label for="searchTotal">🔍 Cari Data</label>
-            <input type="text" id="searchTotal" placeholder="Ketik untuk mencari...">
+            <label for="filterKecamatan_totalKoperasi">Kecamatan</label>
+            <select id="filterKecamatan_totalKoperasi"></select>
+          </div>
+          <div class="filter-group-single">
+            <label for="filterKelurahan_totalKoperasi">Kelurahan</label>
+            <select id="filterKelurahan_totalKoperasi"></select>
+          </div>
+          <div class="filter-group-single">
+            <label for="filterTahun_totalKoperasi">Tahun</label>
+            <select id="filterTahun_totalKoperasi"></select>
           </div>
           <div class="filter-btn-group">
-            <button class="filter-btn filter-btn-apply" onclick="applySearch('totalKoperasi')">Filter</button>
-            <button class="filter-btn filter-btn-reset" onclick="resetFilterSearch('totalKoperasi')">Reset</button>
+            <button class="filter-btn filter-btn-apply" onclick="applyFilters('totalKoperasi')">Filter</button>
+            <button class="filter-btn filter-btn-reset" onclick="resetFilters('totalKoperasi')">Reset</button>
           </div>
         </div>
       </div>
@@ -593,12 +781,20 @@
       <div class="filter-section">
         <div class="filter-row-single">
           <div class="filter-group-single">
-            <label for="searchAktif">🔍 Cari Data</label>
-            <input type="text" id="searchAktif" placeholder="Ketik untuk mencari...">
+            <label for="filterKecamatan_koperasiAktif">Kecamatan</label>
+            <select id="filterKecamatan_koperasiAktif"></select>
+          </div>
+          <div class="filter-group-single">
+            <label for="filterKelurahan_koperasiAktif">Kelurahan</label>
+            <select id="filterKelurahan_koperasiAktif"></select>
+          </div>
+          <div class="filter-group-single">
+            <label for="filterTahun_koperasiAktif">Tahun</label>
+            <select id="filterTahun_koperasiAktif"></select>
           </div>
           <div class="filter-btn-group">
-            <button class="filter-btn filter-btn-apply" onclick="applySearch('koperasiAktif')">Filter</button>
-            <button class="filter-btn filter-btn-reset" onclick="resetFilterSearch('koperasiAktif')">Reset</button>
+            <button class="filter-btn filter-btn-apply" onclick="applyFilters('koperasiAktif')">Filter</button>
+            <button class="filter-btn filter-btn-reset" onclick="resetFilters('koperasiAktif')">Reset</button>
           </div>
         </div>
       </div>
@@ -665,12 +861,20 @@
       <div class="filter-section">
         <div class="filter-row-single">
           <div class="filter-group-single">
-            <label for="searchTidakAktif">🔍 Cari Data</label>
-            <input type="text" id="searchTidakAktif" placeholder="Ketik untuk mencari...">
+            <label for="filterKecamatan_koperasiTidakAktif">Kecamatan</label>
+            <select id="filterKecamatan_koperasiTidakAktif"></select>
+          </div>
+          <div class="filter-group-single">
+            <label for="filterKelurahan_koperasiTidakAktif">Kelurahan</label>
+            <select id="filterKelurahan_koperasiTidakAktif"></select>
+          </div>
+          <div class="filter-group-single">
+            <label for="filterTahun_koperasiTidakAktif">Tahun</label>
+            <select id="filterTahun_koperasiTidakAktif"></select>
           </div>
           <div class="filter-btn-group">
-            <button class="filter-btn filter-btn-apply" onclick="applySearch('koperasiTidakAktif')">Filter</button>
-            <button class="filter-btn filter-btn-reset" onclick="resetFilterSearch('koperasiTidakAktif')">Reset</button>
+            <button class="filter-btn filter-btn-apply" onclick="applyFilters('koperasiTidakAktif')">Filter</button>
+            <button class="filter-btn filter-btn-reset" onclick="resetFilters('koperasiTidakAktif')">Reset</button>
           </div>
         </div>
       </div>
@@ -736,12 +940,20 @@
       <div class="filter-section">
         <div class="filter-row-single">
           <div class="filter-group-single">
-            <label for="searchPadatKarya">🔍 Cari Data</label>
-            <input type="text" id="searchPadatKarya" placeholder="Ketik untuk mencari...">
+            <label for="filterKecamatan_padatKarya">Kecamatan</label>
+            <select id="filterKecamatan_padatKarya"></select>
+          </div>
+          <div class="filter-group-single">
+            <label for="filterKelurahan_padatKarya">Kelurahan</label>
+            <select id="filterKelurahan_padatKarya"></select>
+          </div>
+          <div class="filter-group-single">
+            <label for="filterTahun_padatKarya">Tahun</label>
+            <select id="filterTahun_padatKarya"></select>
           </div>
           <div class="filter-btn-group">
-            <button class="filter-btn filter-btn-apply" onclick="applySearch('padatKarya')">Filter</button>
-            <button class="filter-btn filter-btn-reset" onclick="resetFilterSearch('padatKarya')">Reset</button>
+            <button class="filter-btn filter-btn-apply" onclick="applyFilters('padatKarya')">Filter</button>
+            <button class="filter-btn filter-btn-reset" onclick="resetFilters('padatKarya')">Reset</button>
           </div>
         </div>
       </div>
@@ -807,12 +1019,20 @@
       <div class="filter-section">
         <div class="filter-row-single">
           <div class="filter-group-single">
-            <label for="searchPelaksanaanRat">🔍 Cari Data</label>
-            <input type="text" id="searchPelaksanaanRat" placeholder="Ketik untuk mencari...">
+            <label for="filterKecamatan_pelaksanaanRat">Kecamatan</label>
+            <select id="filterKecamatan_pelaksanaanRat"></select>
+          </div>
+          <div class="filter-group-single">
+            <label for="filterKelurahan_pelaksanaanRat">Kelurahan</label>
+            <select id="filterKelurahan_pelaksanaanRat"></select>
+          </div>
+          <div class="filter-group-single">
+            <label for="filterTahun_pelaksanaanRat">Tahun</label>
+            <select id="filterTahun_pelaksanaanRat"></select>
           </div>
           <div class="filter-btn-group">
-            <button class="filter-btn filter-btn-apply" onclick="applySearch('pelaksanaanRat')">Filter</button>
-            <button class="filter-btn filter-btn-reset" onclick="resetFilterSearch('pelaksanaanRat')">Reset</button>
+            <button class="filter-btn filter-btn-apply" onclick="applyFilters('pelaksanaanRat')">Filter</button>
+            <button class="filter-btn filter-btn-reset" onclick="resetFilters('pelaksanaanRat')">Reset</button>
           </div>
         </div>
       </div>
@@ -869,6 +1089,86 @@
       </div>
     </div>
 
+    <div id="totalKKMP-table" class="table-view">
+      <div class="table-view-header">
+        <h3><i class="fas fa-briefcase"></i> Data KKMP</h3>
+        <button class="back-btn" onclick="hideTableView()">← Kembali</button>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-row-single">
+          <div class="filter-group-single">
+            <label for="filterKecamatan_totalKKMP">Kecamatan</label>
+            <select id="filterKecamatan_totalKKMP"></select>
+          </div>
+          <div class="filter-group-single">
+            <label for="filterKelurahan_totalKKMP">Kelurahan</label>
+            <select id="filterKelurahan_totalKKMP"></select>
+          </div>
+          <div class="filter-group-single">
+            <label for="filterTahun_totalKKMP">Tahun</label>
+            <select id="filterTahun_totalKKMP"></select>
+          </div>
+          <div class="filter-btn-group">
+            <button class="filter-btn filter-btn-apply" onclick="applyFilters('totalKKMP')">Filter</button>
+            <button class="filter-btn filter-btn-reset" onclick="resetFilters('totalKKMP')">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        @if($allKKMP->count() > 0)
+          <table class="data-table" id="tableKKMP">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Kecamatan</th>
+                <th>Kelurahan</th>
+                <th>Tahun</th>
+                <th>Alamat</th>
+                <th>Jenis KKMP</th>
+                <th>Jumlah Anggota</th>
+                <th>Total Omzet</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($allKKMP as $k)
+                <tr class="kkmp-row" data-kecamatan="{{ $k->kecamatan->NM_KECAMATAN ?? '' }}" data-kelurahan="{{ $k->kelurahan->NM_KELURAHAN ?? '' }}" data-tahun="{{ $k->tahun }}">
+                  <td>{{ ($allKKMP->currentPage() - 1) * $allKKMP->perPage() + $loop->iteration }}</td>
+                  <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
+                  <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
+                  <td>{{ $k->tahun }}</td>
+                  <td>{{ $k->alamat ?? '-' }}</td>
+                  <td>{{ $k->jenis_kkmp ?? '-' }}</td>
+                  <td>{{ $k->jumlah_anggota ?? '-' }}</td>
+                  <td>Rp. {{ number_format($k->total_omzet ?? 0, 0, ',', '.') }}</td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+
+          <div class="pagination-wrapper">
+
+            <div class="pagination-links">
+              {{ $allKKMP->appends(request()->except('kkmp_p'))->onEachSide(1)->links() }}
+            </div>
+
+            <div class="pagination-info">
+              Menampilkan {{ $allKKMP->firstItem() ?? 0 }}
+              hingga {{ $allKKMP->lastItem() ?? 0 }}
+              dari {{ $allKKMP->total() }} data
+            </div>
+
+          </div>
+
+          
+          
+        @else
+          <div class="no-data">Tidak ada data KKMP</div>
+        @endif
+      </div>
+    </div>
+
   </div>
 
 <script src="{{ asset('js/script.js') }}"></script>
@@ -906,16 +1206,8 @@ const tableIdMap = {
   'koperasiAktif': 'tableKoperasiAktif',
   'koperasiTidakAktif': 'tableKoperasiTidakAktif',
   'padatKarya': 'tablePadatKarya',
-  'pelaksanaanRat': 'tablePelaksanaanRat'
-};
-
-// Mapping untuk search input ID
-const searchIdMap = {
-  'totalKoperasi': 'searchTotal',
-  'koperasiAktif': 'searchAktif',
-  'koperasiTidakAktif': 'searchTidakAktif',
-  'padatKarya': 'searchPadatKarya',
-  'pelaksanaanRat': 'searchPelaksanaanRat'
+  'pelaksanaanRat': 'tablePelaksanaanRat',
+  'totalKKMP': 'tableKKMP'
 };
 
 function logout(){
@@ -923,9 +1215,44 @@ function logout(){
   window.location.href = "/";
 }
 
+// MAIN CARD NAVIGATION FUNCTIONS
+function showMainCards() {
+  // Hide all statistik views
+  document.querySelectorAll('.statistik-view.active').forEach(view => {
+    view.classList.remove('active');
+  });
+  // Hide all table views
+  document.querySelectorAll('.table-view.active').forEach(table => {
+    table.classList.remove('active');
+  });
+  // Show main cards
+  document.getElementById('mainCardsView').classList.remove('hidden');
+  // Scroll to top
+  window.scrollTo(0, 0);
+}
+
+function showKoperasiCards() {
+  document.getElementById('mainCardsView').classList.add('hidden');
+  document.getElementById('koperasiStatistikView').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showKKMPCards() {
+  document.getElementById('mainCardsView').classList.add('hidden');
+  document.getElementById('kkmpStatistikView').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
 // TABLE VIEW FUNCTIONS
 function showTableView(tableId) {
-  document.getElementById('cardsView').classList.add('hidden');
+  // Determine which statistik view should be shown when going back
+  window.currentStatistikView = (tableId.includes('KKMP') || tableId === 'totalKKMP') ? 'kkmp' : 'koperasi';
+  window.currentTableId = tableId;
+  
+  document.getElementById('mainCardsView').classList.add('hidden');
+  document.querySelectorAll('.statistik-view.active').forEach(view => {
+    view.classList.remove('active');
+  });
   document.querySelectorAll('.table-view.active').forEach(table => {
     table.classList.remove('active');
   });
@@ -942,41 +1269,141 @@ function hideTableView() {
   document.querySelectorAll('.table-view.active').forEach(table => {
     table.classList.remove('active');
   });
-  // Show cards again
-  document.getElementById('cardsView').classList.remove('hidden');
+  
+  // Show the previous statistik view
+  if (window.currentStatistikView === 'kkmp') {
+    document.getElementById('kkmpStatistikView').classList.add('active');
+  } else {
+    document.getElementById('koperasiStatistikView').classList.add('active');
+  }
   // Scroll to top
   window.scrollTo(0, 0);
 }
 
-// SEARCH FUNCTIONS
 function getTableId(tableId) {
   return tableIdMap[tableId] || 'table' + capitalizeFirst(tableId);
 }
 
-function getSearchId(tableId) {
-  return searchIdMap[tableId] || 'search' + capitalizeFirst(tableId);
+function getFilterId(field, tableId) {
+  return `filter${field}_${tableId}`;
 }
 
-function applySearch(tableId) {
-  const searchInputId = getSearchId(tableId);
-  const searchInput = document.getElementById(searchInputId);
-  
-  if (!searchInput) return;
+function createOption(select, value, text) {
+  const option = document.createElement('option');
+  option.value = value;
+  option.textContent = text;
+  select.appendChild(option);
+}
 
-  const searchTerm = searchInput.value.toLowerCase().trim();
+function populateFilterOptions(tableId) {
   const tableElement = document.getElementById(getTableId(tableId));
-  
   if (!tableElement) return;
 
-  const rows = tableElement.querySelectorAll('tbody tr.koperasi-row');
+  const rows = tableElement.querySelectorAll('tbody tr');
+  const kecamatans = new Set();
+  const kelurahansByKecamatan = {};
+  const years = new Set();
+
+  rows.forEach(row => {
+    const kec = row.dataset.kecamatan ? row.dataset.kecamatan.trim() : '';
+    const kel = row.dataset.kelurahan ? row.dataset.kelurahan.trim() : '';
+    const tahun = row.dataset.tahun ? row.dataset.tahun.trim() : '';
+
+    if (kec) {
+      kecamatans.add(kec);
+      if (!kelurahansByKecamatan[kec]) {
+        kelurahansByKecamatan[kec] = new Set();
+      }
+      if (kel) {
+        kelurahansByKecamatan[kec].add(kel);
+      }
+    }
+
+    if (tahun && parseInt(tahun, 10) >= 2021) {
+      years.add(tahun);
+    }
+  });
+
+  const kecSelect = document.getElementById(getFilterId('Kecamatan', tableId));
+  const kelSelect = document.getElementById(getFilterId('Kelurahan', tableId));
+  const tahunSelect = document.getElementById(getFilterId('Tahun', tableId));
+
+  if (!kecSelect || !kelSelect || !tahunSelect) return;
+
+  kecSelect.innerHTML = '';
+  kelSelect.innerHTML = '';
+  tahunSelect.innerHTML = '';
+
+  createOption(kecSelect, '', 'Semua Kecamatan');
+  Array.from(kecamatans).sort().forEach(kec => createOption(kecSelect, kec, kec));
+
+  createOption(kelSelect, '', 'Semua Kelurahan');
+  const allKelurahans = new Set();
+  rows.forEach(row => {
+    const kel = row.dataset.kelurahan ? row.dataset.kelurahan.trim() : '';
+    if (kel) {
+      allKelurahans.add(kel);
+    }
+  });
+  Array.from(allKelurahans).sort().forEach(kel => createOption(kelSelect, kel, kel));
+
+  createOption(tahunSelect, '', 'Semua Tahun');
+  const currentYear = new Date().getFullYear();
+  for (let year = 2021; year <= currentYear; year++) {
+    createOption(tahunSelect, String(year), String(year));
+  }
+}
+
+function updateKelurahanOptions(tableId) {
+  const kecSelect = document.getElementById(getFilterId('Kecamatan', tableId));
+  const kelSelect = document.getElementById(getFilterId('Kelurahan', tableId));
+  const tableElement = document.getElementById(getTableId(tableId));
+  if (!kecSelect || !kelSelect || !tableElement) return;
+
+  const selectedKec = kecSelect.value;
+  const rows = tableElement.querySelectorAll('tbody tr');
+  const kelurahans = new Set();
+
+  rows.forEach(row => {
+    const kel = row.dataset.kelurahan ? row.dataset.kelurahan.trim() : '';
+    const kec = row.dataset.kecamatan ? row.dataset.kecamatan.trim() : '';
+    if (kel) {
+      if (!selectedKec || kec === selectedKec) {
+        kelurahans.add(kel);
+      }
+    }
+  });
+
+  kelSelect.innerHTML = '';
+  createOption(kelSelect, '', 'Semua Kelurahan');
+  Array.from(kelurahans).sort().forEach(kel => createOption(kelSelect, kel, kel));
+}
+
+function applyFilters(tableId) {
+  const tableElement = document.getElementById(getTableId(tableId));
+  if (!tableElement) return;
+
+  const kecSelect = document.getElementById(getFilterId('Kecamatan', tableId));
+  const kelSelect = document.getElementById(getFilterId('Kelurahan', tableId));
+  const tahunSelect = document.getElementById(getFilterId('Tahun', tableId));
+  if (!kecSelect || !kelSelect || !tahunSelect) return;
+
+  const kecValue = kecSelect.value;
+  const kelValue = kelSelect.value;
+  const tahunValue = tahunSelect.value;
+  const rows = tableElement.querySelectorAll('tbody tr');
   let visibleCount = 0;
 
   rows.forEach(row => {
-    // Dapatkan semua text dari cells di row
-    const rowText = row.textContent.toLowerCase();
-    
-    // Cek apakah search term ada di dalam row
-    if (searchTerm === '' || rowText.includes(searchTerm)) {
+    const kec = row.dataset.kecamatan ? row.dataset.kecamatan.trim() : '';
+    const kel = row.dataset.kelurahan ? row.dataset.kelurahan.trim() : '';
+    const tahun = row.dataset.tahun ? row.dataset.tahun.trim() : '';
+
+    const matchKec = !kecValue || kec === kecValue;
+    const matchKel = !kelValue || kel === kelValue;
+    const matchTahun = !tahunValue || tahun === tahunValue;
+
+    if (matchKec && matchKel && matchTahun) {
       row.style.display = '';
       visibleCount++;
     } else {
@@ -984,49 +1411,60 @@ function applySearch(tableId) {
     }
   });
 
-  // Show no data message if no rows visible
   const tableContainer = tableElement.parentElement;
   let noDataDiv = tableContainer.querySelector('.no-data-filtered');
-  
-  if (visibleCount === 0 && searchTerm !== '') {
-    if (!noDataDiv) {
-      noDataDiv = document.createElement('div');
-      noDataDiv.className = 'no-data no-data-filtered';
-      noDataDiv.textContent = 'Tidak ada data yang sesuai dengan pencarian: "' + searchTerm + '"';
-      tableContainer.appendChild(noDataDiv);
-    }
+  if (!noDataDiv) {
+    noDataDiv = document.createElement('div');
+    noDataDiv.className = 'no-data no-data-filtered';
+    tableContainer.appendChild(noDataDiv);
+  }
+
+  if (visibleCount === 0) {
+    noDataDiv.textContent = 'Tidak ada data yang sesuai dengan filter.';
     noDataDiv.style.display = 'block';
     tableElement.style.display = 'none';
   } else {
-    if (noDataDiv) noDataDiv.style.display = 'none';
+    noDataDiv.style.display = 'none';
     tableElement.style.display = '';
   }
 }
 
-function resetFilterSearch(tableId) {
-  const searchInputId = getSearchId(tableId);
-  const searchInput = document.getElementById(searchInputId);
-  
-  if (searchInput) {
-    searchInput.value = '';
-  }
-
-  // Show all rows
+function resetFilters(tableId) {
+  const kecSelect = document.getElementById(getFilterId('Kecamatan', tableId));
+  const kelSelect = document.getElementById(getFilterId('Kelurahan', tableId));
+  const tahunSelect = document.getElementById(getFilterId('Tahun', tableId));
   const tableElement = document.getElementById(getTableId(tableId));
-  if (tableElement) {
-    tableElement.querySelectorAll('tbody tr.koperasi-row').forEach(row => {
-      row.style.display = '';
-    });
-    tableElement.style.display = '';
+  if (!kecSelect || !kelSelect || !tahunSelect || !tableElement) return;
 
-    // Hide no data message
-    const noDataDiv = tableElement.parentElement.querySelector('.no-data-filtered');
-    if (noDataDiv) noDataDiv.style.display = 'none';
+  kecSelect.value = '';
+  updateKelurahanOptions(tableId);
+  kelSelect.value = '';
+  tahunSelect.value = '';
+
+  tableElement.querySelectorAll('tbody tr').forEach(row => {
+    row.style.display = '';
+  });
+
+  const noDataDiv = tableElement.parentElement.querySelector('.no-data-filtered');
+  if (noDataDiv) noDataDiv.style.display = 'none';
+}
+
+function bindFilterEvents(tableId) {
+  const kecSelect = document.getElementById(getFilterId('Kecamatan', tableId));
+  if (kecSelect) {
+    kecSelect.addEventListener('change', function() {
+      updateKelurahanOptions(tableId);
+    });
   }
 }
 
 // Allow Enter key to apply search
+// (No longer used, but kept for compatibility if text fields are restored.)
 document.addEventListener('DOMContentLoaded', function() {
+  // Initialize
+  window.currentStatistikView = 'koperasi';
+  window.currentTableId = null;
+
   // Logic to maintain table view on pagination reload
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.has('total_p')) {
@@ -1039,27 +1477,13 @@ document.addEventListener('DOMContentLoaded', function() {
     showTableView('padatKarya');
   } else if (urlParams.has('pelaksanaan_rat_p')) {
     showTableView('pelaksanaanRat');
-  } else if (urlParams.has('pegawai_p')) {
-    showTableView('totalPegawai');
-  } else if (urlParams.has('pns_p')) {
-    showTableView('pegawaiPNS');
+  } else if (urlParams.has('kkmp_p')) {
+    showTableView('totalKKMP');
   }
 
-  Object.values(searchIdMap).forEach(searchId => {
-    const searchInput = document.getElementById(searchId);
-    if (searchInput) {
-      searchInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          // Find the tableId from searchId
-          for (const [tableId, id] of Object.entries(searchIdMap)) {
-            if (id === searchId) {
-              applySearch(tableId);
-              break;
-            }
-          }
-        }
-      });
-    }
+  Object.keys(tableIdMap).forEach(tableId => {
+    populateFilterOptions(tableId);
+    bindFilterEvents(tableId);
   });
 });
 

@@ -7,6 +7,7 @@ use App\Models\Koperasi;
 use App\Models\Kecamatan;
 use App\Models\Kelurahan;
 use App\Models\Pegawai;
+use App\Models\KKMP;
 
 class KoperasiController extends Controller
 {
@@ -220,6 +221,12 @@ class KoperasiController extends Controller
         $pegawaiPNSDetail = \App\Models\Pegawai::where('status','pns')->paginate(20, ['*'], 'pns_p');
         $pegawaiNonPNSDetail = \App\Models\Pegawai::where('status','non_pns')->get();
 
+        // =================================================================
+        // Data KKMP
+        // =================================================================
+        $totalKKMP = KKMP::count();
+        $allKKMP = KKMP::with(['kecamatan', 'kelurahan'])->paginate(20, ['*'], 'kkmp_p');
+
         // Kirim SEMUA variabel ke tampilan
         return view('bidang.koperasi', compact(
             'totalJumlah', 'jumlahAktif', 'jumlahTidakAktif', 
@@ -227,7 +234,8 @@ class KoperasiController extends Controller
             'totalPegawai', 'pegawaiPNS', 'pegawaiNonPNS',
             'allKoperasi', 'dataKoperasi', 'koperasiAktif', 'koperasiTidakAktif',
             'padatKaryaDetail', 'pelaksanaanRatDetail',
-            'allPegawai', 'dataPegawai', 'pegawaiPNSDetail', 'pegawaiNonPNSDetail'
+            'allPegawai', 'dataPegawai', 'pegawaiPNSDetail', 'pegawaiNonPNSDetail',
+            'totalKKMP', 'allKKMP'
         ));
     }
 }
