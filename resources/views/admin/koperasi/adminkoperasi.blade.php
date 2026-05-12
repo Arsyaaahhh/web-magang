@@ -481,13 +481,13 @@
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Jumlah Koperasi</th>
+                  <th>Kecamatan</th>
+                  <th>Kelurahan</th>
                   <th>Tahun</th>
+                  <th>Jumlah Koperasi</th>
                   <th>Status</th>
                   <th>Status Mitra</th>
                   <th>Jenis Mitra</th>
-                  <th>Kelurahan</th>
-                  <th>Kecamatan</th>
                   <th>Padat Karya</th>
                   <th>Status LPJ</th>
                   <th>Pelaksanaan RAT</th>
@@ -499,13 +499,13 @@
                 @forelse($dataKoperasi as $d)
                 <tr>
                     <td>{{ ($dataKoperasi->currentPage()-1)*$dataKoperasi->perPage() + $loop->iteration }}</td>
-                    <td>{{ $d->jumlah }}</td>
+                    <td>{{ $d->kecamatan->NM_KECAMATAN ?? '-' }}</td>
+                    <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
                     <td>{{ $d->tahun }}</td>
+                    <td>{{ $d->jumlah }}</td>
                     <td><span class="badge" style="{{ $d->status == 'aktif' ? 'background-color: #d1e7dd;' : 'background-color: #f8d7da;' }}">{{ ucfirst($d->status) }}</span></td>
                     <td>{{ ucfirst($d->status_mitra) }}</td>
                     <td>{{ ucfirst($d->jenis_mitra) }}</td>
-                    <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
-                    <td>{{ $d->kecamatan->NM_KECAMATAN ?? '-' }}</td>
                     <td><span class="badge" style="{{ $d->padat_karya == 'YA' ? 'background-color: #d1e7dd;' : 'background-color: #f8d7da;' }}">{{ $d->padat_karya }}</span></td>
                     <td><span class="badge" style="{{ $d->status_lpj == 'LENGKAP' ? 'background-color: #d1e7dd;' : 'background-color: #f8d7da;' }}">{{ $d->status_lpj }}</span></td>
                     <td>{{ $d->pelaksanaan_rat }}</td>
