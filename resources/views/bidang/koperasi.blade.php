@@ -531,13 +531,13 @@
             <thead>
               <tr>
                 <th>No</th>
-                <th>Jumlah</th>
+                <th>Kecamatan</th>
+                <th>Kelurahan</th>
                 <th>Tahun</th>
+                <th>Jumlah Koperasi</th>
                 <th>Status</th>
                 <th>Status Mitra</th>
                 <th>Jenis Mitra</th>
-                <th>Kelurahan</th>
-                <th>Kecamatan</th>
                 <th>Padat Karya</th>
                 <th>Status LPJ</th>
                 <th>Pelaksanaan RAT</th>
@@ -547,13 +547,13 @@
               @foreach($allKoperasi as $k)
                 <tr class="koperasi-row" data-kecamatan="{{ $k->kecamatan->NM_KECAMATAN ?? '' }}" data-kelurahan="{{ $k->kelurahan->NM_KELURAHAN ?? '' }}" data-tahun="{{ $k->tahun }}">
                   <td>{{ ($allKoperasi->currentPage() - 1) * $allKoperasi->perPage() + $loop->iteration }}</td>
-                  <td>{{ $k->jumlah }}</td>
+                  <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
+                  <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
                   <td>{{ $k->tahun }}</td>
+                  <td>{{ $k->jumlah }}</td>
                   <td><span class="badge-status badge-{{ $k->status == 'aktif' ? 'aktif' : 'tidak-aktif' }}">{{ ucfirst($k->status) }}</span></td>
                   <td>{{ ucfirst($k->status_mitra) }}</td>
                   <td>{{ ucfirst($k->jenis_mitra) }}</td>
-                  <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
-                  <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
                   <td>{{ $k->padat_karya }}</td>
                   <td>{{ $k->status_lpj }}</td>
                   <td>{{ $k->pelaksanaan_rat }}</td>
@@ -609,12 +609,13 @@
             <thead>
               <tr>
                 <th>No</th>
-                <th>Jumlah</th>
+                <th>Kecamatan</th>
+                <th>Kelurahan</th>
                 <th>Tahun</th>
+                <th>Jumlah Koperasi</th>
+                <th>Status</th>
                 <th>Status Mitra</th>
                 <th>Jenis Mitra</th>
-                <th>Kelurahan</th>
-                <th>Kecamatan</th>
                 <th>Padat Karya</th>
                 <th>Status LPJ</th>
                 <th>Pelaksanaan RAT</th>
@@ -624,14 +625,15 @@
               @foreach($koperasiAktif as $k)
                 <tr class="koperasi-row" data-kecamatan="{{ $k->kecamatan->NM_KECAMATAN ?? '' }}" data-kelurahan="{{ $k->kelurahan->NM_KELURAHAN ?? '' }}" data-tahun="{{ $k->tahun }}">
                   <td>{{ ($koperasiAktif->currentPage() - 1) * $koperasiAktif->perPage() + $loop->iteration }}</td>
-                  <td>{{ $k->jumlah }}</td>
+                  <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
+                  <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
                   <td>{{ $k->tahun }}</td>
+                  <td>{{ $k->jumlah }}</td>
+                  <td><span class="badge-status badge-{{ $k->status == 'aktif' ? 'aktif' : 'tidak-aktif' }}">{{ ucfirst($k->status) }}</span></td>
                   <td>{{ ucfirst($k->status_mitra) }}</td>
                   <td>{{ ucfirst($k->jenis_mitra) }}</td>
-                  <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
-                  <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-                  <td><span class="badge-status badge-{{ $k->padat_karya == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->padat_karya }}</span></td>
-                  <td><span class="badge-status badge-{{ $k->status_lpj == 'LENGKAP' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_lpj }}</span></td>
+                  <td>{{ $k->padat_karya }}</td>
+                  <td>{{ $k->status_lpj }}</td>
                   <td>{{ $k->pelaksanaan_rat }}</td>
                 </tr>
               @endforeach
@@ -679,12 +681,13 @@
             <thead>
               <tr>
                 <th>No</th>
-                <th>Jumlah</th>
+                <th>Kecamatan</th>
+                <th>Kelurahan</th>
                 <th>Tahun</th>
+                <th>Jumlah Koperasi</th>
+                <th>Status</th>
                 <th>Status Mitra</th>
                 <th>Jenis Mitra</th>
-                <th>Kelurahan</th>
-                <th>Kecamatan</th>
                 <th>Padat Karya</th>
                 <th>Status LPJ</th>
                 <th>Pelaksanaan RAT</th>
@@ -694,14 +697,15 @@
               @foreach($koperasiTidakAktif as $k)
                 <tr class="koperasi-row" data-kecamatan="{{ $k->kecamatan->NM_KECAMATAN ?? '' }}" data-kelurahan="{{ $k->kelurahan->NM_KELURAHAN ?? '' }}" data-tahun="{{ $k->tahun }}">
                   <td>{{ ($koperasiTidakAktif->currentPage() - 1) * $koperasiTidakAktif->perPage() + $loop->iteration }}</td>
-                  <td>{{ $k->jumlah }}</td>
+                  <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
+                  <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
                   <td>{{ $k->tahun }}</td>
+                  <td>{{ $k->jumlah }}</td>
+                  <td><span class="badge-status badge-{{ $k->status == 'aktif' ? 'aktif' : 'tidak-aktif' }}">{{ ucfirst($k->status) }}</span></td>
                   <td>{{ ucfirst($k->status_mitra) }}</td>
                   <td>{{ ucfirst($k->jenis_mitra) }}</td>
-                  <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
-                  <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-                  <td><span class="badge-status badge-{{ $k->padat_karya == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->padat_karya }}</span></td>
-                  <td><span class="badge-status badge-{{ $k->status_lpj == 'LENGKAP' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_lpj }}</span></td>
+                  <td>{{ $k->padat_karya }}</td>
+                  <td>{{ $k->status_lpj }}</td>
                   <td>{{ $k->pelaksanaan_rat }}</td>
                 </tr>
               @endforeach
@@ -748,13 +752,13 @@
             <thead>
               <tr>
                 <th>No</th>
-                <th>Jumlah</th>
+                <th>Kecamatan</th>
+                <th>Kelurahan</th>
                 <th>Tahun</th>
+                <th>Jumlah Koperasi</th>
                 <th>Status</th>
                 <th>Status Mitra</th>
                 <th>Jenis Mitra</th>
-                <th>Kelurahan</th>
-                <th>Kecamatan</th>
                 <th>Padat Karya</th>
                 <th>Status LPJ</th>
                 <th>Pelaksanaan RAT</th>
@@ -764,15 +768,15 @@
               @foreach($padatKaryaDetail as $k)
                 <tr class="koperasi-row" data-kecamatan="{{ $k->kecamatan->NM_KECAMATAN ?? '' }}" data-kelurahan="{{ $k->kelurahan->NM_KELURAHAN ?? '' }}" data-tahun="{{ $k->tahun }}">
                   <td>{{ ($padatKaryaDetail->currentPage() - 1) * $padatKaryaDetail->perPage() + $loop->iteration }}</td>
-                  <td>{{ $k->jumlah }}</td>
+                  <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
+                  <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
                   <td>{{ $k->tahun }}</td>
+                  <td>{{ $k->jumlah }}</td>
                   <td><span class="badge-status badge-{{ $k->status == 'aktif' ? 'aktif' : 'tidak-aktif' }}">{{ ucfirst($k->status) }}</span></td>
                   <td>{{ ucfirst($k->status_mitra) }}</td>
                   <td>{{ ucfirst($k->jenis_mitra) }}</td>
-                  <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
-                  <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-                  <td><span class="badge-status badge-{{ $k->padat_karya == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->padat_karya }}</span></td>
-                  <td><span class="badge-status badge-{{ $k->status_lpj == 'LENGKAP' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_lpj }}</span></td>
+                  <td>{{ $k->padat_karya }}</td>
+                  <td>{{ $k->status_lpj }}</td>
                   <td>{{ $k->pelaksanaan_rat }}</td>
                 </tr>
               @endforeach
@@ -819,13 +823,13 @@
             <thead>
               <tr>
                 <th>No</th>
-                <th>Jumlah</th>
+                <th>Kecamatan</th>
+                <th>Kelurahan</th>
                 <th>Tahun</th>
+                <th>Jumlah Koperasi</th>
                 <th>Status</th>
                 <th>Status Mitra</th>
                 <th>Jenis Mitra</th>
-                <th>Kelurahan</th>
-                <th>Kecamatan</th>
                 <th>Padat Karya</th>
                 <th>Status LPJ</th>
                 <th>Pelaksanaan RAT</th>
@@ -835,15 +839,15 @@
               @foreach($pelaksanaanRatDetail as $k)
                 <tr class="koperasi-row" data-kecamatan="{{ $k->kecamatan->NM_KECAMATAN ?? '' }}" data-kelurahan="{{ $k->kelurahan->NM_KELURAHAN ?? '' }}" data-tahun="{{ $k->tahun }}">
                   <td>{{ ($pelaksanaanRatDetail->currentPage() - 1) * $pelaksanaanRatDetail->perPage() + $loop->iteration }}</td>
-                  <td>{{ $k->jumlah }}</td>
+                  <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
+                  <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
                   <td>{{ $k->tahun }}</td>
+                  <td>{{ $k->jumlah }}</td>
                   <td><span class="badge-status badge-{{ $k->status == 'aktif' ? 'aktif' : 'tidak-aktif' }}">{{ ucfirst($k->status) }}</span></td>
                   <td>{{ ucfirst($k->status_mitra) }}</td>
                   <td>{{ ucfirst($k->jenis_mitra) }}</td>
-                  <td>{{ $k->kelurahan->NM_KELURAHAN ?? '-' }}</td>
-                  <td>{{ $k->kecamatan->NM_KECAMATAN ?? '-' }}</td>
-                  <td><span class="badge-status badge-{{ $k->padat_karya == 'YA' ? 'aktif' : 'tidak-aktif' }}">{{ $k->padat_karya }}</span></td>
-                  <td><span class="badge-status badge-{{ $k->status_lpj == 'LENGKAP' ? 'aktif' : 'tidak-aktif' }}">{{ $k->status_lpj }}</span></td>
+                  <td>{{ $k->padat_karya }}</td>
+                  <td>{{ $k->status_lpj }}</td>
                   <td>{{ $k->pelaksanaan_rat }}</td>
                 </tr>
               @endforeach
