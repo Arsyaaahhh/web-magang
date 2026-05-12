@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Surat;
-use App\Models\Magang;
 use App\Models\PegawaiRekap; // 🔥 pakai ini (bukan Pegawai)
 use App\Models\Penelitian;
+use App\Models\RekapMagang; // 🔥 pakai ini (bukan Magang)
 
 class SuratController extends Controller
 {
@@ -189,7 +189,7 @@ class SuratController extends Controller
         // ===== VIEW (🔥 FIX: pakai REKAP) =====
         return view('bidang.sekretariat', [
             'pegawai' => PegawaiRekap::latest()->get(),
-            'magang'  => Magang::latest()->get(),
+            'magang'  => RekapMagang::latest()->get(),
             'penelitian' => Penelitian::latest()->get()
         ]);
     }

@@ -129,6 +129,7 @@
 
 </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 // ================= NAV & SIDEBAR =================
 function toggleSidebar() {
@@ -181,6 +182,8 @@ function getColor(id){
     if (localStorage.getItem("login") !== "true") {
       window.location.href = "/";
     }
+
+
 </script>
 
 </body>

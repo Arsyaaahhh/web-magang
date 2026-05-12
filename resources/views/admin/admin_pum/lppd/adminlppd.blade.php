@@ -2,7 +2,8 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Admin LPPD</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Admin LPPD</title>
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -48,7 +49,6 @@
     .pagination-info { font-size: 13px; color: #666; }
 
     /* SIDEBAR */
-        /* SIDEBAR */
     .sidebar {
       width: 240px;
       height: 100vh;
@@ -81,16 +81,6 @@
       background: rgba(255, 255, 255, 0.2);
     }
 
-    .logout-btn {
-      margin-top: 20px;
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      background: #dc3545;
-      color: white;
-      cursor: pointer;
-    }
     .card h4 { font-weight: 500; letter-spacing: 0.3px; }
     .card h2 { font-weight: 600; }
     .card p { font-weight: 400; opacity: 0.85; }
@@ -166,7 +156,12 @@
     <div class="container">
       <div class="top">
         <h2>Laporan penyelengaraan Pemerintah Daerah</h2>
-        <a href="/admin/admin_pum/lppdcreate" class="btn btn-add">+ Tambah</a>
+        <div style="display: flex; gap: 10px;">
+            <a href="/admin/admin_pum" class="btn" style="background: #6c757d; color: white; display: flex; align-items: center; gap: 5px;">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </a>
+            <a href="/admin/admin_pum/lppdcreate" class="btn btn-add">+ Tambah</a>
+        </div>
       </div>
 
       @if(session('success'))

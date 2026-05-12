@@ -78,7 +78,7 @@
       min-width: 600px;
     }
 
-    th { padding: 12px; background: #eaf2ff; font-size: 13px; text-align: left; }
+    th { padding: 12px; background: #0d6efd; font-size: 13px; text-align: left; }
     td { padding: 12px; font-size: 15px; border-bottom: 1px solid #e5e7eb; }
     tbody tr:nth-child(even) { background: #f9fafb; }
     tr:hover { background: #eef4ff; }
