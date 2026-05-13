@@ -39,7 +39,6 @@ class SuratController extends Controller
         return view('admin.admin_sekre.index', compact('data'));
     }
 
-
     public function list(Request $request)
     {
         $query = Surat::where('bidang','sekretariat');
@@ -64,11 +63,9 @@ class SuratController extends Controller
         return view('admin.admin_sekre.surat.index', compact('data'));
     }
 
-
     public function create(){
         return view('admin.admin_sekre.surat.create');
     }
-
 
     public function store(Request $request)
     {
@@ -85,7 +82,7 @@ class SuratController extends Controller
         ]);
 
         $fileName = time().'.'.$request->file('file')->extension();
-        $request->file('file')->move(public_path('pdf'), $fileName); // Tetap ditaruh di folder yang sama
+        $request->file('file')->move(public_path('pdf'), $fileName);
 
         Surat::create([
             'nomor'  => $isZI ? '-' : $request->nomor,
@@ -93,18 +90,17 @@ class SuratController extends Controller
             'jenis'  => strtoupper($request->jenis),
             'tahun'  => $request->tahun,
             'file'   => $fileName,
-            'bidang' => 'sekretariat'
+            'bidang' => 'sekretariat',
+            'status' => $request->status // Menyimpan data status
         ]);
 
         return redirect()->route('surat.index')->with('success','Upload berhasil');
     }
 
-
     public function edit($id){
         $data = Surat::findOrFail($id);
         return view('admin.admin_sekre.surat.edit', compact('data'));
     }
-
 
     public function update(Request $request, $id)
     {
@@ -131,18 +127,17 @@ class SuratController extends Controller
             'judul'  => $isZI ? 'Dokumen ZI' : $request->judul,
             'jenis'  => strtoupper($request->jenis),
             'tahun'  => $request->tahun,
+            'status' => $request->status // Menyimpan update status
         ]);
 
         return redirect()->route('surat.index')->with('success','Update berhasil');
     }
-
 
     public function destroy($id)
     {
         Surat::findOrFail($id)->delete();
         return back()->with('success','Data dihapus');
     }
-
 
     // ================= FRONTEND =================
     public function sekretariat(Request $request)
@@ -167,7 +162,13 @@ class SuratController extends Controller
                 $query->where('tahun', $request->tahun);
             }
 
-            $data = $query->select('id','nomor','judul','tahun','file')
+            // Filter status Aktif/Nonaktif
+            if ($request->status && $request->status != 'all') {
+                $query->where('status', strtolower($request->status));
+            }
+
+            // Tambahkan 'status' ke select agar dikirim ke JavaScript
+            $data = $query->select('id','nomor','judul','tahun','file','status')
                           ->latest()
                           ->get();
 

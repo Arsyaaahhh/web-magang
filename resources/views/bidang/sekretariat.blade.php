@@ -63,10 +63,12 @@ input:focus, select:focus {
 .card-sm {
   padding: 15px !important;
   min-height: 120px !important;
+  position: relative; /* Wajib agar badge bisa menempel */
 }
 .card-sm h4 {
   font-size: 15px;
   margin-bottom: 5px;
+  padding-right: 50px; /* Jarak agar text tidak tertutup badge */
 }
 .card-sm p {
   font-size: 13px;
@@ -77,6 +79,21 @@ input:focus, select:focus {
   font-size: 11px;
   opacity: 0.9;
 }
+
+/* ===== Badge Status ===== */
+.badge-status {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.badge-aktif { background-color: #198754; }
+.badge-nonaktif { background-color: #dc3545; }
 
 /* ===== Warna teks tabel PEGAWAI (PNS & Non PNS) ===== */
 #pnsArea table thead tr th, #nonPnsArea table thead tr th {
@@ -268,6 +285,7 @@ input:focus, select:focus {
   </div>
 </div>
 
+<!-- ================== AREA FILTER SK ================== -->
 <div id="skArea" style="display:none; margin-top:20px;">
   <h3>Detail : Sekretariat (SK)</h3>
   <button onclick="showSuratMenu()" class="btn-back">
@@ -276,6 +294,11 @@ input:focus, select:focus {
 
   <div class="filter-container" style="display:flex; gap:10px; margin-bottom:20px;">
     <input id="search" placeholder="🔎 Cari..." onkeyup="delayFilter()" style="flex:1;">
+    <select id="statusSK" onchange="filterData()">
+      <option value="all">Semua Status</option>
+      <option value="aktif">Aktif</option>
+      <option value="nonaktif">Nonaktif</option>
+    </select>
     <select id="tahun" onchange="filterData()">
       <option value="all">Semua Tahun</option>
     </select>
@@ -283,6 +306,7 @@ input:focus, select:focus {
   <div class="cards cards-sm" id="cardContainer"></div>
 </div>
 
+<!-- ================== AREA FILTER SP ================== -->
 <div id="spArea" style="display:none; margin-top:20px;">
   <h3>Detail : Standar Pelayanan</h3>
   <button onclick="showSuratMenu()" class="btn-back">
@@ -291,6 +315,11 @@ input:focus, select:focus {
 
   <div class="filter-container" style="display:flex; gap:10px; margin-bottom:20px;">
     <input id="searchSP" placeholder="🔎 Cari..." onkeyup="delayFilterSP()" style="flex:1;">
+    <select id="statusSP" onchange="filterSP()">
+      <option value="all">Semua Status</option>
+      <option value="aktif">Aktif</option>
+      <option value="nonaktif">Nonaktif</option>
+    </select>
     <select id="tahunSP" onchange="filterSP()">
       <option value="all">Semua Tahun</option>
     </select>
@@ -298,6 +327,7 @@ input:focus, select:focus {
   <div class="cards cards-sm" id="cardContainerSP"></div>
 </div>
 
+<!-- ================== AREA FILTER SOP ================== -->
 <div id="sopArea" style="display:none; margin-top:20px;">
   <h3>Detail : SOP</h3>
   <button onclick="showSuratMenu()" class="btn-back">
@@ -306,6 +336,11 @@ input:focus, select:focus {
 
   <div class="filter-container" style="display:flex; gap:10px; margin-bottom:20px;">
     <input id="searchSOP" placeholder="🔎 Cari..." onkeyup="delayFilterSOP()" style="flex:1;">
+    <select id="statusSOP" onchange="filterSOP()">
+      <option value="all">Semua Status</option>
+      <option value="aktif">Aktif</option>
+      <option value="nonaktif">Nonaktif</option>
+    </select>
     <select id="tahunSOP" onchange="filterSOP()">
       <option value="all">Semua Tahun</option>
     </select>
@@ -313,6 +348,7 @@ input:focus, select:focus {
   <div class="cards cards-sm" id="cardContainerSOP"></div>
 </div>
 
+<!-- ================== AREA FILTER ZI ================== -->
 <div id="ziArea" style="display:none; margin-top:20px;">
   <h3>Detail : Zona Integritas (ZI)</h3>
   <button onclick="showSuratMenu()" class="btn-back">
@@ -321,6 +357,11 @@ input:focus, select:focus {
 
   <div class="filter-container" style="display:flex; gap:10px; margin-bottom:20px;">
     <input id="searchZI" placeholder="🔎 Cari..." onkeyup="delayFilterZI()" style="flex:1;">
+    <select id="statusZI" onchange="filterZI()">
+      <option value="all">Semua Status</option>
+      <option value="aktif">Aktif</option>
+      <option value="nonaktif">Nonaktif</option>
+    </select>
     <select id="tahunZI" onchange="filterZI()">
       <option value="all">Semua Tahun</option>
     </select>
@@ -328,6 +369,7 @@ input:focus, select:focus {
   <div class="cards cards-sm" id="cardContainerZI"></div>
 </div>
 
+<!-- ================== AREA PEGAWAI ================== -->
 <div id="pegawaiMenuArea" style="display:none; margin-top:20px;">
   <h3>Kategori Pegawai</h3>
   <button onclick="hideAll()" class="btn-back btn-primary">
@@ -436,6 +478,7 @@ input:focus, select:focus {
   </div>
 </div>
 
+<!-- ================== AREA MAGANG & PENELITIAN ================== -->
 <div id="magangArea" style="display:none; margin-top:20px;">
   <h3>Data Magang</h3>
   <button onclick="showMagangPenelitianMenu()" class="btn-back btn-primary">
@@ -617,13 +660,9 @@ function openFile(file) {
     let fileUrl = '/pdf/' + file;
 
     if (ext === 'pdf') {
-        window.open(fileUrl, '_blank'); // Buka PDF di Tab Baru
+        window.open(fileUrl, '_blank'); 
     } else {
-        window.open(fileUrl, '_blank'); // Download Excel
-
-        // Jika nanti sudah dionlinekan di hosting, pakai ini agar Excel terbuka di browser:
-        // let domainPublik = 'https://domain-dinkopumdag.go.id'; 
-        // window.open('https://view.officeapps.live.com/op/view.aspx?src=' + encodeURIComponent(domainPublik + fileUrl), '_blank');
+        window.open(fileUrl, '_blank'); 
     }
 }
 
@@ -638,16 +677,27 @@ function getColor(id){
   return colors[id % colors.length];
 }
 
+// FUNGSI HELPER BADGE STATUS
+function getStatusBadge(status) {
+    if (!status) return '';
+    if (status.toLowerCase() === 'aktif') {
+        return `<span class="badge-status badge-aktif">Aktif</span>`;
+    } else {
+        return `<span class="badge-status badge-nonaktif">Nonaktif</span>`;
+    }
+}
+
 // ================= FILTER SK =================
 function filterData(){
   let search = document.getElementById("search").value;
   let tahun  = document.getElementById("tahun").value;
+  let status = document.getElementById("statusSK").value;
   let container = document.getElementById("cardContainer");
   let select = document.getElementById("tahun");
 
   container.innerHTML = "Loading...";
 
-  fetch(`/sekretariat?jenis=sk&search=${search}&tahun=${tahun}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+  fetch(`/sekretariat?jenis=sk&search=${search}&tahun=${tahun}&status=${status}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
   .then(res => res.json())
   .then(res => {
     let selected = tahun;
@@ -662,8 +712,10 @@ function filterData(){
 
     res.data.forEach(item=>{
       let color = getColor(item.id);
+      let badge = getStatusBadge(item.status);
       container.innerHTML += `
       <div class="card card-sm ${color}" onclick="openFile('${item.file}')">
+        ${badge}
         <h4>${item.nomor}</h4>
         <p>${item.judul}</p>
         <small>Tahun: ${item.tahun}</small>
@@ -676,12 +728,13 @@ function filterData(){
 function filterSP(){
   let search = document.getElementById("searchSP").value;
   let tahun  = document.getElementById("tahunSP").value;
+  let status = document.getElementById("statusSP").value;
   let container = document.getElementById("cardContainerSP");
   let select = document.getElementById("tahunSP");
 
   container.innerHTML = "Loading...";
 
-  fetch(`/sekretariat?jenis=sp&search=${search}&tahun=${tahun}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+  fetch(`/sekretariat?jenis=sp&search=${search}&tahun=${tahun}&status=${status}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
   .then(res => res.json())
   .then(res => {
     let selected = tahun;
@@ -696,8 +749,10 @@ function filterSP(){
 
     res.data.forEach(item=>{
       let color = getColor(item.id);
+      let badge = getStatusBadge(item.status);
       container.innerHTML += `
       <div class="card card-sm ${color}" onclick="openFile('${item.file}')">
+        ${badge}
         <h4>${item.nomor}</h4>
         <p>${item.judul}</p>
         <small>Tahun: ${item.tahun}</small>
@@ -710,12 +765,13 @@ function filterSP(){
 function filterSOP(){
   let search = document.getElementById("searchSOP").value;
   let tahun  = document.getElementById("tahunSOP").value;
+  let status = document.getElementById("statusSOP").value;
   let container = document.getElementById("cardContainerSOP");
   let select = document.getElementById("tahunSOP");
 
   container.innerHTML = "Loading...";
 
-  fetch(`/sekretariat?jenis=sop&search=${search}&tahun=${tahun}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+  fetch(`/sekretariat?jenis=sop&search=${search}&tahun=${tahun}&status=${status}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
   .then(res => res.json())
   .then(res => {
     let selected = tahun;
@@ -730,8 +786,10 @@ function filterSOP(){
 
     res.data.forEach(item=>{
       let color = getColor(item.id);
+      let badge = getStatusBadge(item.status);
       container.innerHTML += `
       <div class="card card-sm ${color}" onclick="openFile('${item.file}')">
+        ${badge}
         <h4>${item.nomor}</h4>
         <p>${item.judul}</p>
         <small>Tahun: ${item.tahun}</small>
@@ -744,12 +802,13 @@ function filterSOP(){
 function filterZI(){
   let search = document.getElementById("searchZI").value;
   let tahun  = document.getElementById("tahunZI").value;
+  let status = document.getElementById("statusZI").value;
   let container = document.getElementById("cardContainerZI");
   let select = document.getElementById("tahunZI");
 
   container.innerHTML = "Loading...";
 
-  fetch(`/sekretariat?jenis=zi&search=${search}&tahun=${tahun}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+  fetch(`/sekretariat?jenis=zi&search=${search}&tahun=${tahun}&status=${status}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
   .then(res => res.json())
   .then(res => {
     let selected = tahun;
@@ -764,8 +823,10 @@ function filterZI(){
 
     res.data.forEach(item=>{
       let color = getColor(item.id);
+      let badge = getStatusBadge(item.status);
       container.innerHTML += `
       <div class="card card-sm ${color}" onclick="openFile('${item.file}')">
+        ${badge}
         <h4 style="font-size: 16px;">Tahun ${item.tahun}</h4>
         <p>${item.judul}</p>
         <small>Format: Excel</small>

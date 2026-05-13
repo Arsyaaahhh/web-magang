@@ -44,7 +44,7 @@ table{width:100%; border-collapse:collapse; min-width: 700px;}
 th{padding:12px; background:#eaf2ff; text-align:left;}
 td{padding:12px; border-bottom:1px solid #e5e7eb;}
 
-/* 🔥 FILTER DROPDOWN */
+/* ðŸ”¥ FILTER DROPDOWN */
 .filter { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; }
 .filter select { padding: 8px 12px; border-radius: 6px; border: 1px solid #d1d5db; min-width: 150px; outline: none; background: white; font-size: 14px; }
 .filter select:focus { border-color: #0d6efd; box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.1); }
@@ -53,8 +53,26 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
 .btn-primary { background: #0d6efd; }
 .btn-primary:hover { background: #0b5ed7; }
 .btn:hover { background: #16a34a; }
-.btn-back { background: #6c757d; }
-.btn-back:hover { background: #5a6268; }
+    .btn-back {
+        margin-bottom: 15px;
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        margin-bottom: 5px;
+    }
+
+    .btn-back:hover {
+        background-color: #5a6268;
+    }
 
 .alert{padding:10px; margin-bottom:15px; background:#d1e7dd; border-radius:6px; color:#0f5132;}
 
@@ -98,7 +116,9 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
             <h2>Rekap Data Pengawasan</h2>
             
             <div style="display: flex; gap: 10px;">
-                <a href="javascript:history.back()" class="btn btn-back"><i class="fas fa-arrow-left"></i> Kembali</a>
+            <a href="/admin/admin_pup" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </a>
                 <a href="{{ route('pengawasan.create') }}" class="btn"><i class="fas fa-plus"></i> Tambah Data</a>
             </div>
         </div>

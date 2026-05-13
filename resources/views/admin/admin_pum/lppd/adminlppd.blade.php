@@ -149,7 +149,7 @@
         <h3>Admin Pemberdayaan Usaha Mikro</h3>
       </div>
       <div style="display:flex; gap:10px; align-items:center;">
-        <span style="font-size: 14px;">Halo {{ session('username') ?? 'Admin' }} 👋</span>
+        <span style="font-size: 14px;">Halo {{ session('username') ?? 'Admin' }} ðŸ‘‹</span>
       </div>
     </div>
 

@@ -30,7 +30,7 @@ class DashboardController extends Controller
         $pembinaan = Tdg::count() + Pengawasan::count() + Alkohol::count();
         $metrologi = MetrologiAlat::count() + MetrologiReparasi::count();
 
-        // 2. MASUKKAN KE DALAM ARRAY UNTUK CHART BAR
+        // 2. MASUKKAN KE DALAM ARRAY UNTUK CHART BAR (Kategori Utama)
         $chartData = [
             $sekretariat, 
             $mikro, 
@@ -40,13 +40,27 @@ class DashboardController extends Controller
             $metrologi
         ];
 
-        // 3. TAMBAHAN UNTUK CHART TREND KINERJA (LPPD)
+        // 3. CHART TREND KINERJA (LPPD)
         $trendLppd = DB::table('lppd')
             ->select('tahun', 'jumlah')
             ->orderBy('tahun', 'asc')
             ->get();
 
-        // 4. LEMPAR DATA KE TAMPILAN BLADE
+            // 4. 🔥 AMBIL DATA KOPERASI AKTIF PER TAHUN
+        $koperasiAktif = Koperasi::select('tahun as tahun', DB::raw('count(*) as total'))
+            ->where('status', 'Aktif') // Asumsi nama kolomnya 'status'. Jika berbeda (misal 'status_koperasi'), ubah kata 'status' ini.
+            ->whereNotNull('tahun')
+            ->groupBy('tahun')
+            ->orderBy('tahun', 'asc')
+            ->get();
+            
+        // 5. AMBIL DATA ALAT UTTP PER TAHUN
+        $trendUttp = MetrologiAlat::select('tahun', DB::raw('SUM(jumlah) as total'))
+            ->groupBy('tahun')
+            ->orderBy('tahun', 'asc')
+            ->get();
+
+        // 6. LEMPAR DATA KE TAMPILAN BLADE
         return view('dashboard', compact(
             'sekretariat', 
             'mikro', 
@@ -56,7 +70,9 @@ class DashboardController extends Controller
             'pembinaan', 
             'metrologi',
             'chartData',
-            'trendLppd' 
+            'trendLppd',
+            'koperasiAktif', // 🔥 Melempar data koperasi aktif ke frontend
+            'trendUttp' 
         ));
     }
 }
