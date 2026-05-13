@@ -236,7 +236,17 @@
                 </select>
               </div>
 
-              <div class="form-group full-width">
+              <div class="form-group">
+                <label for="nama_kkmp">Nama KKMP</label>
+                <input type="text" name="nama_kkmp" id="nama_kkmp" placeholder="Masukkan nama KKMP..." required value="{{ old('nama_kkmp', $data->nama_kkmp) }}">
+              </div>
+
+              <div class="form-group">
+                <label for="no_badan_hukum">No. Badan Hukum</label>
+                <input type="text" name="no_badan_hukum" id="no_badan_hukum" placeholder="Masukkan no. badan hukum..." required value="{{ old('no_badan_hukum', $data->no_badan_hukum) }}">
+              </div>
+
+              <div class="form-group">
                 <label for="alamat">Alamat Lengkap</label>
                 <input type="text" name="alamat" id="alamat" placeholder="Masukkan alamat lengkap..." required value="{{ old('alamat', $data->alamat) }}">
               </div>

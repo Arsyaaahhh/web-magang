@@ -11,6 +11,8 @@ class KKMP extends Model
     protected $fillable = [
         'ID_KECAMATAN',
         'ID_KELURAHAN',
+        'nama_kkmp',
+        'no_badan_hukum',
         'tahun',
         'alamat',
         'jenis_kkmp',

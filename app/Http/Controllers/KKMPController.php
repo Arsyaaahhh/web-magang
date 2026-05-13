@@ -58,6 +58,8 @@ class KKMPController extends Controller
         $request->validate([
             'ID_KECAMATAN' => 'required|exists:kecamatan,ID_KECAMATAN',
             'ID_KELURAHAN' => 'required|exists:kelurahan,ID_KELURAHAN',
+            'nama_kkmp' => 'required|string|max:255',
+            'no_badan_hukum' => 'required|string|max:255',
             'tahun' => 'required|integer|min:1900|max:2999',
             'alamat' => 'required|string|max:255',
             'jenis_kkmp' => 'required|in:Gerai/Outlet Sembako (Kios Pangan),Apotek & Klinik Kelurahan,Unit Jasa Keuangan Mikro,Fasilitas Cold Storage & Logistik,Unit Pemasaran UMKM,Unit Jasa Pemenuhan Gizi (Pemasok SPPG)',
@@ -68,6 +70,8 @@ class KKMPController extends Controller
         KKMP::create($request->only([
             'ID_KECAMATAN',
             'ID_KELURAHAN',
+            'nama_kkmp',
+            'no_badan_hukum',
             'tahun',
             'alamat',
             'jenis_kkmp',
@@ -92,6 +96,8 @@ class KKMPController extends Controller
         $request->validate([
             'ID_KECAMATAN' => 'required|exists:kecamatan,ID_KECAMATAN',
             'ID_KELURAHAN' => 'required|exists:kelurahan,ID_KELURAHAN',
+            'nama_kkmp' => 'required|string|max:255',
+            'no_badan_hukum' => 'required|string|max:255',
             'tahun' => 'required|integer|min:1900|max:2999',
             'alamat' => 'required|string|max:255',
             'jenis_kkmp' => 'required|in:Gerai/Outlet Sembako (Kios Pangan),Apotek & Klinik Kelurahan,Unit Jasa Keuangan Mikro,Fasilitas Cold Storage & Logistik,Unit Pemasaran UMKM,Unit Jasa Pemenuhan Gizi (Pemasok SPPG)',
@@ -103,6 +109,8 @@ class KKMPController extends Controller
         $kkmp->update($request->only([
             'ID_KECAMATAN',
             'ID_KELURAHAN',
+            'nama_kkmp',
+            'no_badan_hukum',
             'tahun',
             'alamat',
             'jenis_kkmp',
