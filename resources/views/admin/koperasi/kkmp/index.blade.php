@@ -433,8 +433,10 @@
                 <th>Kecamatan</th>
                 <th>Kelurahan</th>
                 <th>Tahun</th>
+                <th>Nama KKMP</th>
                 <th>Alamat</th>
                 <th>Jenis KKMP</th>
+                <th>No. Badan Hukum</th>
                 <th>Jumlah Anggota</th>
                 <th>Total Omzet (Rp)</th>
                 <th>Aksi</th>
@@ -447,8 +449,10 @@
                 <td>{{ $d->kecamatan->NM_KECAMATAN ?? '-' }}</td>
                 <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
                 <td>{{ $d->tahun }}</td>
+                <td>{{ $d->nama_kkmp }}</td>
                 <td>{{ $d->alamat }}</td>
                 <td>{{ $d->jenis_kkmp }}</td>
+                <td>{{ $d->no_badan_hukum }}</td>
                 <td>{{ $d->jumlah_anggota }}</td>
                 <td>Rp {{ number_format($d->total_omzet, 0, ',', '.') }}</td>
                 <td>
