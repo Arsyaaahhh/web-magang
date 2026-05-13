@@ -34,6 +34,10 @@
       z-index: 999;
     }
 
+    .overlay.active {
+      display: block; /* Ditambahkan agar overlay berfungsi saat sidebar HP terbuka */
+    }
+
     .swkcard-image{
         position:relative;
         height:290px;
@@ -276,6 +280,75 @@
     .btn-back:hover {
         background-color: #5a6268;
     }
+
+    /* =========================================
+       ðŸ”¥ CSS RESPONSIVE (MEDIA QUERIES) ðŸ”¥
+       ========================================= */
+    
+    /* Untuk Tablet / Layar Menengah */
+    @media (max-width: 992px) {
+        .swkcard {
+            width: calc(33.33% - 14px); /* Tampil 3 card per baris */
+        }
+    }
+
+    /* Untuk Tablet Kecil dan HP Horizontal */
+    @media (max-width: 768px) {
+        .sidebar {
+            position: fixed;
+            left: -100%;
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .sidebar.active {
+            left: 0 !important;
+        }
+
+        .main {
+            width: 100% !important;
+            margin-left: 0 !important;
+        }
+
+        .top {
+            flex-direction: column-reverse; /* Tombol kembali di atas, filter di bawah */
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .filter {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .filter input, .filter select, .filter button {
+            width: 100%; /* Filter memanjang ke samping penuh di HP */
+        }
+
+        .swk-wrapper {
+            justify-content: center; /* Card diletakkan di tengah pada HP */
+        }
+
+        .swkcard {
+            width: calc(50% - 10px); /* Tampil 2 card per baris */
+        }
+    }
+
+    /* Untuk HP Layar Kecil (Potret) */
+    @media (max-width: 576px) {
+        .swkcard {
+            width: 100%; /* Tampil 1 card penuh memanjang di HP */
+        }
+
+        .detail-grid {
+            grid-template-columns: 1fr; /* Kotak detail jadi 1 kolom ke bawah */
+        }
+
+        .detail-box {
+            padding: 20px;
+            margin: 15px;
+        }
+    }
   </style>
 
 </head>
@@ -306,7 +379,7 @@
 <div class="main">
 
   <div class="header">
-    <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+    <div class="toggle-btn" onclick="toggleSidebar()">â˜°</div>
     <img src="{{ asset('images/logo.jpg') }}" class="logo">
     <div>
       <b>Pemberdayaan Usaha Mikro</b><br>
@@ -320,7 +393,7 @@
 
     <div class="top">
 
-        <form method="GET">
+        <form method="GET" style="width: 100%;">
           <div class="filter">
             <input type="text" name="search" placeholder="Cari SWK" value="{{ request('search') }}">
             <select id="kecamatan" name="kecamatan_id">
@@ -341,30 +414,6 @@
         </a>
 
     </div>
-    <!-- MAIN MENU -->
-    <!-- <div class="cards" id="mainMenu">
-
-      <a class="card green">
-        <h4>Total Swk</h4>
-        <h2>{{ $summary->total_swk ?? 0 }}</h2>
-      </a>
-
-      <a class="card blue">
-        <h4>Total Pedagang</h4>
-        <h2>{{ $summary->total_pedagang ?? 0 }}</h2>
-      </a>
-
-      <a class="card green">
-        <h4>Total Stan</h4>
-        <h2>{{ $summary->total_stan ?? 0 }}</h2>
-      </a>
-
-      <a class="card purple">
-        <h4>Total Stan Belum Terisi</h4>
-        <h2>{{ $summary->total_stan_kosong ?? 0 }}</h2>
-      </a>
-
-    </div> -->
 
     <div class="swk-wrapper">
         @forelse($swks as $swk)
@@ -394,7 +443,7 @@
                     </p>
 
                     <p class="description">
-                        Luas: {{ $swk->luas }} m² | Kapasitas: {{ $swk->kapasitas }} orang
+                        Luas: {{ $swk->luas }} mÂ² | Kapasitas: {{ $swk->kapasitas }} orang
                     </p>
 
                     <div class="tags">

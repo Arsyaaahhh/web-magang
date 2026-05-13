@@ -12,6 +12,7 @@ class Surat extends Model
         'jenis',
         'tahun',
         'file',
+        'status',
         'bidang'
     ];
 }

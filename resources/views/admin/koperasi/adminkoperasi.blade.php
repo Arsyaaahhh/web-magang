@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -431,9 +431,6 @@
           
           <!-- BUNGKUSAN TOMBOL -->
           <div class="top-actions">
-            <a href="javascript:history.back()" class="btn btn-back">
-              <i class="fas fa-arrow-left"></i> Kembali
-            </a>
             <a href="/admin/koperasi/create" class="btn btn-add">
               + Tambah
             </a>

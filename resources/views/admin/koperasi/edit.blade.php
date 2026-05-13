@@ -136,7 +136,7 @@
 
     <div class="header">
       <h2>Edit Data Koperasi</h2>
-      <a href="/admin/koperasi/adminkoperasi" class="back">← Kembali</a>
+      <a href="/admin/koperasi/" class="back">← Kembali</a>
     </div>
 
 <form action="/admin/koperasi/update/{{ $data->id }}" method="POST">
@@ -231,20 +231,25 @@
   </div>
 </div>
 <script>
-document.getElementById('kecamatan').addEventListener('change', function () {
-    let id = this.value;
-    fetch('/admin/koperasi/get-kelurahan/' + id)
-        .then(res => res.json())
-        .then(data => {
-            let kelurahan = document.getElementById('kelurahan');
-            kelurahan.innerHTML = '<option value="">-- Pilih Kelurahan --</option>';
-            data.forEach(item => {
-                kelurahan.innerHTML += `
-                    <option value="${item.ID_KELURAHAN}">${item.NM_KELURAHAN}</option>
-                `;
-            });
-        });
-});
+    document.addEventListener('DOMContentLoaded', function() {
+        let kecamatan = document.getElementById('kecamatan');
+        let kelurahan = document.getElementById('kelurahan');
+        let selectedKelurahan = "{{ $data->kelurahan_id }}";
+
+        function loadKelurahan(kecamatan_id, selected = null){
+            fetch('/get-kelurahan/' + kecamatan_id)
+                .then(res => res.json())
+                .then(data => {
+                    kelurahan.innerHTML = '<option value="">Pilih Kelurahan</option>';
+                    data.forEach(item => {
+                        let isSelected = item.ID_KELURAHAN == selected ? 'selected' : '';
+                        kelurahan.innerHTML += `<option value="${item.ID_KELURAHAN}" ${isSelected}>${item.NM_KELURAHAN}</option>`;
+                    });
+                });
+        }
+        if(kecamatan.value){ loadKelurahan(kecamatan.value, selectedKelurahan); }
+        kecamatan.addEventListener('change', function(){ loadKelurahan(this.value); });
+    });
 </script>
 </body>
 </html>

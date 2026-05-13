@@ -122,7 +122,7 @@ class KoperasiController extends Controller
             'pelaksanaan_rat'
         ]));
 
-        return redirect('/admin/koperasi/adminkoperasi')->with('success', 'Data berhasil ditambahkan');
+        return redirect('/admin/koperasi/')->with('success', 'Data berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -163,7 +163,7 @@ class KoperasiController extends Controller
             'pelaksanaan_rat'
         ]));
 
-        return redirect('/admin/koperasi/adminkoperasi')->with('success', 'Data berhasil diupdate');
+        return redirect('/admin/koperasi/')->with('success', 'Data berhasil diupdate');
     }
 
     public function destroy($id)
@@ -172,10 +172,10 @@ class KoperasiController extends Controller
         return back()->with('success', 'Data berhasil dihapus');
     }
 
-    public function getKelurahan($id)
+    public function getKelurahan($ID_KECAMATAN)
     {
-        $data = Kelurahan::where('ID_KECAMATAN', $id)->get();
-        return response()->json($data);
+        $kelurahan = Kelurahan::where('ID_KECAMATAN', $ID_KECAMATAN)->get();
+        return response()->json($kelurahan);
     }
 
     public function getTotalKoperasi()

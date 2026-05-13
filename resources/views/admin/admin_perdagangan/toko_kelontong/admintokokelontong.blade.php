@@ -365,6 +365,27 @@
             padding: 15px 20px;
         }
     }
+    
+    .btn-back {
+        margin-bottom: 15px;
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        margin-bottom: 5px;
+    }
+
+    .btn-back:hover {
+        background-color: #5a6268;
+    }
   </style>
 </head>
 
@@ -413,7 +434,7 @@
       </div>
 
       <div style="display:flex; gap:10px; align-items:center;">
-        <span style="font-size: 14px;">Halo {{ session('username') ?? 'Admin' }} 👋</span>
+        <span style="font-size: 14px;">Halo {{ session('username') ?? 'Admin' }} ðŸ‘‹</span>
       </div>
     </div>
 
@@ -423,7 +444,9 @@
         <h2>Data Toko Kelontong</h2>
         
         <div style="display: flex; gap: 10px;">
-            <a href="javascript:history.back()" class="btn btn-back"><i class="fas fa-arrow-left"></i> Kembali</a>
+            <a href="/admin/admin_perdagangan" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </a>
             <a href="/admin/admin_perdagangan/tokokelontong/tokokelontongcreate" class="btn btn-add"><i class="fas fa-plus"></i> Tambah</a>
         </div>
       </div>

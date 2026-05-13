@@ -31,6 +31,10 @@
       background: rgba(0,0,0,0.5);
       z-index: 999;
     }
+    
+    .overlay.active {
+      display: block; /* Ditambahkan agar overlay berfungsi di HP */
+    }
 
     .swkcard-image{
         position:relative;
@@ -274,6 +278,46 @@
     .btn-back:hover {
         background-color: #5a6268;
     }
+
+    /* =========================================
+       🔥 CSS RESPONSIVE (MEDIA QUERIES) 🔥
+       ========================================= */
+    
+    /* Untuk Tablet / Layar Menengah */
+    @media (max-width: 992px) {
+        .swkcard { width: calc(33.33% - 14px); }
+    }
+
+    /* Untuk Tablet Kecil dan HP Horizontal */
+    @media (max-width: 768px) {
+        .sidebar {
+            position: fixed;
+            left: -100%;
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .sidebar.active { left: 0 !important; }
+        .main { width: 100% !important; margin-left: 0 !important; }
+        
+        .top {
+            flex-direction: column-reverse; /* Tombol kembali di atas, filter di bawah */
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .filter { flex-direction: column; width: 100%; }
+        .filter input, .filter select, .filter button { width: 100%; } /* Input full width */
+        .swk-wrapper { justify-content: center; }
+        .swkcard { width: calc(50% - 10px); } /* 2 baris di Tablet kecil */
+    }
+
+    /* Untuk HP Layar Kecil (Potret) */
+    @media (max-width: 576px) {
+        .swkcard { width: 100%; } /* 1 card penuh memanjang di HP */
+        .detail-grid { grid-template-columns: 1fr; } /* Modal 1 baris ke bawah */
+        .detail-box { padding: 20px; margin: 15px; }
+    }
   </style>
 
 </head>
@@ -317,7 +361,7 @@
     <h2>Pasar</h2>
 
     <div class="top">
-        <form method="GET">
+        <form method="GET" style="width: 100%;">
           <div class="filter">
             <input type="text" name="search" placeholder="Cari Pasar" value="{{ request('search') }}">
             <select id="kecamatan" name="kecamatan_id">
@@ -337,28 +381,6 @@
             <i class="fas fa-arrow-left"></i> Kembali
         </a>
     </div>
-
-    <!-- MAIN MENU -->
-    <!-- <div class="cards" id="mainMenu">
-
-      <a class="card green">
-        <h4>Total Pasar</h4>
-        <h2>{{ $summary->total_pasar ?? 0 }}</h2>
-      </a>
-      <a class="card blue">
-        <h4>Total Pedagang</h4>
-        <h2>{{ $summary->total_pedagang ?? 0 }}</h2>
-      </a>
-      <a class="card green">
-        <h4>Total Stan</h4>
-        <h2>{{ $summary->total_stan ?? 0 }}</h2>
-      </a>
-      <a class="card purple">
-        <h4>Total Stan Belum Terisi</h4>
-        <h2>{{ $summary->total_stan_kosong ?? 0 }}</h2>
-      </a>
-
-    </div> -->
 
     <div class="swk-wrapper">
         @forelse($pasar as $pasar)

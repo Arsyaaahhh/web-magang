@@ -9,61 +9,20 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
   <style>
-    body {
-      overflow-x: hidden; 
-    }
-    .toggle-btn {
-      display: none; 
-    }
-    .chart-grid {
-      width: 100%;
-      box-sizing: border-box;
-    }
-    .chart-box {
-      position: relative;
-      height: 300px; 
-      width: 100%;
-      box-sizing: border-box;
-    }
-    .chart-box canvas {
-      max-width: 100% !important;
-    }
+    body { overflow-x: hidden; }
+    .toggle-btn { display: none; }
+    .chart-grid { width: 100%; box-sizing: border-box; }
+    .chart-box { position: relative; height: 300px; width: 100%; box-sizing: border-box; }
+    .chart-box canvas { max-width: 100% !important; }
 
     @media screen and (max-width: 768px) {
-      .toggle-btn {
-        display: block;
-        font-size: 24px;
-        cursor: pointer;
-        margin-right: 15px;
-      }
-      .sidebar {
-        position: fixed;
-        left: -250px;
-        top: 0;
-        height: 100vh;
-        z-index: 1000;
-        transition: left 0.3s ease;
-      }
-      .sidebar.active {
-        left: 0;
-      }
-      .main {
-        margin-left: 0 !important;
-        width: 100%;
-      }
-      .cards {
-        display: grid !important;
-        grid-template-columns: 1fr !important; 
-        gap: 15px;
-      }
-      .chart-grid {
-        display: grid !important;
-        grid-template-columns: 1fr !important; 
-        gap: 20px;
-      }
-      .chart-box {
-        height: 250px; 
-      }
+      .toggle-btn { display: block; font-size: 24px; cursor: pointer; margin-right: 15px; }
+      .sidebar { position: fixed; left: -250px; top: 0; height: 100vh; z-index: 1000; transition: left 0.3s ease; }
+      .sidebar.active { left: 0; }
+      .main { margin-left: 0 !important; width: 100%; }
+      .cards { display: grid !important; grid-template-columns: 1fr !important; gap: 15px; }
+      .chart-grid { display: grid !important; grid-template-columns: 1fr !important; gap: 20px; }
+      .chart-box { height: 250px; }
     }
   </style>
 </head>
@@ -89,7 +48,7 @@
 
   <div class="main">
     <div class="header">
-      <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+      <div class="toggle-btn" onclick="toggleSidebar()">â˜°</div>
       <img src="{{ asset('images/logo.jpg') }}" class="logo">
       <div>
         <b style="font-size:15px;">
@@ -105,47 +64,36 @@
       <div class="cards">
         <a href="/sekretariat" class="card blue">
           <i class="fas fa-user-tie fa-3x"></i>
-          <div class="text">
-            <h4>Bidang Sekretariat</h4>
-          </div>
+          <div class="text"><h4>Bidang Sekretariat</h4></div>
         </a>
         <a href="/mikro" class="card green">
           <i class="fas fa-store fa-3x"></i>
-          <div class="text">
-            <h4>Pemberdayaan Usaha Mikro</h4>
-          </div>
+          <div class="text"><h4>Pemberdayaan Usaha Mikro</h4></div>
         </a>
-        <a href="/distribusi" class="card orange">
+        <a href="/perdagangan" class="card orange">
           <i class="fas fa-truck fa-3x"></i>
-          <div class="text">
-            <h4>Distribusi Perdagangan</h4>
-          </div>
+          <div class="text"><h4>Distribusi Perdagangan</h4></div>
         </a>
         <a href="/koperasi" class="card purple">
           <i class="fas fa-building fa-3x"></i>
-          <div class="text">
-            <h4>Bidang Koperasi</h4>
-          </div>
+          <div class="text"><h4>Bidang Koperasi</h4></div>
         </a>
         <a href="/pembinaan" class="card red">
           <i class="fas fa-briefcase fa-3x"></i>
-          <div class="text">
-            <h4>Pembinaan Usaha Perdagangan</h4>
-          </div>
+          <div class="text"><h4>Pembinaan Usaha Perdagangan</h4></div>
         </a>
         <a href="/metrologi" class="card teal">
           <i class="fas fa-balance-scale fa-3x"></i>
-          <div class="text">
-            <h4>UPTD Metrologi Legal</h4>
-          </div>
+          <div class="text"><h4>UPTD Metrologi Legal</h4></div>
         </a>
       </div>
 
       <div class="chart-grid">
         <div class="chart-box"><canvas id="trendChart"></canvas></div>
         <div class="chart-box"><canvas id="kategoriChart"></canvas></div>
-        <div class="chart-box"><canvas id="sertifikatChart"></canvas></div>
-        <div class="chart-box"><canvas id="perbandinganChart"></canvas></div>
+        <div class="chart-box"><canvas id="uttpChart"></canvas></div>
+        <!-- ðŸ”¥ Ubah ID canvas menjadi koperasiChart -->
+        <div class="chart-box"><canvas id="koperasiChart"></canvas></div>
       </div>
     </div>
   </div>
@@ -168,14 +116,33 @@
     });
 
     // ==========================================
-    // CARA PALING AMAN MELEMPAR DATA PHP KE JS (LARAVEL MODERN)
+    // MENANGKAP DATA PHP KE JAVASCRIPT
     // ==========================================
     const chartData = JSON.parse('{!! json_encode($chartData ?? []) !!}');
     const rawTrendData = JSON.parse('{!! json_encode($trendLppd ?? []) !!}');
+    const rawUttpData = JSON.parse('{!! json_encode($trendUttp ?? []) !!}'); 
+    const rawKoperasiData = JSON.parse('{!! json_encode($koperasiAktif ?? []) !!}'); // ðŸ”¥ Tangkap Data Koperasi
 
-    // Mapping Data
-    const trendLabels = rawTrendData.map(item => item.tahun);
-    const trendValues = rawTrendData.map(item => item.jumlah);
+    // Mapping Data Trend LPPD
+    let trendLabels = rawTrendData.map(item => item.tahun);
+    let trendValues = rawTrendData.map(item => item.jumlah);
+    if(trendLabels.length === 0) { trendLabels = ['Belum ada data']; trendValues = [0]; }
+
+    // Mapping Data Alat UTTP
+    let uttpLabels = rawUttpData.map(item => item.tahun);
+    let uttpValues = rawUttpData.map(item => item.total);
+    if(uttpLabels.length === 0) {
+        uttpLabels = ['Belum ada data'];
+        uttpValues = [0];
+    }
+
+    // ðŸ”¥ Mapping Data Koperasi Aktif
+    let koperasiLabels = rawKoperasiData.map(item => item.tahun);
+    let koperasiValues = rawKoperasiData.map(item => item.total);
+    if(koperasiLabels.length === 0) {
+        koperasiLabels = ['Belum ada data'];
+        koperasiValues = [0];
+    }
 
     const colors = {
       sekretariat: '#0d6efd',
@@ -186,15 +153,20 @@
       metrologi: '#17a2b8'
     };
 
+    // OPSI GRAFIK UTAMA
     const chartOptions = {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: {
-          position: 'bottom',
-          labels: {
-            boxWidth: 12,
-            font: { size: 11 }
+        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          suggestedMax: 10,
+          ticks: {
+            precision: 0,
+            stepSize: 1
           }
         }
       }
@@ -206,7 +178,7 @@
       data: {
         labels: trendLabels, 
         datasets: [{
-          label: 'Jumlah UMKM per Tahun',
+          label: 'Jumlah UMKM per Tahun (LPPD)',
           data: trendValues, 
           borderColor: colors.sekretariat,
           backgroundColor: colors.sekretariat + '33',
@@ -217,13 +189,13 @@
       options: chartOptions
     });
 
-    // ================= BAR CHART =================
+    // ================= BAR CHART KESELURUHAN =================
     new Chart(document.getElementById('kategoriChart'), {
       type: 'bar',
       data: {
         labels: ['Sekretariat', 'UMKM', 'Distribusi', 'Koperasi', 'Pembinaan', 'Metrologi'],
         datasets: [{
-          label: 'Jumlah Data',
+          label: 'Jumlah Data Keseluruhan',
           data: chartData,
           backgroundColor: [
             colors.sekretariat, colors.umkm, colors.distribusi,
@@ -234,31 +206,33 @@
       options: chartOptions
     });
 
-    // ================= DONUT CHART =================
-    new Chart(document.getElementById('sertifikatChart'), {
-      type: 'doughnut',
+    // ================= LINE CHART UTTP =================
+    new Chart(document.getElementById('uttpChart'), {
+      type: 'line',
       data: {
-        labels: ['Sekretariat', 'UMKM', 'Distribusi', 'Koperasi', 'Pembinaan', 'Metrologi'],
+        labels: uttpLabels, 
         datasets: [{
-          data: [32, 85, 42, 23, 31, 68],
-          backgroundColor: [
-            colors.sekretariat, colors.umkm, colors.distribusi,
-            colors.koperasi, colors.pembinaan, colors.metrologi
-          ]
+          label: 'Jumlah Alat UTTP per Tahun',
+          data: uttpValues, 
+          borderColor: colors.metrologi,
+          backgroundColor: colors.metrologi + '33',
+          fill: true,
+          tension: 0.4
         }]
       },
       options: chartOptions
     });
 
-    // ================= BAR PERBANDINGAN =================
-    new Chart(document.getElementById('perbandinganChart'), {
+    // ================= BAR CHART KOPERASI AKTIF ðŸ”¥ =================
+    new Chart(document.getElementById('koperasiChart'), {
       type: 'bar',
       data: {
-        labels: ['Sekretariat', 'UMKM', 'Distribusi', 'Koperasi', 'Pembinaan', 'Metrologi'],
+        labels: koperasiLabels, 
         datasets: [{
-          label: 'Perbandingan Bidang',
-          data: [32, 85, 42, 23, 31, 68],
-          backgroundColor: colors.sekretariat
+          label: 'Jumlah Koperasi Aktif per Tahun',
+          data: koperasiValues, 
+          backgroundColor: colors.koperasi,
+          maxBarThickness: 50 // ðŸ”¥ TAMBAHKAN KODE INI AGAR BATANGNYA TIDAK MELEBAR/TIDUR
         }]
       },
       options: chartOptions

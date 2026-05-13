@@ -136,7 +136,7 @@
 
     <div class="header">
       <h2>Tambah Data Koperasi</h2>
-      <a href="/admin/koperasi" class="back">← Kembali</a>
+      <a href="/admin/koperasi/" class="back">← Kembali</a>
     </div>
 
 <form action="/admin/koperasi/store" method="POST">
@@ -226,28 +226,21 @@
   </div>
 </div>
 <script>
-document.getElementById('kecamatan').addEventListener('change', function () {
+    document.getElementById('kecamatan').addEventListener('change', function() {
+        let kecamatan_id = this.value;
 
-    let id = this.value;
+        fetch('/get-kelurahan/' + kecamatan_id)
+            .then(response => response.json())
+            .then(data => {
+                let kelurahan = document.getElementById('kelurahan');
+                kelurahan.innerHTML = '<option value="">Pilih Kelurahan</option>';
 
-    fetch('/admin/koperasi/get-kelurahan/' + id)
-        .then(res => res.json())
-        .then(data => {
-
-            let kelurahan = document.getElementById('kelurahan');
-            kelurahan.innerHTML = '<option value="">-- Pilih Kelurahan --</option>';
-
-            data.forEach(item => {
-                kelurahan.innerHTML += `
-                    <option value="${item.ID_KELURAHAN}">
-                        ${item.NM_KELURAHAN}
-                    </option>
-                `;
+                data.forEach(item => {
+                    kelurahan.innerHTML += 
+                        `<option value="${item.ID_KELURAHAN}">${item.NM_KELURAHAN}</option>`;
+                });
             });
-
-        });
-
-});
+    });
 </script>
 </body>
 </html>

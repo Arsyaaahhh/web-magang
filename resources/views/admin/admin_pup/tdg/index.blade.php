@@ -49,7 +49,7 @@ table{width:100%; border-collapse:collapse; min-width: 600px;}
 th{padding:12px; background:#eaf2ff; text-align:left;}
 td{padding:12px; border-bottom:1px solid #e5e7eb;}
 
-/* 🔥 FILTER DROPDOWN */
+/* ðŸ”¥ FILTER DROPDOWN */
 .filter { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; }
 .filter select { padding: 8px 12px; border-radius: 6px; border: 1px solid #d1d5db; min-width: 150px; outline: none; background: white; font-size: 14px; }
 .filter select:focus { border-color: #0d6efd; box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.1); }
@@ -60,8 +60,26 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
 .btn-primary:hover { background: #0b5ed7; }
 .btn-success { background: #20c997; }
 .btn-success:hover { background: #1aa179; }
-.btn-back { background: #6c757d; }
-.btn-back:hover { background: #5a6268; }
+    .btn-back {
+        margin-bottom: 15px;
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        margin-bottom: 5px;
+    }
+
+    .btn-back:hover {
+        background-color: #5a6268;
+    }
 .alert { padding: 10px; margin-bottom: 15px; background: #d1e7dd; color: #0f5132; border-radius: 6px; }
 
 /* MOBILE RESPONSIVE */
@@ -102,7 +120,9 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
             <h2>Rekap Data TDG</h2>
             
             <div style="display: flex; gap: 10px;">
-                <a href="javascript:history.back()" class="btn btn-back"><i class="fas fa-arrow-left"></i> Kembali</a>
+            <a href="/admin/admin_pup" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </a>
                 <a href="{{ route('tdg.create') }}" class="btn btn-success"><i class="fas fa-plus"></i> Tambah</a>
             </div>
         </div>
@@ -149,7 +169,7 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
                             <th>No</th>
                             <th>Tahun</th>
                             <th>Kecamatan</th>
-                            <th>Jumlah TDG</th>
+                            <th>Jumlah Dokumen</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -159,7 +179,7 @@ td{padding:12px; border-bottom:1px solid #e5e7eb;}
                             <td>{{ ($data->currentPage()-1)*$data->perPage()+$loop->iteration }}</td>
                             <td>{{ $item->tahun }}</td>
                             <td>{{ $item->kecamatan }}</td>
-                            <td>{{ $item->jumlah }} Dokumen</td>
+                            <td>{{ $item->jumlah }}</td>
                             <td>
                                 <a href="{{ route('tdg.edit',$item->id) }}" style="color:#2563eb; margin-right: 10px;"><i class="fas fa-pen"></i></a>
                                 <a href="{{ route('tdg.delete',$item->id) }}" style="color:#ef4444;" onclick="return confirm('Hapus?')"><i class="fas fa-trash"></i></a>

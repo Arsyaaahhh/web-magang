@@ -20,8 +20,6 @@
       overflow-x: hidden;
       min-height:100vh;
       display:flex;
-      justify-content:center;
-      align-items:center;
     }
 
     /* OVERLAY */
@@ -111,6 +109,11 @@
         .filter input, .filter select, .filter button { width: 100%; }
         .cards, #mainMenu { display: grid !important; grid-template-columns: 1fr !important; gap: 15px; }
         .navbar { padding: 15px 20px; }
+        .top {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
     }
 
     .top {

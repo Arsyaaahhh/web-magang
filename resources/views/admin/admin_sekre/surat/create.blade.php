@@ -63,6 +63,15 @@ input:focus, select:focus{outline:none;border-color:#0d6efd;box-shadow:0 0 0 2px
     </select>
   </div>
 
+  <!-- Input Status Baru -->
+  <div>
+    <label>Status</label>
+    <select name="status" required>
+      <option value="aktif" {{ old('status')=='aktif'?'selected':'' }}>Aktif</option>
+      <option value="nonaktif" {{ old('status')=='nonaktif'?'selected':'' }}>Nonaktif</option>
+    </select>
+  </div>
+
   <div>
     <label>Tahun</label>
     <input type="number" name="tahun" value="{{ old('tahun') }}" required>
@@ -131,7 +140,6 @@ function toggleForm() {
     }
 }
 
-// Jalankan otomatis saat halaman dimuat
 document.addEventListener('DOMContentLoaded', toggleForm);
 </script>
 

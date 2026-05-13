@@ -32,7 +32,6 @@ body{display:flex;background:#f8fafc; overflow-x: hidden;}
 .btn-add:hover{background:#1aa179; transition:0.2s ease;}
 .btn-edit{background:#ffc107;color:black;}
 .btn-delete{background:#dc3545;color:white;}
-/* Tambahan CSS untuk tombol kembali */
 .btn-back {background: #6c757d; color: white;}
 .btn-back:hover {background: #5a6268; transition: 0.2s ease;}
 
@@ -49,6 +48,10 @@ tbody tr:nth-child(even){background:#f9fafb;}
 tr:hover{background:#eef4ff;}
 
 .badge{padding:5px 10px;border-radius:6px;font-size:12px;background:#e5e7eb;}
+/* Tambahan warna badge untuk Status */
+.badge-success {background: #d1e7dd; color: #0f5132;}
+.badge-danger {background: #f8d7da; color: #842029;}
+
 .action{display:flex;gap:6px;flex-wrap:wrap;}
 .alert{padding:10px;margin-bottom:10px;background:#d1e7dd;border-radius:6px;}
 
@@ -60,10 +63,8 @@ tr:hover{background:#eef4ff;}
 .pagination .active span{background:#0d6efd;color:white;}
 .pagination-info{font-size:13px;color:#666;}
 
-/* OVERLAY UNTUK MOBILE */
 .overlay {display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;}
 
-/* 🔥 MEDIA QUERY RESPONSIVE (SMARTPHONE) */
 @media screen and (max-width: 768px) {
   .sidebar {left: -240px;}
   .sidebar.active {left: 0;}
@@ -85,35 +86,13 @@ tr:hover{background:#eef4ff;}
   <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>ADMIN</h2>
-
-    <a class="active" href="/admin/admin_sekre">
-      <i class="fas fa-user-tie"></i> Sekretariat
-    </a>
-
-    <a href="/admin/admin_pum">
-      <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
-    </a>
-
-    <a href="/admin/admin_pup">
-      <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
-    </a>
-
-    <a href="/admin/admin_perdagangan">
-      <i class="fas fa-truck"></i> Distribusi Perdagangan
-    </a>
-
-        <a href="/admin/koperasi">
-      <i class="fas fa-building"></i> Bidang Koperasi
-    </a>
-
-    <!-- Menu Metrologi Aktif -->
-    <a href="/admin/admin_metro">
-      <i class="fas fa-balance-scale"></i> Metrologi Legal
-    </a>
-
-    <button onclick="logout()" class="logout-btn">
-      <i class="fas fa-sign-out-alt"></i> Logout
-    </button>
+    <a class="active" href="/admin/admin_sekre"><i class="fas fa-user-tie"></i> Sekretariat</a>
+    <a href="/admin/admin_pum"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
+    <a href="/admin/admin_pup"><i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan</a>
+    <a href="/admin/admin_perdagangan"><i class="fas fa-truck"></i> Distribusi Perdagangan</a>
+    <a href="/admin/koperasi"><i class="fas fa-building"></i> Bidang Koperasi</a>
+    <a href="/admin/admin_metro"><i class="fas fa-balance-scale"></i> Metrologi Legal</a>
+    <button onclick="logout()" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
   </div>
 
 <div class="main">
@@ -149,7 +128,16 @@ tr:hover{background:#eef4ff;}
         <option value="SK" {{ request('jenis')=='SK'?'selected':'' }}>SK</option>
         <option value="SP" {{ request('jenis')=='SP'?'selected':'' }}>SP</option>
         <option value="SOP" {{ request('jenis')=='SOP'?'selected':'' }}>SOP</option>
+        <option value="ZI" {{ request('jenis')=='ZI'?'selected':'' }}>Zona Integritas (ZI)</option>
       </select>
+      
+      <!-- Filter Status Baru -->
+      <select name="status">
+        <option value="">Semua Status</option>
+        <option value="aktif" {{ request('status')=='aktif'?'selected':'' }}>Aktif</option>
+        <option value="nonaktif" {{ request('status')=='nonaktif'?'selected':'' }}>Nonaktif</option>
+      </select>
+
       <input type="number" name="tahun" placeholder="Tahun" value="{{ request('tahun') }}">
       <button class="btn btn-add">Filter</button>
     </div>
@@ -164,6 +152,7 @@ tr:hover{background:#eef4ff;}
           <th>Judul</th>
           <th>Jenis</th>
           <th>Tahun</th>
+          <th>Status</th> <!-- Header Baru -->
           <th>Aksi</th>
         </tr>
       </thead>
@@ -175,6 +164,14 @@ tr:hover{background:#eef4ff;}
           <td>{{ $d->judul }}</td>
           <td><span class="badge">{{ strtoupper($d->jenis) }}</span></td>
           <td>{{ $d->tahun }}</td>
+          
+          <!-- Kolom Status Baru -->
+          <td>
+            <span class="badge {{ $d->status == 'aktif' ? 'badge-success' : 'badge-danger' }}">
+              {{ ucfirst($d->status) }}
+            </span>
+          </td>
+
           <td>
             <div class="action">
               <a href="{{ route('surat.edit', $d->id) }}" class="btn btn-edit">Edit</a>
@@ -184,7 +181,7 @@ tr:hover{background:#eef4ff;}
         </tr>
         @empty
         <tr>
-          <td colspan="6" align="center">Tidak ada data surat</td>
+          <td colspan="7" align="center">Tidak ada data surat</td>
         </tr>
         @endforelse
       </tbody>
@@ -206,7 +203,6 @@ tr:hover{background:#eef4ff;}
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-// Fungsi toggle sidebar mobile
 function toggleSidebar() {
   document.getElementById('sidebarMenu').classList.toggle('active');
   document.getElementById('overlay').classList.toggle('active');
@@ -228,22 +224,21 @@ document.querySelectorAll('.delete-btn').forEach(function(button) {
   });
 });
 
-    // LOGOUT
-    function logout() {
-      Swal.fire({
-        title: 'Logout?',
-        text: "Kamu akan keluar",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#0d6efd',
-        confirmButtonText: 'Ya, logout'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          localStorage.removeItem("login");
-          window.location.href = "/logout";
-        }
-      });
+function logout() {
+  Swal.fire({
+    title: 'Logout?',
+    text: "Kamu akan keluar",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#0d6efd',
+    confirmButtonText: 'Ya, logout'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      localStorage.removeItem("login");
+      window.location.href = "/logout";
     }
+  });
+}
 </script>
 
 </body>
