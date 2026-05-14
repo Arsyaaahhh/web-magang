@@ -444,12 +444,10 @@
         <h2>Data Toko Kelontong</h2>
         
         <div style="display: flex; gap: 10px;">
-            <a href="/admin/admin_perdagangan" class="btn-back">
-                <i class="fas fa-arrow-left"></i> Kembali
-            </a>
+            <a href="/admin/admin_perdagangan" class="btn btn-back">← Kembali</a>
             <a href="/admin/admin_perdagangan/tokokelontong/tokokelontongcreate" class="btn btn-add"><i class="fas fa-plus"></i> Tambah</a>
         </div>
-      </div>
+      </div>git 
 
       @if(session('success'))
         <div class="alert">

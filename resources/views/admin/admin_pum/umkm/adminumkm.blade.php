@@ -428,9 +428,7 @@
         <h2>Data UMKM</h2>
         
         <div style="display: flex; gap: 10px;">
-            <a href="/admin/admin_pum" class="btn-back">
-                <i class="fas fa-arrow-left"></i> Kembali
-            </a>
+            <a href="/admin/admin_pum" class="btn btn-back">← Kembali</a>
             <a href="/admin/admin_pum/umkmcreate" class="btn btn-add">+ Tambah</a>
         </div>
       </div>
@@ -459,6 +457,26 @@
 
             <select id="kelurahan" name="kelurahan_id">
               <option value="">Semua Kelurahan</option>
+            </select>
+
+            <select name="kategori">
+              <option value="">Semua Kategori</option>
+              <option value="Aroma Terapi & Spa" {{ request('kategori')=='Aroma Terapi & Spa'?'selected':'' }}>Aroma Terapi & Spa</option>
+              <option value="Bapokting" {{ request('kategori')=='Bapokting'?'selected':'' }}>Bapokting</option>
+              <option value="Batik" {{ request('kategori')=='Batik'?'selected':'' }}>Batik</option>
+              <option value="Craft" {{ request('kategori')=='Craft'?'selected':'' }}>Craft</option>
+              <option value="Daging Segar Dingin" {{ request('kategori')=='Daging Segar Dingin'?'selected':'' }}>Daging Segar Dingin</option>
+              <option value="Fashion" {{ request('kategori')=='Fashion'?'selected':'' }}>Fashion</option>
+              <option value="Food and Culinary" {{ request('kategori')=='Food and Culinary'?'selected':'' }}>Food and Culinary</option>
+              <option value="Hasil Pertanian" {{ request('kategori')=='Hasil Pertanian'?'selected':'' }}>Hasil Pertanian</option>
+              <option value="Jasa" {{ request('kategori')=='Jasa'?'selected':'' }}>Jasa</option>
+              <option value="Laundry Bag" {{ request('kategori')=='Laundry Bag'?'selected':'' }}>Laundry Bag</option>
+              <option value="Makanan" {{ request('kategori')=='Makanan'?'selected':'' }}>Makanan</option>
+              <option value="Minuman" {{ request('kategori')=='Minuman'?'selected':'' }}>Minuman</option>
+              <option value="Penunjang" {{ request('kategori')=='Penunjang'?'selected':'' }}>Penunjang</option>
+              <option value="Sabun & Shampoo" {{ request('kategori')=='Sabun & Shampoo'?'selected':'' }}>Sabun & Shampoo</option>
+              <option value="Sepatu" {{ request('kategori')=='Sepatu'?'selected':'' }}>Sepatu</option>
+              <option value="Slipper" {{ request('kategori')=='Slipper'?'selected':'' }}>Slipper</option>
             </select>
 
             <button type="submit" class="btn" style="background:#0d6efd; color:white;">Filter</button>

@@ -310,7 +310,27 @@
                 @endforeach
               </select>
               <select id="kelurahan" name="kelurahan_id"><option value="">Semua Kelurahan</option></select>
-              <input type="text" name="search" placeholder="Cari Kategori" value="{{ request('search') }}">
+
+              <select name="kategori">
+                <option value="">Semua Kategori</option>
+                <option value="Aroma Terapi & Spa" {{ request('kategori')=='Aroma Terapi & Spa'?'selected':'' }}>Aroma Terapi & Spa</option>
+                <option value="Bapokting" {{ request('kategori')=='Bapokting'?'selected':'' }}>Bapokting</option>
+                <option value="Batik" {{ request('kategori')=='Batik'?'selected':'' }}>Batik</option>
+                <option value="Craft" {{ request('kategori')=='Craft'?'selected':'' }}>Craft</option>
+                <option value="Daging Segar Dingin" {{ request('kategori')=='Daging Segar Dingin'?'selected':'' }}>Daging Segar Dingin</option>
+                <option value="Fashion" {{ request('kategori')=='Fashion'?'selected':'' }}>Fashion</option>
+                <option value="Food and Culinary" {{ request('kategori')=='Food and Culinary'?'selected':'' }}>Food and Culinary</option>
+                <option value="Hasil Pertanian" {{ request('kategori')=='Hasil Pertanian'?'selected':'' }}>Hasil Pertanian</option>
+                <option value="Jasa" {{ request('kategori')=='Jasa'?'selected':'' }}>Jasa</option>
+                <option value="Laundry Bag" {{ request('kategori')=='Laundry Bag'?'selected':'' }}>Laundry Bag</option>
+                <option value="Makanan" {{ request('kategori')=='Makanan'?'selected':'' }}>Makanan</option>
+                <option value="Minuman" {{ request('kategori')=='Minuman'?'selected':'' }}>Minuman</option>
+                <option value="Penunjang" {{ request('kategori')=='Penunjang'?'selected':'' }}>Penunjang</option>
+                <option value="Sabun & Shampoo" {{ request('kategori')=='Sabun & Shampoo'?'selected':'' }}>Sabun & Shampoo</option>
+                <option value="Sepatu" {{ request('kategori')=='Sepatu'?'selected':'' }}>Sepatu</option>
+                <option value="Slipper" {{ request('kategori')=='Slipper'?'selected':'' }}>Slipper</option>
+              </select>
+              
               <button type="submit" class="btn" style="background:#0d6efd; color:white;">Filter</button>
             </div>
           </form>
@@ -350,6 +370,16 @@
             <a class="card blue">
                 <h4>Padat Karya</h4>
                 <h2>{{ $summary->padat_karya ?? 0 }}</h2>
+            </a>
+
+            <a class="card green">
+                <h4>Sertifikasi Halal</h4>
+                <h2>{{ $summary->sertifikasi_halal ?? 0 }}</h2>
+            </a>
+
+            <a class="card purple">
+                <h4>Sertifikasi Merek</h4>
+                <h2>{{ $summary->sertifikasi_merek ?? 0 }}</h2>
             </a>
 
         </div>

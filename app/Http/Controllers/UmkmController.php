@@ -26,6 +26,11 @@ class UmkmController extends Controller
             $query->where('kelurahan_id', $request->kelurahan_id);
         }
 
+        // FILTER KATEGORI
+        if($request->kategori){
+            $query->where('kategori', strtoupper($request->kategori));
+        }
+
         $data = $query->latest()->paginate(10)->withQueryString();
         $kecamatan = Kecamatan::all();
 
@@ -124,10 +129,8 @@ class UmkmController extends Controller
         }
 
         // FILTER KATEGORI
-        if($request->search){
-            $query->where(function($q) use ($request){
-                $q->where('kategori','like','%'.$request->search.'%');
-            });
+        if($request->kategori){
+            $query->where('kategori', strtoupper($request->kategori));
         }
 
         $summaryQuery = clone $query;
@@ -142,7 +145,8 @@ class UmkmController extends Controller
             SUM(sertifikasi_merek) as sertifikasi_merek,
             SUM(nib) as nib,
             SUM(peken) as peken,
-            SUM(padat_karya) as padat_karya
+            SUM(padat_karya) as padat_karya,
+            SUM(pirt) as pirt
         ')->first();
 
         if ($request->ajax()) {

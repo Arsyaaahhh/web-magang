@@ -245,12 +245,17 @@
           </div>
 
           <div>
+            <label>Peken</label>
+            <input name="peken" type="number" value="{{ $data->peken }}" min="0">
+          </div>
+
+          <div>
             <label>Luas (m²)</label>
             <input name="luas" type="number" value="{{ $data->luas }}" min="0">
           </div>
 
           <div>
-            <label>Kapasitas (orang)</label>
+            <label>Kapasitas (Pengunjung)</label>
             <input name="kapasitas" type="number" value="{{ $data->kapasitas }}" min="0">
           </div>
 
