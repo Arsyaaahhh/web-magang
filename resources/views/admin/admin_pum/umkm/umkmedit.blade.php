@@ -217,8 +217,41 @@
             </div>
           
           <div>
-            <label>Kategori</label>
-            <input name="kategori" type="text" value="{{ $data->kategori }}" required>
+              <label>Kategori</label>
+
+              <select name="kategori" required>
+                  <option value="Aroma Terapi & Spa" {{ $data->kategori == 'Aroma Terapi & Spa' ? 'selected' : '' }}>Aroma Terapi & Spa</option>
+
+                  <option value="Bapokting" {{ $data->kategori == 'Bapokting' ? 'selected' : '' }}>Bapokting</option>
+
+                  <option value="Batik" {{ $data->kategori == 'Batik' ? 'selected' : '' }}>Batik</option>
+
+                  <option value="Craft" {{ $data->kategori == 'Craft' ? 'selected' : '' }}>Craft</option>
+
+                  <option value="Daging Segar Dingin" {{ $data->kategori == 'Daging Segar Dingin' ? 'selected' : '' }}>Daging Segar Dingin</option>
+
+                  <option value="Fashion" {{ $data->kategori == 'Fashion' ? 'selected' : '' }}>Fashion</option>
+
+                  <option value="Food and Culinary" {{ $data->kategori == 'Food and Culinary' ? 'selected' : '' }}>Food and Culinary</option>
+
+                  <option value="Hasil Pertanian" {{ $data->kategori == 'Hasil Pertanian' ? 'selected' : '' }}>Hasil Pertanian</option>
+
+                  <option value="Jasa" {{ $data->kategori == 'Jasa' ? 'selected' : '' }}>Jasa</option>
+
+                  <option value="Laundry Bag" {{ $data->kategori == 'Laundry Bag' ? 'selected' : '' }}>Laundry Bag</option>
+
+                  <option value="Makanan" {{ $data->kategori == 'Makanan' ? 'selected' : '' }}>Makanan</option>
+
+                  <option value="Minuman" {{ $data->kategori == 'Minuman' ? 'selected' : '' }}>Minuman</option>
+
+                  <option value="Penunjang" {{ $data->kategori == 'Penunjang' ? 'selected' : '' }}>Penunjang</option>
+
+                  <option value="Sabun & Shampoo" {{ $data->kategori == 'Sabun & Shampoo' ? 'selected' : '' }}>Sabun & Shampoo</option>
+
+                  <option value="Sepatu" {{ $data->kategori == 'Sepatu' ? 'selected' : '' }}>Sepatu</option>
+
+                  <option value="Slipper" {{ $data->kategori == 'Slipper' ? 'selected' : '' }}>Slipper</option>
+              </select>
           </div>
 
           <div>

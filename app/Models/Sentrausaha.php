@@ -4,21 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Swk extends Model
+class Sentrausaha extends Model
 {
-    protected $table = 'swk';
+    protected $table = 'sentra_usaha';
 
     protected $fillable = [
-        'nama_swk',
+        'nama_sentrausaha',
         'alamat',
         'kelurahan_id',
-        'jumlah_pedagang',
-        'jumlah_stan',
-        'stan_belum_terisi',
         'luas',
         'foto',
         'kapasitas',
-        'peken',
     ];
 
     public function kelurahan()

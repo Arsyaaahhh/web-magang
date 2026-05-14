@@ -4,20 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Pasar;
+use App\Models\Sentrausaha;
 use App\Models\Kecamatan;
 use App\Models\Kelurahan;
 
-class PasarController extends Controller
+class SentrausahaController extends Controller
 {
     // ================= ADMIN =================
     public function index(Request $request)
     {
-        $query = Pasar::with('kelurahan.kecamatan');
+        $query = Sentrausaha::with('kelurahan.kecamatan');
 
         if($request->search){
             $query->where(function($q) use ($request){
-                $q->where('nama_pasar','like','%'.$request->search.'%');
+                $q->where('nama_sentrausaha','like','%'.$request->search.'%');
             });
         }
 
@@ -36,7 +36,7 @@ class PasarController extends Controller
         $data = $query->latest()->paginate(10)->withQueryString();
         $kecamatan = Kecamatan::all();
 
-        return view('admin.admin_perdagangan.pasar.adminpasar', compact(
+        return view('admin.admin_pum.sentrausaha.adminsentrausaha', compact(
             'data',
             'kecamatan'
         ));
@@ -46,22 +46,18 @@ class PasarController extends Controller
     public function create(){
         $kecamatan = Kecamatan::all();
         $kelurahan = Kelurahan::all();
-        return view('admin.admin_perdagangan.pasar.pasarcreate', compact('kecamatan', 'kelurahan'));
+        return view('admin.admin_pum.sentrausaha.sentrausahacreate', compact('kecamatan', 'kelurahan'));
     }
 
 
     public function store(Request $request)
     {
         $request->validate([
-            'nama_pasar'  => 'required',
+            'nama_sentrausaha'  => 'required',
             'alamat'  => 'required',
             'kelurahan_id'  => 'required',
-            'jumlah_pedagang'  => 'required',
-            'jumlah_stan'  => 'required',
-            'stan_belum_terisi'  => 'required',
             'luas'  => 'required',
             'kapasitas'  => 'required',
-            'peken'  => 'required',
             'foto'  => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
@@ -69,51 +65,44 @@ class PasarController extends Controller
         $foto = null;
 
         if ($request->hasFile('foto')) {
-            $foto = $request->file('foto')->store('pasar', 'public');
+            $foto = $request->file('foto')->store('sentrausaha', 'public');
         }
 
-        Pasar::create([
-            'nama_pasar' => $request->nama_pasar,
+        Sentrausaha::create([
+            'nama_sentrausaha' => $request->nama_sentrausaha,
             'alamat' => $request->alamat,
             'kelurahan_id' => $request->kelurahan_id,
-            'jumlah_pedagang' => $request->jumlah_pedagang,
-            'jumlah_stan' => $request->jumlah_stan,
-            'stan_belum_terisi' => $request->stan_belum_terisi,
             'luas' => $request->luas,
             'kapasitas' => $request->kapasitas,
-            'peken' => $request->peken,
             'foto' => $foto,
         ]);
 
-        return redirect('/admin/admin_perdagangan/pasar/adminpasar')->with('success','Upload berhasil');
+        
+        return redirect()->route('adminsentrausaha')->with('success', 'Upload berhasil');
     }
 
 
     public function edit($id){
-        $data = Pasar::with(['kelurahan.kecamatan'])->findOrFail($id);
+        $data = Sentrausaha::with(['kelurahan.kecamatan'])->findOrFail($id);
         $kecamatan = Kecamatan::all();
         $kelurahan = Kelurahan::all();
 
-        return view('admin.admin_perdagangan.pasar.pasaredit', compact('data', 'kecamatan', 'kelurahan'));
+        return view('admin.admin_pum.sentrausaha.sentrausahaedit', compact('data', 'kecamatan', 'kelurahan'));
     }
 
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama_pasar'        => 'required|string',
+            'nama_sentrausaha'        => 'required|string',
             'alamat'            => 'required|string',
             'kelurahan_id'      => 'required',
-            'jumlah_pedagang'   => 'required|numeric',
-            'jumlah_stan'       => 'required|numeric',
-            'stan_belum_terisi' => 'required|numeric',
             'luas'              => 'required|numeric',
             'kapasitas'         => 'required|numeric',
-            'peken'             => 'required|numeric',
             'foto'              => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
-        $data = Pasar::findOrFail($id);
+        $data = Sentrausaha::findOrFail($id);
 
         // upload foto baru
         if ($request->hasFile('foto')) {
@@ -123,41 +112,37 @@ class PasarController extends Controller
                 Storage::disk('public')->delete($data->foto);
             }
 
-            $foto = $request->file('foto')->store('pasar', 'public');
+            $foto = $request->file('foto')->store('sentrausaha', 'public');
 
         } else {
             $foto = $data->foto;
         }
 
         $data->update([
-            'nama_pasar' => $request->nama_pasar,
+            'nama_sentrausaha' => $request->nama_sentrausaha,
             'alamat' => $request->alamat,
             'kelurahan_id' => $request->kelurahan_id,
-            'jumlah_pedagang' => $request->jumlah_pedagang,
-            'jumlah_stan' => $request->jumlah_stan,
-            'stan_belum_terisi' => $request->stan_belum_terisi,
             'luas' => $request->luas,
             'kapasitas' => $request->kapasitas,
-            'peken' => $request->peken,
             'foto' => $foto,
         ]);
 
-        return redirect('/admin/admin_perdagangan/pasar/adminpasar')->with('success','Update berhasil');
+        return redirect()->route('adminsentrausaha')->with('success', 'Update berhasil');
     }
 
 
     public function destroy($id)
     {
-        $pasar = Pasar::findOrFail($id);
+        $sentrausaha = Sentrausaha::findOrFail($id);
 
         // hapus foto
-        if ($pasar->foto && Storage::disk('public')->exists($pasar->foto)) {
-            Storage::disk('public')->delete($pasar->foto);
+        if ($sentrausaha->foto && Storage::disk('public')->exists($sentrausaha->foto)) {
+            Storage::disk('public')->delete($sentrausaha->foto);
         }
 
-        $pasar->delete();
+        $sentrausaha->delete();
 
-        return redirect('/admin/admin_perdagangan/pasar/adminpasar')->with('success','Data berhasil dihapus');
+        return redirect()->route('adminsentrausaha')->with('success', 'Data berhasil dihapus');
     }
 
     public function getKelurahan($ID_KECAMATAN)
@@ -167,13 +152,13 @@ class PasarController extends Controller
     }
 
     // ================= FRONTEND =================
-    public function pasar(Request $request)
+    public function sentrausaha(Request $request)
     {
-        $query = Pasar::with('kelurahan.kecamatan');
+        $query = Sentrausaha::with('kelurahan.kecamatan');
 
         if($request->search){
             $query->where(function($q) use ($request){
-                $q->where('nama_pasar','like','%'.$request->search.'%');
+                $q->where('nama_sentrausaha','like','%'.$request->search.'%');
             });
         }
 
@@ -191,32 +176,22 @@ class PasarController extends Controller
 
         $summaryQuery = clone $query;
 
-        // ambil data Pasar
+        // ambil data Sentrausaha
         $data = $query->latest()->get();
-
-        // summary
-        $summary = $summaryQuery->selectRaw('
-            COUNT(*) as total_pasar,
-            SUM(jumlah_pedagang) as total_pedagang,
-            SUM(jumlah_stan) as total_stan,
-            SUM(stan_belum_terisi) as total_stan_kosong
-        ')->first();
 
         // AJAX
         if ($request->ajax()) {
             return response()->json([
-                'data' => $data,
-                'summary' => $summary
+                'data' => $data
             ]);
         }
 
         $kecamatan = Kecamatan::all();
 
         // kirim ke blade
-        return view('bidang.perdagangan.pasar', [
-            'pasar' => $data,
+        return view('bidang.pum.sentrausaha', [
+            'sentrausaha' => $data,
             'kecamatan' => $kecamatan,
-            'summary' => $summary
         ]);
     }
 }

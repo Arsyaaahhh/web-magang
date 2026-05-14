@@ -63,6 +63,7 @@ class SwkController extends Controller
             'stan_belum_terisi' => 'required|numeric',
             'luas'              => 'required|numeric',
             'kapasitas'         => 'required|numeric',
+            'peken'             => 'required|numeric',
             'foto'              => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
@@ -82,6 +83,7 @@ class SwkController extends Controller
             'stan_belum_terisi' => $request->stan_belum_terisi,
             'luas' => $request->luas,
             'kapasitas' => $request->kapasitas,
+            'peken' => $request->peken,
             'foto' => $foto,
         ]);
 
@@ -109,6 +111,7 @@ class SwkController extends Controller
             'stan_belum_terisi' => 'required|numeric',
             'luas'              => 'required|numeric',
             'kapasitas'         => 'required|numeric',
+            'peken'             => 'required|numeric',
             'foto'              => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
@@ -137,6 +140,7 @@ class SwkController extends Controller
             'stan_belum_terisi' => $request->stan_belum_terisi,
             'luas' => $request->luas,
             'kapasitas' => $request->kapasitas,
+            'peken' => $request->peken,
             'foto' => $foto,
         ]);
 

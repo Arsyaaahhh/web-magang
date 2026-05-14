@@ -490,9 +490,7 @@
         <h2>Data Pasar Binaan</h2>
         
         <div style="display: flex; gap: 10px;">
-            <a href="/admin/admin_perdagangan" class="btn-back">
-                <i class="fas fa-arrow-left"></i> Kembali
-            </a>
+            <a href="/admin/admin_perdagangan" class="btn btn-back">← Kembali</a>
             <a href="/admin/admin_perdagangan/pasar/pasarcreate" class="btn btn-add"><i class="fas fa-plus"></i> Tambah</a>
         </div>
       </div>
@@ -547,8 +545,9 @@
                   <th>Jumlah Pedagang</th>
                   <th>Jumlah Stan</th>
                   <th>Stan Belum Terisi</th>
-                  <th>Luas (mÂ²)</th>
-                  <th>Kapasitas (orang)</th>
+                  <th>Peken</th>
+                  <th>Luas (m²)</th>
+                  <th>Kapasitas (Pengunjung)</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -564,6 +563,7 @@
                     <td>{{ $d->jumlah_pedagang }}</td>
                     <td>{{ $d->jumlah_stan }}</td>
                     <td>{{ $d->stan_belum_terisi }}</td>
+                    <td>{{ $d->peken }}</td>
                     <td>{{ $d->luas }}</td>
                     <td>{{ $d->kapasitas }}</td>
                     <td>

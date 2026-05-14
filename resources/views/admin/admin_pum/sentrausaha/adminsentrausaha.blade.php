@@ -2,8 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <title>Admin LPPD</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Admin SWK</title>
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -30,14 +29,125 @@
     .filter input, .filter select { padding: 8px; border-radius: 6px; border: 1px solid #d1d5db; }
     
     /* TABLE RESPONSIVE */
-    .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    table { width: 100%; border-collapse: collapse; border: 1px solid #e5e7eb; color: #333; min-width: 900px; }
-    th { padding: 12px; background: #eaf2ff; font-size: 13px; text-align: left; }
-    td { padding: 12px; font-size: 15px; border-bottom: 1px solid #e5e7eb; }
-    tbody tr:nth-child(even) { background: #f9fafb; }
-    tr:hover { background: #eef4ff; }
-    .action { display: flex; gap: 6px; }
-    .alert { padding: 10px; margin-bottom: 10px; background: #d1e7dd; border-radius: 6px; }
+    .table-responsive{
+        width:100%;
+        overflow-x:auto;
+        -webkit-overflow-scrolling:touch;
+        border-radius:12px;
+    }
+
+    /* TABLE */
+    table{
+        width:100%;
+        min-width:1200px;
+        border-collapse:collapse;
+        table-layout:fixed;
+        background:white;
+        border-radius:12px;
+        overflow:hidden;
+    }
+
+    /* HEADER */
+    th{
+        padding:14px 12px;
+        background:#eaf2ff;
+        font-size:14px;
+        font-weight:600;
+        text-align:left;
+        color:#374151;
+        border-bottom:1px solid #dbe3f0;
+    }
+
+    /* BODY */
+    td{
+        padding:14px 12px;
+        font-size:14px;
+        color:#374151;
+        border-bottom:1px solid #eef2f7;
+        vertical-align:middle;
+        word-wrap:break-word;
+    }
+
+    /* ROW */
+    tbody tr:nth-child(even){
+        background:#f9fafb;
+    }
+
+    tbody tr:hover{
+        background:#eef4ff;
+        transition:0.2s;
+    }
+
+    /* ACTION BUTTON */
+    .action{
+        display:flex;
+        flex-direction:row;
+        gap:8px;
+        justify-content:center;
+        align-items:center;
+        flex-wrap:nowrap;
+    }
+
+    /* ALERT */
+    .alert{
+        padding:10px;
+        margin-bottom:10px;
+        background:#d1e7dd;
+        border-radius:6px;
+    }
+
+    /* UKURAN KOLOM */
+    .swk-table th:nth-child(1),
+    .swk-table td:nth-child(1){
+        width:50px;
+        text-align:center;
+    }
+
+    .swk-table th:nth-child(2),
+    .swk-table td:nth-child(2){
+        width:140px;
+    }
+
+    .swk-table th:nth-child(3),
+    .swk-table td:nth-child(3){
+        width:260px;
+    }
+
+    .swk-table th:nth-child(4),
+    .swk-table td:nth-child(4){
+        width:160px;
+    }
+
+    .swk-table th:nth-child(5),
+    .swk-table td:nth-child(5){
+        width:160px;
+    }
+
+    .swk-table th:nth-child(6),
+    .swk-table td:nth-child(6),
+    .swk-table th:nth-child(7),
+    .swk-table td:nth-child(7),
+    .swk-table th:nth-child(8),
+    .swk-table td:nth-child(8),
+    .swk-table th:nth-child(9),
+    .swk-table td:nth-child(9),
+    .swk-table th:nth-child(10),
+    .swk-table td:nth-child(10){
+        width:110px;
+        text-align:center;
+    }
+
+    .swk-table th:nth-child(11),
+    .swk-table td:nth-child(11){
+        width:150px;
+        text-align:center;
+    }
+
+    .swk-table th:last-child,
+    .swk-table td:last-child{
+        width:180px;
+        min-width:180px;
+    }
     
     .pagination-wrapper { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; flex-wrap: wrap; gap: 10px; }
     .pagination { display: flex; gap: 6px; flex-wrap: wrap;}
@@ -48,48 +158,7 @@
     .pagination .disabled span { color: #aaa; background: #f3f4f6; }
     .pagination-info { font-size: 13px; color: #666; }
 
-    /* SIDEBAR */
-    .sidebar {
-      width: 240px;
-      height: 100vh;
-      background: #0d6efd;
-      color: white;
-      padding: 20px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-      transition: transform 0.3s ease;
-      overflow-y: auto;
-    }
-
-    .sidebar h2 {
-      margin-bottom: 20px;
-    }
-
-    .sidebar a {
-      display: block;
-      color: white;
-      padding: 10px;
-      border-radius: 8px;
-      margin-bottom: 8px;
-      text-decoration: none;
-    }
-
-    .sidebar a:hover,
-    .sidebar .active {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    .card h4 { font-weight: 500; letter-spacing: 0.3px; }
-    .card h2 { font-weight: 600; }
-    .card p { font-weight: 400; opacity: 0.85; }
-    .card i { font-size: 20px; margin-bottom: 8px; opacity: 0.85; }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12); }
-    .logout-btn { margin-top: 20px; width: 100%; padding: 10px; border: none; border-radius: 8px; background: #ef4444; color: white; cursor: pointer; font-size: 14px; text-align: left; font-weight: 500; }
-    .logout-btn i { margin-right: 6px; }
-    .logout-btn:hover { background: #dc2626; }
-
+    /* CSS TOMBOL KEMBALI */
     .btn-back {
       background: #6c757d;
       color: white;
@@ -100,6 +169,32 @@
       background: #5a6268;
       transition: 0.2s ease;
     }
+
+    /* SIDEBAR */
+    .sidebar{
+      width:240px;height:100vh;background:#0d6efd;color:white;padding:20px;position:fixed;
+      z-index: 1000; transition: left 0.3s ease;
+    }
+
+    .sidebar h2{margin-bottom:20px;}
+    .sidebar a{
+      display:block;color:white;padding:10px;border-radius:8px;margin-bottom:8px;text-decoration:none;
+    }
+    
+    .sidebar a:hover,.sidebar .active{background:rgba(255,255,255,0.2);}
+    .logout-btn{
+      margin-top:20px;width:100%;padding:10px;border:none;border-radius:8px;background:#dc3545;color:white;
+      cursor:pointer;
+    }
+
+    .card h4 { font-weight: 500; letter-spacing: 0.3px; }
+    .card h2 { font-weight: 600; }
+    .card p { font-weight: 400; opacity: 0.85; }
+    .card i { font-size: 20px; margin-bottom: 8px; opacity: 0.85; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12); }
+    /* .logout-btn { margin-top: 20px; width: 100%; padding: 10px; border: none; border-radius: 8px; background: #ef4444; color: white; cursor: pointer; font-size: 14px; text-align: left; font-weight: 500; } */
+    /* .logout-btn i { margin-right: 6px; }
+    .logout-btn:hover { background: #dc2626; } */
 
     /* ======================================================= */
     /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
@@ -121,6 +216,7 @@
 
   <div class="overlay" onclick="toggleSidebar()"></div>
 
+  <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>ADMIN</h2>
 
@@ -144,6 +240,7 @@
       <i class="fas fa-building"></i> Bidang Koperasi
     </a>
 
+    <!-- Menu Metrologi Aktif -->
     <a href="/admin/admin_metro">
       <i class="fas fa-balance-scale"></i> Metrologi Legal
     </a>
@@ -160,18 +257,18 @@
         <h3>Admin Pemberdayaan Usaha Mikro</h3>
       </div>
       <div style="display:flex; gap:10px; align-items:center;">
-        <span style="font-size: 14px;">Halo {{ session('username') ?? 'Admin' }} ðŸ‘‹</span>
+        <span style="font-size: 14px;">Halo {{ session('username') ?? 'Admin' }} 👋</span>
       </div>
     </div>
 
     <div class="container">
       <div class="top">
-        <h2>Laporan penyelengaraan Pemerintah Daerah</h2>
+        <h2>Data Sentra Usaha</h2>
         <div style="display: flex; gap: 10px;">
             <a href="/admin/admin_pum" class="btn btn-back">← Kembali</a>
-            <a href="/admin/admin_pum/lppdcreate" class="btn btn-add">+ Tambah</a>
+            <a href="/admin/admin_pum/sentrausahacreate" class="btn btn-add">+ Tambah</a>
         </div>
-      </div>
+    </div>
 
       @if(session('success'))
         <div class="alert">{{ session('success') }}</div>
@@ -180,6 +277,7 @@
       <div class="card">
         <form method="GET">
           <div class="filter">
+            <input type="text" name="search" placeholder="Cari Sentra Usaha" value="{{ request('search') }}">
             <select id="kecamatan" name="kecamatan_id">
               <option value="">Semua Kecamatan</option>
               @foreach($kecamatan as $k)
@@ -194,14 +292,16 @@
         </form>
 
         <div class="table-responsive">
-            <table>
+            <table class="swk-table">
               <thead>
                 <tr>
                   <th>No</th>
+                  <th>Nama Sentra Usaha</th>
+                  <th>Alamat</th>
                   <th>Kecamatan</th>
                   <th>Kelurahan</th>
-                  <th>Tahun</th>
-                  <th>Jumlah</th>
+                  <th>Luas(m2)</th>
+                  <th>Kapasitas (Pengunjung)</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -209,14 +309,16 @@
                 @forelse($data as $d)
                   <tr>
                     <td>{{ ($data->currentPage()-1)*$data->perPage() + $loop->iteration }}</td>
-                    <td>{{ $d->kelurahan->kecamatan->NM_KECAMATAN ?? '-' }}</td>
+                    <td>{{ $d->nama_sentrausaha }}</td>
+                    <td>{{ $d->alamat }}</td>
+                    <td>{{ $d->kelurahan->kecamatan->NM_KECAMATAN ?? '-' }}</td>  
                     <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
-                    <td>{{ $d->tahun }}</td>
-                    <td>{{ $d->jumlah }}</td>
+                    <td>{{ $d->luas }}</td>
+                    <td>{{ $d->kapasitas }}</td>
                     <td>
                       <div class="action">
-                        <a href="/admin/admin_pum/lppdedit/{{ $d->id }}" class="btn btn-edit">Edit</a>
-                        <form id="deleteForm{{ $d->id }}" action="/admin/admin_pum/lppddelete/{{ $d->id }}" method="POST">
+                        <a href="/admin/admin_pum/sentrausahaedit/{{ $d->id }}" class="btn btn-edit">Edit</a>
+                        <form id="deleteForm{{ $d->id }}" action="/admin/admin_pum/sentrausahadelete/{{ $d->id }}" method="POST">
                           @csrf @method('DELETE')
                           <button type="button" class="btn btn-delete" onclick="confirmDelete('deleteForm{{ $d->id }}')">Hapus</button>
                         </form>
@@ -275,9 +377,26 @@
       .then((result) => { if (result.isConfirmed) { document.getElementById(formId).submit(); } });
     }
 
-    function logout() {
-      Swal.fire({ title: 'Logout?', text: "Kamu akan keluar", icon: 'warning', showCancelButton: true, confirmButtonColor: '#0d6efd', confirmButtonText: 'Ya, logout' })
-      .then((result) => { if (result.isConfirmed) { localStorage.removeItem("login"); window.location.href = "/logout"; } });
+    // LOGOUT
+    function logout(){
+
+      Swal.fire({
+        title:'Logout?',
+        text:'Kamu akan keluar',
+        icon:'warning',
+        showCancelButton:true,
+        confirmButtonColor:'#0d6efd',
+        confirmButtonText:'Ya, logout'
+      }).then((result)=>{
+
+        if(result.isConfirmed){
+
+          localStorage.removeItem("login");
+
+          window.location.href = "/logout";
+        }
+
+      });
     }
 
     if (localStorage.getItem("login") !== "true") { window.location.href = "/"; }
