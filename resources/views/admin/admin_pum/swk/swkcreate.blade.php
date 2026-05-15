@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tambah SWK</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <link 
+      rel="stylesheet" 
+      href="https://unpkg.com/leaflet/dist/leaflet.css"
+  />
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     body { background: linear-gradient(135deg, #eef4ff, #f8fafc); min-height: 100vh; }
@@ -98,6 +106,7 @@
           <div><label>Luas (m2)</label><input type="number" name="luas" placeholder="Masukkan Luas SWK" required></div>
           <div><label>Kapasitas (Pengunjung)</label><input type="number" name="kapasitas" placeholder="Masukkan Kapasitas SWK" required></div>
 
+          <!-- foto -->
           <div class="full-width">
 
               <label>Foto SWK</label>
@@ -111,14 +120,64 @@
               >
 
               <!-- PREVIEW -->
-              <div class="preview-box" id="previewBox">
+              <!-- <div class="preview-box" id="previewBox">
 
                   <img id="previewImage" src="" alt="Preview Foto">
 
                   <span>Preview Foto SWK</span>
 
-              </div>
+              </div> -->
 
+          </div>
+
+          <!-- map -->
+          <div>
+              <label>Latitude</label>
+              <input 
+                  type="text" 
+                  name="latitude" 
+                  id="latitude"
+                  placeholder="Masukkan Latitude"
+                  required
+              >
+          </div>
+
+          <div>
+              <label>Longitude</label>
+              <input 
+                  type="text" 
+                  name="longitude" 
+                  id="longitude"
+                  placeholder="Masukkan Longitude"
+                  required
+              >
+          </div>
+
+          <!-- <div class="full-width">
+              <button 
+                  type="button" 
+                  onclick="getLocation()" 
+                  style="
+                      padding:10px 14px;
+                      border:none;
+                      border-radius:8px;
+                      background:#198754;
+                      color:white;
+                      cursor:pointer;
+                  "
+              >
+                  📍 Ambil Lokasi Saat Ini
+              </button>
+          </div> -->
+
+          <div class="full-width">
+              <div id="map" style="
+                  width:100%;
+                  height:300px;
+                  border-radius:12px;
+                  margin-top:10px;
+                  overflow:hidden;
+              "></div>
           </div>
 
         </div>
@@ -161,6 +220,74 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+    // ================= MAP =================
+    let defaultLat = -7.257472;
+    let defaultLng = 112.752090;
+
+    // buat map
+    let map = L.map('map').setView([defaultLat, defaultLng], 13);
+
+    // tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    // marker awal
+    let marker = L.marker([defaultLat, defaultLng]).addTo(map);
+
+    // KLIK MAP UNTUK PILIH LOKASI
+    map.on('click', function(e){
+
+        let lat = e.latlng.lat;
+        let lng = e.latlng.lng;
+
+        document.getElementById('latitude').value = lat;
+        document.getElementById('longitude').value = lng;
+
+        if(marker){
+            map.removeLayer(marker);
+        }
+
+        marker = L.marker([lat, lng]).addTo(map);
+
+    });
+
+    // ================= UPDATE MAP DARI INPUT =================
+    function updateMapFromInput()
+    {
+        let lat = parseFloat(document.getElementById('latitude').value);
+        let lng = parseFloat(document.getElementById('longitude').value);
+
+        // cek valid
+        if(!isNaN(lat) && !isNaN(lng))
+        {
+            // pindahkan marker
+            marker.setLatLng([lat, lng]);
+
+            // pindahkan view map
+            map.setView([lat, lng], 16);
+        }
+    }
+
+    // saat mengetik latitude
+    document.getElementById('latitude')
+        .addEventListener('keyup', updateMapFromInput);
+
+    // saat mengetik longitude
+    document.getElementById('longitude')
+        .addEventListener('keyup', updateMapFromInput);
+
+    // saat paste
+    document.getElementById('latitude')
+        .addEventListener('paste', function(){
+            setTimeout(updateMapFromInput, 100);
+        });
+
+    document.getElementById('longitude')
+        .addEventListener('paste', function(){
+            setTimeout(updateMapFromInput, 100);
+        });
   </script>
 </body>
 </html>

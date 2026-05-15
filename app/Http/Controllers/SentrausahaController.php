@@ -58,6 +58,9 @@ class SentrausahaController extends Controller
             'kelurahan_id'  => 'required',
             'luas'  => 'required',
             'kapasitas'  => 'required',
+            'latitude'  => 'required',
+            'longitude'  => 'required',
+
             'foto'  => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
@@ -74,6 +77,8 @@ class SentrausahaController extends Controller
             'kelurahan_id' => $request->kelurahan_id,
             'luas' => $request->luas,
             'kapasitas' => $request->kapasitas,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'foto' => $foto,
         ]);
 
@@ -99,6 +104,8 @@ class SentrausahaController extends Controller
             'kelurahan_id'      => 'required',
             'luas'              => 'required|numeric',
             'kapasitas'         => 'required|numeric',
+            'latitude'          => 'required',
+            'longitude'         => 'required',
             'foto'              => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
@@ -124,6 +131,8 @@ class SentrausahaController extends Controller
             'kelurahan_id' => $request->kelurahan_id,
             'luas' => $request->luas,
             'kapasitas' => $request->kapasitas,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'foto' => $foto,
         ]);
 

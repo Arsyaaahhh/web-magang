@@ -161,7 +161,7 @@
 
     .detail-box{
         width:100%;
-        max-width:600px;
+        max-width:800px;
         background:white;
         border-radius:24px;
         padding:30px;
@@ -169,6 +169,25 @@
         animation:popup 0.25s ease;
         max-height: 90vh;
         overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #cbd5e1 transparent;
+    }
+
+    .detail-box::-webkit-scrollbar{
+        width:8px;
+    }
+
+    .detail-box::-webkit-scrollbar-track{
+        background:transparent;
+    }
+
+    .detail-box::-webkit-scrollbar-thumb{
+        background:#cbd5e1;
+        border-radius:20px;
+    }
+
+    .detail-box::-webkit-scrollbar-thumb:hover{
+        background:#94a3b8;
     }
 
     @keyframes popup{
@@ -342,30 +361,6 @@
 
     </div>
     <!-- MAIN MENU -->
-    <!-- <div class="cards" id="mainMenu">
-
-      <a class="card green">
-        <h4>Total Swk</h4>
-        <h2>{{ $summary->total_swk ?? 0 }}</h2>
-      </a>
-
-      <a class="card blue">
-        <h4>Total Pedagang</h4>
-        <h2>{{ $summary->total_pedagang ?? 0 }}</h2>
-      </a>
-
-      <a class="card green">
-        <h4>Total Stan</h4>
-        <h2>{{ $summary->total_stan ?? 0 }}</h2>
-      </a>
-
-      <a class="card purple">
-        <h4>Total Stan Belum Terisi</h4>
-        <h2>{{ $summary->total_stan_kosong ?? 0 }}</h2>
-      </a>
-
-    </div> -->
-
     <div class="swk-wrapper">
         @forelse($sentrausaha as $sentrausaha)
 
@@ -397,25 +392,19 @@
                         Luas: {{ $sentrausaha->luas }} m² | Kapasitas: {{ $sentrausaha->kapasitas }} orang
                     </p>
 
-                    <!-- <div class="tags">
-                        <div class="tag">
-                            Pedagang: {{ $sentrausaha->jumlah_pedagang }}
-                        </div>
+                    <div style="display:flex; gap:8px;">
 
-                        <div class="tag">
-                            Stan: {{ $sentrausaha->jumlah_stan }}
-                        </div>
-                    </div> -->
-
-                    <a href="#">
                         <button class="button"
                             onclick="showDetail(
                                 '{{ $sentrausaha->nama_sentrausaha }}',
-                                '{{ $sentrausaha->alamat }}','
+                                '{{ $sentrausaha->alamat }}',
+                                '{{ $sentrausaha->latitude }}',
+                                '{{ $sentrausaha->longitude }}'
                             )">
                             Detail
                         </button>
-                    </a>
+
+                    </div>
 
                 </div>
             </div>
@@ -447,23 +436,20 @@
                 <p id="detailAlamat"></p>
             </div>
 
-            <div class="detail-grid">
+            <div class="detail-item">
+                <b>Koordinat:</b>
+                <p id="detailKoordinat"></p>
+            </div>
 
-                <div class="detail-card">
-                    <h4>Total Pedagang</h4>
-                    <!-- <h2 id="detailPedagang"></h2> -->
-                </div>
-
-                <div class="detail-card">
-                    <h4>Total Stan</h4>
-                    <!-- <h2 id="detailStan"></h2> -->
-                </div>
-
-                <div class="detail-card full">
-                    <h4>Stan Belum Terisi</h4>
-                    <!-- <h2 id="detailKosong"></h2> -->
-                </div>
-
+            <div class="detail-item">
+                <iframe
+                    id="mapsFrame"
+                    width="100%"
+                    height="280"
+                    style="border:0; border-radius:16px;"
+                    loading="lazy"
+                    allowfullscreen>
+                </iframe>
             </div>
 
         </div>
@@ -507,10 +493,17 @@
     });
 
     // detail modal
-    function showDetail(nama, alamat)
+    function showDetail(nama, alamat, latitude, longitude)
     {
         document.getElementById('detailNama').innerText = nama;
         document.getElementById('detailAlamat').innerText = alamat;
+
+        document.getElementById('detailKoordinat').innerText =
+            latitude + ', ' + longitude;
+
+        // iframe maps
+        document.getElementById('mapsFrame').src =
+            `https://maps.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`;
 
         document.getElementById('detailModal').style.display = 'flex';
     }

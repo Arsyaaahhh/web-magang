@@ -62,6 +62,8 @@ class PasarController extends Controller
             'luas'  => 'required',
             'kapasitas'  => 'required',
             'peken'  => 'required',
+            'latitude'  => 'required',
+            'longitude'  => 'required',
             'foto'  => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
@@ -82,6 +84,8 @@ class PasarController extends Controller
             'luas' => $request->luas,
             'kapasitas' => $request->kapasitas,
             'peken' => $request->peken,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'foto' => $foto,
         ]);
 
@@ -110,6 +114,8 @@ class PasarController extends Controller
             'luas'              => 'required|numeric',
             'kapasitas'         => 'required|numeric',
             'peken'             => 'required|numeric',
+            'latitude'          => 'required',
+            'longitude'         => 'required',
             'foto'              => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
@@ -139,6 +145,8 @@ class PasarController extends Controller
             'luas' => $request->luas,
             'kapasitas' => $request->kapasitas,
             'peken' => $request->peken,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'foto' => $foto,
         ]);
 
