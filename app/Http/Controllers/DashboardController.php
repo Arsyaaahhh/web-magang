@@ -47,8 +47,7 @@ class DashboardController extends Controller
             ->get();
 
             // 4. 🔥 AMBIL DATA KOPERASI AKTIF PER TAHUN
-        $koperasiAktif = Koperasi::select('tahun as tahun', DB::raw('count(*) as total'))
-            ->where('status', 'Aktif') // Asumsi nama kolomnya 'status'. Jika berbeda (misal 'status_koperasi'), ubah kata 'status' ini.
+        $koperasiAktifPerTahun = Koperasi::selectRaw('tahun as tahun, SUM(aktif) as total')
             ->whereNotNull('tahun')
             ->groupBy('tahun')
             ->orderBy('tahun', 'asc')
@@ -71,7 +70,7 @@ class DashboardController extends Controller
             'metrologi',
             'chartData',
             'trendLppd',
-            'koperasiAktif', // 🔥 Melempar data koperasi aktif ke frontend
+            'koperasiAktifPerTahun', 
             'trendUttp' 
         ));
     }

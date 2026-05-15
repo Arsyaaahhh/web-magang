@@ -10,26 +10,39 @@ class Koperasi extends Model
 
     protected $fillable = [
         'jumlah',
-        'status',
+        'aktif',
+        'tidak_aktif',
+        'bermitra',
+        'mitra_perbankan',
         'tahun',
-        'status_mitra',
-        'jenis_mitra',
         'ID_KECAMATAN',
         'ID_KELURAHAN',
         'padat_karya',
-        'status_lpj',
+        'lpj_lengkap',
         'pelaksanaan_rat',
+    ];
+
+    protected $casts = [
+        'jumlah' => 'integer',
+        'aktif' => 'integer',
+        'tidak_aktif' => 'integer',
+        'bermitra' => 'integer',
+        'mitra_perbankan' => 'integer',
+        'padat_karya' => 'integer',
+        'lpj_lengkap' => 'integer',
+        'pelaksanaan_rat' => 'integer',
+        'tahun' => 'integer',
     ];
 
     public $timestamps = true;
 
     public function kecamatan()
-{
-    return $this->belongsTo(Kecamatan::class, 'ID_KECAMATAN');
-}
+    {
+        return $this->belongsTo(Kecamatan::class, 'ID_KECAMATAN');
+    }
 
-public function kelurahan()
-{
-    return $this->belongsTo(Kelurahan::class, 'ID_KELURAHAN');
-}
+    public function kelurahan()
+    {
+        return $this->belongsTo(Kelurahan::class, 'ID_KELURAHAN');
+    }
 }

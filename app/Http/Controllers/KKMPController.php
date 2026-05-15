@@ -10,42 +10,150 @@ use App\Models\Kelurahan;
 class KKMPController extends Controller
 {
     public function index(Request $request)
-    {
-        $query = KKMP::with(['kecamatan', 'kelurahan']);
+{
+    $query = KKMP::with(['kecamatan', 'kelurahan']);
 
-        if ($request->search) {
-            $query->where(function ($q) use ($request) {
-                $q->where('tahun', 'like', '%' . $request->search . '%')
-                  ->orWhere('alamat', 'like', '%' . $request->search . '%')
-                  ->orWhere('jenis_kkmp', 'like', '%' . $request->search . '%')
-                  ->orWhere('jumlah_anggota', 'like', '%' . $request->search . '%')
-                  ->orWhere('total_omzet', 'like', '%' . $request->search . '%')
-                  ->orWhereHas('kelurahan', function ($q2) use ($request) {
-                      $q2->where('NM_KELURAHAN', 'like', '%' . $request->search . '%');
-                  })
-                  ->orWhereHas('kecamatan', function ($q2) use ($request) {
-                      $q2->where('NM_KECAMATAN', 'like', '%' . $request->search . '%');
-                  });
-            });
-        }
+    /*
+    |--------------------------------------------------------------------------
+    | SEARCH
+    |--------------------------------------------------------------------------
+    */
 
-        if ($request->jenis_kkmp) {
-            $query->where('jenis_kkmp', $request->jenis_kkmp);
-        }
+    if ($request->search) {
 
-        if ($request->ID_KECAMATAN) {
-            $query->where('ID_KECAMATAN', $request->ID_KECAMATAN);
-        }
+        $query->where(function ($q) use ($request) {
 
-        if ($request->ID_KELURAHAN) {
-            $query->where('ID_KELURAHAN', $request->ID_KELURAHAN);
-        }
+            $q->where('tahun', 'like', '%' . $request->search . '%')
+              ->orWhere('alamat', 'like', '%' . $request->search . '%')
+              ->orWhere('jenis_kkmp', 'like', '%' . $request->search . '%')
+              ->orWhere('jumlah_anggota', 'like', '%' . $request->search . '%')
+              ->orWhere('total_omzet', 'like', '%' . $request->search . '%')
 
-        $dataKKMP = $query->latest()->paginate(20)->withQueryString();
-        $kecamatan = Kecamatan::all();
+              ->orWhereHas('kelurahan', function ($q2) use ($request) {
 
-        return view('admin.koperasi.kkmp.index', compact('dataKKMP', 'kecamatan'));
+                  $q2->where(
+                      'NM_KELURAHAN',
+                      'like',
+                      '%' . $request->search . '%'
+                  );
+
+              })
+
+              ->orWhereHas('kecamatan', function ($q2) use ($request) {
+
+                  $q2->where(
+                      'NM_KECAMATAN',
+                      'like',
+                      '%' . $request->search . '%'
+                  );
+
+              });
+
+        });
+
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | FILTER JENIS KKMP
+    |--------------------------------------------------------------------------
+    */
+
+    if ($request->jenis_kkmp) {
+
+        $query->where(
+            'jenis_kkmp',
+            $request->jenis_kkmp
+        );
+
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | FILTER KECAMATAN
+    |--------------------------------------------------------------------------
+    */
+
+    if ($request->kecamatan_id) {
+
+        $query->where(
+            'ID_KECAMATAN',
+            $request->kecamatan_id
+        );
+
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | FILTER KELURAHAN
+    |--------------------------------------------------------------------------
+    */
+
+    if ($request->kelurahan_id) {
+
+        $query->where(
+            'ID_KELURAHAN',
+            $request->kelurahan_id
+        );
+
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | FILTER TAHUN
+    |--------------------------------------------------------------------------
+    */
+
+    if ($request->tahun) {
+
+        $query->where(
+            'tahun',
+            $request->tahun
+        );
+
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | DATA KKMP
+    |--------------------------------------------------------------------------
+    */
+
+    $dataKKMP = $query->latest()
+        ->paginate(20)
+        ->withQueryString();
+
+    /*
+    |--------------------------------------------------------------------------
+    | DATA FILTER
+    |--------------------------------------------------------------------------
+    */
+
+    $kecamatan = Kecamatan::all();
+
+    $kelurahan = [];
+
+    if ($request->kecamatan_id) {
+
+        $kelurahan = Kelurahan::where(
+            'ID_KECAMATAN',
+            $request->kecamatan_id
+        )->get();
+
+    }
+
+    $tahunOptions = KKMP::select('tahun')
+        ->distinct()
+        ->orderBy('tahun', 'desc')
+        ->pluck('tahun');
+
+    return view('admin.koperasi.kkmp.index', compact(
+        'dataKKMP',
+        'kecamatan',
+        'kelurahan',
+        'tahunOptions'
+    ));
+}
 
     public function create()
     {

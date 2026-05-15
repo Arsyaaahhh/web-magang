@@ -179,47 +179,31 @@
   </div>
 
   <div>
-    <label>Status</label>
-    <select name="status" required>
-      <option value="aktif" {{ $data->status == 'aktif' ? 'selected' : '' }}>Aktif</option>
-      <option value="tidak aktif" {{ $data->status == 'tidak aktif' ? 'selected' : '' }}>Tidak Aktif</option>
-    </select>
+    <label>Koperasi AKtif</label>
+    <input type="number" name="aktif" value="{{ old('aktif', $data->aktif) }}" required min="0">  
   </div>
-
   <div>
-    <label>Status Mitra</label>
-    <select name="status_mitra" required>
-      <option value="bermitra" {{ $data->status_mitra == 'bermitra' ? 'selected' : '' }}>Bermitra</option>
-      <option value="belum" {{ $data->status_mitra == 'belum' ? 'selected' : '' }}>Belum</option>
-    </select>
+    <label>Koperasi Tidak Aktif</label>
+    <input type="number" name="tidak_aktif" value="{{ old('tidak_aktif', $data->tidak_aktif) }}" required min="0">
+    </div>
+  <div>
+    <label>Koperasi Bermitra</label>
+    <input type="number" name="bermitra" value="{{ old('bermitra', $data->bermitra) }}" required min="0">
   </div>
-
   <div>
-    <label>Jenis Mitra</label>
-    <select name="jenis_mitra" required>
-      <option value="perbankan" {{ $data->jenis_mitra == 'perbankan' ? 'selected' : '' }}>Perbankan</option>
-      <option value="non" {{ $data->jenis_mitra == 'non' ? 'selected' : '' }}>Non Perbankan</option>
-    </select>
+    <label>Koperasi Mitra Perbankan</label>
+    <input type="number" name="mitra_perbankan" value="{{ old('mitra_perbankan', $data->mitra_perbankan) }}" required min="0">
   </div>
-
   <div>
-    <label>Padat Karya</label>
-    <select name="padat_karya" required>
-      <option value="YA" {{ $data->padat_karya == 'YA' ? 'selected' : '' }}>YA</option>
-      <option value="TIDAK" {{ $data->padat_karya == 'TIDAK' ? 'selected' : '' }}>TIDAK</option>
-    </select>
+    <label>Koperasi Padat Karya</label>
+    <input type="number" name="padat_karya" value="{{ old('padat_karya', $data->padat_karya) }}" required min="0">
   </div>
-
   <div>
-    <label>Status LPJ</label>
-    <select name="status_lpj" required>
-      <option value="LENGKAP" {{ $data->status_lpj == 'LENGKAP' ? 'selected' : '' }}>LENGKAP</option>
-      <option value="TIDAK LENGKAP" {{ $data->status_lpj == 'TIDAK LENGKAP' ? 'selected' : '' }}>TIDAK LENGKAP</option>
-    </select>
+    <label>Koperasi LPJ Lengkap</label>
+    <input type="number" name="lpj_lengkap" value="{{ old('lpj_lengkap', $data->lpj_lengkap) }}" required min="0">
   </div>
-
   <div>
-    <label>Pelaksanaan RAT</label>
+    <label>RAT LENGKAP</label>
     <input type="number" name="pelaksanaan_rat" value="{{ old('pelaksanaan_rat', $data->pelaksanaan_rat) }}" required min="0">
   </div>
 

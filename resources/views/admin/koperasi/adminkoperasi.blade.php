@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Koperasi & Pegawai</title>
+  <title>Admin Koperasi</title>
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -210,7 +210,7 @@
     /* FILTER */
     .filter{
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
       gap:10px;
       margin-bottom:20px;
     }
@@ -227,6 +227,18 @@
       background:#0d6efd;
       color:white;
     }
+    .btn-reset{
+    padding: 10px 10px;
+    background: #7a7a7a;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.3s;
+    text-align: center;
+}
+
 
     /* TABLE */
     .table-wrapper{
@@ -442,48 +454,87 @@
 
           <!-- FILTER KOPERASI -->
           <form method="GET">
-            <div class="filter">
 
-              <input
-                type="text"
-                name="search"
-                placeholder="Cari jumlah, status, mitra, jenis, kelurahan, kecamatan, rat, lpj, pengawasan..."
-                value="{{ request('search') }}"
-              >
+              <div class="filter">
 
-              <select name="status">
-                <option value="">Semua Status</option>
-                <option value="aktif" {{ request('status')=='aktif'?'selected':'' }}>Aktif</option>
-                <option value="tidak aktif" {{ request('status')=='tidak aktif'?'selected':'' }}>Tidak Aktif</option>
-              </select>
+                  <!-- SEARCH -->
+                  <input
+                      type="text"
+                      name="search"
+                      placeholder="Cari kecamatan, kelurahan, jumlah koperasi..."
+                      value="{{ request('search') }}"
+                  >
 
-              <select name="status_mitra">
-                <option value="">Semua Mitra</option>
-                <option value="bermitra" {{ request('status_mitra')=='bermitra'?'selected':'' }}>Bermitra</option>
-                <option value="belum" {{ request('status_mitra')=='belum'?'selected':'' }}>Belum</option>
-              </select>
+                  <!-- KECAMATAN -->
+                  <select id="kecamatan" name="kecamatan_id">
 
-              <select name="jenis_mitra">
-                <option value="">Semua Jenis Mitra</option>
-                <option value="perbankan" {{ request('jenis_mitra')=='perbankan'?'selected':'' }}>Perbankan</option>
-                <option value="non" {{ request('jenis_mitra')=='non'?'selected':'' }}>Non Perbankan</option>          
-              </select>
+                      <option value="">-- Pilih Kecamatan --</option>
 
-              <select name="status_rat">
-                <option value="">Semua Status RAT</option>
-                <option value="YA" {{ request('status_rat')=='YA'?'selected':'' }}>YA</option>
-                <option value="TIDAK" {{ request('status_rat')=='TIDAK'?'selected':'' }}>TIDAK</option>
-              </select>
+                      @foreach($kecamatan as $k)
 
-              <select name="status_lpj">
-                <option value="">Semua Status LPJ</option>
-                <option value="LENGKAP" {{ request('status_lpj')=='LENGKAP'?'selected':'' }}>LENGKAP</option>
-                <option value="TIDAK LENGKAP" {{ request('status_lpj')=='TIDAK LENGKAP'?'selected':'' }}>TIDAK LENGKAP</option>
-              </select>
+                          <option
+                              value="{{ $k->ID_KECAMATAN }}"
+                              {{ request('kecamatan_id') == $k->ID_KECAMATAN ? 'selected' : '' }}
+                          >
 
-              <button type="submit" class="btn">Filter</button>
+                              {{ $k->NM_KECAMATAN }}
 
-            </div>
+                          </option>
+
+                      @endforeach
+
+                  </select>
+
+                  <!-- KELURAHAN -->
+                  <select id="kelurahan" name="kelurahan_id">
+
+                      <option value="">-- Pilih Kelurahan --</option>
+
+                      @foreach($kelurahan as $kel)
+
+                          <option
+                              value="{{ $kel->ID_KELURAHAN }}"
+                              {{ request('kelurahan_id') == $kel->ID_KELURAHAN ? 'selected' : '' }}
+                          >
+
+                              {{ $kel->NM_KELURAHAN }}
+
+                          </option>
+
+                      @endforeach
+
+                  </select>
+
+                  <!-- TAHUN -->
+                  <select id="tahun" name="tahun">
+
+                      <option value="">-- Pilih Tahun --</option>
+
+                      @foreach($tahunOptions as $tahun)
+
+                          <option
+                              value="{{ $tahun }}"
+                              {{ request('tahun') == $tahun ? 'selected' : '' }}
+                          >
+
+                              {{ $tahun }}
+
+                          </option>
+
+                      @endforeach
+
+                  </select>
+
+                  <!-- BUTTON -->
+                  <button type="submit" class="btn">
+                      Filter
+                  </button>
+                  <a href="{{ url()->current() }}" class="btn-reset">
+                    Reset
+                  </a>
+
+              </div>
+
           </form>
 
           <!-- TABLE KOPERASI -->
@@ -496,12 +547,13 @@
                   <th>Kelurahan</th>
                   <th>Tahun</th>
                   <th>Jumlah Koperasi</th>
-                  <th>Status</th>
-                  <th>Status Mitra</th>
-                  <th>Jenis Mitra</th>
-                  <th>Padat Karya</th>
-                  <th>Status LPJ</th>
-                  <th>Pelaksanaan RAT</th>
+                  <th>aktif</th>
+                  <th>tidak aktif</th>
+                  <th>bermitra</th>
+                  <th>mitra_perbankan</th>
+                  <th>Padat karya</th>
+                  <th>LPJ Lengkap</th>
+                  <th>RAT LENGKAP</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -514,11 +566,12 @@
                     <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
                     <td>{{ $d->tahun }}</td>
                     <td>{{ $d->jumlah }}</td>
-                    <td><span class="badge" style="{{ $d->status == 'aktif' ? 'background-color: #d1e7dd;' : 'background-color: #f8d7da;' }}">{{ ucfirst($d->status) }}</span></td>
-                    <td>{{ ucfirst($d->status_mitra) }}</td>
-                    <td>{{ ucfirst($d->jenis_mitra) }}</td>
-                    <td><span class="badge" style="{{ $d->padat_karya == 'YA' ? 'background-color: #d1e7dd;' : 'background-color: #f8d7da;' }}">{{ $d->padat_karya }}</span></td>
-                    <td><span class="badge" style="{{ $d->status_lpj == 'LENGKAP' ? 'background-color: #d1e7dd;' : 'background-color: #f8d7da;' }}">{{ $d->status_lpj }}</span></td>
+                    <td>{{ $d->aktif }}</td>
+                    <td>{{ $d->tidak_aktif }}</td>
+                    <td>{{ $d->bermitra }}</td>
+                    <td>{{ $d->mitra_perbankan }}</td>
+                    <td>{{ $d->padat_karya }}</td>
+                    <td>{{ $d->lpj_lengkap }}</td>
                     <td>{{ $d->pelaksanaan_rat }}</td>
                     
                     <td>
@@ -551,103 +604,7 @@
 
         </div>
       </div>
-
-      <!-- TAB PEGAWAI -->
-      <div id="pegawai" class="tab-content">
-
-        <div class="top">
-
-          <h2>Data Pegawai</h2>
-          
-          <!-- BUNGKUSAN TOMBOL PEGAWAI (DIRAPIKAN) -->
-          <div class="top-actions">
-            <a href="javascript:history.back()" class="btn btn-back">
-              <i class="fas fa-arrow-left"></i> Kembali
-            </a>
-            <a href="/admin/pegawai/create" class="btn btn-add">
-              + Tambah
-            </a>
-          </div>
-
-        </div>
-
-        <div class="card">
-
-          <div class="table-wrapper">
-
-            <table>
-
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Jumlah Pegawai</th>
-                  <th>Status</th>
-                  <th>Program</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-
-              <tbody>
-
-                @forelse($dataPegawai as $p)
-
-                <tr>
-
-                  <td>
-                    {{ ($dataPegawai->currentPage()-1)*$dataPegawai->perPage() + $loop->iteration }}
-                  </td>
-
-                  <td>{{ $p->jumlah_pegawai }}</td>
-
-                  <td>
-                    <span class="badge">
-                      {{ ucfirst(str_replace('_', ' ', $p->status)) }}
-                    </span>
-                  </td>
-
-                  <td>{{ ucfirst($p->program) }}</td>
-
-                  <td>
-
-                    <div class="action">
-
-                      <a href="/admin/pegawai/edit/{{ $p->id }}" class="btn btn-edit">
-                        Edit
-                      </a>
-
-                      <button
-                        onclick="confirmDelete('/admin/pegawai/delete/{{ $p->id }}')"
-                        class="btn btn-delete"
-                      >
-                        Hapus
-                      </button>
-
-                    </div>
-
-                  </td>
-
-                </tr>
-
-                @empty
-
-                <tr>
-                  <td colspan="5" style="text-align:center;">Tidak ada data</td>
-                </tr>
-
-                @endforelse
-
-              </tbody>
-
-            </table>
-
-          </div>
-
-        </div>
-
-      </div>
-
     </div>
-
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -676,6 +633,41 @@
       event.currentTarget.classList.add('active');
     }
 
+    document.getElementById('kecamatan').addEventListener('change', function () {
+
+        let kecamatanId = this.value;
+
+        let kelurahanSelect = document.getElementById('kelurahan');
+
+        kelurahanSelect.innerHTML =
+            '<option value="">-- Pilih Kelurahan --</option>';
+
+        if (kecamatanId) {
+
+            fetch('/get-kelurahan/' + kecamatanId)
+
+                .then(response => response.json())
+
+                .then(data => {
+
+                    data.forEach(kel => {
+
+                        kelurahanSelect.innerHTML += `
+                            <option value="${kel.ID_KELURAHAN}">
+                                ${kel.NM_KELURAHAN}
+                            </option>
+                        `;
+
+                    });
+
+                });
+
+        }
+
+    });
+
+
+
     // DELETE
     function confirmDelete(url){
 
@@ -694,6 +686,8 @@
 
       });
     }
+
+    
 
     // LOGOUT
     function logout(){
