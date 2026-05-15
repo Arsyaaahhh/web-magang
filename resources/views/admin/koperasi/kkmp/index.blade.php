@@ -227,6 +227,18 @@
       background:#0d6efd;
       color:white;
     }
+    .btn-reset{
+    padding: 10px 18px;
+    background: #7a7a7a;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.3s;
+    text-align: center;
+    }
+
 
     /* TABLE */
     .table-wrapper{
@@ -412,6 +424,67 @@
         <form method="GET">
           <div class="filter">
             <input type="text" name="search" placeholder="Cari kecamatan, kelurahan, tahun, alamat, jenis..." value="{{ request('search') }}">
+            <!-- KECAMATAN -->
+                  <select id="kecamatan" name="kecamatan_id">
+
+                      <option value="">-- Pilih Kecamatan --</option>
+
+                      @foreach($kecamatan as $k)
+
+                          <option
+                              value="{{ $k->ID_KECAMATAN }}"
+                              {{ request('kecamatan_id') == $k->ID_KECAMATAN ? 'selected' : '' }}
+                          >
+
+                              {{ $k->NM_KECAMATAN }}
+
+                          </option>
+
+                      @endforeach
+
+                  </select>
+
+                  <!-- KELURAHAN -->
+                  <select id="kelurahan" name="kelurahan_id">
+
+                      <option value="">-- Pilih Kelurahan --</option>
+
+                      @foreach($kelurahan as $kel)
+
+                          <option
+                              value="{{ $kel->ID_KELURAHAN }}"
+                              {{ request('kelurahan_id') == $kel->ID_KELURAHAN ? 'selected' : '' }}
+                          >
+
+                              {{ $kel->NM_KELURAHAN }}
+
+                          </option>
+
+                      @endforeach
+
+                  </select>
+
+                  <!-- TAHUN -->
+                  <select id="tahun" name="tahun">
+
+                      <option value="">-- Pilih Tahun --</option>
+
+                      @foreach($tahunOptions as $tahun)
+
+                          <option
+                              value="{{ $tahun }}"
+                              {{ request('tahun') == $tahun ? 'selected' : '' }}
+                          >
+
+                              {{ $tahun }}
+
+                          </option>
+
+                      @endforeach
+
+                  </select>
+
+                  <!-- JENIS KKMP -->
             <select name="jenis_kkmp">
               <option value="">Semua Jenis KKMP</option>
               <option value="Gerai/Outlet Sembako (Kios Pangan)" {{ request('jenis_kkmp') == 'Gerai/Outlet Sembako (Kios Pangan)' ? 'selected' : '' }}>Gerai/Outlet Sembako (Kios Pangan)</option>
@@ -422,6 +495,9 @@
               <option value="Unit Jasa Pemenuhan Gizi (Pemasok SPPG)" {{ request('jenis_kkmp') == 'Unit Jasa Pemenuhan Gizi (Pemasok SPPG)' ? 'selected' : '' }}>Unit Jasa Pemenuhan Gizi (Pemasok SPPG)</option>
             </select>
             <button type="submit" class="btn">Filter</button>
+            <a href="{{ url()->current() }}" class="btn-reset">
+                Reset
+            </a>
           </div>
         </form>
 
@@ -493,6 +569,39 @@
       const overlay = document.getElementById('overlay');
       if(overlay) overlay.classList.toggle('active');
     }
+
+    document.getElementById('kecamatan').addEventListener('change', function () {
+
+        let kecamatanId = this.value;
+
+        let kelurahanSelect = document.getElementById('kelurahan');
+
+        kelurahanSelect.innerHTML =
+            '<option value="">-- Pilih Kelurahan --</option>';
+
+        if (kecamatanId) {
+
+            fetch('/get-kelurahan/' + kecamatanId)
+
+                .then(response => response.json())
+
+                .then(data => {
+
+                    data.forEach(kel => {
+
+                        kelurahanSelect.innerHTML += `
+                            <option value="${kel.ID_KELURAHAN}">
+                                ${kel.NM_KELURAHAN}
+                            </option>
+                        `;
+
+                    });
+
+                });
+
+        }
+
+    });
 
     // Fungsi Konfirmasi Logout (Diperbaiki)
     function confirmLogout() {

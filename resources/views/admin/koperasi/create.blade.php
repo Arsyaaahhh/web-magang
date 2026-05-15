@@ -174,52 +174,34 @@
   </div>
 
   <div>
-    <label>Status</label>
-    <select name="status">
-      <option value="aktif">Aktif</option>
-      <option value="tidak aktif">Tidak Aktif</option>
-    </select>
+    <label>Koperasi AKtif</label>
+    <input type="number" name="aktif" required min="0">
   </div>
-
   <div>
-    <label>Status Mitra</label>
-    <select name="status_mitra">
-      <option value="bermitra">Bermitra</option>
-      <option value="belum">Belum</option>
-    </select>
+    <label>Koperasi Tidak Aktif</label>
+    <input type="number" name="tidak_aktif" required min="0">
   </div>
-
   <div>
-    <label>Jenis Mitra</label>
-    <select name="jenis_mitra">
-      <option value="perbankan">Perbankan</option>
-      <option value="non">Non Perbankan</option>
-    </select>
+    <label>Koperasi Bermitra</label>
+    <input type="number" name="bermitra" required min="0">
   </div>
-
   <div>
-    <label>Padat Karya</label>
-    <select name="padat_karya">
-      <option value="YA">YA</option>
-      <option value="TIDAK">TIDAK</option>
-    </select>
+    <label>Koperasi Mitra Perbankan</label>
+    <input type="number" name="mitra_perbankan" required min="0">
   </div>
-
   <div>
-    <label>Status LPJ</label>
-    <select name="status_lpj">
-      <option value="LENGKAP">LENGKAP</option>
-      <option value="TIDAK LENGKAP">TIDAK LENGKAP</option>
-    </select>
+    <label>Koperasi Padat Karya</label>
+    <input type="number" name="padat_karya" required min="0">
   </div>
-
   <div>
-    <label>Pelaksanaan RAT</label>
-    <input type="number" name="pelaksanaan_rat" required min="0" value="0">
+    <label>Koperasi LPJ Lengkap</label>
+    <input type="number" name="lpj_lengkap" required min="0">
   </div>
-
+  <div>
+    <label>RAT LENGKAP</label>
+    <input type="number" name="pelaksanaan_rat" required min="0">
+  </div>
 </div>
-
 <button class="btn">Simpan</button>
 </form>
 

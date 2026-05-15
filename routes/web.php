@@ -294,7 +294,7 @@ Route::post('/admin/admin_perdagangan/tokokelontong/tokokelontongupdate/{id}', [
 Route::get('/get-kelurahan/{id}', [TokokelontongController::class, 'getKelurahan']);
 
 Route::get('/koperasi', [KoperasiController::class, 'userPage']);
-
+Route::get('/get-kelurahan/{id}', [KoperasiController::class, 'getKelurahan']);
 Route::get('/metrologi-data', [FrontendMetrologiController::class, 'getData']);
 
 // ================= ADMIN PENELITIAN =================

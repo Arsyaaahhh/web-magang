@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Koperasi;
 use App\Models\Kecamatan;
 use App\Models\Kelurahan;
-use App\Models\Pegawai;
 use App\Models\KKMP;
 
 class KoperasiController extends Controller
@@ -19,11 +18,12 @@ class KoperasiController extends Controller
         if ($request->search) {
             $query->where(function ($q) use ($request) {
                 $q->where('jumlah', 'like', '%' . $request->search . '%')
-                  ->orWhere('status', 'like', '%' . $request->search . '%')
-                  ->orWhere('status_mitra', 'like', '%' . $request->search . '%')
-                  ->orWhere('jenis_mitra', 'like', '%' . $request->search . '%')
+                  ->orWhere('aktif', 'like', '%' . $request->search . '%')
+                  ->orWhere('tidak_aktif', 'like', '%' . $request->search . '%')
+                  ->orWhere('bermitra', 'like', '%' . $request->search . '%')
+                  ->orWhere('mitra_perbankan', 'like', '%' . $request->search . '%')
                   ->orWhere('padat_karya', 'like', '%' . $request->search . '%')
-                  ->orWhere('status_lpj', 'like', '%' . $request->search . '%')
+                  ->orWhere('lpj_lengkap', 'like', '%' . $request->search . '%')
                   ->orWhere('pelaksanaan_rat', 'like', '%' . $request->search . '%')
                   ->orWhereHas('kelurahan', function ($q2) use ($request) {
                       $q2->where('NM_KELURAHAN', 'like', '%' . $request->search . '%');
@@ -34,58 +34,39 @@ class KoperasiController extends Controller
             });
         }
 
-        if ($request->status) {
-            $query->where('status', strtolower($request->status));
+        if ($request->kecamatan_id) {
+            $query->where('ID_KECAMATAN', $request->kecamatan_id);
         }
 
-        if ($request->status_mitra) {
-            $query->where('status_mitra', strtolower($request->status_mitra));
+        if ($request->kelurahan_id) {
+            $query->where('ID_KELURAHAN', $request->kelurahan_id);
         }
 
-        if ($request->jenis_mitra) {
-            $query->where('jenis_mitra', $request->jenis_mitra);
+        if ($request->tahun) {
+            $query->where('tahun', $request->tahun);
         }
 
-        if ($request->padat_karya) {
-            $query->where('padat_karya', $request->padat_karya);
+        $dataKoperasi = $query->latest()
+            ->paginate(20, ['*'], 'page_koperasi')
+            ->withQueryString();
+
+        $kecamatan = Kecamatan::all();
+        $kelurahan = [];
+        if ($request->kecamatan_id) {
+            $kelurahan = Kelurahan::where('ID_KECAMATAN', $request->kecamatan_id)->get();
         }
 
-        if ($request->status_lpj) {
-            $query->where('status_lpj', $request->status_lpj);
-        }
+        $tahunOptions = Koperasi::select('tahun')
+            ->distinct()
+            ->orderBy('tahun', 'desc')
+            ->pluck('tahun');
 
-        if ($request->ID_KECAMATAN) {
-            $query->where('ID_KECAMATAN', $request->ID_KECAMATAN);
-        }
-
-        if ($request->ID_KELURAHAN) {
-            $query->where('ID_KELURAHAN', $request->ID_KELURAHAN);
-        }
-
-        $dataKoperasi = $query->latest()->paginate(20, ['*'], 'page_koperasi')->withQueryString();
-        
-        // Get pegawai data
-        $queryPegawai = Pegawai::query();
-        
-        if ($request->search_pegawai) {
-            $queryPegawai->where(function ($q) use ($request) {
-                $q->where('jumlah_pegawai', 'like', '%' . $request->search_pegawai . '%')
-                  ->orWhere('status', 'like', '%' . $request->search_pegawai . '%')
-                  ->orWhere('program', 'like', '%' . $request->search_pegawai . '%');
-            });
-        }
-
-        if ($request->status_pegawai) {
-            $queryPegawai->where('status', $request->status_pegawai);
-        }
-
-        if ($request->program_pegawai) {
-            $queryPegawai->where('program', $request->program_pegawai);
-        }
-
-        $dataPegawai = $queryPegawai->latest()->paginate(10, ['*'], 'page_pegawai')->withQueryString();
-
-        return view('admin.koperasi.adminkoperasi', compact('dataKoperasi', 'dataPegawai'));
+        return view('admin.koperasi.adminkoperasi', compact(
+            'dataKoperasi',
+            'kecamatan',
+            'kelurahan',
+            'tahunOptions'
+        ));
     }
 
     public function create()
@@ -97,30 +78,20 @@ class KoperasiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'jumlah' => 'required|integer|min:0',
+            'jumlah' => 'nullable|integer|min:0',
+            'aktif' => 'nullable|integer|min:0',
+            'tidak_aktif' => 'nullable|integer|min:0',
+            'bermitra' => 'nullable|integer|min:0',
+            'mitra_perbankan' => 'nullable|integer|min:0',
+            'padat_karya' => 'nullable|integer|min:0',
+            'lpj_lengkap' => 'nullable|integer|min:0',
+            'pelaksanaan_rat' => 'nullable|integer|min:0',
             'tahun' => 'required|integer|min:1900|max:2999',
-            'status' => 'required|in:aktif,tidak aktif',
-            'status_mitra' => 'required|in:bermitra,belum',
-            'jenis_mitra' => 'required|in:perbankan,non',
             'ID_KECAMATAN' => 'required|exists:kecamatan,ID_KECAMATAN',
             'ID_KELURAHAN' => 'required|exists:kelurahan,ID_KELURAHAN',
-            'padat_karya' => 'required|in:YA,TIDAK',
-            'status_lpj' => 'required|in:LENGKAP,TIDAK LENGKAP',
-            'pelaksanaan_rat' => 'required|integer|min:0',
         ]);
 
-        Koperasi::create($request->only([
-            'jumlah',
-            'tahun',
-            'status',
-            'status_mitra',
-            'jenis_mitra',
-            'ID_KECAMATAN',
-            'ID_KELURAHAN',
-            'padat_karya',
-            'status_lpj',
-            'pelaksanaan_rat'
-        ]));
+        Koperasi::create($request->all());
 
         return redirect('/admin/koperasi/')->with('success', 'Data berhasil ditambahkan');
     }
@@ -137,31 +108,21 @@ class KoperasiController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'jumlah' => 'required|integer|min:0',
+            'jumlah' => 'nullable|integer|min:0',
+            'aktif' => 'nullable|integer|min:0',
+            'tidak_aktif' => 'nullable|integer|min:0',
+            'bermitra' => 'nullable|integer|min:0',
+            'mitra_perbankan' => 'nullable|integer|min:0',
+            'padat_karya' => 'nullable|integer|min:0',
+            'lpj_lengkap' => 'nullable|integer|min:0',
+            'pelaksanaan_rat' => 'nullable|integer|min:0',
             'tahun' => 'required|integer|min:1900|max:2999',
-            'status' => 'required|in:aktif,tidak aktif',
-            'status_mitra' => 'required|in:bermitra,belum',
-            'jenis_mitra' => 'required|in:perbankan,non',
             'ID_KECAMATAN' => 'required|exists:kecamatan,ID_KECAMATAN',
             'ID_KELURAHAN' => 'required|exists:kelurahan,ID_KELURAHAN',
-            'padat_karya' => 'required|in:YA,TIDAK',
-            'status_lpj' => 'required|in:LENGKAP,TIDAK LENGKAP',
-            'pelaksanaan_rat' => 'required|integer|min:0',
         ]);
 
         $koperasi = Koperasi::findOrFail($id);
-        $koperasi->update($request->only([
-            'jumlah',
-            'tahun',
-            'status',
-            'status_mitra',
-            'jenis_mitra',
-            'ID_KECAMATAN',
-            'ID_KELURAHAN',
-            'padat_karya',
-            'status_lpj',
-            'pelaksanaan_rat'
-        ]));
+        $koperasi->update($request->all());
 
         return redirect('/admin/koperasi/')->with('success', 'Data berhasil diupdate');
     }
@@ -184,58 +145,49 @@ class KoperasiController extends Controller
         return response()->json(['total' => $total]);
     }
 
-    public function userPage()
+    // ================= USER PAGE (FIXED) =================
+    public function userPage(Request $request)
     {
-        $totalJumlah = Koperasi::sum('jumlah');
-        $jumlahAktif = Koperasi::where('status','aktif')->sum('jumlah');
-        $jumlahTidakAktif = Koperasi::where('status','tidak aktif')->sum('jumlah');
+    // 1. Data untuk Dropdown
+    $kecamatan = Kecamatan::all();
+    $kelurahan = $request->kecamatan_id ? Kelurahan::where('ID_KECAMATAN', $request->kecamatan_id)->get() : [];
+    $tahunOptions = Koperasi::select('tahun')->distinct()->orderBy('tahun', 'desc')->pluck('tahun');
 
-        // Padat Karya and Pelaksanaan RAT
-        $jumlahPadatKarya = Koperasi::where('padat_karya', 'YA')->count();
-        $totalPelaksanaanRat = Koperasi::sum('pelaksanaan_rat');
+    // 2. Query Dasar (Base Query) - Tempelkan Filter di sini
+    $baseKoperasi = Koperasi::with(['kecamatan', 'kelurahan']);
+    
+    if ($request->kecamatan_id) { $baseKoperasi->where('ID_KECAMATAN', $request->kecamatan_id); }
+    if ($request->kelurahan_id) { $baseKoperasi->where('ID_KELURAHAN', $request->kelurahan_id); }
+    if ($request->tahun)        { $baseKoperasi->where('tahun', $request->tahun); }
 
-        // Data Pegawai
-        $totalPegawai = \App\Models\Pegawai::sum('jumlah_pegawai');
-        $pegawaiPNS = \App\Models\Pegawai::where('status','pns')->sum('jumlah_pegawai');
-        $pegawaiNonPNS = \App\Models\Pegawai::where('status','non_pns')->sum('jumlah_pegawai');
+    // 3. Hitung Statistik (Otomatis Terfilter)
+    $totalJumlah         = (clone $baseKoperasi)->sum('jumlah');
+    $jumlahAktif         = (clone $baseKoperasi)->sum('aktif');
+    $jumlahTidakAktif    = (clone $baseKoperasi)->sum('tidak_aktif');
+    $jumlahPadatKarya    = (clone $baseKoperasi)->sum('padat_karya');
+    $totalPelaksanaanRat = (clone $baseKoperasi)->sum('pelaksanaan_rat');
 
-        // =================================================================
-        // Detail Data Koperasi (Kita buat dua nama agar HTML tidak bingung)
-        // =================================================================
-        $allKoperasi = Koperasi::with(['kecamatan', 'kelurahan'])->paginate(20, ['*'], 'total_p');
-        $dataKoperasi = $allKoperasi; // Alias untuk $dataKoperasi
+    // 4. Data Tabel (Otomatis Terfilter & Menjaga URL Pagination)
+    $allKoperasi = (clone $baseKoperasi)->paginate(20, ['*'], 'total_p')->withQueryString();
+    $koperasiAktif = (clone $baseKoperasi)->where('aktif', '>', 0)->paginate(20, ['*'], 'aktif_p')->withQueryString();
+    $koperasiTidakAktif = (clone $baseKoperasi)->where('tidak_aktif', '>', 0)->paginate(20, ['*'], 'tidak_aktif_p')->withQueryString();
+    $padatKaryaDetail = (clone $baseKoperasi)->where('padat_karya', '>', 0)->paginate(20, ['*'], 'padat_karya_p')->withQueryString();
+    $pelaksanaanRatDetail = (clone $baseKoperasi)->where('pelaksanaan_rat', '>', 0)->paginate(20, ['*'], 'pelaksanaan_rat_p')->withQueryString();
 
-        $koperasiAktif = Koperasi::with(['kecamatan', 'kelurahan'])->where('status', 'aktif')->paginate(20, ['*'], 'aktif_p');
-        $koperasiTidakAktif = Koperasi::with(['kecamatan', 'kelurahan'])->where('status', 'tidak aktif')->paginate(20, ['*'], 'tidak_aktif_p');
-        
-        // Padat Karya and Pelaksanaan RAT Detail
-        $padatKaryaDetail = Koperasi::with(['kecamatan', 'kelurahan'])->where('padat_karya', 'YA')->paginate(20, ['*'], 'padat_karya_p');
-        $pelaksanaanRatDetail = Koperasi::with(['kecamatan', 'kelurahan'])->paginate(20, ['*'], 'pelaksanaan_rat_p');
+    // 5. Data KKMP
+    $baseKKMP = KKMP::with(['kecamatan', 'kelurahan']);
+    if ($request->kecamatan_id) { $baseKKMP->where('ID_KECAMATAN', $request->kecamatan_id); }
+    if ($request->kelurahan_id) { $baseKKMP->where('ID_KELURAHAN', $request->kelurahan_id); }
+    if ($request->tahun)        { $baseKKMP->where('tahun', $request->tahun); }
+    
+    $totalKKMP = (clone $baseKKMP)->count();
+    $allKKMP = $baseKKMP->paginate(20, ['*'], 'kkmp_p')->withQueryString();
 
-        // =================================================================
-        // Detail Data Pegawai (Kita buat dua nama juga)
-        // =================================================================
-        $allPegawai = \App\Models\Pegawai::paginate(20, ['*'], 'pegawai_p');
-        $dataPegawai = $allPegawai; // Alias untuk $dataPegawai
-
-        $pegawaiPNSDetail = \App\Models\Pegawai::where('status','pns')->paginate(20, ['*'], 'pns_p');
-        $pegawaiNonPNSDetail = \App\Models\Pegawai::where('status','non_pns')->get();
-
-        // =================================================================
-        // Data KKMP
-        // =================================================================
-        $totalKKMP = KKMP::count();
-        $allKKMP = KKMP::with(['kecamatan', 'kelurahan'])->paginate(20, ['*'], 'kkmp_p');
-
-        // Kirim SEMUA variabel ke tampilan
-        return view('bidang.koperasi', compact(
-            'totalJumlah', 'jumlahAktif', 'jumlahTidakAktif', 
-            'jumlahPadatKarya', 'totalPelaksanaanRat',
-            'totalPegawai', 'pegawaiPNS', 'pegawaiNonPNS',
-            'allKoperasi', 'dataKoperasi', 'koperasiAktif', 'koperasiTidakAktif',
-            'padatKaryaDetail', 'pelaksanaanRatDetail',
-            'allPegawai', 'dataPegawai', 'pegawaiPNSDetail', 'pegawaiNonPNSDetail',
-            'totalKKMP', 'allKKMP'
-        ));
+    return view('bidang.koperasi', compact(
+        'totalJumlah', 'jumlahAktif', 'jumlahTidakAktif', 'jumlahPadatKarya', 'totalPelaksanaanRat',
+        'allKoperasi', 'koperasiAktif', 'koperasiTidakAktif', 'padatKaryaDetail', 
+        'pelaksanaanRatDetail', 'totalKKMP', 'allKKMP',
+        'kecamatan', 'kelurahan', 'tahunOptions'
+    ));
     }
 }
