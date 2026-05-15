@@ -157,6 +157,7 @@
     .bg-blue { background: linear-gradient(135deg, #0d6efd, #0b5ed7); color: white; border: none; }
     .bg-orange { background: linear-gradient(135deg, #fd7e14, #e86e04); color: white; border: none; }
     .bg-green { background: linear-gradient(135deg, #198754, #146c43); color: white; border: none; }
+    .bg-red { background: linear-gradient(135deg, #e83e8c, #c82333); }
     
     .menu-card i{
       font-size: 32px; /* Ikon dikecilkan */
@@ -276,9 +277,14 @@
           <h4>SWK</h4>
         </a>
 
+        <a class="card menu-card bg-red" href="/admin/admin_pum/adminsentrausaha">
+          <i class="fas fa-store"></i>
+          <h4>Sentra Usaha</h4>
+        </a>
+
         <a class="card menu-card bg-green" href="/admin/admin_pum/adminlppd">
           <i class="fas fa-chart-line"></i>
-          <h4>LPPD</h4>
+          <h4>UMKM Sesuai LPPD</h4>
         </a>
 
       </div>

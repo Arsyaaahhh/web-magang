@@ -284,9 +284,7 @@
       <div class="top">
         <h2>Data Sentra Wisata Kuliner</h2>
         <div style="display: flex; gap: 10px;">
-            <a href="/admin/admin_pum" class="btn-back">
-                <i class="fas fa-arrow-left"></i> Kembali
-            </a>
+            <a href="/admin/admin_pum" class="btn btn-back">← Kembali</a>
             <a href="/admin/admin_pum/swkcreate" class="btn btn-add">+ Tambah</a>
         </div>
     </div>
@@ -324,8 +322,9 @@
                   <th>Jumlah Pedagang</th>
                   <th>Jumlah Stan</th>
                   <th>Stan Belum Terisi</th>
+                  <th>Peken</th>
                   <th>Luas(m2)</th>
-                  <th>Kapasitas (orang)</th>
+                  <th>Kapasitas (Pengunjung)</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -340,6 +339,7 @@
                     <td>{{ $d->jumlah_pedagang }}</td>
                     <td>{{ $d->jumlah_stan }}</td>
                     <td>{{ $d->stan_belum_terisi }}</td>
+                    <td>{{ $d->peken }}</td>
                     <td>{{ $d->luas }}</td>
                     <td>{{ $d->kapasitas }}</td>
                     <td>

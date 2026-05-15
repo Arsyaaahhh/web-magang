@@ -18,6 +18,7 @@ class Pasar extends Model
         'luas',
         'foto',
         'kapasitas',
+        'peken',
     ];
 
     public function kelurahan()

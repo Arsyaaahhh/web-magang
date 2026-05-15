@@ -245,7 +245,12 @@
           </div>
 
           <div>
-            <label>Kapasitas (orang)</label>
+            <label>Peken</label>
+            <input type="number" name="peken" placeholder="Masukkan Jumlah Peken" min="0" required>
+          </div>
+
+          <div>
+            <label>Kapasitas (Pengunjung)</label>
             <input type="number" name="kapasitas" placeholder="Masukkan Kapasitas Pasar" min="0" required>
           </div>
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edit UMKM</title>
+  <title>Edit Sentra Usaha</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
@@ -69,13 +69,13 @@
   <div class="container">
     <div class="card">
       <div class="header">
-        <h2>Edit SWK</h2>
-        <a href="/admin/admin_pum/adminswk" class="back">← Kembali</a>
+        <h2>Edit Sentra Usaha</h2>
+        <a href="/admin/admin_pum/adminsentrausaha" class="back">← Kembali</a>
       </div>
-      <form action="/admin/admin_pum/swkupdate/{{ $data->id }}" method="POST" enctype="multipart/form-data">
+      <form action="/admin/admin_pum/sentrausahaupdate/{{ $data->id }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-grid">
-          <div><label>Nama SWK</label><input name="nama_swk" type="text" value="{{ $data->nama_swk }}" required></div>
+          <div><label>Nama Sentra Usaha</label><input name="nama_sentrausaha" type="text" value="{{ $data->nama_sentrausaha }}" required></div>
           <div><label>Alamat</label><input name="alamat" type="text" value="{{ $data->alamat }}" required></div>
           <div>
             <label>Kecamatan</label>
@@ -92,16 +92,12 @@
             <label>Kelurahan</label>
             <select id="kelurahan" name="kelurahan_id"><option value="">Loading...</option></select>
           </div>
-          <div><label>Jumlah Pedagang</label><input name="jumlah_pedagang" type="number" value="{{ $data->jumlah_pedagang }}" min="0"></div>
-          <div><label>Jumlah Stan</label><input name="jumlah_stan" type="number" value="{{ $data->jumlah_stan }}" min="0"></div>
-          <div><label>Stan Belum Terisi</label><input name="stan_belum_terisi" type="number" value="{{ $data->stan_belum_terisi }}" min="0"></div>
-          <div><label>Peken</label><input name="peken" type="number" value="{{ $data->peken }}" min="0"></div>
           <div><label>Luas (m2)</label><input name="luas" type="number" value="{{ $data->luas }}" min="0"></div>
           <div><label>Kapasitas (Pengunjung)</label><input name="kapasitas" type="number" value="{{ $data->kapasitas }}" min="0"></div>
 
           <div class="full-width">
 
-              <label>Foto SWK</label>
+              <label>Foto Sentra Usaha</label>
 
               <input 
                   type="file" 

@@ -23,6 +23,7 @@ use App\Http\Controllers\MetrologiReparasiController;
 use App\Http\Controllers\FrontendMetrologiController;
 use App\Http\Controllers\PenelitianController;
 use App\Http\Controllers\KoperasiController;
+use App\Http\Controllers\SentrausahaController;
 
 
 /*
@@ -58,6 +59,7 @@ Route::get('/mikro', [PumController::class, 'index']);
 Route::get('bidang/pum/umkm', [UmkmController::class, 'umkm']);
 Route::get('bidang/pum/swk', [SwkController::class, 'swk']);
 Route::get('bidang/pum/lppd', [LppdController::class, 'lppd']);
+route::get('bidang/pum/sentrausaha', [SentrausahaController::class, 'sentrausaha']);
 
 // Perdagangan (User JSON/AJAX Data)
 Route::get('/perdagangan', [PerdaganganController::class, 'index']);
@@ -264,6 +266,16 @@ Route::post('/admin/admin_pum/lppdupdate/{id}', [LppdController::class,'update']
 Route::delete('/admin/admin_pum/lppddelete/{id}', [LppdController::class,'destroy']);
 
 Route::get('/get-kelurahan/{id}', [LppdController::class, 'getKelurahan']);
+
+// ================= ADMIN SENTRA USAHA =================
+Route::get('/admin/admin_pum/adminsentrausaha', [SentrausahaController::class, 'index'])->name('adminsentrausaha');
+Route::get('/admin/admin_pum/sentrausahacreate', [SentrausahaController::class,'create']);
+Route::post('/admin/admin_pum/sentrausahastore', [SentrausahaController::class,'store']);
+Route::get('/admin/admin_pum/sentrausahaedit/{id}', [SentrausahaController::class,'edit']);
+Route::post('/admin/admin_pum/sentrausahaupdate/{id}', [SentrausahaController::class,'update']);
+Route::delete('/admin/admin_pum/sentrausahadelete/{id}', [SentrausahaController::class,'destroy']);
+
+Route::get('/get-kelurahan/{id}', [SentrausahaController::class, 'getKelurahan']);
 
 /*
 |--------------------------------------------------------------------------

@@ -191,10 +191,77 @@
             </select>
             </div>
 
-          <div>
-            <label>Kategori</label>
-            <input type="text" name="kategori" placeholder="Masukkan Kategori" required>
-          </div>
+            <div>
+                <label>Kategori</label>
+
+                <select name="kategori" id="kategoriUmkm" required>
+                    <option value="">Pilih Kategori</option>
+
+                    <option value="Aroma Terapi & Spa" {{ old('kategori')=='Aroma Terapi & Spa' ? 'selected' : '' }}>
+                        Aroma Terapi & Spa
+                    </option>
+
+                    <option value="Bapokting" {{ old('kategori')=='Bapokting' ? 'selected' : '' }}>
+                        Bapokting
+                    </option>
+
+                    <option value="Batik" {{ old('kategori')=='Batik' ? 'selected' : '' }}>
+                        Batik
+                    </option>
+
+                    <option value="Craft" {{ old('kategori')=='Craft' ? 'selected' : '' }}>
+                        Craft
+                    </option>
+
+                    <option value="Daging Segar Dingin" {{ old('kategori')=='Daging Segar Dingin' ? 'selected' : '' }}>
+                        Daging Segar Dingin
+                    </option>
+
+                    <option value="Fashion" {{ old('kategori')=='Fashion' ? 'selected' : '' }}>
+                        Fashion
+                    </option>
+
+                    <option value="Food and Culinary" {{ old('kategori')=='Food and Culinary' ? 'selected' : '' }}>
+                        Food and Culinary
+                    </option>
+
+                    <option value="Hasil Pertanian" {{ old('kategori')=='Hasil Pertanian' ? 'selected' : '' }}>
+                        Hasil Pertanian
+                    </option>
+
+                    <option value="Jasa" {{ old('kategori')=='Jasa' ? 'selected' : '' }}>
+                        Jasa
+                    </option>
+
+                    <option value="Laundry Bag" {{ old('kategori')=='Laundry Bag' ? 'selected' : '' }}>
+                        Laundry Bag
+                    </option>
+
+                    <option value="Makanan" {{ old('kategori')=='Makanan' ? 'selected' : '' }}>
+                        Makanan
+                    </option>
+
+                    <option value="Minuman" {{ old('kategori')=='Minuman' ? 'selected' : '' }}>
+                        Minuman
+                    </option>
+
+                    <option value="Penunjang" {{ old('kategori')=='Penunjang' ? 'selected' : '' }}>
+                        Penunjang
+                    </option>
+
+                    <option value="Sabun & Shampoo" {{ old('kategori')=='Sabun & Shampoo' ? 'selected' : '' }}>
+                        Sabun & Shampoo
+                    </option>
+
+                    <option value="Sepatu" {{ old('kategori')=='Sepatu' ? 'selected' : '' }}>
+                        Sepatu
+                    </option>
+
+                    <option value="Slipper" {{ old('kategori')=='Slipper' ? 'selected' : '' }}>
+                        Slipper
+                    </option>
+                </select>
+            </div>
 
           <div>
             <label>Total UMKM</label>

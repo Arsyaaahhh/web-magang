@@ -118,9 +118,14 @@
         <p>Informasi Sentra Wisata Kuliner</p>
       </a>
 
+      <a class="card red" href="/bidang/pum/sentrausaha">
+        <h4>Sentra Usaha</h4>
+        <p>Informasi Sentra Usaha</p>
+      </a>
+
       <a class="card purple" href="/bidang/pum/lppd">
-        <h4>LPPD</h4>
-        <p>Informasi LPPD</p>
+        <h4>UMKM sesuai LPPD</h4>
+        <p>Informasi UMKM Sesuai LPPD</p>
       </a>
 
     </div>

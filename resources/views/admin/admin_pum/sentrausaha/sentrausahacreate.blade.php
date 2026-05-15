@@ -64,20 +64,20 @@
 </head>
 <body>
   <div class="navbar">
-    <h3>Admin SWK</h3>
+    <h3>Admin Sentra Usaha</h3>
     <div style="font-size: 14px; color:#666;">Tambah Data</div>
   </div>
   <div class="container">
     <div class="card">
       <div class="header">
-        <h2>Tambah Data SWK</h2>
-        <a href="/admin/admin_pum/adminswk" class="back">← Kembali</a>
+        <h2>Tambah Data Sentra Usaha</h2>
+        <a href="/admin/admin_pum/adminsentrausaha" class="back">← Kembali</a>
       </div>
-      <form action="/admin/admin_pum/swkstore" method="POST" enctype="multipart/form-data">
+      <form action="/admin/admin_pum/sentrausahastore" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-grid">
-          <div><label>Nama SWK</label><input type="text" name="nama_swk" placeholder="Masukkan Nama SWK" required></div>
-          <div><label>Alamat</label><input type="text" name="alamat" placeholder="Masukkan Alamat SWK" required></div>
+          <div><label>Nama Sentra Usaha</label><input type="text" name="nama_sentrausaha" placeholder="Masukkan Nama Sentra Usaha" required></div>
+          <div><label>Alamat</label><input type="text" name="alamat" placeholder="Masukkan Alamat Sentra Usaha" required></div>
           <div>
             <label>Kecamatan</label>
             <select id="kecamatan" name="kecamatan_id" required>
@@ -91,16 +91,12 @@
             <label>Kelurahan</label>
             <select id="kelurahan" name="kelurahan_id" required><option value="">Pilih Kelurahan</option></select>
           </div>
-          <div><label>Jumlah Pedagang</label><input type="number" name="jumlah_pedagang" placeholder="Masukkan Jumlah Pedagang" required></div>
-          <div><label>Jumlah Stan</label><input type="number" name="jumlah_stan" placeholder="Masukkan Jumlah Stan" required></div>
-          <div><label>Stan Belum Terisi</label><input type="number" name="stan_belum_terisi" placeholder="Masukkan Jumlah Stan Belum Terisi" required></div>
-          <div><label>Peken</label><input type="number" name="peken" placeholder="Masukkan Jumlah Peken" required></div>
-          <div><label>Luas (m2)</label><input type="number" name="luas" placeholder="Masukkan Luas SWK" required></div>
-          <div><label>Kapasitas (Pengunjung)</label><input type="number" name="kapasitas" placeholder="Masukkan Kapasitas SWK" required></div>
+          <div><label>Luas (m2)</label><input type="number" name="luas" placeholder="Masukkan Luas Sentra Usaha" required></div>
+          <div><label>Kapasitas (Pengunjung)</label><input type="number" name="kapasitas" placeholder="Masukkan Kapasitas Sentra Usaha" required></div>
 
           <div class="full-width">
 
-              <label>Foto SWK</label>
+              <label>Foto Sentra Usaha</label>
 
               <input 
                   type="file" 
@@ -115,7 +111,7 @@
 
                   <img id="previewImage" src="" alt="Preview Foto">
 
-                  <span>Preview Foto SWK</span>
+                  <span>Preview Foto Sentra Usaha</span>
 
               </div>
 
