@@ -10,6 +10,13 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+<link 
+    rel="stylesheet" 
+    href="https://unpkg.com/leaflet/dist/leaflet.css"
+/>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  
   <style>
     *{
         margin:0;
@@ -349,6 +356,19 @@
             margin: 15px;
         }
     }
+
+    .map-wrapper{
+        width:100%;
+        margin-bottom:7px;
+        box-shadow:0 4px 14px rgba(0,0,0,0.06);
+    }
+
+    #map{
+        width:100%;
+        height:400px;
+        border-radius:10px;
+        overflow:hidden;
+    }
   </style>
 
 </head>
@@ -379,7 +399,7 @@
 <div class="main">
 
   <div class="header">
-    <div class="toggle-btn" onclick="toggleSidebar()">â˜°</div>
+    <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
     <img src="{{ asset('images/logo.jpg') }}" class="logo">
     <div>
       <b>Pemberdayaan Usaha Mikro</b><br>
@@ -415,55 +435,66 @@
 
     </div>
 
+    <!-- MAIN MENU -->
+    <div class="map-wrapper">
+
+        <!-- <h3 style="margin-bottom:15px;">
+            Persebaran Sentra Usaha
+        </h3> -->
+
+        <div id="map"></div>
+
+    </div>
+
     <div class="swk-wrapper">
-        @forelse($swks as $swk)
+        @forelse($swks as $item)
 
         <div class="swkcard">
 
             <div class="swkcard-image">
 
                 <img 
-                    src="{{ $swk->foto 
-                        ? asset('storage/' . $swk->foto) 
+                    src="{{ $item->foto 
+                        ? asset('storage/' . $item->foto) 
                         : 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=1200&auto=format&fit=crop' 
                     }}" 
-                    alt="{{ $swk->nama_swk }}"
+                    alt="{{ $item->nama_swk }}"
                 >
 
                 <div class="swkcard-content">
 
                     <div class="top-row">
                         <h2 class="title">
-                            {{ $swk->nama_swk }}
+                            {{ $item->nama_swk }}
                         </h2>
                     </div>
 
                     <p class="description">
-                        {{ $swk->alamat }}
+                        {{ $item->alamat }}
                     </p>
 
                     <p class="description">
-                        Luas: {{ $swk->luas }} mÂ² | Kapasitas: {{ $swk->kapasitas }} orang
+                        Luas: {{ $item->luas }} m² | Kapasitas: {{ $item->kapasitas }} orang
                     </p>
 
                     <div class="tags">
                         <div class="tag">
-                            Pedagang: {{ $swk->jumlah_pedagang }}
+                            Pedagang: {{ $item->jumlah_pedagang }}
                         </div>
 
                         <div class="tag">
-                            Stan: {{ $swk->jumlah_stan }}
+                            Stan: {{ $item->jumlah_stan }}
                         </div>
                     </div>
 
                     <a href="#">
                         <button class="button"
                             onclick="showDetail(
-                                '{{ $swk->nama_swk }}',
-                                '{{ $swk->alamat }}',
-                                '{{ $swk->jumlah_pedagang }}',
-                                '{{ $swk->jumlah_stan }}',
-                                '{{ $swk->stan_belum_terisi }}'
+                                '{{ $item->nama_swk }}',
+                                '{{ $item->alamat }}',
+                                '{{ $item->jumlah_pedagang }}',
+                                '{{ $item->jumlah_stan }}',
+                                '{{ $item->stan_belum_terisi }}'
                             )">
                             Detail
                         </button>
@@ -584,6 +615,63 @@
             modal.style.display = 'none';
         }
     }
+
+    // ================= MAP PERSEBARAN =================
+
+    // default view Surabaya
+    let map = L.map('map').setView([-7.2575, 112.7521], 12);
+
+    // tile
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    // data sentra usaha dari Laravel
+    let sentraUsaha = @json($swks);
+
+    // loop marker
+    sentraUsaha.forEach(item => {
+
+        // skip jika tidak ada koordinat
+        if(!item.latitude || !item.longitude){
+            return;
+        }
+
+        // marker
+        let marker = L.marker([
+            parseFloat(item.latitude),
+            parseFloat(item.longitude)
+        ]).addTo(map);
+
+        // popup
+        marker.bindPopup(`
+            <div style="width:220px;">
+                
+                <img 
+                    src="${item.foto 
+                        ? '/storage/' + item.foto
+                        : 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=1200&auto=format&fit=crop'}"
+                    style="
+                        width:100%;
+                        height:120px;
+                        object-fit:cover;
+                        border-radius:10px;
+                        margin-bottom:10px;
+                    "
+                >
+
+                <h4 style="margin-bottom:8px;">
+                    ${item.nama_sentrausaha}
+                </h4>
+
+                <p style="font-size:12px; color:#555;">
+                    ${item.alamat}
+                </p>
+
+            </div>
+        `);
+
+    });
 
     // logout
     function logout() {

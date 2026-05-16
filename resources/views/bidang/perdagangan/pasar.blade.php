@@ -10,7 +10,14 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <style>
+<link 
+    rel="stylesheet" 
+    href="https://unpkg.com/leaflet/dist/leaflet.css"
+/>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+ <style>
     *{
         margin:0;
         padding:0;
@@ -318,6 +325,19 @@
         .detail-grid { grid-template-columns: 1fr; } /* Modal 1 baris ke bawah */
         .detail-box { padding: 20px; margin: 15px; }
     }
+
+    .map-wrapper{
+        width:100%;
+        margin-bottom:7px;
+        box-shadow:0 4px 14px rgba(0,0,0,0.06);
+    }
+
+    #map{
+        width:100%;
+        height:400px;
+        border-radius:10px;
+        overflow:hidden;
+    }
   </style>
 
 </head>
@@ -382,38 +402,49 @@
         </a>
     </div>
 
+    <!-- MAIN MENU -->
+    <div class="map-wrapper">
+
+        <!-- <h3 style="margin-bottom:15px;">
+            Persebaran Sentra Usaha
+        </h3> -->
+
+        <div id="map"></div>
+
+    </div>
+
     <div class="swk-wrapper">
-        @forelse($pasar as $pasar)
+        @forelse($pasar as $item)
 
         <div class="swkcard">
             <div class="swkcard-image">
 
                 <img 
-                    src="{{ $pasar->foto 
-                        ? asset('storage/' . $pasar->foto) 
+                    src="{{ $item->foto 
+                        ? asset('storage/' . $item->foto) 
                         : 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=1200&auto=format&fit=crop' 
                     }}" 
-                    alt="{{ $pasar->nama_pasar }}"
+                    alt="{{ $item->nama_pasar }}"
                 >
 
                 <div class="swkcard-content">
                     <div class="top-row">
-                        <h2 class="title">{{ $pasar->nama_pasar }}</h2>
+                        <h2 class="title">{{ $item->nama_pasar }}</h2>
                     </div>
-                    <p class="description">{{ $pasar->alamat }}</p>
-                    <p class="description">Luas: {{ $pasar->luas }} m² | Kapasitas: {{ $pasar->kapasitas }} orang</p>
+                    <p class="description">{{ $item->alamat }}</p>
+                    <p class="description">Luas: {{ $item->luas }} m² | Kapasitas: {{ $item->kapasitas }} orang</p>
                     <div class="tags">
-                        <div class="tag">Pedagang: {{ $pasar->jumlah_pedagang }}</div>
-                        <div class="tag">Stan: {{ $pasar->jumlah_stan }}</div>
+                        <div class="tag">Pedagang: {{ $item->jumlah_pedagang }}</div>
+                        <div class="tag">Stan: {{ $item->jumlah_stan }}</div>
                     </div>
                     <a href="#">
                         <button class="button"
                             onclick="showDetail(
-                                '{{ $pasar->nama_pasar }}',
-                                '{{ $pasar->alamat }}',
-                                '{{ $pasar->jumlah_pedagang }}',
-                                '{{ $pasar->jumlah_stan }}',
-                                '{{ $pasar->stan_belum_terisi }}'
+                                '{{ $item->nama_pasar }}',
+                                '{{ $item->alamat }}',
+                                '{{ $item->jumlah_pedagang }}',
+                                '{{ $item->jumlah_stan }}',
+                                '{{ $item->stan_belum_terisi }}'
                             )">
                             Detail
                         </button>
@@ -514,6 +545,64 @@
 
     function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
     window.onclick = function(e) { const modal = document.getElementById('detailModal'); if(e.target === modal){ modal.style.display = 'none'; } }
+
+
+    // ================= MAP PERSEBARAN =================
+
+    // default view Surabaya
+    let map = L.map('map').setView([-7.2575, 112.7521], 12);
+
+    // tile
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    // data sentra usaha dari Laravel
+    let sentraUsaha = @json($pasar);
+
+    // loop marker
+    sentraUsaha.forEach(item => {
+
+        // skip jika tidak ada koordinat
+        if(!item.latitude || !item.longitude){
+            return;
+        }
+
+        // marker
+        let marker = L.marker([
+            parseFloat(item.latitude),
+            parseFloat(item.longitude)
+        ]).addTo(map);
+
+        // popup
+        marker.bindPopup(`
+            <div style="width:220px;">
+                
+                <img 
+                    src="${item.foto 
+                        ? '/storage/' + item.foto
+                        : 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=1200&auto=format&fit=crop'}"
+                    style="
+                        width:100%;
+                        height:120px;
+                        object-fit:cover;
+                        border-radius:10px;
+                        margin-bottom:10px;
+                    "
+                >
+
+                <h4 style="margin-bottom:8px;">
+                    ${item.nama_sentrausaha}
+                </h4>
+
+                <p style="font-size:12px; color:#555;">
+                    ${item.alamat}
+                </p>
+
+            </div>
+        `);
+
+    });
 
     // LOGOUT
     function logout() {
