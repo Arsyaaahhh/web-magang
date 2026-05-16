@@ -7,6 +7,13 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+    <link 
+        rel="stylesheet" 
+        href="https://unpkg.com/leaflet/dist/leaflet.css"
+    />
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  
   <style>
     * {
       margin: 0;
@@ -259,6 +266,7 @@
             <input name="kapasitas" type="number" value="{{ $data->kapasitas }}" min="0">
           </div>
 
+          <!-- foto -->
           <div class="full-width">
 
               <label>Foto Pasar</label>
@@ -287,6 +295,64 @@
               </div>
 
           </div>
+
+          <!-- map -->
+            <div>
+                <label>Latitude</label>
+                <input 
+                    name="latitude"
+                    id="latitude"
+                    type="text"
+                    value="{{ $data->latitude }}"
+                    required
+                >
+            </div>
+
+            <div>
+                <label>Longitude</label>
+                <input 
+                    name="longitude"
+                    id="longitude"
+                    type="text"
+                    value="{{ $data->longitude }}"
+                    required
+                >
+            </div>
+
+            <!-- <div class="full-width">
+
+                <button 
+                    type="button"
+                    onclick="getLocation()"
+                    style="
+                        padding:10px 14px;
+                        border:none;
+                        border-radius:8px;
+                        background:#198754;
+                        color:white;
+                        cursor:pointer;
+                        margin-top:5px;
+                    "
+                >
+                    📍 Ambil Lokasi Saat Ini
+                </button>
+
+            </div> -->
+
+            <div class="full-width">
+
+                <div 
+                    id="map"
+                    style="
+                        width:100%;
+                        height:300px;
+                        border-radius:12px;
+                        margin-top:10px;
+                        overflow:hidden;
+                    "
+                ></div>
+
+            </div>
 
         </div>
 
@@ -352,6 +418,73 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+    // ================= MAP =================
+    let defaultLat = {{ $data->latitude ?? -7.257472 }};
+    let defaultLng = {{ $data->longitude ?? 112.752090 }};
+
+    let map = L.map('map').setView([defaultLat, defaultLng], 15);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    // marker awal
+    let marker = L.marker([defaultLat, defaultLng])
+        .addTo(map)
+        .bindPopup('Lokasi Pasar')
+        .openPopup();
+
+
+    // klik map
+    map.on('click', function(e){
+
+        let lat = e.latlng.lat;
+        let lng = e.latlng.lng;
+
+        document.getElementById('latitude').value = lat;
+        document.getElementById('longitude').value = lng;
+
+        marker.setLatLng([lat, lng]);
+
+    });
+
+    // ================= UPDATE MAP DARI INPUT =================
+    function updateMapFromInput()
+    {
+        let lat = parseFloat(document.getElementById('latitude').value);
+        let lng = parseFloat(document.getElementById('longitude').value);
+
+        // cek valid
+        if(!isNaN(lat) && !isNaN(lng))
+        {
+            // pindahkan marker
+            marker.setLatLng([lat, lng]);
+
+            // pindahkan view map
+            map.setView([lat, lng], 16);
+        }
+    }
+
+    // update saat mengetik latitude
+    document.getElementById('latitude')
+        .addEventListener('keyup', updateMapFromInput);
+
+    // update saat mengetik longitude
+    document.getElementById('longitude')
+        .addEventListener('keyup', updateMapFromInput);
+
+    // update saat paste latitude
+    document.getElementById('latitude')
+        .addEventListener('paste', function(){
+            setTimeout(updateMapFromInput, 100);
+        });
+
+    // update saat paste longitude
+    document.getElementById('longitude')
+        .addEventListener('paste', function(){
+            setTimeout(updateMapFromInput, 100);
+        });
   </script>
 
 </body>

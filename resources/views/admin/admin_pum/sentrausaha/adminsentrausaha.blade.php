@@ -126,19 +126,15 @@
     .swk-table th:nth-child(6),
     .swk-table td:nth-child(6),
     .swk-table th:nth-child(7),
-    .swk-table td:nth-child(7),
-    .swk-table th:nth-child(8),
-    .swk-table td:nth-child(8),
-    .swk-table th:nth-child(9),
-    .swk-table td:nth-child(9),
-    .swk-table th:nth-child(10),
-    .swk-table td:nth-child(10){
+    .swk-table td:nth-child(7){
         width:110px;
         text-align:center;
     }
 
-    .swk-table th:nth-child(11),
-    .swk-table td:nth-child(11){
+    .swk-table th:nth-child(8),
+    .swk-table td:nth-child(8),
+    .swk-table th:nth-child(9),
+    .swk-table td:nth-child(9){
         width:150px;
         text-align:center;
     }
@@ -302,6 +298,8 @@
                   <th>Kelurahan</th>
                   <th>Luas(m2)</th>
                   <th>Kapasitas (Pengunjung)</th>
+                  <th>Latitude</th>
+                  <th>Longitude</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -315,6 +313,8 @@
                     <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
                     <td>{{ $d->luas }}</td>
                     <td>{{ $d->kapasitas }}</td>
+                    <td>{{ $d->latitude }}</td>
+                    <td>{{ $d->longitude }}</td>
                     <td>
                       <div class="action">
                         <a href="/admin/admin_pum/sentrausahaedit/{{ $d->id }}" class="btn btn-edit">Edit</a>

@@ -266,6 +266,14 @@
         text-align:center;
     }
 
+    .pasar-table th:nth-child(12),
+    .pasar-table td:nth-child(12),
+    .pasar-table th:nth-child(13),
+    .pasar-table td:nth-child(13){
+        width:150px;
+        text-align:center;
+    }
+
     .pasar-table th:last-child,
     .pasar-table td:last-child{
         width:180px;
@@ -548,6 +556,8 @@
                   <th>Peken</th>
                   <th>Luas (m²)</th>
                   <th>Kapasitas (Pengunjung)</th>
+                  <th>Latitude</th>
+                  <th>Longitude</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -566,6 +576,8 @@
                     <td>{{ $d->peken }}</td>
                     <td>{{ $d->luas }}</td>
                     <td>{{ $d->kapasitas }}</td>
+                    <td>{{ $d->latitude }}</td>
+                    <td>{{ $d->longitude }}</td>
                     <td>
                       <div class="action">
                         <a href="/admin/admin_perdagangan/pasar/pasaredit/{{ $d->id }}" class="btn btn-edit">Edit</a>

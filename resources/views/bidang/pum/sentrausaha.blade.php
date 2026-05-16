@@ -10,6 +10,13 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+<link 
+    rel="stylesheet" 
+    href="https://unpkg.com/leaflet/dist/leaflet.css"
+/>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  
   <style>
     *{
         margin:0;
@@ -161,7 +168,7 @@
 
     .detail-box{
         width:100%;
-        max-width:600px;
+        max-width:800px;
         background:white;
         border-radius:24px;
         padding:30px;
@@ -169,6 +176,25 @@
         animation:popup 0.25s ease;
         max-height: 90vh;
         overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #cbd5e1 transparent;
+    }
+
+    .detail-box::-webkit-scrollbar{
+        width:8px;
+    }
+
+    .detail-box::-webkit-scrollbar-track{
+        background:transparent;
+    }
+
+    .detail-box::-webkit-scrollbar-thumb{
+        background:#cbd5e1;
+        border-radius:20px;
+    }
+
+    .detail-box::-webkit-scrollbar-thumb:hover{
+        background:#94a3b8;
     }
 
     @keyframes popup{
@@ -276,6 +302,19 @@
     .btn-back:hover {
         background-color: #5a6268;
     }
+
+    .map-wrapper{
+        width:100%;
+        margin-bottom:7px;
+        box-shadow:0 4px 14px rgba(0,0,0,0.06);
+    }
+
+    #map{
+        width:100%;
+        height:400px;
+        border-radius:10px;
+        overflow:hidden;
+    }
   </style>
 
 </head>
@@ -341,81 +380,62 @@
         </a>
 
     </div>
+    
     <!-- MAIN MENU -->
-    <!-- <div class="cards" id="mainMenu">
+    <div class="map-wrapper">
 
-      <a class="card green">
-        <h4>Total Swk</h4>
-        <h2>{{ $summary->total_swk ?? 0 }}</h2>
-      </a>
+        <!-- <h3 style="margin-bottom:15px;">
+            Persebaran Sentra Usaha
+        </h3> -->
 
-      <a class="card blue">
-        <h4>Total Pedagang</h4>
-        <h2>{{ $summary->total_pedagang ?? 0 }}</h2>
-      </a>
+        <div id="map"></div>
 
-      <a class="card green">
-        <h4>Total Stan</h4>
-        <h2>{{ $summary->total_stan ?? 0 }}</h2>
-      </a>
-
-      <a class="card purple">
-        <h4>Total Stan Belum Terisi</h4>
-        <h2>{{ $summary->total_stan_kosong ?? 0 }}</h2>
-      </a>
-
-    </div> -->
+    </div>
 
     <div class="swk-wrapper">
-        @forelse($sentrausaha as $sentrausaha)
+        @forelse($sentrausaha as $item)
 
         <div class="swkcard">
 
             <div class="swkcard-image">
 
                 <img 
-                    src="{{ $sentrausaha->foto 
-                        ? asset('storage/' . $sentrausaha->foto) 
+                    src="{{ $item->foto 
+                        ? asset('storage/' . $item->foto) 
                         : 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=1200&auto=format&fit=crop' 
                     }}" 
-                    alt="{{ $sentrausaha->nama_sentrausaha }}"
+                    alt="{{ $item->nama_sentrausaha }}"
                 >
 
                 <div class="swkcard-content">
 
                     <div class="top-row">
                         <h2 class="title">
-                            {{ $sentrausaha->nama_sentrausaha }}
+                            {{ $item->nama_sentrausaha }}
                         </h2>
                     </div>
 
                     <p class="description">
-                        {{ $sentrausaha->alamat }}
+                        {{ $item->alamat }}
                     </p>
 
                     <p class="description">
-                        Luas: {{ $sentrausaha->luas }} m² | Kapasitas: {{ $sentrausaha->kapasitas }} orang
+                        Luas: {{ $item->luas }} m² | Kapasitas: {{ $item->kapasitas }} orang
                     </p>
 
-                    <!-- <div class="tags">
-                        <div class="tag">
-                            Pedagang: {{ $sentrausaha->jumlah_pedagang }}
-                        </div>
+                    <div style="display:flex; gap:8px;">
 
-                        <div class="tag">
-                            Stan: {{ $sentrausaha->jumlah_stan }}
-                        </div>
-                    </div> -->
-
-                    <a href="#">
                         <button class="button"
                             onclick="showDetail(
-                                '{{ $sentrausaha->nama_sentrausaha }}',
-                                '{{ $sentrausaha->alamat }}','
+                                '{{ $item->nama_sentrausaha }}',
+                                '{{ $item->alamat }}',
+                                '{{ $item->latitude }}',
+                                '{{ $item->longitude }}'
                             )">
                             Detail
                         </button>
-                    </a>
+
+                    </div>
 
                 </div>
             </div>
@@ -447,23 +467,20 @@
                 <p id="detailAlamat"></p>
             </div>
 
-            <div class="detail-grid">
+            <div class="detail-item">
+                <b>Koordinat:</b>
+                <p id="detailKoordinat"></p>
+            </div>
 
-                <div class="detail-card">
-                    <h4>Total Pedagang</h4>
-                    <!-- <h2 id="detailPedagang"></h2> -->
-                </div>
-
-                <div class="detail-card">
-                    <h4>Total Stan</h4>
-                    <!-- <h2 id="detailStan"></h2> -->
-                </div>
-
-                <div class="detail-card full">
-                    <h4>Stan Belum Terisi</h4>
-                    <!-- <h2 id="detailKosong"></h2> -->
-                </div>
-
+            <div class="detail-item">
+                <iframe
+                    id="mapsFrame"
+                    width="100%"
+                    height="280"
+                    style="border:0; border-radius:16px;"
+                    loading="lazy"
+                    allowfullscreen>
+                </iframe>
             </div>
 
         </div>
@@ -507,10 +524,17 @@
     });
 
     // detail modal
-    function showDetail(nama, alamat)
+    function showDetail(nama, alamat, latitude, longitude)
     {
         document.getElementById('detailNama').innerText = nama;
         document.getElementById('detailAlamat').innerText = alamat;
+
+        document.getElementById('detailKoordinat').innerText =
+            latitude + ', ' + longitude;
+
+        // iframe maps
+        document.getElementById('mapsFrame').src =
+            `https://maps.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`;
 
         document.getElementById('detailModal').style.display = 'flex';
     }
@@ -529,6 +553,63 @@
             modal.style.display = 'none';
         }
     }
+
+    // ================= MAP PERSEBARAN =================
+
+    // default view Surabaya
+    let map = L.map('map').setView([-7.2575, 112.7521], 12);
+
+    // tile
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    // data sentra usaha dari Laravel
+    let sentraUsaha = @json($sentrausaha);
+
+    // loop marker
+    sentraUsaha.forEach(item => {
+
+        // skip jika tidak ada koordinat
+        if(!item.latitude || !item.longitude){
+            return;
+        }
+
+        // marker
+        let marker = L.marker([
+            parseFloat(item.latitude),
+            parseFloat(item.longitude)
+        ]).addTo(map);
+
+        // popup
+        marker.bindPopup(`
+            <div style="width:220px;">
+                
+                <img 
+                    src="${item.foto 
+                        ? '/storage/' + item.foto
+                        : 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=1200&auto=format&fit=crop'}"
+                    style="
+                        width:100%;
+                        height:120px;
+                        object-fit:cover;
+                        border-radius:10px;
+                        margin-bottom:10px;
+                    "
+                >
+
+                <h4 style="margin-bottom:8px;">
+                    ${item.nama_sentrausaha}
+                </h4>
+
+                <p style="font-size:12px; color:#555;">
+                    ${item.alamat}
+                </p>
+
+            </div>
+        `);
+
+    });
 
     // logout
     function logout() {

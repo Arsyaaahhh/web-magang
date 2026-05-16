@@ -64,6 +64,8 @@ class SwkController extends Controller
             'luas'              => 'required|numeric',
             'kapasitas'         => 'required|numeric',
             'peken'             => 'required|numeric',
+            'latitude'          => 'required',
+            'longitude'         => 'required',
             'foto'              => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
@@ -84,6 +86,8 @@ class SwkController extends Controller
             'luas' => $request->luas,
             'kapasitas' => $request->kapasitas,
             'peken' => $request->peken,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'foto' => $foto,
         ]);
 
@@ -112,6 +116,8 @@ class SwkController extends Controller
             'luas'              => 'required|numeric',
             'kapasitas'         => 'required|numeric',
             'peken'             => 'required|numeric',
+            'latitude'          => 'required',
+            'longitude'         => 'required',
             'foto'              => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
@@ -141,6 +147,8 @@ class SwkController extends Controller
             'luas' => $request->luas,
             'kapasitas' => $request->kapasitas,
             'peken' => $request->peken,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'foto' => $foto,
         ]);
 

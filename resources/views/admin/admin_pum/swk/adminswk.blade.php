@@ -143,6 +143,14 @@
         text-align:center;
     }
 
+    .swk-table th:nth-child(12),
+    .swk-table td:nth-child(12),
+    .swk-table th:nth-child(13),
+    .swk-table td:nth-child(13){
+        width:150px;
+        text-align:center;
+    }
+
     .swk-table th:last-child,
     .swk-table td:last-child{
         width:180px;
@@ -158,7 +166,7 @@
     .pagination .disabled span { color: #aaa; background: #f3f4f6; }
     .pagination-info { font-size: 13px; color: #666; }
 
-        /* CSS TOMBOL KEMBALI */
+    /* CSS TOMBOL KEMBALI */
     .btn-back {
       background: #6c757d;
       color: white;
@@ -171,20 +179,20 @@
     }
 
     /* SIDEBAR */
-/* SIDEBAR */
-.sidebar{
-  width:240px;height:100vh;background:#0d6efd;color:white;padding:20px;position:fixed;
-  z-index: 1000; transition: left 0.3s ease;
-}
-.sidebar h2{margin-bottom:20px;}
-.sidebar a{
-  display:block;color:white;padding:10px;border-radius:8px;margin-bottom:8px;text-decoration:none;
-}
-.sidebar a:hover,.sidebar .active{background:rgba(255,255,255,0.2);}
-.logout-btn{
-  margin-top:20px;width:100%;padding:10px;border:none;border-radius:8px;background:#dc3545;color:white;
-  cursor:pointer;
-}
+    .sidebar{
+      width:240px;height:100vh;background:#0d6efd;color:white;padding:20px;position:fixed;
+      z-index: 1000; transition: left 0.3s ease;
+    }
+    .sidebar h2{margin-bottom:20px;}
+    .sidebar a{
+      display:block;color:white;padding:10px;border-radius:8px;margin-bottom:8px;text-decoration:none;
+    }
+    .sidebar a:hover,.sidebar .active{background:rgba(255,255,255,0.2);}
+    .logout-btn{
+      margin-top:20px;width:100%;padding:10px;border:none;border-radius:8px;background:#dc3545;color:white;
+      cursor:pointer;
+    }
+
     .card h4 { font-weight: 500; letter-spacing: 0.3px; }
     .card h2 { font-weight: 600; }
     .card p { font-weight: 400; opacity: 0.85; }
@@ -276,7 +284,7 @@
         <h3>Admin Pemberdayaan Usaha Mikro</h3>
       </div>
       <div style="display:flex; gap:10px; align-items:center;">
-        <span style="font-size: 14px;">Halo {{ session('username') ?? 'Admin' }} ðŸ‘‹</span>
+        <span style="font-size: 14px;">Halo {{ session('username') ?? 'Admin' }} 👋</span>
       </div>
     </div>
 
@@ -325,6 +333,8 @@
                   <th>Peken</th>
                   <th>Luas(m2)</th>
                   <th>Kapasitas (Pengunjung)</th>
+                  <th>Latitude</th>
+                  <th>Longitude</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -342,6 +352,8 @@
                     <td>{{ $d->peken }}</td>
                     <td>{{ $d->luas }}</td>
                     <td>{{ $d->kapasitas }}</td>
+                    <td>{{ $d->latitude }}</td>
+                    <td>{{ $d->longitude }}</td>
                     <td>
                       <div class="action">
                         <a href="/admin/admin_pum/swkedit/{{ $d->id }}" class="btn btn-edit">Edit</a>
@@ -353,7 +365,7 @@
                     </td>
                   </tr>
                 @empty
-                  <tr><td colspan="11" style="text-align:center;">Tidak ada data</td></tr>
+                  <tr><td colspan="13" style="text-align:center;">Tidak ada data</td></tr>
                 @endforelse
               </tbody>
             </table>

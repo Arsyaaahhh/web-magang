@@ -15,6 +15,8 @@ class Sentrausaha extends Model
         'luas',
         'foto',
         'kapasitas',
+        'latitude',
+        'longitude',
     ];
 
     public function kelurahan()

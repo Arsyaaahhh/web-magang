@@ -19,6 +19,8 @@ class Swk extends Model
         'foto',
         'kapasitas',
         'peken',
+        'latitude',
+        'longitude',
     ];
 
     public function kelurahan()
