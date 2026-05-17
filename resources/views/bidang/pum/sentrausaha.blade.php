@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,10 +10,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
+  
     <style>
         * {
             margin: 0;
@@ -25,9 +23,10 @@
         body {
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Mencegah web melayang di tengah */
+            justify-content: flex-start;
             overflow-x: hidden;
+            background: #f8fafc;
         }
 
         /* OVERLAY */
@@ -203,7 +202,6 @@
                 transform: scale(0.9);
                 opacity: 0;
             }
-
             to {
                 transform: scale(1);
                 opacity: 1;
@@ -262,6 +260,7 @@
             display: flex;
             gap: 10px;
             margin-bottom: 5px;
+            width: 100%;
         }
 
         .filter input,
@@ -333,6 +332,75 @@
             height: 400px;
             border-radius: 10px;
             overflow: hidden;
+            z-index: 1; /* Supaya tidak menumpuk dengan modal */
+        }
+
+        /* ==========================================
+           🔥 CSS RESPONSIVE (SMARTPHONE & TABLET) 🔥
+           ========================================== */
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -250px;
+                top: 0;
+                height: 100vh;
+                width: 250px;
+                z-index: 1000;
+                transition: left 0.3s ease;
+                background: #0d6efd; /* Jaga-jaga jika pum.css hilang */
+            }
+            .sidebar.active {
+                left: 0;
+            }
+            .main {
+                margin-left: 0 !important;
+                width: 100% !important;
+                transition: margin-left 0.3s ease;
+                padding-bottom: 20px;
+            }
+
+            .top {
+                flex-direction: column;
+                align-items: stretch; /* Memaksa elemen mengisi lebar penuh */
+                gap: 15px;
+                margin-bottom: 15px;
+            }
+            form {
+                width: 100%;
+            }
+            .filter {
+                flex-direction: column;
+                width: 100%;
+            }
+            .filter input, .filter select, .filter .btn {
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .btn-back {
+                width: 100%;
+                justify-content: center; /* Tombol kembali rata tengah di HP */
+            }
+            
+            .swk-wrapper {
+                justify-content: center;
+            }
+            .swkcard {
+                width: 100%; /* Memaksa kotak gambar memenuhi layar HP */
+                max-width: 100%; 
+            }
+
+            #map {
+                height: 300px; /* Peta sedikit dikecilkan di HP agar mudah di scroll bawahnya */
+            }
+            
+            .detail-box {
+                padding: 20px;
+                margin: 15px;
+                width: calc(100% - 30px);
+            }
+            .detail-item iframe {
+                height: 200px; /* Iframe maps dikecilkan di HP */
+            }
         }
     </style>
 </head>
@@ -402,7 +470,6 @@
 
                 <form method="GET">
                     <div class="filter">
-
                         <input
                             type="text"
                             name="search"
@@ -412,7 +479,6 @@
 
                         <select id="kecamatan" name="kecamatan_id">
                             <option value="">Semua Kecamatan</option>
-
                             @foreach($kecamatan as $k)
                                 <option
                                     value="{{ $k->ID_KECAMATAN }}"
@@ -434,7 +500,6 @@
                         >
                             Filter
                         </button>
-
                     </div>
                 </form>
 
@@ -444,21 +509,14 @@
 
             </div>
 
-            <!-- MAIN MENU -->
             <div class="map-wrapper">
-
                 <div id="map"></div>
-
             </div>
 
             <div class="swk-wrapper">
-
                 @forelse($sentrausaha as $item)
-
                     <div class="swkcard">
-
                         <div class="swkcard-image">
-
                             <img
                                 src="{{ $item->foto
                                     ? asset('storage/' . $item->foto)
@@ -468,7 +526,6 @@
                             >
 
                             <div class="swkcard-content">
-
                                 <div class="top-row">
                                     <h2 class="title">
                                         {{ $item->nama_sentrausaha }}
@@ -485,7 +542,6 @@
                                 </p>
 
                                 <div style="display:flex; gap:8px;">
-
                                     <button
                                         class="button"
                                         onclick="showDetail(
@@ -497,32 +553,20 @@
                                     >
                                         Detail
                                     </button>
-
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 @empty
-
                     <div class="empty-data">
                         <p>Tidak Ada Data</p>
                     </div>
-
                 @endforelse
-
             </div>
 
             <div class="detail-modal" id="detailModal">
-
                 <div class="detail-box">
-
-                    <span class="close-btn" onclick="closeDetail()">
-                        &times;
-                    </span>
+                    <span class="close-btn" onclick="closeDetail()">×</span>
 
                     <h2 id="detailNama"></h2>
 
@@ -547,13 +591,10 @@
                         >
                         </iframe>
                     </div>
-
                 </div>
-
             </div>
 
         </div>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -564,74 +605,49 @@
             document.querySelector('.overlay').classList.toggle('active');
         }
 
-        // filter
+        // FILTER KELURAHAN
         document.addEventListener('DOMContentLoaded', function () {
-
             let kecamatan = document.getElementById('kecamatan');
             let kelurahan = document.getElementById('kelurahan');
-
             let selectedKelurahan = "{{ request('kelurahan_id') }}";
 
             function loadKelurahan(kecamatan_id, selected = null) {
-
                 if (!kecamatan_id) {
-                    kelurahan.innerHTML =
-                        '<option value="">Semua Kelurahan</option>';
+                    kelurahan.innerHTML = '<option value="">Semua Kelurahan</option>';
                     return;
                 }
 
                 fetch('/get-kelurahan/' + kecamatan_id)
                     .then(res => res.json())
                     .then(data => {
-
-                        kelurahan.innerHTML =
-                            '<option value="">Semua Kelurahan</option>';
-
+                        kelurahan.innerHTML = '<option value="">Semua Kelurahan</option>';
                         data.forEach(item => {
-
-                            let isSelected =
-                                item.ID_KELURAHAN == selected
-                                ? 'selected'
-                                : '';
-
+                            let isSelected = item.ID_KELURAHAN == selected ? 'selected' : '';
                             kelurahan.innerHTML += `
-                                <option
-                                    value="${item.ID_KELURAHAN}"
-                                    ${isSelected}
-                                >
+                                <option value="${item.ID_KELURAHAN}" ${isSelected}>
                                     ${item.NM_KELURAHAN}
                                 </option>
                             `;
                         });
-
                     });
             }
 
             if (kecamatan.value) {
-                loadKelurahan(
-                    kecamatan.value,
-                    selectedKelurahan
-                );
+                loadKelurahan(kecamatan.value, selectedKelurahan);
             }
 
             kecamatan.addEventListener('change', function () {
                 loadKelurahan(this.value);
             });
-
         });
 
-        // detail modal
+        // DETAIL MODAL
         function showDetail(nama, alamat, latitude, longitude) {
-
             document.getElementById('detailNama').innerText = nama;
-
             document.getElementById('detailAlamat').innerText = alamat;
+            document.getElementById('detailKoordinat').innerText = latitude + ', ' + longitude;
 
-            document.getElementById('detailKoordinat').innerText =
-                latitude + ', ' + longitude;
-
-            // iframe maps
-            document.getElementById('mapsFrame').src =
+            document.getElementById('mapsFrame').src = 
                 `https://maps.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`;
 
             document.getElementById('detailModal').style.display = 'flex';
@@ -641,81 +657,48 @@
             document.getElementById('detailModal').style.display = 'none';
         }
 
-        // klik luar modal untuk close
         window.onclick = function(e) {
-
             const modal = document.getElementById('detailModal');
-
             if (e.target === modal) {
                 modal.style.display = 'none';
             }
         }
 
         // ================= MAP PERSEBARAN =================
-
-        // default view Surabaya
         let map = L.map('map').setView([-7.2575, 112.7521], 12);
 
-        // tile
-        L.tileLayer(
-            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            {
-                attribution: '&copy; OpenStreetMap'
-            }
-        ).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
 
-        // data sentra usaha dari Laravel
         let sentraUsaha = @json($sentrausaha);
 
-        // loop marker
         sentraUsaha.forEach(item => {
+            if (!item.latitude || !item.longitude) return;
 
-            // skip jika tidak ada koordinat
-            if (!item.latitude || !item.longitude) {
-                return;
-            }
-
-            // marker
             let marker = L.marker([
                 parseFloat(item.latitude),
                 parseFloat(item.longitude)
             ]).addTo(map);
 
-            // popup
             marker.bindPopup(`
                 <div style="width:220px;">
-
                     <img
                         src="${
                             item.foto
                             ? '/storage/' + item.foto
                             : 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=1200&auto=format&fit=crop'
                         }"
-                        style="
-                            width:100%;
-                            height:120px;
-                            object-fit:cover;
-                            border-radius:10px;
-                            margin-bottom:10px;
-                        "
+                        style="width:100%; height:120px; object-fit:cover; border-radius:10px; margin-bottom:10px;"
                     >
-
-                    <h4 style="margin-bottom:8px;">
-                        ${item.nama_sentrausaha}
-                    </h4>
-
-                    <p style="font-size:12px; color:#555;">
-                        ${item.alamat}
-                    </p>
-
+                    <h4 style="margin-bottom:8px;">${item.nama_sentrausaha}</h4>
+                    <p style="font-size:12px; color:#555;">${item.alamat}</p>
                 </div>
             `);
-
         });
 
-        // logout
+        // LOGOUT & LOGIN CHECK
         function logout() {
-
             Swal.fire({
                 title: 'Logout?',
                 text: "Kamu akan keluar",
@@ -724,23 +707,16 @@
                 confirmButtonColor: '#0d6efd',
                 confirmButtonText: 'Ya, logout'
             }).then((result) => {
-
                 if (result.isConfirmed) {
-
                     localStorage.removeItem("login");
-
                     window.location.href = "/logout";
                 }
-
             });
         }
 
-        // LOGIN CHECK
         if (localStorage.getItem("login") !== "true") {
             window.location.href = "/";
         }
     </script>
-
 </body>
-
 </html>
