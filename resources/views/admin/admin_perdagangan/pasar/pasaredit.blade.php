@@ -296,6 +296,35 @@
 
           </div>
 
+          <!-- dokumen pasar -->
+            <div class="full-width">
+
+                <label>Dokumen Pasar (PDF)</label>
+
+                <input 
+                    type="file"
+                    name="dokumenpasar"
+                    accept="application/pdf"
+                >
+
+                @if($data->dokumenpasar)
+                    <div style="margin-top:10px;">
+                        <a 
+                            href="{{ asset('storage/' . $data->dokumenpasar) }}"
+                            target="_blank"
+                            style="
+                                color:#0d6efd;
+                                text-decoration:none;
+                                font-size:14px;
+                            "
+                        >
+                            📄 Lihat Dokumen PDF
+                        </a>
+                    </div>
+                @endif
+
+            </div>
+
           <!-- map -->
             <div>
                 <label>Latitude</label>

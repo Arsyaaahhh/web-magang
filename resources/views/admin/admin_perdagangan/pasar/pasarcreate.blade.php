@@ -261,6 +261,7 @@
             <input type="number" name="kapasitas" placeholder="Masukkan Kapasitas Pasar" min="0" required>
           </div>
 
+          <!-- foto -->
           <div class="full-width">
 
               <label>Foto Pasar</label>
@@ -273,15 +274,17 @@
                   onchange="previewImage(event)"
               >
 
-              <!-- PREVIEW -->
-              <!-- <div class="preview-box" id="previewBox">
+          </div>
 
-                  <img id="previewImage" src="" alt="Preview Foto">
+          <!-- dokumen pasar -->
+          <div class="full-width">
+              <label>Dokumen Pasar (PDF)</label>
 
-                  <span>Preview Foto Pasar</span>
-
-              </div> -->
-
+              <input 
+                  type="file"
+                  name="dokumenpasar"
+                  accept="application/pdf"
+              >
           </div>
 
           <!-- map -->

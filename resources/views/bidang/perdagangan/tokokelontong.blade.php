@@ -5,67 +5,207 @@
   <title>Distribusi Perdagangan</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="stylesheet" href="{{ asset('css/pum.css') }}">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
       overflow-x: hidden;
-      min-height:100vh;
-      display:flex;
+      min-height: 100vh;
+      display: flex;
     }
 
     /* OVERLAY */
     .overlay {
       display: none;
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: rgba(0,0,0,0.5);
       z-index: 999;
     }
 
     /* FILTER */
-    .filter { display: flex; gap: 10px; margin-bottom: 5px; }
-    .filter input, .filter select { padding: 8px; border-radius: 6px; border: 1px solid #d1d5db; }
+    .filter {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 5px;
+    }
+
+    .filter input,
+    .filter select {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+    }
 
     /* TABLE */
-    .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    table { width: 100%; border-collapse: collapse; border: 1px solid #e5e7eb; color: #333; min-width: 600px; }
-    th { padding: 12px; background: #eaf2ff; font-size: 13px; text-align: left; }
-    td { padding: 12px; font-size: 15px; border-bottom: 1px solid #e5e7eb; }
-    tbody tr:nth-child(even) { background: #f9fafb; }
-    tr:hover { background: #eef4ff; }
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
 
-    .btn { padding: 8px 14px; border-radius: 8px; font-size: 14px; border: none; cursor: pointer; text-decoration:none; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid #e5e7eb;
+      color: #333;
+      min-width: 600px;
+    }
+
+    th {
+      padding: 12px;
+      background: #eaf2ff;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    td {
+      padding: 12px;
+      font-size: 15px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #f9fafb;
+    }
+
+    tr:hover {
+      background: #eef4ff;
+    }
+
+    .btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+    }
 
     /* PAGINATION */
-    .pagination-wrapper { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; flex-wrap: wrap; gap: 10px; }
-    .pagination { display: flex; gap: 6px; flex-wrap: wrap; }
-    .pagination li { list-style: none; }
-    .pagination a, .pagination span { display: inline-block; padding: 6px 12px; border-radius: 8px; border: 1px solid #d1d5db; background: white; color: #333; text-decoration: none; font-size: 14px; transition: 0.2s; }
-    .pagination a:hover { background: #0d6efd; color: white; }
-    .pagination .active span { background: #0d6efd; color: white; border-color: #0d6efd; }
-    .pagination .disabled span { color: #aaa; background: #f3f4f6; }
-    .pagination-info { font-size: 13px; color: #666; }
+    .pagination-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
 
-    .toggle-btn { display: none; }
+    .pagination {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pagination li {
+      list-style: none;
+    }
+
+    .pagination a,
+    .pagination span {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      background: white;
+      color: #333;
+      text-decoration: none;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    .pagination a:hover {
+      background: #0d6efd;
+      color: white;
+    }
+
+    .pagination .active span {
+      background: #0d6efd;
+      color: white;
+      border-color: #0d6efd;
+    }
+
+    .pagination .disabled span {
+      color: #aaa;
+      background: #f3f4f6;
+    }
+
+    .pagination-info {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .toggle-btn {
+      display: none;
+    }
 
     /* ======================================================= */
     /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
     /* ======================================================= */
     @media (max-width: 768px) {
-        .sidebar { left: -100% !important; position: fixed !important; z-index: 1000; transition: 0.3s ease; }
-        .sidebar.active { left: 0 !important; }
-        .main { margin-left: 0 !important; width: 100% !important; }
-        .toggle-btn { display: inline-block !important; margin-right: 15px; font-size: 24px; cursor: pointer; color: #0d6efd; }
-        .overlay.active { display: block; }
-        .header { display: flex; align-items: center; }
-        .filter { flex-direction: column; }
-        .filter input, .filter select, .filter button { width: 100%; }
-        .cards, #mainMenu { display: grid !important; grid-template-columns: 1fr !important; gap: 15px; }
+
+      .sidebar {
+        left: -100% !important;
+        position: fixed !important;
+        z-index: 1000;
+        transition: 0.3s ease;
+      }
+
+      .sidebar.active {
+        left: 0 !important;
+      }
+
+      .main {
+        margin-left: 0 !important;
+        width: 100% !important;
+      }
+
+      .toggle-btn {
+        display: inline-block !important;
+        margin-right: 15px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #0d6efd;
+      }
+
+      .overlay.active {
+        display: block;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+      }
+
+      .filter {
+        flex-direction: column;
+      }
+
+      .filter input,
+      .filter select,
+      .filter button {
+        width: 100%;
+      }
+
+      .cards,
+      #mainMenu {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 15px;
+      }
     }
 
     .top {
@@ -75,24 +215,24 @@
     }
 
     .btn-back {
-        margin-bottom: 15px;
-        background-color: #6c757d;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 14px;
-        transition: background-color 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        margin-bottom: 5px;
+      margin-bottom: 15px;
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      margin-bottom: 5px;
     }
 
     .btn-back:hover {
-        background-color: #5a6268;
+      background-color: #5a6268;
     }
   </style>
 </head>
@@ -101,181 +241,281 @@
 
   <div class="overlay" onclick="toggleSidebar()"></div>
 
-    <div class="sidebar">
-        <h2 style="text-align:center;">DINKOPUMDAG</h2>
-        <div id="tanggalSidebar" style="margin-bottom:20px; font-size:13px; color:#e0e7ff; text-align: center;"></div>
+  <div class="sidebar">
+    <h2 style="text-align:center;">DINKOPUMDAG</h2>
 
-        <div class="menu">
-            <a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard Utama</a>
-            <a href="/sekretariat"><i class="fas fa-user-tie"></i> Bidang Sekretariat</a>
-            <a href="/mikro"><i class="fas fa-store"></i> Pemberdayaan Usaha Mikro</a>
-            <a href="/perdagangan" class="active"><i class="fas fa-truck"></i> Distribusi Perdagangan</a>
-            <a href="/koperasi"><i class="fas fa-building"></i> Bidang Koperasi</a>
-            <a href="/pembinaan"><i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan</a>
-            <a href="/metrologi"><i class="fas fa-balance-scale"></i> UPTD Metrologi Legal</a>
-        </div>
+    <div
+      id="tanggalSidebar"
+      style="margin-bottom:20px; font-size:13px; color:#e0e7ff; text-align: center;"
+    ></div>
 
-        <button onclick="logout()" class="logout-btn">
-            <i class="fas fa-sign-out-alt"></i> Keluar
-        </button>
+    <div class="menu">
+      <a href="/dashboard">
+        <i class="fas fa-chart-line"></i> Dashboard Utama
+      </a>
+
+      <a href="/sekretariat">
+        <i class="fas fa-user-tie"></i> Bidang Sekretariat
+      </a>
+
+      <a href="/mikro">
+        <i class="fas fa-store"></i> Pemberdayaan Usaha Mikro
+      </a>
+
+      <a href="/perdagangan" class="active">
+        <i class="fas fa-truck"></i> Distribusi Perdagangan
+      </a>
+
+      <a href="/koperasi">
+        <i class="fas fa-building"></i> Bidang Koperasi
+      </a>
+
+      <a href="/pembinaan">
+        <i class="fas fa-briefcase"></i> Pembinaan Usaha Perdagangan
+      </a>
+
+      <a href="/metrologi">
+        <i class="fas fa-balance-scale"></i> UPTD Metrologi Legal
+      </a>
     </div>
+
+    <button onclick="logout()" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i> Keluar
+    </button>
+  </div>
 
   <div class="main">
 
-  <div class="header">
-    <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
-    <img src="{{ asset('images/logo.jpg') }}" class="logo">
-    <div>
-      <b>Distribusi Perdagangan</b><br>
-      <small>Dinkopumdag Surabaya</small>
+    <div class="header">
+      <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+
+      <img src="{{ asset('images/logo.jpg') }}" class="logo">
+
+      <div>
+        <b>Distribusi Perdagangan</b><br>
+        <small>Dinkopumdag Surabaya</small>
+      </div>
     </div>
-  </div>
 
     <div class="container">
 
       <h2>Toko Kelontong</h2>
 
       <div class="top">
+
         <form method="GET">
           <div class="filter">
+
             <select id="kecamatan" name="kecamatan_id">
               <option value="">Semua Kecamatan</option>
+
               @foreach($kecamatan as $k)
-                <option value="{{ $k->ID_KECAMATAN }}" {{ request('kecamatan_id') == $k->ID_KECAMATAN ? 'selected' : '' }}>
+                <option
+                  value="{{ $k->ID_KECAMATAN }}"
+                  {{ request('kecamatan_id') == $k->ID_KECAMATAN ? 'selected' : '' }}
+                >
                   {{ $k->NM_KECAMATAN }}
                 </option>
               @endforeach
             </select>
-            <select id="kelurahan" name="kelurahan_id"><option value="">Semua Kelurahan</option></select>
-            <button type="submit" class="btn" style="background:#0d6efd; color:white;">Filter</button>
+
+            <select id="kelurahan" name="kelurahan_id">
+              <option value="">Semua Kelurahan</option>
+            </select>
+
+            <button
+              type="submit"
+              class="btn"
+              style="background:#0d6efd; color:white;"
+            >
+              Filter
+            </button>
+
           </div>
         </form>
 
         <a href="/perdagangan" class="btn-back">
-            <i class="fas fa-arrow-left"></i> Kembali
+          <i class="fas fa-arrow-left"></i> Kembali
         </a>
+
       </div>
 
       <div class="cards" id="mainMenu">
-            <a class="card green">
-                <h4>Total Toko Kelontong</h4>
-                <h2>{{ $summary->total_toko ?? 0 }}</h2>
-            </a>
 
-            <a class="card blue">
-                <h4>Peken</h4>
-                <h2>{{ $summary->total_peken ?? 0 }}</h2>
-            </a>
-        </div>
-      
+        <a class="card green">
+          <h4>Total Toko Kelontong</h4>
+          <h2>{{ $summary->total_toko ?? 0 }}</h2>
+        </a>
+
+        <a class="card blue">
+          <h4>Peken</h4>
+          <h2>{{ $summary->total_peken ?? 0 }}</h2>
+        </a>
+
+      </div>
+
       <div class="card">
 
         <div class="table-responsive">
-            <table>
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Kecamatan</th>
-                  <th>Kelurahan</th>
-                  <th>Jumlah Toko</th>
-                  <th>Peken</th>
-                </tr>
-              </thead>
 
-              <tbody>
-                @forelse($data as $d)
-                  <tr>
-                    <td>{{ ($data->currentPage()-1)*$data->perPage() + $loop->iteration }}</td>
-                    <td>{{ $d->kelurahan->kecamatan->NM_KECAMATAN ?? '-' }}</td>   
-                    <td>{{ $d->kelurahan->NM_KELURAHAN ?? '-' }}</td>
-                    <td>{{ $d->total_toko }}</td>
-                    <td>{{ $d->peken }}</td>
-                  </tr>
-                @empty
-                  <tr>
-                    <td colspan="5" style="text-align:center;">Tidak ada data</td>
-                  </tr>
-                @endforelse
-              </tbody>
-            </table>
+          <table>
+
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Kecamatan</th>
+                <th>Kelurahan</th>
+                <th>Jumlah Toko</th>
+                <th>Peken</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              @forelse($data as $d)
+                <tr>
+                  <td>
+                    {{ ($data->currentPage()-1)*$data->perPage() + $loop->iteration }}
+                  </td>
+
+                  <td>
+                    {{ $d->kelurahan->kecamatan->NM_KECAMATAN ?? '-' }}
+                  </td>
+
+                  <td>
+                    {{ $d->kelurahan->NM_KELURAHAN ?? '-' }}
+                  </td>
+
+                  <td>{{ $d->total_toko }}</td>
+
+                  <td>{{ $d->peken }}</td>
+                </tr>
+
+              @empty
+
+                <tr>
+                  <td colspan="5" style="text-align:center;">
+                    Tidak ada data
+                  </td>
+                </tr>
+
+              @endforelse
+
+            </tbody>
+
+          </table>
+
         </div>
 
         <div class="pagination-wrapper">
+
           <div class="pagination">
             {{ $data->links('components.pagination') }}
           </div>
 
           <div class="pagination-info">
-            Showing {{ $data->firstItem() }} to {{ $data->lastItem() }} of {{ $data->total() }} results
+            Showing {{ $data->firstItem() }}
+            to {{ $data->lastItem() }}
+            of {{ $data->total() }} results
           </div>
+
         </div>
 
       </div>
+
     </div>
 
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const elTanggal = document.getElementById('tanggalSidebar');
-        if (elTanggal) {
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            elTanggal.textContent = now.toLocaleDateString('id-ID', options);
-        }
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+      const elTanggal = document.getElementById('tanggalSidebar');
+
+      if (elTanggal) {
+
+        const now = new Date();
+
+        const options = {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        };
+
+        elTanggal.textContent =
+          now.toLocaleDateString('id-ID', options);
+      }
+
     });
 
     function toggleSidebar() {
-        document.querySelector('.sidebar').classList.toggle('active');
-        document.querySelector('.overlay').classList.toggle('active');
+      document.querySelector('.sidebar').classList.toggle('active');
+      document.querySelector('.overlay').classList.toggle('active');
     }
 
     document.addEventListener('DOMContentLoaded', function () {
 
-        let kecamatan = document.getElementById('kecamatan');
-        let kelurahan = document.getElementById('kelurahan');
+      let kecamatan = document.getElementById('kecamatan');
+      let kelurahan = document.getElementById('kelurahan');
 
-        let selectedKelurahan = "{{ request('kelurahan_id') }}";
+      let selectedKelurahan =
+        "{{ request('kelurahan_id') }}";
 
-        function loadKelurahan(kecamatan_id, selected = null){
+      function loadKelurahan(kecamatan_id, selected = null) {
 
-            if(!kecamatan_id){
-                kelurahan.innerHTML =
-                    '<option value="">Semua Kelurahan</option>';
-                return;
-            }
+        if (!kecamatan_id) {
 
-            fetch('/get-kelurahan/' + kecamatan_id)
-                .then(res => res.json())
-                .then(data => {
+          kelurahan.innerHTML =
+            '<option value="">Semua Kelurahan</option>';
 
-                    kelurahan.innerHTML =
-                        '<option value="">Semua Kelurahan</option>';
-
-                    data.forEach(item => {
-
-                        let isSelected =
-                            item.ID_KELURAHAN == selected
-                            ? 'selected'
-                            : '';
-
-                        kelurahan.innerHTML += `
-                            <option value="${item.ID_KELURAHAN}" ${isSelected}>
-                                ${item.NM_KELURAHAN}
-                            </option>
-                        `;
-                    });
-
-                });
+          return;
         }
 
-        if(kecamatan.value){ loadKelurahan(kecamatan.value, selectedKelurahan); }
-        kecamatan.addEventListener('change', function () { loadKelurahan(this.value); });
+        fetch('/get-kelurahan/' + kecamatan_id)
+          .then(res => res.json())
+          .then(data => {
+
+            kelurahan.innerHTML =
+              '<option value="">Semua Kelurahan</option>';
+
+            data.forEach(item => {
+
+              let isSelected =
+                item.ID_KELURAHAN == selected
+                  ? 'selected'
+                  : '';
+
+              kelurahan.innerHTML += `
+                <option value="${item.ID_KELURAHAN}" ${isSelected}>
+                  ${item.NM_KELURAHAN}
+                </option>
+              `;
+
+            });
+
+          });
+      }
+
+      if (kecamatan.value) {
+        loadKelurahan(
+          kecamatan.value,
+          selectedKelurahan
+        );
+      }
+
+      kecamatan.addEventListener('change', function () {
+        loadKelurahan(this.value);
+      });
+
     });
-    
+
     // LOGOUT
     function logout() {
+
       Swal.fire({
         title: 'Logout?',
         text: "Kamu akan keluar",
@@ -284,14 +524,22 @@
         confirmButtonColor: '#0d6efd',
         confirmButtonText: 'Ya, logout'
       }).then((result) => {
+
         if (result.isConfirmed) {
+
           localStorage.removeItem("login");
           window.location.href = "/logout";
+
         }
+
       });
+
     }
 
-    if (localStorage.getItem("login") !== "true") { window.location.href = "/"; }
+    if (localStorage.getItem("login") !== "true") {
+      window.location.href = "/";
+    }
+
   </script>
 
 </body>

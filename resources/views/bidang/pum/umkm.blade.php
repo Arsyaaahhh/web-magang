@@ -162,11 +162,6 @@
       color: #666;
     }
 
-    /* TOMBOL MENU DEFAULT SEMBUNYI DI LAPTOP */
-    .toggle-btn {
-        display: none;
-    }
-
     /* ======================================================= */
     /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
     /* ======================================================= */
@@ -285,14 +280,14 @@
 
   <main>
 
-  <div class="header">
-    <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
-    <img src="{{ asset('images/logo.jpg') }}" class="logo">
-    <div>
-      <b>Pemberdayaan Usaha Mikro</b><br>
-      <small>Dinkopumdag Surabaya</small>
+    <div class="header">
+      <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+      <img src="{{ asset('images/logo.jpg') }}" class="logo">
+      <div>
+        <b>Pemberdayaan Usaha Mikro</b><br>
+        <small>Dinkopumdag Surabaya</small>
+      </div>
     </div>
-  </div>
 
     <div class="container">
 
