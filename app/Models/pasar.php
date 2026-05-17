@@ -19,6 +19,7 @@ class Pasar extends Model
         'foto',
         'kapasitas',
         'peken',
+        'dokumenpasar',
         'latitude',
         'longitude',
     ];

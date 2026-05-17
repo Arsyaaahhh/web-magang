@@ -65,6 +65,7 @@ class PasarController extends Controller
             'latitude'  => 'required',
             'longitude'  => 'required',
             'foto'  => 'nullable|image|mimes:jpg,jpeg,png',
+            'dokumenpasar' => 'nullable|mimes:pdf|max:5120',
         ]);
 
         // upload foto
@@ -72,6 +73,14 @@ class PasarController extends Controller
 
         if ($request->hasFile('foto')) {
             $foto = $request->file('foto')->store('pasar', 'public');
+        }
+
+        // upload dokumen pdf
+        $dokumenpasar = null;
+
+        if ($request->hasFile('dokumenpasar')) {
+            $dokumenpasar = $request->file('dokumenpasar')
+                ->store('dokumenpasar', 'public');
         }
 
         Pasar::create([
@@ -87,6 +96,7 @@ class PasarController extends Controller
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
             'foto' => $foto,
+            'dokumenpasar' => $dokumenpasar,
         ]);
 
         return redirect('/admin/admin_perdagangan/pasar/adminpasar')->with('success','Upload berhasil');
@@ -117,6 +127,7 @@ class PasarController extends Controller
             'latitude'          => 'required',
             'longitude'         => 'required',
             'foto'              => 'nullable|image|mimes:jpg,jpeg,png',
+            'dokumenpasar'      => 'nullable|mimes:pdf|max:5120',
         ]);
 
         $data = Pasar::findOrFail($id);
@@ -135,6 +146,23 @@ class PasarController extends Controller
             $foto = $data->foto;
         }
 
+        // upload dokumen pdf baru
+        if ($request->hasFile('dokumenpasar')) {
+
+            // hapus dokumen lama
+            if (
+                $data->dokumenpasar &&
+                Storage::disk('public')->exists($data->dokumenpasar)) {
+                Storage::disk('public')->delete($data->dokumenpasar);
+            }
+
+            $dokumenpasar = $request->file('dokumenpasar')
+                ->store('dokumenpasar', 'public');
+
+        } else {
+            $dokumenpasar = $data->dokumenpasar;
+        }
+
         $data->update([
             'nama_pasar' => $request->nama_pasar,
             'alamat' => $request->alamat,
@@ -148,6 +176,7 @@ class PasarController extends Controller
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
             'foto' => $foto,
+            'dokumenpasar' => $dokumenpasar,
         ]);
 
         return redirect('/admin/admin_perdagangan/pasar/adminpasar')->with('success','Update berhasil');
@@ -161,6 +190,13 @@ class PasarController extends Controller
         // hapus foto
         if ($pasar->foto && Storage::disk('public')->exists($pasar->foto)) {
             Storage::disk('public')->delete($pasar->foto);
+        }
+
+        // hapus dokumen pdf
+        if (
+            $pasar->dokumenpasar &&
+            Storage::disk('public')->exists($pasar->dokumenpasar)) {
+            Storage::disk('public')->delete($pasar->dokumenpasar);
         }
 
         $pasar->delete();
