@@ -1,0 +1,31 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+public function up(): void
+{
+    Schema::create('toko_kelontong', function (Blueprint $table) {
+        $table->id();
+        $table->unsignedBigInteger('kelurahan_id')->nullable();
+        
+        $table->integer('total_toko')->nullable();
+        $table->integer('peken')->nullable();
+        
+        $table->timestamps();
+
+        $table->foreign('kelurahan_id')->references('ID_KELURAHAN')->on('kelurahan')->onDelete('cascade');
+    });
+}
+
+public function down(): void
+{
+    Schema::dropIfExists('toko_kelontong');
+}
+};

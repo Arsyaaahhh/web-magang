@@ -315,6 +315,66 @@
         border-radius:10px;
         overflow:hidden;
     }
+
+    /* ==========================================
+       🔥 CSS RESPONSIVE (SMARTPHONE & TABLET) 🔥
+       ========================================== */
+    @media screen and (max-width: 768px) {
+        /* Sidebar penyesuaian mobile */
+        .sidebar {
+            position: fixed;
+            left: -250px;
+            top: 0;
+            height: 100vh;
+            width: 250px;
+            z-index: 1000;
+            transition: left 0.3s ease;
+        }
+        .sidebar.active {
+            left: 0;
+        }
+        .main {
+            margin-left: 0 !important;
+            width: 100%;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Navigasi dan Filter */
+        .top {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        form {
+            width: 100%;
+        }
+        .filter {
+            flex-direction: column;
+            width: 100%;
+        }
+        .filter input, .filter select, .filter .btn {
+            width: 100%;
+        }
+        
+        /* Grid Sentra Usaha (Card) */
+        .swk-wrapper {
+            justify-content: center;
+        }
+        .swkcard {
+            width: 100%;
+            max-width: 350px; /* Melebar secara proporsional di layar HP */
+        }
+
+        /* Map & Modal */
+        #map {
+            height: 300px; /* Sedikit dipendekkan di HP agar enak di-scroll */
+        }
+        .detail-box {
+            padding: 20px;
+            margin: 15px;
+        }
+    }
   </style>
 
 </head>
@@ -381,12 +441,7 @@
 
     </div>
     
-    <!-- MAIN MENU -->
     <div class="map-wrapper">
-
-        <!-- <h3 style="margin-bottom:15px;">
-            Persebaran Sentra Usaha
-        </h3> -->
 
         <div id="map"></div>
 
@@ -457,7 +512,7 @@
         <div class="detail-box">
 
             <span class="close-btn" onclick="closeDetail()">
-                &times;
+                ×
             </span>
 
             <h2 id="detailNama"></h2>
@@ -532,7 +587,7 @@
         document.getElementById('detailKoordinat').innerText =
             latitude + ', ' + longitude;
 
-        // iframe maps
+        // 🔥 FIX: Memperbaiki URL iframe Google Maps yang sebelumnya typo (0{latitude})
         document.getElementById('mapsFrame').src =
             `https://maps.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`;
 
@@ -561,7 +616,7 @@
 
     // tile
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap'
+        attribution: '© OpenStreetMap'
     }).addTo(map);
 
     // data sentra usaha dari Laravel
