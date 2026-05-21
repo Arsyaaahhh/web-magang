@@ -552,8 +552,8 @@
                   <th>bermitra</th>
                   <th>mitra_perbankan</th>
                   <th>Padat karya</th>
-                  <th>LPJ Lengkap</th>
-                  <th>RAT LENGKAP</th>
+                  <th>LPJ</th>
+                  <th>RAT</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
