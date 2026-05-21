@@ -386,7 +386,7 @@
                   <tr>
                     <th>No</th><th>Kecamatan</th><th>Kelurahan</th><th>Tahun</th><th>Jumlah Koperasi</th>
                     <th>Aktif</th><th>Tidak Aktif</th><th>Bermitra</th><th>Mitra Perbankan</th>
-                    <th>Padat Karya</th><th>LPJ Lengkap</th><th>RAT Lengkap</th>
+                    <th>Padat Karya</th><th>LPJ</th><th>RAT</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -432,7 +432,7 @@
                   <tr>
                     <th>No</th><th>Kecamatan</th><th>Kelurahan</th><th>Tahun</th><th>Jumlah Koperasi</th>
                     <th>Aktif</th><th>Tidak Aktif</th><th>Bermitra</th><th>Mitra Perbankan</th>
-                    <th>Padat Karya</th><th>LPJ Lengkap</th><th>RAT Lengkap</th>
+                    <th>Padat Karya</th><th>LPJ</th><th>RAT</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -478,7 +478,7 @@
                   <tr>
                     <th>No</th><th>Kecamatan</th><th>Kelurahan</th><th>Tahun</th><th>Jumlah Koperasi</th>
                     <th>Aktif</th><th>Tidak Aktif</th><th>Bermitra</th><th>Mitra Perbankan</th>
-                    <th>Padat Karya</th><th>LPJ Lengkap</th><th>RAT Lengkap</th>
+                    <th>Padat Karya</th><th>LPJ</th><th>RAT</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -524,7 +524,7 @@
                   <tr>
                     <th>No</th><th>Kecamatan</th><th>Kelurahan</th><th>Tahun</th><th>Jumlah Koperasi</th>
                     <th>Aktif</th><th>Tidak Aktif</th><th>Bermitra</th><th>Mitra Perbankan</th>
-                    <th>Padat Karya</th><th>LPJ Lengkap</th><th>RAT Lengkap</th>
+                    <th>Padat Karya</th><th>LPJ</th><th>RAT</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -570,7 +570,7 @@
                   <tr>
                     <th>No</th><th>Kecamatan</th><th>Kelurahan</th><th>Tahun</th><th>Jumlah Koperasi</th>
                     <th>Aktif</th><th>Tidak Aktif</th><th>Bermitra</th><th>Mitra Perbankan</th>
-                    <th>Padat Karya</th><th>LPJ Lengkap</th><th>RAT Lengkap</th>
+                    <th>Padat Karya</th><th>LPJ</th><th>RAT</th>
                   </tr>
                 </thead>
                 <tbody>

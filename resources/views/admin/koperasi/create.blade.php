@@ -194,11 +194,11 @@
     <input type="number" name="padat_karya" required min="0">
   </div>
   <div>
-    <label>Koperasi LPJ Lengkap</label>
+    <label>Koperasi LPJ</label>
     <input type="number" name="lpj_lengkap" required min="0">
   </div>
   <div>
-    <label>RAT LENGKAP</label>
+    <label>RAT</label>
     <input type="number" name="pelaksanaan_rat" required min="0">
   </div>
 </div>

@@ -10,7 +10,7 @@
 
   <style>
     body { overflow-x: hidden; }
-    .toggle-btn { display: none; }
+    /*.toggle-btn { display: none; }*/
     .chart-grid { width: 100%; box-sizing: border-box; }
     .chart-box { position: relative; height: 300px; width: 100%; box-sizing: border-box; }
     .chart-box canvas { max-width: 100% !important; }
@@ -48,7 +48,7 @@
 
   <div class="main">
     <div class="header">
-      <div class="toggle-btn" onclick="toggleSidebar()">â˜°</div>
+      <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
       <img src="{{ asset('images/logo.jpg') }}" class="logo">
       <div>
         <b style="font-size:15px;">
