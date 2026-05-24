@@ -318,3 +318,20 @@ Route::prefix('admin/penelitian')->group(function () {
     Route::post('/update/{id}', [PenelitianController::class, 'update'])->name('penelitian.update');
     Route::get('/delete/{id}', [PenelitianController::class, 'destroy'])->name('penelitian.delete');
 });
+
+// ================= EXPORT EXCEL =================
+Route::get('/umkm/export/excel',
+    [UmkmController::class, 'exportExcel'])
+    ->name('umkm.export.excel');
+
+Route::get('/swk/export/excel',
+    [SwkController::class, 'exportExcel'])
+    ->name('swk.export.excel');
+
+Route::get('/sentrausaha/export/excel',
+    [SentraUsahaController::class, 'exportExcel'])
+    ->name('sentrausaha.export.excel');
+
+Route::get('/lppd/export/excel',
+    [LppdController::class, 'exportExcel'])
+    ->name('lppd.export.excel');

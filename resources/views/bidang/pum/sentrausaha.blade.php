@@ -535,6 +535,7 @@
 
                 <form method="GET">
                     <div class="filter">
+                        
                         <input
                             type="text"
                             name="search"
@@ -568,9 +569,17 @@
                     </div>
                 </form>
 
-                <a href="/mikro" class="btn-back">
-                    <i class="fas fa-arrow-left"></i> Kembali
-                </a>
+                <div>
+                    <a href="{{ route('sentrausaha.export.excel', request()->query()) }}"
+                        class="btn"
+                        style="background:#198754; color:white; margin-right:10px;">
+                        <i class="fas fa-file-excel"></i> Export Excel
+                    </a>
+
+                    <a href="/mikro" class="btn-back">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </a>
+                </div>
 
             </div>
 

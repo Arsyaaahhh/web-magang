@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Swk;
 use App\Models\Kecamatan;
 use App\Models\Kelurahan;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class SwkController extends Controller
 {
@@ -227,5 +229,128 @@ class SwkController extends Controller
             'kecamatan' => $kecamatan,
             'summary' => $summary
         ]);
+    }
+
+    // EXPORT EXCEL
+    public function exportExcel(Request $request)
+    {
+        $query = Swk::with(['kelurahan.kecamatan']);
+
+        // FILTER
+        if($request->search){
+            $query->where(function($q) use ($request){
+                $q->where('nama_swk','like','%'.$request->search.'%');
+            });
+        }
+
+        if ($request->kecamatan_id) {
+            $query->whereHas('kelurahan', function ($q) use ($request) {
+                $q->where('ID_KECAMATAN', $request->kecamatan_id);
+            });
+        }
+
+        if ($request->kelurahan_id) {
+            $query->where('kelurahan_id', $request->kelurahan_id);
+        }
+
+        $data = $query->get();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        if (ob_get_length()) {
+            ob_end_clean();
+        }
+
+        // HEADER
+        $headers = [
+            'No',
+            'Nama SWK',
+            'Alamat',
+            'Kecamatan',
+            'Kelurahan',
+            'Jumlah Pedagang',
+            'Jumlah Stan',
+            'Stan Belum Terisi',
+            'peken',
+            'Luas (m2)',
+            'Kapasitas',
+            'Latitude',
+            'Longitude'
+        ];
+
+        $column = 'A';
+
+        foreach ($headers as $header) {
+            $sheet->setCellValue($column . '1', $header);
+            $column++;
+        }
+
+        // DATA
+        $row = 2;
+        $no = 1;
+
+        foreach ($data as $d) {
+
+            $sheet->setCellValue('A' . $row, $no++);
+            $sheet->setCellValue('B' . $row,
+                $d->nama_swk);
+            
+            $sheet->setCellValue('C' . $row,
+                $d->alamat); 
+            
+            $sheet->setCellValue('D' . $row,
+                $d->kelurahan->kecamatan->NM_KECAMATAN ?? '-');
+
+            $sheet->setCellValue('E' . $row,
+                $d->kelurahan->NM_KELURAHAN ?? '-');
+
+            $sheet->setCellValue('F' . $row,
+                $d->jumlah_pedagang);
+            
+            $sheet->setCellValue('G' . $row,
+                $d->jumlah_stan);
+            
+            $sheet->setCellValue('H' . $row,
+                $d->stan_belum_terisi);
+            
+            $sheet->setCellValue('I' . $row,
+                $d->peken);
+
+            $sheet->setCellValue('J' . $row,
+                $d->luas);
+
+            $sheet->setCellValue('K' . $row,
+                $d->kapasitas);
+
+            $sheet->setCellValue('L' . $row,
+                $d->latitude);
+
+            $sheet->setCellValue('M' . $row,
+                $d->longitude);
+
+            $row++;
+        }
+
+        // AUTO WIDTH
+        foreach (range('A', 'M') as $col) {
+            $sheet->getColumnDimension($col)
+                ->setAutoSize(true);
+        }
+
+        $writer = new Xlsx($spreadsheet);
+
+        $filename = 'data-swk.xlsx';
+
+        return response()->streamDownload(
+            function () use ($writer) {
+                $writer->save('php://output');
+            },
+            $filename,
+            [
+                'Content-Type' =>
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            ]
+        );
     }
 }
