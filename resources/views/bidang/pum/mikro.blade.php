@@ -108,7 +108,9 @@
   <div class="sidebar">
     <h2>DINKOPUMDAG</h2>
 
-    <div id="tanggalSidebar" style="margin:10px 0; font-size:14px; color:#fff;"></div>
+        <div id="tanggalSidebar"
+            style="margin-bottom:20px; font-size:13px; color:#e0e7ff; text-align: center; font-weight: 400;">
+        </div>
 
     <div class="menu">
       <a href="/dashboard">
@@ -193,35 +195,27 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
-    // ================= NAV & SIDEBAR =================
-    function toggleSidebar() {
-      document.querySelector('.sidebar').classList.toggle('active');
-      document.querySelector('.overlay').classList.toggle('active');
-    }
+        document.addEventListener('DOMContentLoaded', function () {
+            const elTanggal = document.getElementById('tanggalSidebar');
 
-    function showUmkm() {
-      mainMenu.style.display = "none";
-      umkmArea.style.display = "block";
-      swkArea.style.display = "none";
-    }
+            if (elTanggal) {
+                const now = new Date();
 
-    function showSwk() {
-      mainMenu.style.display = "none";
-      umkmArea.style.display = "none";
-      swkArea.style.display = "block";
-    }
+                const options = {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                };
 
-    function hideAll() {
-      mainMenu.style.display = "grid";
-      umkmArea.style.display = "none";
-      swkArea.style.display = "none";
-    }
+                elTanggal.textContent = now.toLocaleDateString('id-ID', options);
+            }
+        });
 
-    // ================= COLOR =================
-    function getColor(id) {
-      const colors = ['blue', 'green', 'orange', 'teal', 'purple'];
-      return colors[id % colors.length];
-    }
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.querySelector('.overlay').classList.toggle('active');
+        }
 
     // LOGOUT
     function logout() {

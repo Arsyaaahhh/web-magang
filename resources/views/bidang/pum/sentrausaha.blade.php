@@ -42,40 +42,26 @@
         }
 
         .swkcard-image {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
             position: relative;
-            height: 290px;
+            background: #f3f4f6;
         }
 
         .swkcard-image img {
             width: 100%;
             height: 100%;
-            opacity: 0.75;
             object-fit: cover;
             display: block;
-        }
-
-        /* overlay gradient */
-        .swkcard-image::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                to top,
-                rgba(24, 34, 52, 0.95) 20%,
-                rgba(24, 34, 52, 0.4) 50%,
-                rgba(24, 34, 52, 0.05) 75%
-            );
+            transition: transform 0.3s ease;
         }
 
         /* content */
         .swkcard-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
             padding: 18px;
-            z-index: 2;
-            color: white;
+            background: white;
+            color: #111827;
         }
 
         .top-row {
@@ -87,16 +73,40 @@
         }
 
         .title {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
-            line-height: 1.2;
+            margin-bottom: 10px;
+            line-height: 1.4;
+            color: #111827;
+
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+
+            min-height: 50px;
         }
 
         .description {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 11px;
+            font-size: 13px;
+            color: #6b7280;
             line-height: 1.6;
             margin-bottom: 8px;
+
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+
+            min-height: 70px;
+        }
+
+        .info-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+            margin-bottom: 16px;
         }
 
         .tags {
@@ -107,52 +117,53 @@
         }
 
         .tag {
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 6px 10px;
+            background: #eef2ff;
+            color: #374151;
+            padding: 6px 12px;
+            border-radius: 30px;
             font-size: 12px;
-            color: white;
+            font-weight: 500;
         }
 
         .button {
             width: 100%;
             border: none;
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 12px;
-            background: white;
-            color: black;
-            font-size: 13px;
+            background: #2563eb;
+            color: white;
+            font-size: 14px;
             font-weight: 500;
             cursor: pointer;
             transition: 0.3s;
         }
 
         .button:hover {
-            transform: translateY(-2px);
+            background: #1d4ed8;
         }
 
         .swk-wrapper {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 7px;
+            gap: 24px;
+            margin-top: 20px;
         }
 
         .swkcard {
-            width: 220px;
-            border-radius: 22px;
+            width: 260px;
+            background: white;
+            border-radius: 18px;
             overflow: hidden;
-            position: relative;
-            background: #253047;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            flex-shrink: 0;
-            transition: 0.3s;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: 0.3s ease;
         }
 
         .swkcard:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+            transform: translateY(-5px);
+        }
+
+        .swkcard:hover {
+            transform: scale(1.05);
         }
 
         .detail-modal {
@@ -402,6 +413,60 @@
                 height: 200px; /* Iframe maps dikecilkan di HP */
             }
         }
+
+        /* PAGINATION */
+        .pagination-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        gap: 10px;
+        }
+
+        .pagination {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        }
+
+        .pagination li {
+        list-style: none;
+        }
+
+        .pagination a,
+        .pagination span {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #333;
+        text-decoration: none;
+        font-size: 14px;
+        transition: 0.2s;
+        }
+
+        .pagination a:hover {
+        background: #0d6efd;
+        color: white;
+        }
+
+        .pagination .active span {
+        background: #0d6efd;
+        color: white;
+        border-color: #0d6efd;
+        }
+
+        .pagination .disabled span {
+        color: #aaa;
+        background: #f3f4f6;
+        }
+
+        .pagination-info {
+        font-size: 13px;
+        color: #666;
+        }
     </style>
 </head>
 
@@ -516,6 +581,7 @@
             <div class="swk-wrapper">
                 @forelse($sentrausaha as $item)
                     <div class="swkcard">
+
                         <div class="swkcard-image">
                             <img
                                 src="{{ $item->foto
@@ -524,44 +590,58 @@
                                 }}"
                                 alt="{{ $item->nama_sentrausaha }}"
                             >
+                        </div>
 
-                            <div class="swkcard-content">
-                                <div class="top-row">
-                                    <h2 class="title">
-                                        {{ $item->nama_sentrausaha }}
-                                    </h2>
+                        <div class="swkcard-content">
+
+                            <h2 class="title">
+                                {{ $item->nama_sentrausaha }}
+                            </h2>
+
+                            <p class="description">
+                                {{ Str::limit($item->alamat, 80) }}
+                            </p>
+
+                            <div class="info-row">
+                                <div class="tag">
+                                    Luas: {{ $item->luas }} m²
                                 </div>
 
-                                <p class="description">
-                                    {{ $item->alamat }}
-                                </p>
-
-                                <p class="description">
-                                    Luas: {{ $item->luas }} m² |
-                                    Kapasitas: {{ $item->kapasitas }} orang
-                                </p>
-
-                                <div style="display:flex; gap:8px;">
-                                    <button
-                                        class="button"
-                                        onclick="showDetail(
-                                            '{{ $item->nama_sentrausaha }}',
-                                            '{{ $item->alamat }}',
-                                            '{{ $item->latitude }}',
-                                            '{{ $item->longitude }}'
-                                        )"
-                                    >
-                                        Detail
-                                    </button>
+                                <div class="tag">
+                                    Kapasitas: {{ $item->kapasitas }}
                                 </div>
                             </div>
+
+                            <button
+                                class="button"
+                                onclick="showDetail(
+                                    '{{ $item->nama_sentrausaha }}',
+                                    '{{ $item->alamat }}',
+                                    '{{ $item->latitude }}',
+                                    '{{ $item->longitude }}'
+                                )"
+                            >
+                                Detail
+                            </button>
+
                         </div>
+
                     </div>
                 @empty
                     <div class="empty-data">
                         <p>Tidak Ada Data</p>
                     </div>
                 @endforelse
+            </div>
+
+            <div class="pagination-wrapper">
+                <div class="pagination">
+                    {{ $sentrausaha->links('components.pagination') }}
+                </div>
+
+                <div class="pagination-info">
+                    Showing {{ $sentrausaha->firstItem() }} to {{ $sentrausaha->lastItem() }} of {{ $sentrausaha->total() }} results
+                </div>
             </div>
 
             <div class="detail-modal" id="detailModal">
@@ -671,7 +751,7 @@
             attribution: '© OpenStreetMap'
         }).addTo(map);
 
-        let sentraUsaha = @json($sentrausaha);
+        let sentraUsaha = @json($sentrausaha ->items());
 
         sentraUsaha.forEach(item => {
             if (!item.latitude || !item.longitude) return;
