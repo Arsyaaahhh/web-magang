@@ -236,7 +236,7 @@ class PasarController extends Controller
         $summaryQuery = clone $query;
 
         // ambil data Pasar
-        $data = $query->latest()->get();
+        $data = $query->latest()->paginate(12)->withQueryString();
 
         // summary
         $summary = $summaryQuery->selectRaw('

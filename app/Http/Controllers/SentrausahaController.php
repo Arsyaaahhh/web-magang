@@ -186,7 +186,7 @@ class SentrausahaController extends Controller
         $summaryQuery = clone $query;
 
         // ambil data Sentrausaha
-        $data = $query->latest()->get();
+        $data = $query->latest()->paginate(12)->withQueryString();
 
         // AJAX
         if ($request->ajax()) {

@@ -201,7 +201,7 @@ class SwkController extends Controller
         $summaryQuery = clone $query;
 
         // ambil data SWK
-        $data = $query->latest()->get();
+        $data = $query->latest()->paginate(12)->withQueryString();
 
         // summary
         $summary = $summaryQuery->selectRaw('

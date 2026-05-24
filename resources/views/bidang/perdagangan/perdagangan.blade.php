@@ -54,9 +54,6 @@
             background: #eef4ff;
         }
 
-        .toggle-btn {
-            display: none;
-        }
 
         /* ======================================================= */
         /* RESPONSIVE KHUSUS SMARTPHONE & TABLET (< 768px)         */
