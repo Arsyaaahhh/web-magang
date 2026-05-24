@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Lppd;
 use App\Models\Kecamatan;
 use App\Models\Kelurahan;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class LppdController extends Controller
 {
@@ -148,5 +150,90 @@ class LppdController extends Controller
             'kecamatan' => $kecamatan,
             'summary' => $summary
         ]);
+    }
+
+    // EXPORT EXCEL
+    public function exportExcel(Request $request)
+    {
+        $query = Lppd::with(['kelurahan.kecamatan']);
+
+        // FILTER
+        if ($request->kecamatan_id) {
+            $query->whereHas('kelurahan', function ($q) use ($request) {
+                $q->where('ID_KECAMATAN', $request->kecamatan_id);
+            });
+        }
+
+        if ($request->kelurahan_id) {
+            $query->where('kelurahan_id', $request->kelurahan_id);
+        }
+
+        $data = $query->get();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        if (ob_get_length()) {
+            ob_end_clean();
+        }
+
+        // HEADER
+        $headers = [
+            'No',
+            'Kecamatan',
+            'Kelurahan',
+            'Tahun',
+            'Jumlah'
+        ];
+
+        $column = 'A';
+
+        foreach ($headers as $header) {
+            $sheet->setCellValue($column . '1', $header);
+            $column++;
+        }
+
+        // DATA
+        $row = 2;
+        $no = 1;
+
+        foreach ($data as $d) {
+
+            $sheet->setCellValue('A' . $row, $no++);
+            $sheet->setCellValue('B' . $row,
+                $d->kelurahan->kecamatan->NM_KECAMATAN ?? '-');
+
+            $sheet->setCellValue('C' . $row,
+                $d->kelurahan->NM_KELURAHAN ?? '-');
+
+            $sheet->setCellValue('D' . $row,
+                $d->tahun);
+
+            $sheet->setCellValue('E' . $row,
+                $d->jumlah);
+
+            $row++;
+        }
+
+        // AUTO WIDTH
+        foreach (range('A', 'E') as $col) {
+            $sheet->getColumnDimension($col)
+                ->setAutoSize(true);
+        }
+
+        $writer = new Xlsx($spreadsheet);
+
+        $filename = 'data-lppd.xlsx';
+
+        return response()->streamDownload(
+            function () use ($writer) {
+                $writer->save('php://output');
+            },
+            $filename,
+            [
+                'Content-Type' =>
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            ]
+        );
     }
 }
